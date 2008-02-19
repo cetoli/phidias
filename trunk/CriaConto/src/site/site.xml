@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Phidias">
+  <skin>
+    <groupId>br.ufrj.nce</groupId>
+    <artifactId>labase-skin</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </skin>
+  <bannerLeft>
+    <name>Phidias</name>
+    <src>./images/labase.gif</src>
+    <href>http://labase.nce.ufrj.br/</href>
+  </bannerLeft>
+  <bannerRight>
+    <src>./images/phidias.jpg</src>
+    <href>./index.html</href>
+  </bannerRight>
+  <poweredBy>
+    <logo name="UFRJ" href="http://www.ufrj.br/"
+          img="./images/minerva.gif"/>
+  </poweredBy>
+  <body>
+    <links>
+      <item name="NCE" href="http://www.nce.ufrj.br/" />
+      <item name="PPGI" href="http://www.ppgi.ufrj.br/"/>
+      <item name="Phidias@Google" href="http://code.google.com/p/phidias/"/>
+    </links>
+
+    <menu name="Phidias 0.1">
+      <item name="Apresentando" href="format.html"/>
+      <item name="FAQ" href="faq.html"/>
+      <item name="Introduzindo" href="xdoc.html"/>      
+    </menu>
+    <menu ref="reports" />
+  </body>
+</project>
