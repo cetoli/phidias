@@ -16,17 +16,22 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
+import javax.swing.Timer;
 
+import br.ufrj.nce.labase.phidias.communication.CommunicationProtocol;
+import br.ufrj.nce.labase.phidias.communication.bean.StimulusBean;
+import br.ufrj.nce.labase.phidias.communication.bean.StimulusResponseBean;
 import br.ufrj.nce.criaconto.images.Images;
 import br.ufrj.nce.labase.criaconto.control.Controller;
 import br.ufrj.nce.labase.phidias.view.Board;
 import br.ufrj.nce.labase.phidias.view.Piece;
 
-public class CriaContoPlayer extends Applet {
+public class CriaContoPlayer extends Applet implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private Board board;
     private Piece piece = null;  
     private LoginPanel loginPanel;
+    private Timer timer;	
 	
     static final String characters[] = {
         "principe", "branca_de_neve", "cacador_frente", "rainha_ma", "anao1", "anao2", "anao3", "anao4", "anao5", "anao6", "anao7"
@@ -35,7 +40,9 @@ public class CriaContoPlayer extends Applet {
     	new Scene("castelo", 0, 5), new Scene("ponte", 350, 360), new Scene("casa", 600, 100), new Scene("tronco", 465, 212), new Scene("mina", 570, 400)
     };
     
-    public CriaContoPlayer() {    	    	
+    public CriaContoPlayer() { 
+    	timer = new Timer(5000, this);
+    	//timer.start();
 	}
 
     public void init() {
@@ -60,6 +67,9 @@ public class CriaContoPlayer extends Applet {
 
 	private void startGame() {
 		registerSession();
+		
+		setSize(1088, 820);
+    	removeAll();
 		
 		JButton proxFase = new JButton("Prox fase");
     	proxFase.addActionListener(new ActionListener() {
@@ -221,6 +231,16 @@ public class CriaContoPlayer extends Applet {
 		frame.setVisible(true);
 	}
   
+	public void actionPerformed(ActionEvent arg0) {
+		StimulusBean stimulus = new StimulusBean();
+		stimulus.setPhaseId(1);
+		stimulus.setSessionId(1);
+
+		StimulusResponseBean response = (StimulusResponseBean) CommunicationProtocol.execute(CommunicationProtocol.GET_NEXT_STIMULUS_ACTION, stimulus);
+		if (response.getStimulusTypeId() != null) {
+		}
+	}
+	
 	class Inc {
 		int incX(int i) {
 			return i;
