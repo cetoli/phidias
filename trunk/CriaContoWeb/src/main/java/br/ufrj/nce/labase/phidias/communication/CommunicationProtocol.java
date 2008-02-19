@@ -22,6 +22,7 @@ public class CommunicationProtocol {
 	public static final String REGISTER_SESSION_END_ACTION = "registerSessionEnd";
 	public static final String REGISTER_COMMENT_ACTION = "registerComment";
 	public static final String REGISTER_STIMULUS_ACTION = "registerStimulus";
+	public static final String GET_NEXT_STIMULUS_ACTION = "getNextStimulus";
 
 	public static ActionResponseContainer execute(String action, ActionContainer actionData) {
 		try {
