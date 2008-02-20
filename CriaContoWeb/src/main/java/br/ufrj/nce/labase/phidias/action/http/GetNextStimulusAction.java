@@ -7,7 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import br.ufrj.nce.labase.controller.action.htp.IAction;
+import br.ufrj.nce.labase.controller.action.http.IAction;
 import br.ufrj.nce.labase.phidias.business.StimulusBusiness;
 import br.ufrj.nce.labase.phidias.communication.bean.StimulusBean;
 import br.ufrj.nce.labase.phidias.communication.bean.StimulusResponseBean;
@@ -31,8 +31,8 @@ public class GetNextStimulusAction implements IAction {
 			StimulusBean container = new StimulusBean();
 			container.loadPropertyValues(parameterMap);
 
-			StimulusBusiness estimuloBusiness = new StimulusBusiness();
-			SessionGamePhaseStimulusType stimulus = estimuloBusiness.getNextStimulus(container);
+			StimulusBusiness stimulusBusiness = new StimulusBusiness();
+			SessionGamePhaseStimulusType stimulus = stimulusBusiness.getNextStimulus(container);
 
 			printWriter.print("class=" + StimulusResponseBean.class.getName() + ";");
 			printWriter.print("success=true;");
