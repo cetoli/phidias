@@ -1,0 +1,261 @@
+/*
+Design by Veronica Tosta
+*/
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	margin: 20px 0;
+	background: #FFFFFF;
+	font: normal small Georgia, "Times New Roman", Times, serif;
+	color: #999999;
+}
+
+bloco {
+	margin-left: 3em;
+}
+
+ul {
+	margin-left: 3em;
+}
+
+ul li {
+}
+
+ol {
+	margin-left: 3em;
+}
+
+a {
+	color: #3366FF;
+}
+
+a:hover {
+	text-decoration: none;
+	color: #FF6600;
+}
+img {
+}
+
+/* Boxes */
+
+.boxed {
+}
+
+.boxed .title {
+	padding: 5px 10px;
+	background: url(../images/transparente.gif) repeat-x left bottom;
+	font-size: 1em;
+}
+
+.boxed .content {
+	padding: 20px;
+}
+
+/* Post */
+
+.post {
+	padding: 10px;
+}
+
+.post .title {
+	margin-bottom: 20px;
+	background-color:#babae0;
+}
+
+.post .meta {
+	float: left;
+	padding-left: 10px;
+	border-left: 1px dotted #505094;
+	font-size: x-small;
+}
+
+.post .meta p {
+}
+
+.post .story {
+	clear: both;
+}
+.post .story p, .post .story bloco, .post .story ul, .post .story ol {
+	margin-bottom: 1.5em;
+	line-height: 180%;
+}
+
+/* Parte superior */
+
+#head {
+	width: 800px;
+	height: 220px;
+	margin: 0 auto;
+}
+
+#head h1 {
+	float: left;
+	width: 180px;
+	height: 160px;
+	padding: 20px;
+	background: #babae0 no-repeat;
+	text-align: right;
+	font-size: 2.2em;
+}
+
+#head h2 {
+	float: right;
+	width: 520px;
+	height: 150px;
+	padding: 30px 20px 20px 20px;
+	background: #babae0 no-repeat;
+	font-size: 2.5em;
+}
+
+#head a {
+	text-decoration: none;
+	color: #FFFFFF;
+}
+
+/* Corpo */
+
+#corpo {
+	width: 800px;
+	margin: 0 auto;
+	background: url(../images/corpo.gif) repeat-y;
+}
+
+#extra {
+	clear: both;
+	height: 20px;
+	background: no-repeat;
+}
+
+/* Corpo > Main */
+
+#main {
+	float: right;
+	width: 550px;
+	background: no-repeat right top;
+	color: #505094;
+}
+
+#main a {
+	color: #505094;
+}
+
+#navegacao {
+	float: left;
+	width: 220px;
+	background: no-repeat;
+	color: #6BB3B3;
+}
+
+#navegacao a {
+	color: #319595;
+}
+
+/* Corpo > navegacao > Login */
+
+#login fieldset {
+	border: none;
+}
+#login br{
+	margin-bottom:30px;
+}
+#login label {
+	position:absolute;
+	margin-left:25px;
+	margin-bottom:50px;
+	font-size: x-small;
+	font-weight: bold;
+}
+
+#login input {
+	padding: 2px 5px;
+	margin-bottom:50px;
+	border: 1px solid #385B88;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+#inputtext1{
+	position:absolute;
+	margin-left:100px;
+	margin-bottom:50px;
+	color: #385B88;
+}
+
+#inputsubmit1 {
+	position:absolute;
+	margin-left:150px;
+	margin-top:10px;
+	margin-bottom:50px;
+	background: #385B88;
+	color: #FFFFFF;
+}
+
+/* Corpo > navegacao > Menu */
+
+#menu {
+	padding: 20px 0;
+}
+
+#menu ul {
+	margin: 0;
+	list-style: none;
+}
+
+#menu li {
+	display: block;
+	padding-bottom: 1px;
+	background: url(../images/transparente.gif) repeat-x left bottom;
+}
+
+#menu a {
+	display: block;
+	width: 170px;
+	padding: 10px 20px 10px 30px;
+	text-decoration: none;
+}
+
+#menu a:hover, #menu a:active{
+	background: #CDE5E5 url(../images/bolinha.gif) no-repeat 10px 50%;
+}
+#menu a:active{
+	color: #505094;
+}
+/* rodape */
+
+#rodape {
+	clear: both;
+	width: 660px;
+	margin: 0 auto;
+	padding: 10px 0;
+}
+
+#rodape p {
+	margin: 0;
+	text-align: right;
+	font-size: x-small;
+}
+
+/* Rodape > autor */
+
+#autor {
+}
+#jogos{
+	float:left;
+	margin-left:20px;
+	height:200px;
+}
+#jogos a{
+	
+}
+#jogos h3
+{
+}
+#jogos h3.criaconto{
+	padding: 20px;
+	background: #505094 url(../images/cria_conto.gif) no-repeat;
+	height:75px;
+	width:190px;
+}
