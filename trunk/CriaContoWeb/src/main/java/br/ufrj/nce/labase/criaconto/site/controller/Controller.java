@@ -3,7 +3,7 @@ package br.ufrj.nce.labase.criaconto.site.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import br.ufrj.nce.labase.controller.action.htp.IAction;
+import br.ufrj.nce.labase.controller.action.http.IAction;
 import br.ufrj.nce.labase.phidias.action.http.ActionFactory;
 import br.ufrj.nce.labase.phidias.communication.CommunicationProtocol;
 

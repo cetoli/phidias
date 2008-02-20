@@ -7,11 +7,12 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import br.ufrj.nce.labase.controller.action.http.IAction;
 import br.ufrj.nce.labase.phidias.business.EventBusiness;
 import br.ufrj.nce.labase.phidias.communication.bean.EventBean;
 import br.ufrj.nce.labase.phidias.communication.bean.EventResponseBean;
 
-public class RegisterEventAction implements br.ufrj.nce.labase.controller.action.htp.IAction {
+public class RegisterEventAction implements IAction {
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
 		PrintWriter printWriter = null;

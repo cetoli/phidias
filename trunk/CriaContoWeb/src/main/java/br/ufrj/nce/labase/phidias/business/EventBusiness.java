@@ -1,5 +1,7 @@
 package br.ufrj.nce.labase.phidias.business;
 
+import java.util.List;
+
 import br.ufrj.nce.labase.persistence.EntityManagerHelper;
 import br.ufrj.nce.labase.phidias.communication.bean.EventBean;
 import br.ufrj.nce.labase.phidias.persistence.dao.ActionDAO;
@@ -37,6 +39,7 @@ public class EventBusiness {
 			action.setValidMove(eventContainer.getValidMove());
 			action.setObject1(eventContainer.getObject1());
 			action.setObject2(eventContainer.getObject2());
+			action.setMoveTime(eventContainer.getMoveTime());
 
 			ActionDAO aDAO = new ActionDAO();
 			aDAO.create(action);
@@ -44,6 +47,24 @@ public class EventBusiness {
 			EntityManagerHelper.getInstance().commitTransaction();
 
 			return action;
+		}
+		throw new RuntimeException("Null parameter not allowed!");
+	}
+	
+	/**
+	 * @param eventoContainer
+	 * @return
+	 */
+	public List<Action> getMoves(EventBean eventContainer) {
+		if (eventContainer != null) {
+
+			if (eventContainer.getId() != null)
+				throw new RuntimeException("Session id cannot be set, it is created automatically!");
+
+			ActionDAO aDAO = new ActionDAO();
+			List<Action> events = aDAO.listActions(eventContainer.getSessionId(), eventContainer.getPhaseId());
+			
+			return events;
 		}
 		throw new RuntimeException("Null parameter not allowed!");
 	}

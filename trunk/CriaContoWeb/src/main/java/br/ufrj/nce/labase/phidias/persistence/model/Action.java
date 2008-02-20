@@ -35,7 +35,7 @@ public class Action implements java.io.Serializable {
 	 * @generated
 	 */
 	@javax.persistence.Column(name = "acj_tp_jogada", length = 10, nullable = false)
-	private int moveTime;
+	private long moveTime;
 	/**
 	 * @generated
 	 */
@@ -92,11 +92,11 @@ public class Action implements java.io.Serializable {
 		return actionType;
 	}
 
-	public void setMoveTime(int moveTime) {
+	public void setMoveTime(long moveTime) {
 		this.moveTime = moveTime;
 	}
 
-	public int getMoveTime() {
+	public long getMoveTime() {
 		return moveTime;
 	}
 

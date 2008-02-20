@@ -7,11 +7,12 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import br.ufrj.nce.labase.controller.action.http.IAction;
 import br.ufrj.nce.labase.phidias.business.SessionBusiness;
 import br.ufrj.nce.labase.phidias.communication.bean.CommentBean;
 import br.ufrj.nce.labase.phidias.communication.bean.CommentResponseBean;
 
-public class RegisterCommentAction implements br.ufrj.nce.labase.controller.action.htp.IAction {
+public class RegisterCommentAction implements IAction {
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
 		PrintWriter printWriter = null;

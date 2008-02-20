@@ -8,6 +8,7 @@ import javax.persistence.Embeddable;
  */
 @Embeddable
 public class SessionGamePhaseId implements java.io.Serializable {
+
 	/**
 	 * @generated
 	 */
@@ -31,6 +32,10 @@ public class SessionGamePhaseId implements java.io.Serializable {
 		this.sessionId = sessionId;
 	}
 
+	public SessionGamePhaseId() {
+		super();
+	}
+
 	/**
 	 * @generated
 	 */
@@ -45,7 +50,8 @@ public class SessionGamePhaseId implements java.io.Serializable {
 			return false;
 		}
 		SessionQuestionId id = (SessionQuestionId) obj;
-		return (this.phaseId.equals(id.getIdPerguntasFormularios()) && this.sessionId.equals(id.getIdSessao()));
+		return (this.phaseId.equals(id.getIdPerguntasFormularios()) && this.sessionId
+				.equals(id.getIdSessao()));
 	}
 
 	/**
