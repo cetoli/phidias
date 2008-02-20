@@ -23,6 +23,7 @@ public class CommunicationProtocol {
 	public static final String REGISTER_COMMENT_ACTION = "registerComment";
 	public static final String REGISTER_STIMULUS_ACTION = "registerStimulus";
 	public static final String GET_NEXT_STIMULUS_ACTION = "getNextStimulus";
+	public static final String GET_MOVES_ACTION = "getMoves";
 
 	public static ActionResponseContainer execute(String action, ActionContainer actionData) {
 		try {
@@ -31,7 +32,7 @@ public class CommunicationProtocol {
 			client.getHostConfiguration().setHost("localhost", 8080, "http");
 			client.getParams().setCookiePolicy(CookiePolicy.BROWSER_COMPATIBILITY);
 
-			PostMethod post = new PostMethod("/CriaContoWeb//ClientServerServlet.do");
+			PostMethod post = new PostMethod("/CriaContoWeb/ClientServerServlet.do");
 			post.addParameter(new NameValuePair(ACTION_PARAMETER, action));
 
 			// Gera parametros do request via metodo post

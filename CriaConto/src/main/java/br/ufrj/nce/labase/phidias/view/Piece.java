@@ -42,10 +42,9 @@ public class Piece extends Sprite {
 		downX = x;
 		downY = y;
 		
-		moveStartTime = System.currentTimeMillis();
-	}
+		moveStartTime = System.currentTimeMillis();	}
 	
-	public void MouseUp(Event evt, int x, int y) {
+	public void mouseUp(Event evt, int x, int y) {
 		moveEndTime = System.currentTimeMillis();
 	}
 
@@ -62,6 +61,17 @@ public class Piece extends Sprite {
 	}
 	
 	public long getMoveTime() {
+		System.out.println("moveEndTime - moveStartTime = " + (moveEndTime - moveStartTime));
 		return moveEndTime - moveStartTime;
+	}
+	
+	public void collisionWith(Piece p) {
+		
+	}
+	
+	public void collisionWith(Sprite s) {
+		if (s instanceof Piece) {
+			collisionWith ((Piece) s);
+		}
 	}
 }

@@ -10,6 +10,7 @@ import br.ufrj.nce.labase.phidias.view.Piece;
 
 public class Character extends Piece {
 	protected boolean onScene = false;
+	protected Piece collidedPiece;
 	
 	public Character(Board b, Image image, String name, int x, int y) {
 		super(b, image, name, x, y);
@@ -17,7 +18,7 @@ public class Character extends Piece {
 	}
 	
 	public void mouseUp(Event evt, int x, int y) {
-		super.MouseUp(evt, x, y);
+		super.mouseUp(evt, x, y);
 		
 		if (evt.y > 590 || evt.x > 850) {
 			if (!onScene) {
@@ -38,7 +39,10 @@ public class Character extends Piece {
 		}
 	}
 	
-	public void collisionWith(Sprite s) {  
+	public void collisionWith(Piece s) {  
+		if (collidedPiece == null || collidedPiece != s) {
+			collidedPiece = s;
+		}
 		Controller.registerCollisionEvent(getName(), ((Piece) s).getName());	
 	}
 }

@@ -1,29 +1,32 @@
 package br.ufrj.nce.labase.criaconto.control;
 
 import br.ufrj.nce.labase.phidias.communication.CommunicationProtocol;
+import br.ufrj.nce.labase.phidias.communication.bean.CommentBean;
 import br.ufrj.nce.labase.phidias.communication.bean.EventBean;
 import br.ufrj.nce.labase.phidias.communication.bean.SessionBean;
 import br.ufrj.nce.labase.phidias.communication.bean.SessionResponseBean;
+import br.ufrj.nce.labase.phidias.communication.bean.StimulusBean;
 import br.ufrj.nce.labase.phidias.controller.Session;
 
 public class Controller {
-	private static boolean sendDataToServer = false;
+	private static boolean sendDataToServer = true;
 	
 	public static void setSendDataToServer(boolean send){
 		sendDataToServer = send;
 	}
 	
-	public static SessionResponseBean registerSession(int attendant, int game, String patient) {
+	public static void registerSession(int attendant, int game, String patient) {
 		if (sendDataToServer) {
 			SessionBean sessaoContainer = new SessionBean();
 			sessaoContainer.setAttendantId(attendant);
 			sessaoContainer.setGameId(game);
 			sessaoContainer.setPatientId(patient);
 			
-			return (SessionResponseBean) CommunicationProtocol.execute(CommunicationProtocol.REGISTER_SESSION_ACTION, sessaoContainer);
-		} else {
-			return null;
-		}
+			SessionResponseBean sessionBean = 
+				(SessionResponseBean) CommunicationProtocol.execute(CommunicationProtocol.REGISTER_SESSION_ACTION, sessaoContainer);
+			
+			Session.getInstance().setSessionBean(sessionBean);
+		} 
 	}
 	
 	public static void registerGiveUpEvent(long time, String object) {
@@ -95,5 +98,32 @@ public class Controller {
 			
 			CommunicationProtocol.execute(CommunicationProtocol.REGISTER_EVENT_ACTION, eventoContainer);
 		}
+	}
+	
+	public static boolean registerComment(String comment) {
+		if (sendDataToServer) {
+			CommentBean commentContainer = new CommentBean();
+			commentContainer.setPhaseId(1);
+			commentContainer.setSessionId(1);
+			commentContainer.setCommentText(comment);
+
+			CommunicationProtocol.execute(CommunicationProtocol.REGISTER_COMMENT_ACTION, commentContainer);
+		}
+		
+		return true;
+	}
+	
+	public static boolean registerStimulus(String stimulus) {
+		if (sendDataToServer) {
+			StimulusBean stimulusContainer = new StimulusBean();
+			stimulusContainer.setPhaseId(1);
+			stimulusContainer.setStimulusTypeId(StimulusBean.INVOCA_NPC);
+			stimulusContainer.setSessionId(1);
+			stimulusContainer.setStimulusText(stimulus);
+
+			CommunicationProtocol.execute(CommunicationProtocol.REGISTER_STIMULUS_ACTION, stimulusContainer);
+		}
+		
+		return true;
 	}
 }

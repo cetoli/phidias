@@ -8,7 +8,10 @@ public class Session {
 	private Integer actualPhase;
 
 	private Session() {
-		// session = Controller.registerSession();
+	}
+	
+	public void setSessionBean(SessionResponseBean sessionBean) {
+		session = sessionBean;
 	}
 
 	public static Session getInstance() {
@@ -20,11 +23,14 @@ public class Session {
 	}
 
 	public Integer getId() {
+		if (session == null) {
+			return null;
+		}
 		return session.getSessionId();
 	}
 
 	public Integer getActualPhase() {
-		return null;
+		return 1;
 	}
 
 }
