@@ -3,12 +3,9 @@
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/tese/junit-4.4.jar"/>
-	<classpathentry kind="lib" path="C:/tese/CriaConto/target/phidias-1.0-SNAPSHOT-images.jar"/>
-	<classpathentry kind="lib" path="C:/tese/lib/commons-beanutils-1.7.0/commons-beanutils-core.jar"/>
-	<classpathentry kind="lib" path="C:/tese/lib/commons-beanutils-1.7.0/commons-beanutils.jar"/>
-	<classpathentry kind="lib" path="C:/tese/lib/commons-beanutils-1.7.0/commons-beanutils-bean-collections.jar"/>
-	<classpathentry kind="lib" path="C:/tese/lib/commons-httpclient-3.1/commons-httpclient-3.1.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/CriaContoWeb"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/COMMONS_BEAN"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/COMMONS_HTTPUNIT"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="output" path="src/main/java"/>
 </classpath>
