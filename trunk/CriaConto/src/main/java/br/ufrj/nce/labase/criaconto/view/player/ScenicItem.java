@@ -28,6 +28,8 @@ public class ScenicItem extends Piece {
 	}
 		
 	public void mouseUp(Event evt, int x, int y) {
+		super.mouseUp(evt, x, y);
+		
 		if (evt.x == downX && evt.y == downY) {
 			//clicou
 			//setar no playfield que um item foi selecionado

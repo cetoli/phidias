@@ -21,6 +21,7 @@ import javax.swing.Timer;
 import br.ufrj.nce.labase.phidias.communication.CommunicationProtocol;
 import br.ufrj.nce.labase.phidias.communication.bean.StimulusBean;
 import br.ufrj.nce.labase.phidias.communication.bean.StimulusResponseBean;
+import br.ufrj.nce.labase.phidias.controller.Session;
 import br.ufrj.nce.criaconto.images.Images;
 import br.ufrj.nce.labase.criaconto.control.Controller;
 import br.ufrj.nce.labase.phidias.view.Board;
@@ -41,8 +42,8 @@ public class CriaContoPlayer extends Applet implements ActionListener {
     };
     
     public CriaContoPlayer() { 
-    	timer = new Timer(5000, this);
-    	//timer.start();
+    	timer = new Timer(30000, this);
+    	timer.start();
 	}
 
     public void init() {
@@ -221,7 +222,7 @@ public class CriaContoPlayer extends Applet implements ActionListener {
 			}
 		};
     
-		frame.setTitle("Applet Frame");    
+		frame.setTitle("Jogador");    
 		frame.add(applet, BorderLayout.CENTER);
 		applet.init();
 		applet.start();
@@ -233,8 +234,8 @@ public class CriaContoPlayer extends Applet implements ActionListener {
   
 	public void actionPerformed(ActionEvent arg0) {
 		StimulusBean stimulus = new StimulusBean();
-		stimulus.setPhaseId(1);
-		stimulus.setSessionId(1);
+		stimulus.setPhaseId(Session.getInstance().getActualPhase());
+		stimulus.setSessionId(Session.getInstance().getId());
 
 		StimulusResponseBean response = (StimulusResponseBean) CommunicationProtocol.execute(CommunicationProtocol.GET_NEXT_STIMULUS_ACTION, stimulus);
 		if (response.getStimulusTypeId() != null) {
