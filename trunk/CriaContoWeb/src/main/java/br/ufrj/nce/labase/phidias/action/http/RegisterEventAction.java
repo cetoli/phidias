@@ -36,6 +36,7 @@ public class RegisterEventAction implements br.ufrj.nce.labase.controller.action
 			printWriter.print("success=true;");
 
 		} catch (Throwable e) {
+			e.printStackTrace();
 			printWriter.println("success=false");
 		} finally {
 			printWriter.flush();

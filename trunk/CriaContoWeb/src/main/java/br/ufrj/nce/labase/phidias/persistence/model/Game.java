@@ -12,7 +12,7 @@ public class Game implements java.io.Serializable {
 	/**
 	 * @generated
 	 */
-	@javax.persistence.OneToMany(mappedBy = "jogIdJogo")
+	@javax.persistence.OneToMany(mappedBy = "game")
 	private java.util.Set<GamePhase> gamePhase = new java.util.HashSet<GamePhase>();
 	/**
 	 * @generated

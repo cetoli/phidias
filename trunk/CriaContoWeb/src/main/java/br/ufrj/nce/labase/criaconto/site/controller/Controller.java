@@ -1,4 +1,4 @@
-package br.ufrj.nce.labase.controller.web;
+package br.ufrj.nce.labase.criaconto.site.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

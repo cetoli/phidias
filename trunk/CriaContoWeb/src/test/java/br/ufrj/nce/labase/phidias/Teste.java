@@ -32,7 +32,7 @@ public class Teste {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		testeChamaRegistraFimSessao();
+		testeChamaRecuperaProximoEstimulo();
 
 	}
 
@@ -111,6 +111,7 @@ public class Teste {
 		apBus.registerAttendant(aplicador);
 
 	}
+	
 
 	private static void testeInserePaciente() {
 
