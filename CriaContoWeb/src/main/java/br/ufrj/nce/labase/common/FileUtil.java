@@ -4,13 +4,14 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class FileUtil {
 	public static String[] readTextAsLines(String filePath) {
 		try {
 			java.io.FileReader fileReader = new java.io.FileReader(filePath);
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
-			ArrayList<String> linhas = new ArrayList<String>();
+			List<String> linhas = new ArrayList<String>();
 			String linha;
 			while ((linha = bufferedReader.readLine()) != null) {
 				linhas.add(linha);

@@ -3,6 +3,7 @@
 	<name>CriaContoWeb</name>
 	<comment></comment>
 	<projects>
+		<project>CriaConto</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
@@ -10,8 +11,28 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.wst.common.project.facet.core.builder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.wst.validation.validationbuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 	</buildSpec>
 	<natures>
+		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
+		<nature>org.eclipse.wst.common.modulecore.ModuleCoreNature</nature>
+		<nature>org.eclipse.jem.workbench.JavaEMFNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>java</name>
+			<type>2</type>
+			<location>C:/Documents and Settings/Owner/My Documents/Mestrado/googlesub/CriaContoWeb/src/main/java</location>
+		</link>
+	</linkedResources>
 </projectDescription>

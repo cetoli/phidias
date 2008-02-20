@@ -9,7 +9,7 @@ public class SessionGamePhaseStimulusTypeDAO extends GenericDAO<SessionGamePhase
 	
 	public SessionGamePhaseStimulusType getNextStimulus(Integer idSessao, Integer idFaseJogo){
 		try {
-			Query query = this.getSession().createQuery("select f from br.ufrj.nce.criaconto.persist.model.FaseJogoSessaoTipoEstimulo f where f.idSessao = :idSessao and f.idFaseJogo = :idFaseJogo and (f.flagEstimuloEnviado = false or f.flagEstimuloEnviado is null ) order by f.id");
+			Query query = this.getSession().createQuery("select f from SessionGamePhaseStimulusType f where f.sessionId = :idSessao and f.phaseId = :idFaseJogo and (f.stimulusSent = false or f.stimulusSent is null ) order by f.id");
 			query.setParameter("idSessao", idSessao);
 			query.setParameter("idFaseJogo", idFaseJogo);
 			query.setMaxResults(1);

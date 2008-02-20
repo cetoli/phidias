@@ -34,7 +34,7 @@ public class EventBusiness {
 			ActionTypeDAO atDAO = new ActionTypeDAO();
 			action.setActionType(atDAO.findById(ActionType.class, eventContainer.getActionTypeId()));
 
-			action.setValidMove(eventContainer.isValidMove());
+			action.setValidMove(eventContainer.getValidMove());
 			action.setObject1(eventContainer.getObject1());
 			action.setObject2(eventContainer.getObject2());
 
