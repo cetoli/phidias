@@ -1,7 +1,7 @@
 package br.ufrj.nce.labase.phidias.action.http;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.ObjectOutputStream;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,10 +16,10 @@ import br.ufrj.nce.labase.phidias.persistence.model.Session;
 public class RegisterSessionEndAction implements IAction {
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
-		PrintWriter printWriter = null;
+		ObjectOutputStream o = null;
 		try {
-			response.setContentType("text/html");
-			printWriter = response.getWriter();
+			response.setContentType("application/octet-stream");
+			o = new ObjectOutputStream(response.getOutputStream());
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -32,19 +32,25 @@ public class RegisterSessionEndAction implements IAction {
 			container.loadPropertyValues(parameterMap);
 
 			SessionBusiness session = new SessionBusiness();
-			Session sessao =  session.registerSessionEnd(container);
+			Session sessao = session.registerSessionEnd(container);
 
-			printWriter.print("class=" + SessionResponseBean.class.getName() + ";");
-			printWriter.print("success=true;");
-			printWriter.print("sessionId="+ sessao.getId());
+			SessionResponseBean evt = new SessionResponseBean();
+			evt.setSuccess(true);
+			evt.setSessionId(sessao.getId());
+
+			o.writeObject(evt);
 
 		} catch (Throwable e) {
 			e.printStackTrace();
-			printWriter.println("success=false");
+
 		} finally {
-			printWriter.flush();
-			printWriter.close();
+			try {
+				o.flush();
+				o.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
-
 }

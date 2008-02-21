@@ -55,11 +55,11 @@ public class SessionBusiness {
 				throw new RuntimeException("Session id must not be null!");
 
 			EntityManagerHelper.getInstance().startTransaction();
-			
+
 			SessionDAO sDAO = new SessionDAO();
 			Session session = sDAO.findById(Session.class, sessionContainer.getId());
 			session.setSessionEndDate(new Date());
-			
+
 			EntityManagerHelper.getInstance().commitTransaction();
 
 			return session;
@@ -74,8 +74,7 @@ public class SessionBusiness {
 
 			SessionGamePhaseDAO gpsDAO = new SessionGamePhaseDAO();
 			SessionGamePhase gamePhase = gpsDAO.findById(SessionGamePhase.class, new SessionGamePhaseId(commentContainer.getPhaseId(), commentContainer.getSessionId()));
-			if (gamePhase == null)
-			{
+			if (gamePhase == null) {
 				gamePhase = new SessionGamePhase(commentContainer.getPhaseId(), commentContainer.getSessionId());
 				gamePhase = gpsDAO.create(gamePhase);
 			}
