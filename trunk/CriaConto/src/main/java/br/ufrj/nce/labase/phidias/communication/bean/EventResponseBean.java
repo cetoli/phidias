@@ -10,7 +10,7 @@ public class EventResponseBean extends ActionResponseContainer {
 	public List<String> getMoves() {
 		return moves;
 	}
-	
+
 	public void setMoves(List<String> moves) {
 		this.moves = moves;
 	}

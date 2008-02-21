@@ -1,6 +1,8 @@
 package br.ufrj.nce.labase.phidias.communication.container;
 
-public abstract class ActionResponseContainer {
+import java.io.Serializable;
+
+public abstract class ActionResponseContainer implements Serializable{
 	private Boolean success;
 
 	public Boolean isSuccess() {
