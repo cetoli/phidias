@@ -23,6 +23,7 @@ import br.ufrj.nce.labase.phidias.communication.bean.StimulusBean;
 import br.ufrj.nce.labase.phidias.communication.bean.StimulusResponseBean;
 import br.ufrj.nce.labase.phidias.controller.Session;
 import br.ufrj.nce.criaconto.images.Images;
+import br.ufrj.nce.labase.common.MidiSound;
 import br.ufrj.nce.labase.criaconto.control.Controller;
 import br.ufrj.nce.labase.phidias.view.Board;
 import br.ufrj.nce.labase.phidias.view.Piece;
@@ -33,7 +34,9 @@ public class CriaContoPlayer extends Applet implements ActionListener {
     private Piece piece = null;  
     private LoginPanel loginPanel;
     private Timer timer;	
-	
+    private MidiSound sound;
+    
+    
     static final String characters[] = {
         "principe", "branca_de_neve", "cacador_frente", "rainha_ma", "anao1", "anao2", "anao3", "anao4", "anao5", "anao6", "anao7"
     };
@@ -68,7 +71,7 @@ public class CriaContoPlayer extends Applet implements ActionListener {
 
 	private void startGame() {
 		registerSession();
-		
+
 		setSize(1088, 820);
     	removeAll();
 		
@@ -96,6 +99,9 @@ public class CriaContoPlayer extends Applet implements ActionListener {
         add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
         putPersonagensOnBoard(true);
         board.start();
+        
+        sound = new MidiSound("102.mid", true);
+        sound.start();
 	}
     
     private Board createBoard(String backgroundImageName){
