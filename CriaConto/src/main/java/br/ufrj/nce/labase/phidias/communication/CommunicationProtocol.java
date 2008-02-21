@@ -67,7 +67,7 @@ public class CommunicationProtocol {
 		} catch (HttpException e) {
 			throw new PhidiasException("Error connecting to URL!!", e);
 		} catch (IOException e) {
-			throw new PhidiasException("Error treating response stream", e);
+			return null;
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			throw new PhidiasException(
