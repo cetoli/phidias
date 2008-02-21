@@ -1,7 +1,7 @@
 package br.ufrj.nce.labase.phidias.action.http;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.ObjectOutputStream;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,10 +16,10 @@ import br.ufrj.nce.labase.phidias.persistence.model.SessionGamePhaseStimulusType
 public class GetNextStimulusAction implements IAction {
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
-		PrintWriter printWriter = null;
+		ObjectOutputStream o = null;
 		try {
-			response.setContentType("text/html");
-			printWriter = response.getWriter();
+			response.setContentType("application/octet-stream");
+			o = new ObjectOutputStream(response.getOutputStream());
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -32,18 +32,27 @@ public class GetNextStimulusAction implements IAction {
 			container.loadPropertyValues(parameterMap);
 
 			StimulusBusiness stimulusBusiness = new StimulusBusiness();
-			SessionGamePhaseStimulusType stimulus = stimulusBusiness.getNextStimulus(container);
+			SessionGamePhaseStimulusType stimulus = stimulusBusiness
+					.getNextStimulus(container);
 
-			printWriter.print("class=" + StimulusResponseBean.class.getName() + ";");
-			printWriter.print("success=true;");
+			StimulusResponseBean evt = new StimulusResponseBean();
+			evt.setSuccess(true);
 			if (stimulus != null)
-				printWriter.print("stimulusTypeId="+ stimulus.getStimulusTypeId());
+				evt.setStimulusTypeId(stimulus.getStimulusTypeId());
+			
+			o.writeObject(evt);
 
 		} catch (Throwable e) {
-			printWriter.println("success=false");
+			e.printStackTrace();
+
 		} finally {
-			printWriter.flush();
-			printWriter.close();
+			try {
+				o.flush();
+				o.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 

@@ -54,6 +54,11 @@ public class Action implements java.io.Serializable {
 	/**
 	 * @generated
 	 */
+	@javax.persistence.Column(name = "ACJ_FG_SENT_ATTENDANT", length = 0)
+	private Boolean sentToAttendant;
+	/**
+	 * @generated
+	 */
 	private static final long serialVersionUID = 1283548244L;
 
 	/**
@@ -122,5 +127,19 @@ public class Action implements java.io.Serializable {
 
 	public String getObject2() {
 		return object2;
+	}
+
+	/**
+	 * @return the sentToAttendant
+	 */
+	public Boolean getSentToAttendant() {
+		return sentToAttendant;
+	}
+
+	/**
+	 * @param sentToAttendant the sentToAttendant to set
+	 */
+	public void setSentToAttendant(Boolean sentToAttendant) {
+		this.sentToAttendant = sentToAttendant;
 	}
 }

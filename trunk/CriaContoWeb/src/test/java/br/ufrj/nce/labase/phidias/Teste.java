@@ -17,6 +17,7 @@ import br.ufrj.nce.labase.phidias.communication.CommunicationProtocol;
 import br.ufrj.nce.labase.phidias.communication.bean.AttendantBean;
 import br.ufrj.nce.labase.phidias.communication.bean.CommentBean;
 import br.ufrj.nce.labase.phidias.communication.bean.EventBean;
+import br.ufrj.nce.labase.phidias.communication.bean.EventResponseBean;
 import br.ufrj.nce.labase.phidias.communication.bean.PatientBean;
 import br.ufrj.nce.labase.phidias.communication.bean.SessionBean;
 import br.ufrj.nce.labase.phidias.communication.bean.SessionResponseBean;
@@ -32,8 +33,18 @@ public class Teste {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		testeChamaRecuperaProximoEstimulo();
+		testeChamaRecuperaMovimentos();
 
+	}
+	
+	
+	private static void testeChamaRecuperaMovimentos() {
+		EventBean event = new EventBean();
+		event.setPhaseId(1);
+		event.setSessionId(1);
+		
+		EventResponseBean response = (EventResponseBean) CommunicationProtocol.execute(CommunicationProtocol.GET_MOVES_ACTION, event);
+		System.out.println(response.isSuccess());
 	}
 
 	private static void testeChamaRegistraComentario() {

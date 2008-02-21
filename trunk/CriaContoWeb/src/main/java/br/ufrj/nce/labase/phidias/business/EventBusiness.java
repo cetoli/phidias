@@ -50,7 +50,7 @@ public class EventBusiness {
 		}
 		throw new RuntimeException("Null parameter not allowed!");
 	}
-	
+
 	/**
 	 * @param eventoContainer
 	 * @return
@@ -61,9 +61,15 @@ public class EventBusiness {
 			if (eventContainer.getId() != null)
 				throw new RuntimeException("Session id cannot be set, it is created automatically!");
 
+			EntityManagerHelper.getInstance().startTransaction();
+
 			ActionDAO aDAO = new ActionDAO();
 			List<Action> events = aDAO.listActions(eventContainer.getSessionId(), eventContainer.getPhaseId());
-			
+
+			for (Action action : events)
+				action.setSentToAttendant(true);
+
+			EntityManagerHelper.getInstance().commitTransaction();
 			return events;
 		}
 		throw new RuntimeException("Null parameter not allowed!");

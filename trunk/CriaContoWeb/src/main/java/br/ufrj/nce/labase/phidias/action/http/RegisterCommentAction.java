@@ -1,7 +1,7 @@
 package br.ufrj.nce.labase.phidias.action.http;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.ObjectOutputStream;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,10 +15,10 @@ import br.ufrj.nce.labase.phidias.communication.bean.CommentResponseBean;
 public class RegisterCommentAction implements IAction {
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
-		PrintWriter printWriter = null;
+		ObjectOutputStream o = null;
 		try {
-			response.setContentType("text/html");
-			printWriter = response.getWriter();
+			response.setContentType("application/octet-stream");
+			o = new ObjectOutputStream(response.getOutputStream());
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -33,14 +33,22 @@ public class RegisterCommentAction implements IAction {
 			SessionBusiness session = new SessionBusiness();
 			session.registerComment(container);
 
-			printWriter.print("class=" + CommentResponseBean.class.getName() + ";");
-			printWriter.print("success=true;");
+			CommentResponseBean evt = new CommentResponseBean();
+			evt.setSuccess(true);
+
+			o.writeObject(evt);
 
 		} catch (Throwable e) {
-			printWriter.println("success=false");
+			e.printStackTrace();
+
 		} finally {
-			printWriter.flush();
-			printWriter.close();
+			try {
+				o.flush();
+				o.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
