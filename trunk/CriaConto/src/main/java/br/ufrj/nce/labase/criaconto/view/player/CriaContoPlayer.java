@@ -18,13 +18,12 @@ import java.awt.event.WindowEvent;
 import javax.swing.JButton;
 import javax.swing.Timer;
 
+import br.ufrj.nce.criaconto.images.Images;
+import br.ufrj.nce.labase.criaconto.control.Controller;
 import br.ufrj.nce.labase.phidias.communication.CommunicationProtocol;
 import br.ufrj.nce.labase.phidias.communication.bean.StimulusBean;
 import br.ufrj.nce.labase.phidias.communication.bean.StimulusResponseBean;
 import br.ufrj.nce.labase.phidias.controller.Session;
-import br.ufrj.nce.criaconto.images.Images;
-import br.ufrj.nce.labase.common.MidiSound;
-import br.ufrj.nce.labase.criaconto.control.Controller;
 import br.ufrj.nce.labase.phidias.view.Board;
 import br.ufrj.nce.labase.phidias.view.Piece;
 
@@ -71,7 +70,49 @@ public class CriaContoPlayer extends Applet implements ActionListener {
 
 	private void startGame() {
 		registerSession();
-
+		
+		setSize(1088, 820);
+    	removeAll();
+		
+    	board = createBoard("tela inicial.jpg");
+    	
+        add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
+        board.start();
+        
+        Thread.sleep(1500);
+        
+        Image imageCorujaAsasAcima = Images.createImage("Asas_Acima.gif");
+		
+		Piece corujaAsasAcima = new Piece(board, imageCorujaAsasAcima, "Coruja asas acima", 1060, 15);
+		corujaAsasAcima.setBackground(false);
+		corujaAsasAcima.setRectangular(false);
+		
+		Thread.sleep(1500);
+		
+		Image imageCorujaAsasMeio = Images.createImage("Asas_Meio.gif");
+		
+		Piece corujaAsasMeio = new Piece(board, imageCorujaAsasMeio, "Coruja asas meio", 860, 115);
+		corujaAsasMeio.setBackground(false);
+		corujaAsasMeio.setRectangular(false);
+		
+		Thread.sleep(1500);
+		
+		Image imageCorujaAsasAbaixo = Images.createImage("Asas_Abaixo.gif");
+		
+		Piece corujaAsasAbaixo = new Piece(board, imageCorujaAsasAbaixo, "Coruja asas abaixo", 720, 305);
+		corujaAsasAbaixo.setBackground(false);
+		corujaAsasAbaixo.setRectangular(false);
+		
+		Thread.sleep(1500);
+		
+		Image imageCorujaPouso = Images.createImage("Asas_Pouso.gif");
+		
+		Piece corujaPouso = new Piece(board, imageCorujaPouso, "Coruja pouso", 680, 375);
+		corujaPouso.setBackground(false);
+		corujaPouso.setRectangular(false);
+	}
+	
+	private void firstPhase() {
 		setSize(1088, 820);
     	removeAll();
 		
@@ -181,7 +222,6 @@ public class CriaContoPlayer extends Applet implements ActionListener {
 	}
 
 	public void putAnimaisOnBoard() {
-		//Image image = board.getImage(baseURL + nomeImage + ".png");
 		Image image = Images.createImage("passarinho.gif");
 			
 		Piece piece = new Piece(board, image, "passarinho", 480, 110);
