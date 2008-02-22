@@ -117,9 +117,23 @@ public class Controller {
 		if (sendDataToServer) {
 			StimulusBean stimulusContainer = new StimulusBean();
 			stimulusContainer.setPhaseId(1);
-			stimulusContainer.setStimulusTypeId(StimulusBean.INVOCA_NPC);
+			stimulusContainer.setStimulusTypeId(StimulusBean.SHOW_NPC);
 			stimulusContainer.setSessionId(1);
 			stimulusContainer.setStimulusText(stimulus);
+
+			CommunicationProtocol.execute(CommunicationProtocol.REGISTER_STIMULUS_ACTION, stimulusContainer);
+		}
+		
+		return true;
+	}
+	
+	public static boolean registerPhaseChange() {
+		if (sendDataToServer) {
+			StimulusBean stimulusContainer = new StimulusBean();
+			stimulusContainer.setPhaseId(1);
+			stimulusContainer.setStimulusTypeId(StimulusBean.CHANGE_PHASE);
+			stimulusContainer.setSessionId(1);
+			stimulusContainer.setStimulusText("mudanca de fase");
 
 			CommunicationProtocol.execute(CommunicationProtocol.REGISTER_STIMULUS_ACTION, stimulusContainer);
 		}
