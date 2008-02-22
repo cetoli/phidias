@@ -87,6 +87,12 @@ public class CriaContoPlayer extends Applet implements ActionListener {
 		corujaAsasAcima.setBackground(false);
 		corujaAsasAcima.setRectangular(false);
 		
+		showNPC();
+		
+		firstPhase();
+	}
+
+	private void showNPC() throws InterruptedException {
 		Thread.sleep(1500);
 		
 		Image imageCorujaAsasMeio = Images.createImage("Asas_Meio.gif");
@@ -110,31 +116,14 @@ public class CriaContoPlayer extends Applet implements ActionListener {
 		Piece corujaPouso = new Piece(board, imageCorujaPouso, "Coruja pouso", 680, 375);
 		corujaPouso.setBackground(false);
 		corujaPouso.setRectangular(false);
+		
+		Thread.sleep(1500);
 	}
 	
 	private void firstPhase() {
 		setSize(1088, 820);
     	removeAll();
 		
-		JButton proxFase = new JButton("Prox fase");
-    	proxFase.addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent e) {
-    			setSize(1048, 820);
-    	    	removeAll();
-
-    	    	board = createBoard("fundo2.jpg");
-    	    	
-    	        add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
-    	        putCenariosOnBoard();
-    	        putPersonagensOnBoard(false);
-    	        putAnimaisOnBoard();
-    	        board.start();
-    		}
-    	});
-    	
-    	proxFase.setLocation(1030, 25);
-    	add(proxFase, new GridBagConstraints(1, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
-    	
         board = createBoard("fundo.jpg");
     	
         add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
@@ -284,7 +273,26 @@ public class CriaContoPlayer extends Applet implements ActionListener {
 		stimulus.setSessionId(Session.getInstance().getId());
 
 		StimulusResponseBean response = (StimulusResponseBean) CommunicationProtocol.execute(CommunicationProtocol.GET_NEXT_STIMULUS_ACTION, stimulus);
-		if (response.getStimulusTypeId() != null) {
+		Integer stimulusType = response.getStimulusTypeId();
+		if (stimulusType != null) {
+			if (stimulusType == StimulusBean.SHOW_NPC) {
+				showNPC();
+			} else if (stimulusType == StimulusBean.CHANGE_PHASE) {
+				if (Session.getInstance().getActualPhase() == 1) {
+					setSize(1048, 820);
+			    	removeAll();
+	
+			    	board = createBoard("fundo2.jpg");
+			    	
+			        add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
+			        putCenariosOnBoard();
+			        putPersonagensOnBoard(false);
+			        putAnimaisOnBoard();
+			        board.start();
+			        
+			        Session.getInstance().changePhase();
+				}
+			}
 		}
 	}
 	
