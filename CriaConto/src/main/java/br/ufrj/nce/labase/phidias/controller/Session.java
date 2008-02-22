@@ -32,5 +32,9 @@ public class Session {
 	public Integer getActualPhase() {
 		return 1;
 	}
+	
+	public void changePhase() {
+		actualPhase++;
+	}
 
 }
