@@ -118,6 +118,15 @@ public class CriaContoAttendant extends Applet implements ActionListener {
 		stimulus.setColumns(100);
 		stimulus.setEditable(false);
 		add(stimulus, new GridBagConstraints(0, 7, 3, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		
+		Button changePhase = new Button("Mudar fase");
+		changePhase.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				registerPhaseChange();
+			}
+		});
+		add(changePhase, new GridBagConstraints(0, 8, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+
 	}
 
 	private void registerComment() {
@@ -134,6 +143,10 @@ public class CriaContoAttendant extends Applet implements ActionListener {
 			stimulusText.setText("");
 			stimulus.append(stimulusString + "\n");
 		}
+	}
+	
+	private void registerPhaseChange() {
+		Controller.registerPhaseChange();
 	}
 
 	public void stop() {
