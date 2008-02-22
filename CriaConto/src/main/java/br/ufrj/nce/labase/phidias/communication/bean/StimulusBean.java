@@ -3,7 +3,8 @@ package br.ufrj.nce.labase.phidias.communication.bean;
 import br.ufrj.nce.labase.phidias.communication.container.AbstractActionContainer;
 
 public class StimulusBean extends AbstractActionContainer {
-	public static final Integer INVOCA_NPC = 1;
+	public static final Integer SHOW_NPC = 1;
+	public static final Integer CHANGE_PHASE = 2;
 
 	private String id;
 	private Integer sessionId;
