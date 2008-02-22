@@ -33,7 +33,7 @@ public class CriaContoAttendant extends Applet implements ActionListener {
 	private Image backgroundImage;
 	private TextField sessionText;
 	private TextField phaseText;
-	private TextField commentsText;
+	private TextArea commentsText;
 	private TextField stimulusText;
 	private TextArea comments;
 	private TextArea stimulus;
@@ -71,14 +71,16 @@ public class CriaContoAttendant extends Applet implements ActionListener {
 
 		moves = new TextArea();
 		moves.setRows(10);
-		moves.setColumns(100);
+		moves.setColumns(50);
 		moves.setEditable(false);
 		add(moves, new GridBagConstraints(0, 3, 3, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
 		Label commentsLabel = new Label("Entre com os comentarios");
 		add(commentsLabel, new GridBagConstraints(0, 4, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
-		commentsText = new TextField();
+		commentsText = new TextArea();
+		commentsText.setColumns(100);
+		commentsText.setRows(3);
 		commentsText.setPreferredSize(new Dimension(525, 20));
 		add(commentsText, new GridBagConstraints(1, 4, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
@@ -97,11 +99,11 @@ public class CriaContoAttendant extends Applet implements ActionListener {
 		add(comments, new GridBagConstraints(0, 5, 3, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
 		Label interventionsLabel = new Label("Entre com os estimulos do NPC:");
-		add(interventionsLabel, new GridBagConstraints(0, 4, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		add(interventionsLabel, new GridBagConstraints(0, 6, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
 		stimulusText = new TextField();
 		stimulusText.setPreferredSize(new Dimension(525, 20));
-		add(stimulusText, new GridBagConstraints(1, 5, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		add(stimulusText, new GridBagConstraints(1, 6, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
 		Button ok2 = new Button("OK");
 		ok2.addActionListener(new ActionListener() {
