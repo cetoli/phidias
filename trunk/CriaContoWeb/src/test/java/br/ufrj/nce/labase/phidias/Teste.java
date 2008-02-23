@@ -172,7 +172,7 @@ public class Teste {
 	private static void testeChamaRegistraEstimulo() {
 		StimulusBean estimuloContainer = new StimulusBean();
 		estimuloContainer.setPhaseId(1);
-		estimuloContainer.setStimulusTypeId(StimulusBean.INVOCA_NPC);
+		estimuloContainer.setStimulusTypeId(StimulusBean.SHOW_NPC);
 		estimuloContainer.setSessionId(1);
 		estimuloContainer.setStimulusText("OLÁ AMIGUINHO!");
 
