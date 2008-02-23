@@ -5,7 +5,7 @@ import br.ufrj.nce.labase.phidias.communication.bean.SessionResponseBean;
 public class Session {
 	private SessionResponseBean session;
 	private static Session instance;
-	private Integer actualPhase;
+	private Integer currentPhase = 0;
 
 	private Session() {
 	}
@@ -29,12 +29,16 @@ public class Session {
 		return session.getSessionId();
 	}
 
-	public Integer getActualPhase() {
+	public Integer getCurrentPhase() {
 		return 1;
 	}
 	
+	public void setCurrentPhase(Integer phase) {
+		currentPhase = phase;
+	}
+	
 	public void changePhase() {
-		actualPhase++;
+		currentPhase++;
 	}
 
 }

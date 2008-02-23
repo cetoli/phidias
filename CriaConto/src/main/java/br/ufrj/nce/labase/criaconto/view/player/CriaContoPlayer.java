@@ -15,10 +15,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 
-import javax.swing.JButton;
 import javax.swing.Timer;
 
 import br.ufrj.nce.criaconto.images.Images;
+import br.ufrj.nce.labase.common.MidiSound;
 import br.ufrj.nce.labase.criaconto.control.Controller;
 import br.ufrj.nce.labase.phidias.communication.CommunicationProtocol;
 import br.ufrj.nce.labase.phidias.communication.bean.StimulusBean;
@@ -27,12 +27,14 @@ import br.ufrj.nce.labase.phidias.controller.Session;
 import br.ufrj.nce.labase.phidias.view.Board;
 import br.ufrj.nce.labase.phidias.view.Piece;
 
-public class CriaContoPlayer extends Applet implements ActionListener {
+public class CriaContoPlayer extends Applet {
 	private static final long serialVersionUID = 1L;
 	private Board board;
     private Piece piece = null;  
     private LoginPanel loginPanel;
-    private Timer timer;	
+    private Timer stimulusTimer;	
+    private Timer gameStartTimer;
+    private int startSequence = 0;
     private MidiSound sound;
     
     
@@ -44,17 +46,16 @@ public class CriaContoPlayer extends Applet implements ActionListener {
     };
     
     public CriaContoPlayer() { 
-    	timer = new Timer(30000, this);
-    	timer.start();
+    	
 	}
 
     public void init() {
-		setSize(1088, 820);
+		setSize(1024, 820);
     	setBackground(Color.WHITE);
     	setLayout(new GridBagLayout());
 
     	loginPanel = new LoginPanel();
-    	loginPanel.setPreferredSize(new Dimension(1088, 830));
+    	loginPanel.setPreferredSize(new Dimension(1024, 830));
     	add(loginPanel, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
     	
     	loginPanel.addActionListener(new ActionListener() {
@@ -64,14 +65,16 @@ public class CriaContoPlayer extends Applet implements ActionListener {
     	});
     }
     
-    private void registerSession() {
-    	Controller.registerSession(1, 1, loginPanel.getLogin());
+    private boolean registerSession() {
+    	return Controller.registerSession(1, 1, loginPanel.getLogin());
     }
 
 	private void startGame() {
-		registerSession();
+		if (!registerSession()) {
+			return;
+		}
 		
-		setSize(1088, 820);
+		setSize(1024, 820);
     	removeAll();
 		
     	board = createBoard("tela inicial.jpg");
@@ -79,49 +82,15 @@ public class CriaContoPlayer extends Applet implements ActionListener {
         add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
         board.start();
         
-        Thread.sleep(1500);
-        
-        Image imageCorujaAsasAcima = Images.createImage("Asas_Acima.gif");
-		
-		Piece corujaAsasAcima = new Piece(board, imageCorujaAsasAcima, "Coruja asas acima", 1060, 15);
-		corujaAsasAcima.setBackground(false);
-		corujaAsasAcima.setRectangular(false);
-		
-		showNPC();
-		
-		firstPhase();
+        gameStartTimer = new Timer(1500, new GameStartTimer());
+        gameStartTimer.start();        
 	}
 
 	private void showNPC() throws InterruptedException {
-		Thread.sleep(1500);
-		
-		Image imageCorujaAsasMeio = Images.createImage("Asas_Meio.gif");
-		
-		Piece corujaAsasMeio = new Piece(board, imageCorujaAsasMeio, "Coruja asas meio", 860, 115);
-		corujaAsasMeio.setBackground(false);
-		corujaAsasMeio.setRectangular(false);
-		
-		Thread.sleep(1500);
-		
-		Image imageCorujaAsasAbaixo = Images.createImage("Asas_Abaixo.gif");
-		
-		Piece corujaAsasAbaixo = new Piece(board, imageCorujaAsasAbaixo, "Coruja asas abaixo", 720, 305);
-		corujaAsasAbaixo.setBackground(false);
-		corujaAsasAbaixo.setRectangular(false);
-		
-		Thread.sleep(1500);
-		
-		Image imageCorujaPouso = Images.createImage("Asas_Pouso.gif");
-		
-		Piece corujaPouso = new Piece(board, imageCorujaPouso, "Coruja pouso", 680, 375);
-		corujaPouso.setBackground(false);
-		corujaPouso.setRectangular(false);
-		
-		Thread.sleep(1500);
 	}
 	
 	private void firstPhase() {
-		setSize(1088, 820);
+		setSize(1024, 820);
     	removeAll();
 		
         board = createBoard("fundo.jpg");
@@ -130,8 +99,11 @@ public class CriaContoPlayer extends Applet implements ActionListener {
         putPersonagensOnBoard(true);
         board.start();
         
+        stimulusTimer = new Timer(10000, new StimulusTimer());
+    	stimulusTimer.start();
+        
         sound = new MidiSound("102.mid", true);
-        sound.start();
+        //sound.start();
 	}
     
     private Board createBoard(String backgroundImageName){
@@ -142,8 +114,6 @@ public class CriaContoPlayer extends Applet implements ActionListener {
 	public final void putImagesOnBoard(String[] images, Inc inc, int x, int y) {
 		for (String nomeImage : images) {
 			piece = new Piece(board, Images.createImage(nomeImage), nomeImage, x, y);
-			piece.setBackground(false);
-			piece.setRectangular(false);
 			
 			y = inc.incY(y);
 			x = inc.incX(x);
@@ -163,9 +133,6 @@ public class CriaContoPlayer extends Applet implements ActionListener {
 		for (Scene cenario : scenes) {
 			piece = new ScenicItem(board, Images.createImage(cenario.getName() + ".gif"), cenario.getName(), Images.createImage(cenario.getName() + "_grande.gif"), x, y, cenario.getX(), cenario.getY());
 			
-			piece.setBackground(false);
-			piece.setRectangular(false);
-			
 			y = inc.incY(y);
 			x = inc.incX(x);
 	    } 
@@ -183,9 +150,6 @@ public class CriaContoPlayer extends Applet implements ActionListener {
 		
 		for (String personagem : characters) {
 			piece = new Character(board, Images.createImage(personagem + ".gif"), personagem, x, y);				
-			
-			piece.setBackground(background);
-			piece.setRectangular(false);
 			
 			y = inc.incY(y);
 			x = inc.incX(x);
@@ -211,31 +175,17 @@ public class CriaContoPlayer extends Applet implements ActionListener {
 	}
 
 	public void putAnimaisOnBoard() {
-		Image image = Images.createImage("passarinho.gif");
-			
+		Image image = Images.createImage("passarinho.gif");			
 		Piece piece = new Piece(board, image, "passarinho", 480, 110);
-		piece.setBackground(false);
-		piece.setRectangular(false);
 		
-		Image image2 = Images.createImage("veado.gif");
-		
+		Image image2 = Images.createImage("veado.gif");		
 		Piece piece2 = new Piece(board, image2, "veado", 110, 430);
-		piece2.setBackground(false);
-		piece2.setRectangular(false);
-
 		
-		Image image3 = Images.createImage("cachorrinho.gif");
-		
+		Image image3 = Images.createImage("cachorrinho.gif");		
 		Piece piece3 = new Piece(board, image3, "cachorrinho", 800, 390);
-		piece3.setBackground(false);
-		piece3.setRectangular(false);
-
-		
-		Image image4 = Images.createImage("esquilo_no_balde.gif");
-		
+				
+		Image image4 = Images.createImage("esquilo_no_balde.gif");		
 		Piece piece4 = new Piece(board, image4, "esquilo_no_balse", 580, 300);
-		piece4.setBackground(false);
-		piece4.setRectangular(false);     
     }
 	
 	/**Main method*/
@@ -266,37 +216,89 @@ public class CriaContoPlayer extends Applet implements ActionListener {
 		frame.setLocation((d.width - frame.getSize().width) / 2, (d.height - frame.getSize().height) / 2);
 		frame.setVisible(true);
 	}
-  
-	public void actionPerformed(ActionEvent arg0) {
-		StimulusBean stimulus = new StimulusBean();
-		stimulus.setPhaseId(Session.getInstance().getActualPhase());
-		stimulus.setSessionId(Session.getInstance().getId());
-
-		StimulusResponseBean response = (StimulusResponseBean) CommunicationProtocol.execute(CommunicationProtocol.GET_NEXT_STIMULUS_ACTION, stimulus);
-		Integer stimulusType = response.getStimulusTypeId();
-		if (stimulusType != null) {
-			if (stimulusType == StimulusBean.SHOW_NPC) {
-				showNPC();
-			} else if (stimulusType == StimulusBean.CHANGE_PHASE) {
-				if (Session.getInstance().getActualPhase() == 1) {
-					setSize(1048, 820);
-			    	removeAll();
 	
-			    	board = createBoard("fundo2.jpg");
-			    	
-			        add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
-			        putCenariosOnBoard();
-			        putPersonagensOnBoard(false);
-			        putAnimaisOnBoard();
-			        board.start();
-			        
-			        Session.getInstance().changePhase();
+	private class GameStartTimer implements ActionListener {
+		private Piece corujaAsasAcima;
+		private Piece corujaAsasMeio;
+		private Piece corujaAsasAbaixo;
+		private Piece corujaPouso;
+		
+		public void actionPerformed(ActionEvent arg0) {	
+			try {
+				switch (startSequence) {
+					case 0:
+						Image imageCorujaAsasAcima = Images.createImage("Asas_Acima.gif");    		
+						corujaAsasAcima = new Piece(board, imageCorujaAsasAcima, "Coruja asas acima", 800, 15);
+			    		startSequence++;
+			    		break;
+					case 1:
+						board.removeSpriteFromList(corujaAsasAcima);
+						board.removeSpritesFromListNow();
+			    		Image imageCorujaAsasMeio = Images.createImage("Asas_Meio.gif");		
+						corujaAsasMeio = new Piece(board, imageCorujaAsasMeio, "Coruja asas meio", 660, 115);
+						startSequence++;
+			    		break;
+					case 2:
+						board.removeSpriteFromList(corujaAsasMeio);
+						board.removeSpritesFromListNow();
+			    		Image imageCorujaAsasAbaixo = Images.createImage("Asas_Abaixo.gif");		
+						corujaAsasAbaixo = new Piece(board, imageCorujaAsasAbaixo, "Coruja asas abaixo", 420, 305);
+						startSequence++;
+			    		break;
+					case 3:
+						board.removeSpriteFromList(corujaAsasAbaixo);
+						board.removeSpritesFromListNow();
+			    		Image imageCorujaPouso = Images.createImage("Asas_Pouso.gif");		
+						corujaPouso = new Piece(board, imageCorujaPouso, "Coruja pouso", 280, 375);
+						startSequence++;
+						break;
+					case 4:
+						gameStartTimer.stop();
+						gameStartTimer = null;
+						firstPhase();
+		        	}
+		        } catch (Exception e) {
+		        	e.printStackTrace();
+		        }
+		}
+	}
+	private class StimulusTimer implements ActionListener {  
+		public void actionPerformed(ActionEvent arg0) {			
+			StimulusBean stimulus = new StimulusBean();
+			
+			stimulus.setPhaseId(Session.getInstance().getCurrentPhase());
+			stimulus.setSessionId(Session.getInstance().getId());
+	
+			StimulusResponseBean response = (StimulusResponseBean) CommunicationProtocol.execute(CommunicationProtocol.GET_NEXT_STIMULUS_ACTION, stimulus);
+			Integer stimulusType = response.getStimulusTypeId();
+			if (stimulusType != null) {
+				if (stimulusType.compareTo(StimulusBean.SHOW_NPC) == 0) {
+					try {
+						showNPC();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				} else if (stimulusType.compareTo(StimulusBean.CHANGE_PHASE) == 0) {
+					if (Session.getInstance().getCurrentPhase() == 1) {
+						setSize(1048, 820);
+				    	removeAll();
+		
+				    	board = createBoard("fundo2.jpg");
+				    	
+				        add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
+				        putCenariosOnBoard();
+				        putPersonagensOnBoard(false);
+				        putAnimaisOnBoard();
+				        board.start();
+				        
+				        Session.getInstance().changePhase();
+					}
 				}
 			}
 		}
 	}
 	
-	class Inc {
+	private class Inc {
 		int incX(int i) {
 			return i;
 		}

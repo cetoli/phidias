@@ -31,6 +31,8 @@ public class Piece extends Sprite {
 
 		setDirection(0);
 		setSpeed(0);
+		setBackground(false);
+		setRectangular(false);		
 	}
 	
 	public void mouseDrag(Event evt, int x, int y) {

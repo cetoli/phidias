@@ -27,6 +27,9 @@ import br.ufrj.nce.labase.criaconto.control.Controller;
 import br.ufrj.nce.labase.phidias.communication.CommunicationProtocol;
 import br.ufrj.nce.labase.phidias.communication.bean.EventBean;
 import br.ufrj.nce.labase.phidias.communication.bean.EventResponseBean;
+import br.ufrj.nce.labase.phidias.communication.bean.SessionBean;
+import br.ufrj.nce.labase.phidias.communication.bean.SessionResponseBean;
+import br.ufrj.nce.labase.phidias.controller.Session;
 
 public class CriaContoAttendant extends Applet implements ActionListener {
 	private static final long serialVersionUID = 1L;
@@ -66,6 +69,17 @@ public class CriaContoAttendant extends Applet implements ActionListener {
 		phaseText.setPreferredSize(new Dimension(20, 20));
 		add(phaseText, new GridBagConstraints(1, 1, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
+		Button entrar = new Button("Entrar");
+		entrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SessionResponseBean bean = new SessionResponseBean();
+				bean.setSessionId(Integer.valueOf(sessionText.getText().trim()));
+				Session.getInstance().setSessionBean(bean);
+				Session.getInstance().setCurrentPhase(Integer.valueOf(phaseText.getText().trim()));
+			}
+		});
+		add(entrar, new GridBagConstraints(2, 1, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		
 		Label movesLabel = new Label("Jogadas do paciente");
 		add(movesLabel, new GridBagConstraints(0, 2, 3, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
@@ -160,6 +174,7 @@ public class CriaContoAttendant extends Applet implements ActionListener {
 
 	public void paint(Graphics g) {
 		super.paint(g);
+		System.out.println("backgroud = " + backgroundImage);
 		g.drawImage(backgroundImage, 0, 0, null);
 	}
 
@@ -193,14 +208,16 @@ public class CriaContoAttendant extends Applet implements ActionListener {
 		frame.setVisible(true);
 	}
 
-	public void actionPerformed(ActionEvent arg0) {
+	public void actionPerformed(ActionEvent arg0) {		
+		if (Session.getInstance().getId() == null || Session.getInstance().getCurrentPhase() != null) {
+			return;
+		}
+		
 		EventBean event = new EventBean();
-		Integer phaseId = ((phaseText.getText() != null && phaseText.getText().trim().length() > 0) ? new Integer(phaseText.getText()) : null);
-		Integer sessionId = ((sessionText.getText() != null && phaseText.getText().trim().length() > 0) ? new Integer(sessionText.getText()) : null);
-		event.setPhaseId(phaseId);
-		event.setSessionId(sessionId);
+		event.setPhaseId(Session.getInstance().getCurrentPhase());
+		event.setSessionId(Session.getInstance().getId());
 
-		if (phaseId != null && sessionId != null) {
+		if (event.getSessionId() != null && event.getPhaseId() != null) {
 			EventResponseBean response = (EventResponseBean) CommunicationProtocol.execute(CommunicationProtocol.GET_MOVES_ACTION, event);
 			if (response != null && response.getMoves() != null && response.getMoves().size() > 0) {
 				for (String move : response.getMoves()) {

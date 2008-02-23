@@ -15,7 +15,7 @@ public class Controller {
 		sendDataToServer = send;
 	}
 	
-	public static void registerSession(int attendant, int game, String patient) {
+	public static boolean registerSession(int attendant, int game, String patient) {
 		if (sendDataToServer) {
 			SessionBean sessaoContainer = new SessionBean();
 			sessaoContainer.setAttendantId(attendant);
@@ -25,13 +25,20 @@ public class Controller {
 			SessionResponseBean sessionBean = 
 				(SessionResponseBean) CommunicationProtocol.execute(CommunicationProtocol.REGISTER_SESSION_ACTION, sessaoContainer);
 			
-			Session.getInstance().setSessionBean(sessionBean);
+			if (sessionBean != null) {
+				Session.getInstance().setSessionBean(sessionBean);
+				return true;
+			}
+			
+			return false;
 		} 
+		
+		return true;
 	}
 	
 	public static void registerGiveUpEvent(long time, String object) {
 		EventBean eventoContainer = new EventBean();
-		eventoContainer.setPhaseId(Session.getInstance().getActualPhase());
+		eventoContainer.setPhaseId(Session.getInstance().getCurrentPhase());
 		eventoContainer.setActionTypeId(EventBean.GIVE_UP_EVENT);
 		eventoContainer.setSessionId(Session.getInstance().getId());
 		eventoContainer.setObject1(object);
@@ -46,7 +53,7 @@ public class Controller {
 	public static void registerTakeFromSceneEvent(long time, String object) {
 		if (sendDataToServer) {
 			EventBean eventoContainer = new EventBean();
-			eventoContainer.setPhaseId(Session.getInstance().getActualPhase());
+			eventoContainer.setPhaseId(Session.getInstance().getCurrentPhase());
 			eventoContainer.setActionTypeId(EventBean.TAKE_FROM_SCENE_EVENT);
 			eventoContainer.setSessionId(Session.getInstance().getId());
 			eventoContainer.setObject1(object);
@@ -60,7 +67,7 @@ public class Controller {
 	public static void registerMoveOnSceneEvent(long time, String object) {
 		if (sendDataToServer) {
 			EventBean eventoContainer = new EventBean();
-			eventoContainer.setPhaseId(Session.getInstance().getActualPhase());
+			eventoContainer.setPhaseId(Session.getInstance().getCurrentPhase());
 			eventoContainer.setActionTypeId(EventBean.MOVE_ON_SCENE_EVENT);
 			eventoContainer.setSessionId(Session.getInstance().getId());
 			eventoContainer.setObject1(object);
@@ -74,7 +81,7 @@ public class Controller {
 	public static void registerPutOnSceneEvent(long time, String object) {
 		if (sendDataToServer) {
 			EventBean eventoContainer = new EventBean();
-			eventoContainer.setPhaseId(Session.getInstance().getActualPhase());
+			eventoContainer.setPhaseId(Session.getInstance().getCurrentPhase());
 			eventoContainer.setActionTypeId(EventBean.PUT_ON_SCENE_EVENT);
 			eventoContainer.setSessionId(Session.getInstance().getId());
 			eventoContainer.setObject1(object);
@@ -88,7 +95,7 @@ public class Controller {
 	public static void registerCollisionEvent(String object1, String object2) {
 		if (sendDataToServer) {
 			EventBean eventoContainer = new EventBean();
-			eventoContainer.setPhaseId(Session.getInstance().getActualPhase());
+			eventoContainer.setPhaseId(Session.getInstance().getCurrentPhase());
 			eventoContainer.setActionTypeId(EventBean.COLLISION_EVENT);
 			eventoContainer.setSessionId(Session.getInstance().getId());
 			eventoContainer.setObject1(object1);
@@ -103,8 +110,8 @@ public class Controller {
 	public static boolean registerComment(String comment) {
 		if (sendDataToServer) {
 			CommentBean commentContainer = new CommentBean();
-			commentContainer.setPhaseId(1);
-			commentContainer.setSessionId(1);
+			commentContainer.setPhaseId(Session.getInstance().getCurrentPhase());
+			commentContainer.setSessionId(Session.getInstance().getId());
 			commentContainer.setCommentText(comment);
 
 			CommunicationProtocol.execute(CommunicationProtocol.REGISTER_COMMENT_ACTION, commentContainer);
@@ -116,9 +123,9 @@ public class Controller {
 	public static boolean registerStimulus(String stimulus) {
 		if (sendDataToServer) {
 			StimulusBean stimulusContainer = new StimulusBean();
-			stimulusContainer.setPhaseId(1);
+			stimulusContainer.setPhaseId(Session.getInstance().getCurrentPhase());
 			stimulusContainer.setStimulusTypeId(StimulusBean.SHOW_NPC);
-			stimulusContainer.setSessionId(1);
+			stimulusContainer.setSessionId(Session.getInstance().getId());
 			stimulusContainer.setStimulusText(stimulus);
 
 			CommunicationProtocol.execute(CommunicationProtocol.REGISTER_STIMULUS_ACTION, stimulusContainer);
@@ -130,9 +137,9 @@ public class Controller {
 	public static boolean registerPhaseChange() {
 		if (sendDataToServer) {
 			StimulusBean stimulusContainer = new StimulusBean();
-			stimulusContainer.setPhaseId(1);
+			stimulusContainer.setPhaseId(Session.getInstance().getCurrentPhase());
 			stimulusContainer.setStimulusTypeId(StimulusBean.CHANGE_PHASE);
-			stimulusContainer.setSessionId(1);
+			stimulusContainer.setSessionId(Session.getInstance().getId());
 			stimulusContainer.setStimulusText("mudanca de fase");
 
 			CommunicationProtocol.execute(CommunicationProtocol.REGISTER_STIMULUS_ACTION, stimulusContainer);
