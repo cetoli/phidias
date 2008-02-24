@@ -107,7 +107,7 @@ public class CriaContoPlayer extends Applet {
     	stimulusTimer.start();
         
         sound = new MidiSound("102.mid", true);
-        //sound.start();
+        sound.start();
 	}
     
     private Board createBoard(String backgroundImageName){
@@ -154,6 +154,7 @@ public class CriaContoPlayer extends Applet {
 		
 		for (String personagem : characters) {
 			piece = new Character(board, Images.createImage(personagem + ".gif"), personagem, x, y);				
+			piece.setBackground(true);
 			
 			y = inc.incY(y);
 			x = inc.incX(x);
@@ -233,7 +234,7 @@ public class CriaContoPlayer extends Applet {
 				switch (startSequence) {
 					case 0:
 						Image imageCorujaAsasAcima = Images.createImage("Asas_Acima.gif");    		
-						corujaAsasAcima = new Piece(board, imageCorujaAsasAcima, "Coruja asas acima", 950, 15);
+						corujaAsasAcima = new Piece(board, imageCorujaAsasAcima, "Coruja asas acima", 930, 15);
 			    		startSequence++;
 			    		break;
 					case 1:
