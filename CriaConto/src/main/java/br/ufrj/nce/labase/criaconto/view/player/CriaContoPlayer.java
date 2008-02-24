@@ -74,16 +74,20 @@ public class CriaContoPlayer extends Applet {
 			return;
 		}
 		
-		setSize(1024, 820);
-    	removeAll();
-		
-    	board = createBoard("tela_inicial.jpg");
-    	
-        add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
-        board.start();
+		createInitialBackground("tela_inicial.jpg");
         
         gameStartTimer = new Timer(1500, new GameStartTimer());
         gameStartTimer.start();        
+	}
+
+	private void createInitialBackground(String backgroundImage) {
+		setSize(1024, 820);
+    	removeAll();
+		
+    	board = createBoard(backgroundImage);
+    	
+        add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
+        board.start();
 	}
 
 	private void showNPC() throws InterruptedException {
@@ -222,37 +226,79 @@ public class CriaContoPlayer extends Applet {
 		private Piece corujaAsasMeio;
 		private Piece corujaAsasAbaixo;
 		private Piece corujaPouso;
+		private Piece corujaPousoFala;
 		
 		public void actionPerformed(ActionEvent arg0) {	
 			try {
 				switch (startSequence) {
 					case 0:
 						Image imageCorujaAsasAcima = Images.createImage("Asas_Acima.gif");    		
-						corujaAsasAcima = new Piece(board, imageCorujaAsasAcima, "Coruja asas acima", 800, 15);
+						corujaAsasAcima = new Piece(board, imageCorujaAsasAcima, "Coruja asas acima", 950, 15);
 			    		startSequence++;
 			    		break;
 					case 1:
 						board.removeSpriteFromList(corujaAsasAcima);
 						board.removeSpritesFromListNow();
 			    		Image imageCorujaAsasMeio = Images.createImage("Asas_Meio.gif");		
-						corujaAsasMeio = new Piece(board, imageCorujaAsasMeio, "Coruja asas meio", 660, 115);
+						corujaAsasMeio = new Piece(board, imageCorujaAsasMeio, "Coruja asas meio", 750, 85);
 						startSequence++;
 			    		break;
 					case 2:
 						board.removeSpriteFromList(corujaAsasMeio);
 						board.removeSpritesFromListNow();
 			    		Image imageCorujaAsasAbaixo = Images.createImage("Asas_Abaixo.gif");		
-						corujaAsasAbaixo = new Piece(board, imageCorujaAsasAbaixo, "Coruja asas abaixo", 420, 305);
+						corujaAsasAbaixo = new Piece(board, imageCorujaAsasAbaixo, "Coruja asas abaixo", 600, 155);
 						startSequence++;
 			    		break;
 					case 3:
 						board.removeSpriteFromList(corujaAsasAbaixo);
 						board.removeSpritesFromListNow();
 			    		Image imageCorujaPouso = Images.createImage("Asas_Pouso.gif");		
-						corujaPouso = new Piece(board, imageCorujaPouso, "Coruja pouso", 280, 375);
+						corujaPouso = new Piece(board, imageCorujaPouso, "Coruja pouso", 505, 205);
 						startSequence++;
 						break;
 					case 4:
+						board.removeSpriteFromList(corujaPouso);
+						board.removeSpritesFromListNow();
+			    		Image imageCorujaPousoFala = Images.createImage("Asas_Pouso_Fala.gif");		
+						corujaPousoFala = new Piece(board, imageCorujaPousoFala, "Coruja pouso fala", 505, 205);
+						startSequence++;
+						break;
+					case 5:
+						startSequence++;
+						break;
+					case 6:
+						startSequence++;
+						break;
+					case 7:
+						startSequence++;
+						break;
+					case 8:
+						board.removeSpriteFromList(corujaPousoFala);
+						board.removeSpritesFromListNow();
+			    		imageCorujaPouso = Images.createImage("Asas_Pouso.gif");		
+						corujaPouso = new Piece(board, imageCorujaPouso, "Coruja pouso", 505, 205);
+						startSequence++;
+						break;
+					case 9:
+						board.setBackgroundImage("tela_inicial3.jpg");
+						imageCorujaPouso = Images.createImage("Asas_Pouso.gif");		
+						corujaPouso = new Piece(board, imageCorujaPouso, "Coruja pouso", 505, 205);
+						startSequence++;
+						break;
+					case 10:
+						board.setBackgroundImage("tela_inicial4.jpg");
+						imageCorujaPouso = Images.createImage("Asas_Pouso.gif");		
+						corujaPouso = new Piece(board, imageCorujaPouso, "Coruja pouso", 505, 205);
+						startSequence++;
+						break;
+					case 11:
+						board.setBackgroundImage("tela_inicial3.jpg");
+						imageCorujaPouso = Images.createImage("Asas_Pouso.gif");		
+						corujaPouso = new Piece(board, imageCorujaPouso, "Coruja pouso", 505, 205);
+						startSequence++;
+						break;
+					case 12:
 						gameStartTimer.stop();
 						gameStartTimer = null;
 						firstPhase();
