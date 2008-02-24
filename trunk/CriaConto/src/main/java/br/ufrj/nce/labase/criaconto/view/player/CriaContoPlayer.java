@@ -77,7 +77,7 @@ public class CriaContoPlayer extends Applet {
 		setSize(1024, 820);
     	removeAll();
 		
-    	board = createBoard("tela inicial.jpg");
+    	board = createBoard("tela_inicial.jpg");
     	
         add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
         board.start();
