@@ -34,8 +34,10 @@ public class CriaContoPlayer extends Applet {
     private LoginPanel loginPanel;
     private Timer stimulusTimer;	
     private Timer gameStartTimer;
+    private Timer npcTimer;
     private int startSequence = 0;
     private MidiSound sound;
+    private Piece npc;
     
     
     static final String characters[] = {
@@ -91,6 +93,11 @@ public class CriaContoPlayer extends Applet {
 	}
 
 	private void showNPC() throws InterruptedException {
+		Image npcImage = Images.createImage("Asas_Pouso_Fala.gif");		
+		Piece npc = new Piece(board, npcImage, "npc", 800, 105);
+		
+		npcTimer = new Timer(5000, new NPCTimer());
+		npcTimer.start();
 	}
 	
 	private void firstPhase() {
@@ -220,6 +227,14 @@ public class CriaContoPlayer extends Applet {
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		frame.setLocation((d.width - frame.getSize().width) / 2, (d.height - frame.getSize().height) / 2);
 		frame.setVisible(true);
+	}
+	
+	private class NPCTimer implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {	
+			board.removeSpriteFromList(npc);
+			board.removeSpritesFromListNow();
+		}
+		
 	}
 	
 	private class GameStartTimer implements ActionListener {
