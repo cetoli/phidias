@@ -20,6 +20,7 @@ import javax.swing.Timer;
 import br.ufrj.nce.criaconto.images.Images;
 import br.ufrj.nce.labase.common.MidiSound;
 import br.ufrj.nce.labase.criaconto.control.Controller;
+import br.ufrj.nce.labase.criaconto.view.LoginPanel;
 import br.ufrj.nce.labase.phidias.communication.CommunicationProtocol;
 import br.ufrj.nce.labase.phidias.communication.bean.StimulusBean;
 import br.ufrj.nce.labase.phidias.communication.bean.StimulusResponseBean;
@@ -57,25 +58,25 @@ public class CriaContoPlayer extends Applet {
     	setLayout(new GridBagLayout());
 
     	loginPanel = new LoginPanel();
-    	loginPanel.setPreferredSize(new Dimension(1024, 830));
+    	loginPanel.setPreferredSize(new Dimension(1024, 820));
     	add(loginPanel, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
     	
     	loginPanel.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
-    			startGame();
+    			if (joinSession()) {
+    				startGame();
+    			} else {
+    				throw new RuntimeException("Nao havia aplicador disponivel!");
+    			}
     		}
     	});
     }
     
-    private boolean registerSession() {
-    	return Controller.registerSession(1, 1, loginPanel.getLogin());
+    private boolean joinSession() {
+    	return Controller.joinSession(loginPanel.getLogin(), LoginPanel.CRIA_CONTO);
     }
 
-	private void startGame() {
-		if (!registerSession()) {
-			return;
-		}
-		
+	private void startGame() {		
 		createInitialBackground("tela_inicial.jpg");
         
         gameStartTimer = new Timer(1500, new GameStartTimer());
@@ -161,7 +162,7 @@ public class CriaContoPlayer extends Applet {
 		
 		for (String personagem : characters) {
 			piece = new Character(board, Images.createImage(personagem + ".gif"), personagem, x, y);				
-			piece.setBackground(true);
+			piece.setBackground(background);
 			
 			y = inc.incY(y);
 			x = inc.incX(x);
@@ -352,8 +353,6 @@ public class CriaContoPlayer extends Applet {
 				        putPersonagensOnBoard(false);
 				        putAnimaisOnBoard();
 				        board.start();
-				        
-				        Session.getInstance().changePhase();
 					}
 				}
 			}
