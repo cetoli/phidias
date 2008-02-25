@@ -26,12 +26,9 @@ import javax.swing.Timer;
 import br.ufrj.nce.criaconto.images.Images;
 import br.ufrj.nce.labase.criaconto.control.Controller;
 import br.ufrj.nce.labase.criaconto.view.LoginPanel;
-import br.ufrj.nce.labase.phidias.communication.CommunicationProtocol;
-import br.ufrj.nce.labase.phidias.communication.bean.EventBean;
 import br.ufrj.nce.labase.phidias.communication.bean.EventResponseBean;
-import br.ufrj.nce.labase.phidias.controller.Session;
 
-public class CriaContoAttendant extends Applet implements ActionListener {
+public class CriaContoAttendant extends Applet {
 	private static final long serialVersionUID = 1L;
 	private Image backgroundImage;
 	private TextArea commentsText;
@@ -39,12 +36,12 @@ public class CriaContoAttendant extends Applet implements ActionListener {
 	private TextArea comments;
 	private TextArea stimulus;
 	private TextArea moves;
-	private Timer timer;
+	private Timer movesTimer;
 	private LoginPanel loginPanel;
 
 	public CriaContoAttendant() {
-		timer = new Timer(2000, this);
-		timer.start();
+		movesTimer = new Timer(2000, new MovesTimer());
+		movesTimer.start();
 	}
 
 	public void init() {
@@ -54,7 +51,7 @@ public class CriaContoAttendant extends Applet implements ActionListener {
 		
 		loginPanel = new LoginPanel();
     	loginPanel.setPreferredSize(new Dimension(1024, 820));
-    	add(loginPanel, BorderLayout.CENTER);//new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+    	add(loginPanel, BorderLayout.CENTER);
     	
     	loginPanel.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
@@ -223,17 +220,9 @@ public class CriaContoAttendant extends Applet implements ActionListener {
 		frame.setVisible(true);
 	}
 
-	public void actionPerformed(ActionEvent arg0) {		
-		if (Session.getInstance().getId() == null || Session.getInstance().getCurrentPhase() != null) {
-			return;
-		}
-		
-		EventBean event = new EventBean();
-		event.setPhaseId(Session.getInstance().getCurrentPhase());
-		event.setSessionId(Session.getInstance().getId());
-
-		if (event.getSessionId() != null && event.getPhaseId() != null) {
-			EventResponseBean response = (EventResponseBean) CommunicationProtocol.execute(CommunicationProtocol.GET_MOVES_ACTION, event);
+	private class MovesTimer implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {		
+			EventResponseBean response = Controller.getMoves();
 			if (response != null && response.getMoves() != null && response.getMoves().size() > 0) {
 				for (String move : response.getMoves()) {
 					moves.append(move + "\n");
