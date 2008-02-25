@@ -19,7 +19,11 @@ public class Session implements java.io.Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@javax.persistence.Column(name = "ses_id_sessao", length = 10, nullable = false)
 	private Integer id;
-
+	/**
+	 * @generated
+	 */
+	@javax.persistence.Column(name = "ses_id_status", length = 10, nullable = false)
+	private int status;
 	/**
 	 * @generated
 	 */
@@ -29,8 +33,8 @@ public class Session implements java.io.Serializable {
 	/**
 	 * @generated
 	 */
-	@javax.persistence.ManyToOne(optional = false)
-	@javax.persistence.JoinColumn(name = "pac_id_login", nullable = false)
+	@javax.persistence.ManyToOne(optional = true)
+	@javax.persistence.JoinColumn(name = "pac_id_login", nullable = true)
 	private Patient patient;
 	/**
 	 * @generated
@@ -42,7 +46,7 @@ public class Session implements java.io.Serializable {
 	 * @generated
 	 */
 	@javax.persistence.ManyToOne(optional = false)
-	@javax.persistence.JoinColumn(name = "apl_id_aplicador", nullable = false)
+	@javax.persistence.JoinColumn(name = "apl_id_login", nullable = false)
 	private Attendant attendant;
 	/**
 	 * @generated
@@ -155,5 +159,13 @@ public class Session implements java.io.Serializable {
 
 	public void setSessionEndDate(java.util.Date sessionEndDate) {
 		this.sessionEndDate = sessionEndDate;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public int getStatus() {
+		return status;
 	}
 }

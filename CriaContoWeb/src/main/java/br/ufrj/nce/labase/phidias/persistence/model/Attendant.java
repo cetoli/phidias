@@ -14,8 +14,8 @@ public class Attendant implements java.io.Serializable {
 	 */
 	@javax.persistence.Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@javax.persistence.Column(name = "apl_id_aplicador", length = 10, nullable = false)
-	private Integer id;
+	@javax.persistence.Column(name = "apl_id_login", length = 10, nullable = false)
+	private String id;
 	/**
 	 * @generated
 	 */
@@ -40,14 +40,14 @@ public class Attendant implements java.io.Serializable {
 	/**
 	 * @generated
 	 */
-	public Integer getId() {
+	public String getId() {
 		return this.id;
 	}
 
 	/**
 	 * @generated
 	 */
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
