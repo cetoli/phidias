@@ -18,6 +18,11 @@ import br.ufrj.nce.labase.phidias.persistence.model.SessionGamePhase;
 import br.ufrj.nce.labase.phidias.persistence.model.SessionGamePhaseId;
 
 public class SessionBusiness {
+	
+	private final int WAITING_FOR_PATIENT = 0;
+	private final int ON_GOING_GAME = 1;
+	private final int GAME_OVER = 2;
+	
 	public Session registerSession(SessionBean sessionContainer) {
 		if (sessionContainer != null) {
 
@@ -30,16 +35,44 @@ public class SessionBusiness {
 			AttendantDAO aDAO = new AttendantDAO();
 			session.setAttendant(aDAO.findById(Attendant.class, sessionContainer.getAttendantId()));
 
-			PatientDAO pDAO = new PatientDAO();
-			session.setPatient(pDAO.findById(Patient.class, sessionContainer.getPatientId()));
-
 			GameDAO gDAO = new GameDAO();
 			session.setGame(gDAO.findById(Game.class, sessionContainer.getGameId()));
 
 			session.setSessionStartDate(new Date());
+			session.setStatus(WAITING_FOR_PATIENT);
 
 			SessionDAO sesDao = new SessionDAO();
 			sesDao.create(session);
+
+			EntityManagerHelper.getInstance().commitTransaction();
+
+			return session;
+		}
+		throw new RuntimeException("Null parameter not allowed!");
+	}
+	
+	public Session joinSession(SessionBean sessionContainer) {
+		if (sessionContainer != null) {
+
+			if (sessionContainer.getId() != null)
+				throw new RuntimeException("Session id cannot be set, it is created automatically!");
+
+			EntityManagerHelper.getInstance().startTransaction();
+			
+			PatientDAO pDAO = new PatientDAO();
+			Patient p = pDAO.findById(Patient.class, sessionContainer.getPatientId());
+			
+			SessionDAO sDAO = new SessionDAO();
+			Session session = sDAO.findByStatus(WAITING_FOR_PATIENT);
+			
+			if (session == null) {
+				throw new RuntimeException("No attendant online!");
+			}
+			
+			session.setPatient(p);
+			session.setStatus(ON_GOING_GAME);
+
+			sDAO.update(session);
 
 			EntityManagerHelper.getInstance().commitTransaction();
 
@@ -59,6 +92,7 @@ public class SessionBusiness {
 			SessionDAO sDAO = new SessionDAO();
 			Session session = sDAO.findById(Session.class, sessionContainer.getId());
 			session.setSessionEndDate(new Date());
+			session.setStatus(GAME_OVER);
 
 			EntityManagerHelper.getInstance().commitTransaction();
 
