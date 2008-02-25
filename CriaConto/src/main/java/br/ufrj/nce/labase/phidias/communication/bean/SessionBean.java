@@ -6,8 +6,9 @@ import br.ufrj.nce.labase.phidias.communication.container.AbstractActionContaine
 public class SessionBean extends AbstractActionContainer {
 	private Integer id;
 	private String patientId;
-	private Integer attendantId;
+	private String attendantId;
 	private Integer gameId;
+	private Integer status;
 
 	public Integer getId() {
 		return id;
@@ -25,11 +26,11 @@ public class SessionBean extends AbstractActionContainer {
 		this.patientId = patientId;
 	}
 
-	public Integer getAttendantId() {
+	public String getAttendantId() {
 		return attendantId;
 	}
 
-	public void setAttendantId(Integer attendantId) {
+	public void setAttendantId(String attendantId) {
 		this.attendantId = attendantId;
 	}
 
@@ -39,5 +40,13 @@ public class SessionBean extends AbstractActionContainer {
 
 	public void setGameId(Integer gameId) {
 		this.gameId = gameId;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public Integer getStatus() {
+		return status;
 	}
 }
