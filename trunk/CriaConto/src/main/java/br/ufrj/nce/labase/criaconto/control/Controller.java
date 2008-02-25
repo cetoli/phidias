@@ -10,72 +10,72 @@ import br.ufrj.nce.labase.phidias.communication.bean.StimulusBean;
 import br.ufrj.nce.labase.phidias.controller.Session;
 
 public class Controller {
-	private static boolean sendDataToServer = false;
-	
+	private static boolean sendDataToServer = true;
+
 	public static void setSendDataToServer(boolean send){
 		sendDataToServer = send;
 	}
-	
+
 	public static boolean registerSession(String attendant, int game) {
 		if (sendDataToServer) {
 			SessionBean sessionContainer = new SessionBean();
 			sessionContainer.setAttendantId(attendant);
 			sessionContainer.setGameId(game);
-			
-			SessionResponseBean sessionBean = 
+
+			SessionResponseBean sessionBean =
 				(SessionResponseBean) CommunicationProtocol.execute(CommunicationProtocol.REGISTER_SESSION_ACTION, sessionContainer);
-			
+
 			if (sessionBean != null) {
 				Session.getInstance().setSessionBean(sessionBean);
 				return true;
 			}
-			
+
 			return false;
-		} 
-		
+		}
+
 		return true;
 	}
-	
+
 	public static boolean registerSessionEnd(int game) {
 		if (sendDataToServer) {
 			SessionBean sessionContainer = new SessionBean();
 			sessionContainer.setId(Session.getInstance().getId());
 			sessionContainer.setGameId(game);
-			
-			SessionResponseBean sessionBean = 
+
+			SessionResponseBean sessionBean =
 				(SessionResponseBean) CommunicationProtocol.execute(CommunicationProtocol.REGISTER_SESSION_END_ACTION, sessionContainer);
-			
+
 			if (sessionBean != null) {
 				Session.getInstance().setSessionBean(sessionBean);
 				return true;
 			}
-			
+
 			return false;
-		} 
-		
+		}
+
 		return true;
 	}
-	
+
 	public static boolean joinSession(String patient, int game) {
 		if (sendDataToServer) {
 			SessionBean sessaoContainer = new SessionBean();
 			sessaoContainer.setGameId(game);
 			sessaoContainer.setPatientId(patient);
-			
-			SessionResponseBean sessionBean = 
+
+			SessionResponseBean sessionBean =
 				(SessionResponseBean) CommunicationProtocol.execute(CommunicationProtocol.JOIN_SESSION_ACTION, sessaoContainer);
-			
+
 			if (sessionBean != null) {
 				Session.getInstance().setSessionBean(sessionBean);
 				return true;
 			}
-			
+
 			return false;
-		} 
-		
+		}
+
 		return true;
 	}
-	
+
 	public static void registerGiveUpEvent(long time, String object) {
 		EventBean eventoContainer = new EventBean();
 		eventoContainer.setPhaseId(Session.getInstance().getCurrentPhase());
@@ -87,9 +87,9 @@ public class Controller {
 
 		if (sendDataToServer) {
 			CommunicationProtocol.execute(CommunicationProtocol.REGISTER_EVENT_ACTION, eventoContainer);
-		} 
+		}
 	}
-	
+
 	public static void registerTakeFromSceneEvent(long time, String object) {
 		if (sendDataToServer) {
 			EventBean eventoContainer = new EventBean();
@@ -99,11 +99,11 @@ public class Controller {
 			eventoContainer.setObject1(object);
 			eventoContainer.setValidMove(true);
 			eventoContainer.setMoveTime(time);
-			
+
 			CommunicationProtocol.execute(CommunicationProtocol.REGISTER_EVENT_ACTION, eventoContainer);
 		}
 	}
-	
+
 	public static void registerMoveOnSceneEvent(long time, String object) {
 		if (sendDataToServer) {
 			EventBean eventoContainer = new EventBean();
@@ -113,11 +113,11 @@ public class Controller {
 			eventoContainer.setObject1(object);
 			eventoContainer.setValidMove(true);
 			eventoContainer.setMoveTime(time);
-			
+
 			CommunicationProtocol.execute(CommunicationProtocol.REGISTER_EVENT_ACTION, eventoContainer);
 		}
 	}
-	
+
 	public static void registerPutOnSceneEvent(long time, String object) {
 		if (sendDataToServer) {
 			EventBean eventoContainer = new EventBean();
@@ -127,11 +127,11 @@ public class Controller {
 			eventoContainer.setObject1(object);
 			eventoContainer.setValidMove(true);
 			eventoContainer.setMoveTime(time);
-			
+
 			CommunicationProtocol.execute(CommunicationProtocol.REGISTER_EVENT_ACTION, eventoContainer);
 		}
 	}
-	
+
 	public static void registerCollisionEvent(String object1, String object2) {
 		if (sendDataToServer) {
 			EventBean eventoContainer = new EventBean();
@@ -142,11 +142,11 @@ public class Controller {
 			eventoContainer.setObject2(object2);
 			eventoContainer.setValidMove(true);
 			eventoContainer.setMoveTime(0);
-			
+
 			CommunicationProtocol.execute(CommunicationProtocol.REGISTER_EVENT_ACTION, eventoContainer);
 		}
 	}
-	
+
 	public static boolean registerComment(String comment) {
 		if (sendDataToServer) {
 			CommentBean commentContainer = new CommentBean();
@@ -156,18 +156,18 @@ public class Controller {
 
 			CommunicationProtocol.execute(CommunicationProtocol.REGISTER_COMMENT_ACTION, commentContainer);
 		}
-		
+
 		return true;
 	}
-	
+
 	public static EventResponseBean getMoves() {
 		EventBean event = new EventBean();
 		event.setPhaseId(Session.getInstance().getCurrentPhase());
 		event.setSessionId(Session.getInstance().getId());
 
-		return (EventResponseBean) CommunicationProtocol.execute(CommunicationProtocol.GET_MOVES_ACTION, event);			
+		return (EventResponseBean) CommunicationProtocol.execute(CommunicationProtocol.GET_MOVES_ACTION, event);
 	}
-	
+
 	public static boolean registerStimulus(String stimulus) {
 		if (sendDataToServer) {
 			StimulusBean stimulusContainer = new StimulusBean();
@@ -178,10 +178,10 @@ public class Controller {
 
 			CommunicationProtocol.execute(CommunicationProtocol.REGISTER_STIMULUS_ACTION, stimulusContainer);
 		}
-		
+
 		return true;
 	}
-	
+
 	public static boolean registerPhaseChange() {
 		if (sendDataToServer) {
 			StimulusBean stimulusContainer = new StimulusBean();
@@ -192,7 +192,7 @@ public class Controller {
 
 			CommunicationProtocol.execute(CommunicationProtocol.REGISTER_STIMULUS_ACTION, stimulusContainer);
 		}
-		
+
 		Session.getInstance().changePhase();
 		return true;
 	}
