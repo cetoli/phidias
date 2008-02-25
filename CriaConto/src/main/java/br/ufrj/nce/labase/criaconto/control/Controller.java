@@ -15,15 +15,54 @@ public class Controller {
 		sendDataToServer = send;
 	}
 	
-	public static boolean registerSession(int attendant, int game, String patient) {
+	public static boolean registerSession(String attendant, int game) {
+		if (sendDataToServer) {
+			SessionBean sessionContainer = new SessionBean();
+			sessionContainer.setAttendantId(attendant);
+			sessionContainer.setGameId(game);
+			
+			SessionResponseBean sessionBean = 
+				(SessionResponseBean) CommunicationProtocol.execute(CommunicationProtocol.REGISTER_SESSION_ACTION, sessionContainer);
+			
+			if (sessionBean != null) {
+				Session.getInstance().setSessionBean(sessionBean);
+				return true;
+			}
+			
+			return false;
+		} 
+		
+		return true;
+	}
+	
+	public static boolean registerSessionEnd(int game) {
+		if (sendDataToServer) {
+			SessionBean sessionContainer = new SessionBean();
+			sessionContainer.setId(Session.getInstance().getId());
+			sessionContainer.setGameId(game);
+			
+			SessionResponseBean sessionBean = 
+				(SessionResponseBean) CommunicationProtocol.execute(CommunicationProtocol.REGISTER_SESSION_END_ACTION, sessionContainer);
+			
+			if (sessionBean != null) {
+				Session.getInstance().setSessionBean(sessionBean);
+				return true;
+			}
+			
+			return false;
+		} 
+		
+		return true;
+	}
+	
+	public static boolean joinSession(String patient, int game) {
 		if (sendDataToServer) {
 			SessionBean sessaoContainer = new SessionBean();
-			sessaoContainer.setAttendantId(attendant);
 			sessaoContainer.setGameId(game);
 			sessaoContainer.setPatientId(patient);
 			
 			SessionResponseBean sessionBean = 
-				(SessionResponseBean) CommunicationProtocol.execute(CommunicationProtocol.REGISTER_SESSION_ACTION, sessaoContainer);
+				(SessionResponseBean) CommunicationProtocol.execute(CommunicationProtocol.JOIN_SESSION_ACTION, sessaoContainer);
 			
 			if (sessionBean != null) {
 				Session.getInstance().setSessionBean(sessionBean);
@@ -145,6 +184,7 @@ public class Controller {
 			CommunicationProtocol.execute(CommunicationProtocol.REGISTER_STIMULUS_ACTION, stimulusContainer);
 		}
 		
+		Session.getInstance().changePhase();
 		return true;
 	}
 }
