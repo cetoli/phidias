@@ -3,13 +3,14 @@ package br.ufrj.nce.labase.criaconto.control;
 import br.ufrj.nce.labase.phidias.communication.CommunicationProtocol;
 import br.ufrj.nce.labase.phidias.communication.bean.CommentBean;
 import br.ufrj.nce.labase.phidias.communication.bean.EventBean;
+import br.ufrj.nce.labase.phidias.communication.bean.EventResponseBean;
 import br.ufrj.nce.labase.phidias.communication.bean.SessionBean;
 import br.ufrj.nce.labase.phidias.communication.bean.SessionResponseBean;
 import br.ufrj.nce.labase.phidias.communication.bean.StimulusBean;
 import br.ufrj.nce.labase.phidias.controller.Session;
 
 public class Controller {
-	private static boolean sendDataToServer = true;
+	private static boolean sendDataToServer = false;
 	
 	public static void setSendDataToServer(boolean send){
 		sendDataToServer = send;
@@ -157,6 +158,14 @@ public class Controller {
 		}
 		
 		return true;
+	}
+	
+	public static EventResponseBean getMoves() {
+		EventBean event = new EventBean();
+		event.setPhaseId(Session.getInstance().getCurrentPhase());
+		event.setSessionId(Session.getInstance().getId());
+
+		return (EventResponseBean) CommunicationProtocol.execute(CommunicationProtocol.GET_MOVES_ACTION, event);			
 	}
 	
 	public static boolean registerStimulus(String stimulus) {
