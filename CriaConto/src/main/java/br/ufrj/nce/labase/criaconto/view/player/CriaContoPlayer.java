@@ -79,7 +79,7 @@ public class CriaContoPlayer extends Applet {
 	private void startGame() {		
 		createInitialBackground("tela_inicial.jpg");
         
-        gameStartTimer = new Timer(1500, new GameStartTimer());
+        gameStartTimer = new Timer(1100, new GameStartTimer());
         gameStartTimer.start();        
 	}
 
@@ -95,9 +95,9 @@ public class CriaContoPlayer extends Applet {
 
 	private void showNPC() throws InterruptedException {
 		Image npcImage = Images.createImage("Asas_Pouso_Fala.gif");		
-		Piece npc = new Piece(board, npcImage, "npc", 800, 105);
+		npc = new Piece(board, npcImage, "npc", 800, 105);
 		
-		npcTimer = new Timer(5000, new NPCTimer());
+		npcTimer = new Timer(7000, new NPCTimer());
 		npcTimer.start();
 	}
 	
@@ -118,6 +118,19 @@ public class CriaContoPlayer extends Applet {
         sound.start();
 	}
     
+	private void secondPhase() {
+		setSize(1048, 820);
+		removeAll();
+
+		board = createBoard("fundo2.jpg");
+		
+		add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
+		putCenariosOnBoard();
+		putPersonagensOnBoard(false);
+		putAnimaisOnBoard();
+		board.start();
+	}
+	
     private Board createBoard(String backgroundImageName){
     	Board b = new Board(this, getWidth(), getHeight(), backgroundImageName);
     	return b;
@@ -189,16 +202,16 @@ public class CriaContoPlayer extends Applet {
 
 	public void putAnimaisOnBoard() {
 		Image image = Images.createImage("passarinho.gif");			
-		Piece piece = new Piece(board, image, "passarinho", 480, 110);
+		new Piece(board, image, "passarinho", 480, 110);
 		
 		Image image2 = Images.createImage("veado.gif");		
-		Piece piece2 = new Piece(board, image2, "veado", 110, 430);
+		new Piece(board, image2, "veado", 110, 430);
 		
 		Image image3 = Images.createImage("cachorrinho.gif");		
-		Piece piece3 = new Piece(board, image3, "cachorrinho", 800, 390);
+		new Piece(board, image3, "cachorrinho", 800, 390);
 				
 		Image image4 = Images.createImage("esquilo_no_balde.gif");		
-		Piece piece4 = new Piece(board, image4, "esquilo_no_balse", 580, 300);
+		new Piece(board, image4, "esquilo_no_balse", 580, 300);
     }
 	
 	/**Main method*/
@@ -325,6 +338,7 @@ public class CriaContoPlayer extends Applet {
 		        }
 		}
 	}
+	
 	private class StimulusTimer implements ActionListener {  
 		public void actionPerformed(ActionEvent arg0) {			
 			StimulusBean stimulus = new StimulusBean();
@@ -342,17 +356,10 @@ public class CriaContoPlayer extends Applet {
 						e.printStackTrace();
 					}
 				} else if (stimulusType.compareTo(StimulusBean.CHANGE_PHASE) == 0) {
+					Session.getInstance().changePhase();
+					
 					if (Session.getInstance().getCurrentPhase() == 1) {
-						setSize(1048, 820);
-				    	removeAll();
-		
-				    	board = createBoard("fundo2.jpg");
-				    	
-				        add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
-				        putCenariosOnBoard();
-				        putPersonagensOnBoard(false);
-				        putAnimaisOnBoard();
-				        board.start();
+						secondPhase();
 					}
 				}
 			}
