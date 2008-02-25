@@ -71,7 +71,7 @@ public class Teste {
 
 	private static void testeChamaRegistraSessao() {
 		SessionBean sessaoContainer = new SessionBean();
-		sessaoContainer.setAttendantId(1);
+		sessaoContainer.setAttendantId("Andre");
 		sessaoContainer.setGameId(1);
 		sessaoContainer.setPatientId("Xuxa");
 
@@ -114,6 +114,7 @@ public class Teste {
 	private static void testeInsereAplicador() {
 
 		AttendantBean aplicador = new AttendantBean();
+		aplicador.setId("Andre");
 		aplicador.setName("Andre Moraes");
 		aplicador.setInstitution("Universidade Federal Fluminense");
 		aplicador.setProfession("Analista de Sistemas");
