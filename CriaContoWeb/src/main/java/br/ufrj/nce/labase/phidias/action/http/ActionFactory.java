@@ -10,6 +10,8 @@ public class ActionFactory {
 			return new RegisterEventAction();
 		else if (operacao.equals(CommunicationProtocol.REGISTER_SESSION_ACTION))
 			return new RegisterSessionAction();
+		else if (operacao.equals(CommunicationProtocol.JOIN_SESSION_ACTION))
+			return new JoinSessionAction();
 		else if (operacao
 				.equals(CommunicationProtocol.REGISTER_SESSION_END_ACTION))
 			return new RegisterSessionEndAction();
