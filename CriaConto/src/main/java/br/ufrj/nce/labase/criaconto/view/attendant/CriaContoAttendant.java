@@ -13,6 +13,7 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Label;
+import java.awt.Panel;
 import java.awt.TextArea;
 import java.awt.TextField;
 import java.awt.Toolkit;
@@ -24,24 +25,22 @@ import javax.swing.Timer;
 
 import br.ufrj.nce.criaconto.images.Images;
 import br.ufrj.nce.labase.criaconto.control.Controller;
+import br.ufrj.nce.labase.criaconto.view.LoginPanel;
 import br.ufrj.nce.labase.phidias.communication.CommunicationProtocol;
 import br.ufrj.nce.labase.phidias.communication.bean.EventBean;
 import br.ufrj.nce.labase.phidias.communication.bean.EventResponseBean;
-import br.ufrj.nce.labase.phidias.communication.bean.SessionBean;
-import br.ufrj.nce.labase.phidias.communication.bean.SessionResponseBean;
 import br.ufrj.nce.labase.phidias.controller.Session;
 
 public class CriaContoAttendant extends Applet implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private Image backgroundImage;
-	private TextField sessionText;
-	private TextField phaseText;
 	private TextArea commentsText;
 	private TextField stimulusText;
 	private TextArea comments;
 	private TextArea stimulus;
 	private TextArea moves;
 	private Timer timer;
+	private LoginPanel loginPanel;
 
 	public CriaContoAttendant() {
 		timer = new Timer(2000, this);
@@ -49,54 +48,53 @@ public class CriaContoAttendant extends Applet implements ActionListener {
 	}
 
 	public void init() {
-		setSize(1024, 768);
+		setSize(1024, 820);
 		setBackground(Color.WHITE);
-		setLayout(new GridBagLayout());
+		setLayout(new BorderLayout());
+		
+		loginPanel = new LoginPanel();
+    	loginPanel.setPreferredSize(new Dimension(1024, 820));
+    	add(loginPanel, BorderLayout.CENTER);//new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+    	
+    	loginPanel.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    			if (registerSession()) {
+    				startApplication();
+    			}
+    		}
+    	});
+	}
+	
+	private boolean registerSession() {
+    	return Controller.registerSession(loginPanel.getLogin(), LoginPanel.CRIA_CONTO);
+    }
 
+
+	private void startApplication() {
 		backgroundImage = Images.createImage("fundoAplicador.jpg");
-
-		Label sessionLabel = new Label("Identificador da Sessão");
-		add(sessionLabel, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
-
-		sessionText = new TextField();
-		sessionText.setPreferredSize(new Dimension(20, 20));
-		add(sessionText, new GridBagConstraints(1, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
-
-		Label phaseLabel = new Label("Identificador da Fase");
-		add(phaseLabel, new GridBagConstraints(0, 1, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
-
-		phaseText = new TextField();
-		phaseText.setPreferredSize(new Dimension(20, 20));
-		add(phaseText, new GridBagConstraints(1, 1, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
-
-		Button entrar = new Button("Entrar");
-		entrar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				SessionResponseBean bean = new SessionResponseBean();
-				bean.setSessionId(Integer.valueOf(sessionText.getText().trim()));
-				Session.getInstance().setSessionBean(bean);
-				Session.getInstance().setCurrentPhase(Integer.valueOf(phaseText.getText().trim()));
-			}
-		});
-		add(entrar, new GridBagConstraints(2, 1, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+    	
+		setSize(1024, 820);
+    	removeAll();
+    	
+    	Panel p = new Panel();
+    	p.setLayout(new GridBagLayout());
 		
 		Label movesLabel = new Label("Jogadas do paciente");
-		add(movesLabel, new GridBagConstraints(0, 2, 3, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		p.add(movesLabel, new GridBagConstraints(0, 0, 3, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
 		moves = new TextArea();
 		moves.setRows(10);
-		moves.setColumns(50);
+		moves.setColumns(80);
 		moves.setEditable(false);
-		add(moves, new GridBagConstraints(0, 3, 3, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		p.add(moves, new GridBagConstraints(0, 1, 3, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
 		Label commentsLabel = new Label("Entre com os comentarios");
-		add(commentsLabel, new GridBagConstraints(0, 4, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		p.add(commentsLabel, new GridBagConstraints(0, 2, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
 		commentsText = new TextArea();
-		commentsText.setColumns(100);
+		commentsText.setColumns(80);
 		commentsText.setRows(3);
-		commentsText.setPreferredSize(new Dimension(525, 20));
-		add(commentsText, new GridBagConstraints(1, 4, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		p.add(commentsText, new GridBagConstraints(1, 2, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
 		Button ok = new Button("OK");
 		ok.addActionListener(new ActionListener() {
@@ -104,20 +102,19 @@ public class CriaContoAttendant extends Applet implements ActionListener {
 				registerComment();
 			}
 		});
-		add(ok, new GridBagConstraints(2, 4, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		p.add(ok, new GridBagConstraints(2, 2, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
 		comments = new TextArea();
 		comments.setRows(10);
-		comments.setColumns(100);
+		comments.setColumns(80);
 		comments.setEditable(false);
-		add(comments, new GridBagConstraints(0, 5, 3, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		p.add(comments, new GridBagConstraints(0, 3, 3, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
 		Label interventionsLabel = new Label("Entre com os estimulos do NPC:");
-		add(interventionsLabel, new GridBagConstraints(0, 6, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		p.add(interventionsLabel, new GridBagConstraints(0, 4, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
 		stimulusText = new TextField();
-		stimulusText.setPreferredSize(new Dimension(525, 20));
-		add(stimulusText, new GridBagConstraints(1, 6, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		p.add(stimulusText, new GridBagConstraints(1, 4, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
 		Button ok2 = new Button("OK");
 		ok2.addActionListener(new ActionListener() {
@@ -125,13 +122,13 @@ public class CriaContoAttendant extends Applet implements ActionListener {
 				registerStimulus();
 			}
 		});
-		add(ok2, new GridBagConstraints(2, 6, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		p.add(ok2, new GridBagConstraints(2, 4, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
 		stimulus = new TextArea();
 		stimulus.setRows(10);
-		stimulus.setColumns(100);
+		stimulus.setColumns(80);
 		stimulus.setEditable(false);
-		add(stimulus, new GridBagConstraints(0, 7, 3, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		p.add(stimulus, new GridBagConstraints(0, 5, 3, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 		
 		Button changePhase = new Button("Mudar fase");
 		changePhase.addActionListener(new ActionListener() {
@@ -139,8 +136,20 @@ public class CriaContoAttendant extends Applet implements ActionListener {
 				registerPhaseChange();
 			}
 		});
-		add(changePhase, new GridBagConstraints(0, 8, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
-
+		p.add(changePhase, new GridBagConstraints(0, 6, 3, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		
+		
+		Button exit = new Button("Sair");
+		exit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (registerSessionEnd()) {
+					stop();
+				}
+			}
+		});
+		p.add(exit, new GridBagConstraints(0, 7, 3, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		
+		add(p, BorderLayout.NORTH);
 	}
 
 	private void registerComment() {
@@ -159,8 +168,12 @@ public class CriaContoAttendant extends Applet implements ActionListener {
 		}
 	}
 	
-	private void registerPhaseChange() {
-		Controller.registerPhaseChange();
+	private boolean registerPhaseChange() {
+		return Controller.registerPhaseChange();
+	}
+	
+	private boolean registerSessionEnd() {
+		return Controller.registerSessionEnd(LoginPanel.CRIA_CONTO);
 	}
 
 	public void stop() {
@@ -174,8 +187,10 @@ public class CriaContoAttendant extends Applet implements ActionListener {
 
 	public void paint(Graphics g) {
 		super.paint(g);
-		System.out.println("backgroud = " + backgroundImage);
-		g.drawImage(backgroundImage, 0, 0, null);
+		
+		if (backgroundImage != null) {
+			g.drawImage(backgroundImage, 0, 0, null);
+		}
 	}
 
 	/** Main method */
@@ -202,7 +217,7 @@ public class CriaContoAttendant extends Applet implements ActionListener {
 		frame.add(applet, BorderLayout.CENTER);
 		applet.init();
 		applet.start();
-		frame.setSize(1000, 800);
+		frame.setSize(1024, 820);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		frame.setLocation((d.width - frame.getSize().width) / 2, (d.height - frame.getSize().height) / 2);
 		frame.setVisible(true);
