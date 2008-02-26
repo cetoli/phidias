@@ -78,7 +78,9 @@ public class EntityManagerHelper {
 	public void startTransaction() {
 		try {
 			EntityTransaction et = this.getEntityManager().getTransaction();
-			et.begin();
+			if (!et.isActive()) {
+				et.begin();
+			}
 		} catch (RuntimeException e) {
 			e.printStackTrace();
 			throw e;

@@ -12,29 +12,32 @@ import br.ufrj.nce.labase.phidias.persistence.model.Patient;
 public class PatientBusiness {
 
 	public Patient registerPatient(PatientBean patientContainer) {
-		if (patientContainer != null) {
-			Patient patient = new Patient();
-			try {
-				BeanUtils.copyProperties(patient, patientContainer);
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		try {
+			if (patientContainer != null) {
+				Patient patient = new Patient();
+				try {
+					BeanUtils.copyProperties(patient, patientContainer);
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				}
+
+				EntityManagerHelper.getInstance().startTransaction();
+
+				PatientDAO pDAO = new PatientDAO();
+				if (patient.getId() != null)
+					pDAO.update(patient);
+				else
+					pDAO.create(patient);
+
+				EntityManagerHelper.getInstance().commitTransaction();
+				
+				return patient;
 			}
-
-			EntityManagerHelper.getInstance().startTransaction();
-
-			PatientDAO pDAO = new PatientDAO();
-			if (patient.getId() != null)
-				pDAO.update(patient);
-			else
-				pDAO.create(patient);
-
-			EntityManagerHelper.getInstance().commitTransaction();
-			
-			return patient;
+		} catch (RuntimeException e) {
+			EntityManagerHelper.getInstance().rollbackTransaction();
+			throw e;
 		}
 		
 		throw new RuntimeException("Null parameter not allowed!");

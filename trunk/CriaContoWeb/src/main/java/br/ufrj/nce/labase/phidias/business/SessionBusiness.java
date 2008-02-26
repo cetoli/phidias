@@ -5,6 +5,7 @@ import java.util.Date;
 import br.ufrj.nce.labase.persistence.EntityManagerHelper;
 import br.ufrj.nce.labase.phidias.communication.bean.CommentBean;
 import br.ufrj.nce.labase.phidias.communication.bean.SessionBean;
+import br.ufrj.nce.labase.phidias.exception.PhidiasException;
 import br.ufrj.nce.labase.phidias.persistence.dao.AttendantDAO;
 import br.ufrj.nce.labase.phidias.persistence.dao.GameDAO;
 import br.ufrj.nce.labase.phidias.persistence.dao.PatientDAO;
@@ -24,100 +25,122 @@ public class SessionBusiness {
 	private final int GAME_OVER = 2;
 	
 	public Session registerSession(SessionBean sessionContainer) {
-		if (sessionContainer != null) {
+		try {
+			if (sessionContainer != null) {
 
-			if (sessionContainer.getId() != null)
-				throw new RuntimeException("Session id cannot be set, it is created automatically!");
+				if (sessionContainer.getId() != null)
+					throw new RuntimeException("Session id cannot be set, it is created automatically!");
 
-			EntityManagerHelper.getInstance().startTransaction();
-			Session session = new Session();
+				EntityManagerHelper.getInstance().startTransaction();
+				Session session = new Session();
 
-			AttendantDAO aDAO = new AttendantDAO();
-			session.setAttendant(aDAO.findById(Attendant.class, sessionContainer.getAttendantId()));
+				AttendantDAO aDAO = new AttendantDAO();
+				session.setAttendant(aDAO.findById(Attendant.class, sessionContainer.getAttendantId()));
 
-			GameDAO gDAO = new GameDAO();
-			session.setGame(gDAO.findById(Game.class, sessionContainer.getGameId()));
+				GameDAO gDAO = new GameDAO();
+				session.setGame(gDAO.findById(Game.class, sessionContainer.getGameId()));
 
-			session.setSessionStartDate(new Date());
-			session.setStatus(WAITING_FOR_PATIENT);
+				session.setSessionStartDate(new Date());
+				session.setStatus(WAITING_FOR_PATIENT);
 
-			SessionDAO sesDao = new SessionDAO();
-			sesDao.create(session);
+				SessionDAO sesDao = new SessionDAO();
+				sesDao.create(session);
 
-			EntityManagerHelper.getInstance().commitTransaction();
+				EntityManagerHelper.getInstance().commitTransaction();
 
-			return session;
+				return session;
+			}
+		} catch (RuntimeException e) {
+			EntityManagerHelper.getInstance().rollbackTransaction();
+			throw e;
+
 		}
-		throw new RuntimeException("Null parameter not allowed!");
+		
+		throw new PhidiasException("Null parameter not allowed!");
 	}
 	
 	public Session joinSession(SessionBean sessionContainer) {
-		if (sessionContainer != null) {
+		try {
+			if (sessionContainer != null) {
 
-			if (sessionContainer.getId() != null)
-				throw new RuntimeException("Session id cannot be set, it is created automatically!");
+				if (sessionContainer.getId() != null)
+					throw new RuntimeException("Session id cannot be set, it is created automatically!");
 
-			EntityManagerHelper.getInstance().startTransaction();
-			
-			PatientDAO pDAO = new PatientDAO();
-			Patient p = pDAO.findById(Patient.class, sessionContainer.getPatientId());
-			
-			SessionDAO sDAO = new SessionDAO();
-			Session session = sDAO.findByStatus(WAITING_FOR_PATIENT);
-			
-			if (session == null) {
-				throw new RuntimeException("No attendant online!");
+				EntityManagerHelper.getInstance().startTransaction();
+				
+				PatientDAO pDAO = new PatientDAO();
+				Patient p = pDAO.findById(Patient.class, sessionContainer.getPatientId());
+				
+				SessionDAO sDAO = new SessionDAO();
+				Session session = sDAO.findByStatus(WAITING_FOR_PATIENT);
+				
+				if (session == null) {
+					throw new RuntimeException("No attendant online!");
+				}
+				
+				session.setPatient(p);
+				session.setStatus(ON_GOING_GAME);
+
+				sDAO.update(session);
+
+				EntityManagerHelper.getInstance().commitTransaction();
+
+				return session;
 			}
-			
-			session.setPatient(p);
-			session.setStatus(ON_GOING_GAME);
-
-			sDAO.update(session);
-
-			EntityManagerHelper.getInstance().commitTransaction();
-
-			return session;
+		} catch (RuntimeException e) {
+			EntityManagerHelper.getInstance().rollbackTransaction();
+			throw e;
 		}
-		throw new RuntimeException("Null parameter not allowed!");
+		throw new PhidiasException("Null parameter not allowed!");
 	}
 
 	public Session registerSessionEnd(SessionBean sessionContainer) {
-		if (sessionContainer != null) {
+		try {
+			if (sessionContainer != null) {
 
-			if (sessionContainer.getId() == null)
-				throw new RuntimeException("Session id must not be null!");
+				if (sessionContainer.getId() == null)
+					throw new RuntimeException("Session id must not be null!");
 
-			EntityManagerHelper.getInstance().startTransaction();
+				EntityManagerHelper.getInstance().startTransaction();
 
-			SessionDAO sDAO = new SessionDAO();
-			Session session = sDAO.findById(Session.class, sessionContainer.getId());
-			session.setSessionEndDate(new Date());
-			session.setStatus(GAME_OVER);
+				SessionDAO sDAO = new SessionDAO();
+				Session session = sDAO.findById(Session.class, sessionContainer.getId());
+				session.setSessionEndDate(new Date());
+				session.setStatus(GAME_OVER);
 
-			EntityManagerHelper.getInstance().commitTransaction();
+				EntityManagerHelper.getInstance().commitTransaction();
 
-			return session;
+				return session;
+			}
+		} catch (RuntimeException e) {
+			EntityManagerHelper.getInstance().rollbackTransaction();
+			throw e;
 		}
-		throw new RuntimeException("Null parameter not allowed!");
+		throw new PhidiasException("Null parameter not allowed!");
 	}
 
 	public SessionGamePhase registerComment(CommentBean commentContainer) {
-		if (commentContainer != null) {
+		try {
+			if (commentContainer != null) {
 
-			EntityManagerHelper.getInstance().startTransaction();
+				EntityManagerHelper.getInstance().startTransaction();
 
-			SessionGamePhaseDAO gpsDAO = new SessionGamePhaseDAO();
-			SessionGamePhase gamePhase = gpsDAO.findById(SessionGamePhase.class, new SessionGamePhaseId(commentContainer.getPhaseId(), commentContainer.getSessionId()));
-			if (gamePhase == null) {
-				gamePhase = new SessionGamePhase(commentContainer.getPhaseId(), commentContainer.getSessionId());
-				gamePhase = gpsDAO.create(gamePhase);
+				SessionGamePhaseDAO gpsDAO = new SessionGamePhaseDAO();
+				SessionGamePhase gamePhase = gpsDAO.findById(SessionGamePhase.class, new SessionGamePhaseId(commentContainer.getPhaseId(), commentContainer.getSessionId()));
+				if (gamePhase == null) {
+					gamePhase = new SessionGamePhase(commentContainer.getPhaseId(), commentContainer.getSessionId());
+					gamePhase = gpsDAO.create(gamePhase);
+				}
+				gamePhase.setComments(gamePhase.getComments() + commentContainer.getCommentText());
+
+				EntityManagerHelper.getInstance().commitTransaction();
+
+				return gamePhase;
 			}
-			gamePhase.setComments(gamePhase.getComments() + commentContainer.getCommentText());
-
-			EntityManagerHelper.getInstance().commitTransaction();
-
-			return gamePhase;
+		} catch (RuntimeException e) {
+			EntityManagerHelper.getInstance().rollbackTransaction();
+			throw e;
 		}
-		throw new RuntimeException("Null parameter not allowed!");
+		throw new PhidiasException("Null parameter not allowed!");
 	}
 }

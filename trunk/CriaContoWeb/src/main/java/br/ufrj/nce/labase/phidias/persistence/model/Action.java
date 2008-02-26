@@ -54,7 +54,7 @@ public class Action implements java.io.Serializable {
 	/**
 	 * @generated
 	 */
-	@javax.persistence.Column(name = "ACJ_FG_SENT_ATTENDANT", length = 0)
+	@javax.persistence.Column(name = "acj_fg_enviado_aplicador", length = 0)
 	private Boolean sentToAttendant;
 	/**
 	 * @generated

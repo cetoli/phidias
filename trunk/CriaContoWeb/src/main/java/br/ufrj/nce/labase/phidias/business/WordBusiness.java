@@ -10,34 +10,39 @@ public class WordBusiness {
 
 	public void importWord(String filePathArquivo) {
 
-		EntityManagerHelper.getInstance().startTransaction();
+		try {
+			EntityManagerHelper.getInstance().startTransaction();
 
-		String[] lines = FileUtil.readTextAsLines(filePathArquivo);
+			String[] lines = FileUtil.readTextAsLines(filePathArquivo);
 
-		String wordClassification = lines[0];
-		Integer wordClassficationId = (wordClassification.indexOf("*") > 0 ? new Integer(wordClassification.substring(0, wordClassification.indexOf("*"))) : null);
+			String wordClassification = lines[0];
+			Integer wordClassficationId = (wordClassification.indexOf("*") > 0 ? new Integer(wordClassification.substring(0, wordClassification.indexOf("*"))) : null);
 
-		WordClassification wordClassfication = new WordClassification();
-		if (wordClassficationId != null)
-			wordClassfication.setId(wordClassficationId);
+			WordClassification wordClassfication = new WordClassification();
+			if (wordClassficationId != null)
+				wordClassfication.setId(wordClassficationId);
 
-		wordClassfication.setClassification(wordClassification);
+			wordClassfication.setClassification(wordClassification);
 
-		Keyword keyword;
-		for (int i = 1; i < lines.length; i++) {
-			if (lines[i] != null && lines[i].trim().length() > 0) {
-				keyword = new Keyword();
-				keyword.setDescription(lines[i]);
-				wordClassfication.addKeyword(keyword);
+			Keyword keyword;
+			for (int i = 1; i < lines.length; i++) {
+				if (lines[i] != null && lines[i].trim().length() > 0) {
+					keyword = new Keyword();
+					keyword.setDescription(lines[i]);
+					wordClassfication.addKeyword(keyword);
+				}
 			}
+
+			WordClassificationDAO wcDAO = new WordClassificationDAO();
+			if (wordClassfication.getId() == null)
+				wcDAO.create(wordClassfication);
+			else
+				wcDAO.update(wordClassfication);
+
+			EntityManagerHelper.getInstance().commitTransaction();
+		} catch (RuntimeException e) {
+			EntityManagerHelper.getInstance().rollbackTransaction();
+			throw e;
 		}
-
-		WordClassificationDAO wcDAO = new WordClassificationDAO();
-		if (wordClassfication.getId() == null)
-			wcDAO.create(wordClassfication);
-		else
-			wcDAO.update(wordClassfication);
-
-		EntityManagerHelper.getInstance().commitTransaction();
 	}
 }
