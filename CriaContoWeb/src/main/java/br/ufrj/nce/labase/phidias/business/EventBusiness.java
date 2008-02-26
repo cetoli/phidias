@@ -18,35 +18,40 @@ public class EventBusiness {
 	 * @return
 	 */
 	public Action registerEvent(EventBean eventContainer) {
-		if (eventContainer != null) {
+		try {
+			if (eventContainer != null) {
 
-			if (eventContainer.getId() != null)
-				throw new RuntimeException("Session id cannot be set, it is created automatically!");
+				if (eventContainer.getId() != null)
+					throw new RuntimeException("Session id cannot be set, it is created automatically!");
 
-			EntityManagerHelper.getInstance().startTransaction();
-			Action action = new Action();
+				EntityManagerHelper.getInstance().startTransaction();
+				Action action = new Action();
 
-			SessionGamePhaseDAO sgpDAO = new SessionGamePhaseDAO();
-			SessionGamePhase gamePhase = sgpDAO.findById(SessionGamePhase.class, new SessionGamePhaseId(eventContainer.getPhaseId(), eventContainer.getSessionId()));
-			if (gamePhase == null)
-				gamePhase = sgpDAO.create(new SessionGamePhase(eventContainer.getPhaseId(), eventContainer.getSessionId()));
+				SessionGamePhaseDAO sgpDAO = new SessionGamePhaseDAO();
+				SessionGamePhase gamePhase = sgpDAO.findById(SessionGamePhase.class, new SessionGamePhaseId(eventContainer.getPhaseId(), eventContainer.getSessionId()));
+				if (gamePhase == null)
+					gamePhase = sgpDAO.create(new SessionGamePhase(eventContainer.getPhaseId(), eventContainer.getSessionId()));
 
-			action.setSessionGamePhase(gamePhase);
+				action.setSessionGamePhase(gamePhase);
 
-			ActionTypeDAO atDAO = new ActionTypeDAO();
-			action.setActionType(atDAO.findById(ActionType.class, eventContainer.getActionTypeId()));
+				ActionTypeDAO atDAO = new ActionTypeDAO();
+				action.setActionType(atDAO.findById(ActionType.class, eventContainer.getActionTypeId()));
 
-			action.setValidMove(eventContainer.getValidMove());
-			action.setObject1(eventContainer.getObject1());
-			action.setObject2(eventContainer.getObject2());
-			action.setMoveTime(eventContainer.getMoveTime());
+				action.setValidMove(eventContainer.getValidMove());
+				action.setObject1(eventContainer.getObject1());
+				action.setObject2(eventContainer.getObject2());
+				action.setMoveTime(eventContainer.getMoveTime());
 
-			ActionDAO aDAO = new ActionDAO();
-			aDAO.create(action);
+				ActionDAO aDAO = new ActionDAO();
+				aDAO.create(action);
 
-			EntityManagerHelper.getInstance().commitTransaction();
+				EntityManagerHelper.getInstance().commitTransaction();
 
-			return action;
+				return action;
+			}
+		} catch (RuntimeException e) {
+			EntityManagerHelper.getInstance().rollbackTransaction();
+			throw e;
 		}
 		throw new RuntimeException("Null parameter not allowed!");
 	}
@@ -56,21 +61,26 @@ public class EventBusiness {
 	 * @return
 	 */
 	public List<Action> getMoves(EventBean eventContainer) {
-		if (eventContainer != null) {
+		try {
+			if (eventContainer != null) {
 
-			if (eventContainer.getId() != null)
-				throw new RuntimeException("Session id cannot be set, it is created automatically!");
+				if (eventContainer.getId() != null)
+					throw new RuntimeException("Session id cannot be set, it is created automatically!");
 
-			EntityManagerHelper.getInstance().startTransaction();
+				EntityManagerHelper.getInstance().startTransaction();
 
-			ActionDAO aDAO = new ActionDAO();
-			List<Action> events = aDAO.listActions(eventContainer.getSessionId(), eventContainer.getPhaseId());
+				ActionDAO aDAO = new ActionDAO();
+				List<Action> events = aDAO.listActions(eventContainer.getSessionId(), eventContainer.getPhaseId());
 
-			for (Action action : events)
-				action.setSentToAttendant(true);
+				for (Action action : events)
+					action.setSentToAttendant(true);
 
-			EntityManagerHelper.getInstance().commitTransaction();
-			return events;
+				EntityManagerHelper.getInstance().commitTransaction();
+				return events;
+			}
+		} catch (RuntimeException e) {
+			EntityManagerHelper.getInstance().rollbackTransaction();
+			throw e;
 		}
 		throw new RuntimeException("Null parameter not allowed!");
 	}
