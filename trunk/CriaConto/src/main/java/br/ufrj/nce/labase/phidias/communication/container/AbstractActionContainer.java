@@ -6,7 +6,6 @@ import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtils;
 
-
 public class AbstractActionContainer implements ActionContainer {
 
 	public Map<String, String> toPropertyValuesMap() {
@@ -39,4 +38,5 @@ public class AbstractActionContainer implements ActionContainer {
 			}
 		}
 	}
+
 }
