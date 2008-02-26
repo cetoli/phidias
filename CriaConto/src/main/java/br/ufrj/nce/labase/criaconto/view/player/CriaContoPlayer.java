@@ -93,9 +93,11 @@ public class CriaContoPlayer extends Applet {
         board.start();
 	}
 
-	private void showNPC() throws InterruptedException {
-		Image npcImage = Images.createImage("Asas_Pouso_Fala.gif");		
-		npc = new Piece(board, npcImage, "npc", 800, 105);
+	private void showNPC(String stimulus) throws InterruptedException {
+		Image npcImage = Images.createImage("NPC.gif");		
+		npc = new Piece(board, npcImage, "npc", 650, 25);
+		
+		getGraphics().drawString(stimulus, 700, 25);
 		
 		npcTimer = new Timer(7000, new NPCTimer());
 		npcTimer.start();
@@ -245,10 +247,11 @@ public class CriaContoPlayer extends Applet {
 	
 	private class NPCTimer implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {	
-			board.removeSpriteFromList(npc);
-			board.removeSpritesFromListNow();
-		}
-		
+			if (npc != null) {
+				board.removeSpriteFromList(npc);
+				board.removeSpritesFromListNow();
+			}
+		}		
 	}
 	
 	private class GameStartTimer implements ActionListener {
@@ -351,7 +354,7 @@ public class CriaContoPlayer extends Applet {
 			if (stimulusType != null) {
 				if (stimulusType.compareTo(StimulusBean.SHOW_NPC) == 0) {
 					try {
-						showNPC();
+						showNPC(response.getStimulusText());
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
