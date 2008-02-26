@@ -25,8 +25,10 @@ public class GetNextStimulusAction implements IAction {
 			SessionGamePhaseStimulusType stimulus = stimulusBusiness.getNextStimulus(container);
 
 			evt.setSuccess(true);
-			if (stimulus != null)
+			if (stimulus != null) {
 				evt.setStimulusTypeId(stimulus.getStimulusTypeId());
+				evt.setStimulusText(stimulus.getStimulusText());
+			}
 
 		} catch (Throwable e) {
 			e.printStackTrace();
