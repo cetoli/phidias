@@ -40,8 +40,6 @@ public class CriaContoAttendant extends Applet {
 	private LoginPanel loginPanel;
 
 	public CriaContoAttendant() {
-		movesTimer = new Timer(2000, new MovesTimer());
-		movesTimer.start();
 	}
 
 	public void init() {
@@ -147,6 +145,9 @@ public class CriaContoAttendant extends Applet {
 		p.add(exit, new GridBagConstraints(0, 7, 3, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 		
 		add(p, BorderLayout.NORTH);
+		
+		movesTimer = new Timer(2000, new MovesTimer());
+		movesTimer.start();
 	}
 
 	private void registerComment() {
