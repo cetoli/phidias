@@ -46,7 +46,7 @@ public class StimulusBusiness {
 		if (stimulusContainer != null) {
 
 			if (stimulusContainer.getId() != null)
-				throw new RuntimeException("Não é permitido setar o id da sessao. Ele deve ser gerado pelo sistema!");
+				throw new RuntimeException("Session id cannot be set, it is created automatically!");
 
 			EntityManagerHelper.getInstance().startTransaction();
 
@@ -56,8 +56,9 @@ public class StimulusBusiness {
 			if (stimulus != null) {
 				// Atualiza o estimulo e informa que já foi enviado.
 				stimulus.setStimulusSent(true);
+				sgpstDAO.update(stimulus);
+				EntityManagerHelper.getInstance().commitTransaction();
 			}
-			EntityManagerHelper.getInstance().commitTransaction();
 
 			return stimulus;
 		}
