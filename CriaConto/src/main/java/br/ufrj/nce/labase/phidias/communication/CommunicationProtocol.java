@@ -26,17 +26,14 @@ public class CommunicationProtocol {
 	public static final String GET_NEXT_STIMULUS_ACTION = "getNextStimulus";
 	public static final String GET_MOVES_ACTION = "getMoves";
 
-	public static ActionResponseContainer execute(String action,
-			ActionContainer actionData) {
+	public static ActionResponseContainer execute(String action, ActionContainer actionData) {
 		try {
 			// Prepara o HttpClient e o metodo Post para fazer a requisicao;
 			HttpClient client = new HttpClient();
 			client.getHostConfiguration().setHost("localhost", 8080, "http");
-			client.getParams().setCookiePolicy(
-					CookiePolicy.BROWSER_COMPATIBILITY);
+			client.getParams().setCookiePolicy(CookiePolicy.BROWSER_COMPATIBILITY);
 
-			PostMethod post = new PostMethod(
-					"/CriaContoWeb/ClientServerServlet.do");
+			PostMethod post = new PostMethod("/CriaContoWeb/ClientServerServlet.do");
 			post.addParameter(new NameValuePair(ACTION_PARAMETER, action));
 
 			// Gera parametros do request via metodo post
@@ -46,21 +43,22 @@ public class CommunicationProtocol {
 			for (String propriedadeKey : propertiesKeySet) {
 				propertyValue = (String) properties.get(propriedadeKey);
 				if (propertyValue != null)
-					post.addParameter(new NameValuePair(propriedadeKey,
-							propertyValue));
+					post.addParameter(new NameValuePair(propriedadeKey, propertyValue));
 			}
 
 			// Faz a chama ao servlet
 			client.executeMethod(post);
 
 			// Obtem resposta do servlet e formata em um objeto de retorno
-			ObjectInputStream o = new ObjectInputStream(post
-					.getResponseBodyAsStream());
-			ActionResponseContainer response = (ActionResponseContainer) o
-					.readObject();
+			ObjectInputStream o = new ObjectInputStream(post.getResponseBodyAsStream());
+			ActionResponseContainer response = (ActionResponseContainer) o.readObject();
 
 			// Libera conexao
 			post.releaseConnection();
+
+			// Trata geração do server.
+			if (!response.isSuccess() || response.getGeneratedException() != null)
+				throw response.getGeneratedException();
 
 			return response;
 		} catch (IllegalArgumentException e) {
@@ -68,11 +66,9 @@ public class CommunicationProtocol {
 		} catch (HttpException e) {
 			throw new PhidiasException("Error connecting to URL!!", e);
 		} catch (IOException e) {
-			return null;
+			throw new PhidiasException("Server is not avaiable!!", e);
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			throw new PhidiasException(
-					"Error treating class response not found", e);
+			throw new PhidiasException("Error treating class response not found", e);
 		}
 
 	}

@@ -1,6 +1,8 @@
 package br.ufrj.nce.labase.phidias.exception;
 
-public class PhidiasException extends RuntimeException{
+import java.io.Serializable;
+
+public class PhidiasException extends RuntimeException implements Serializable {
 
 	public PhidiasException() {
 		super();

@@ -1,9 +1,9 @@
 package br.ufrj.nce.labase.controller.action.http;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.io.ObjectOutputStream;
+import java.util.Map;
 
 public interface IAction {
 
-	public void execute(HttpServletRequest request, HttpServletResponse response);
+	public void execute(Map<String, String> requestParameterMap, ObjectOutputStream objectOutputStream);
 }
