@@ -7,7 +7,9 @@ import br.ufrj.nce.labase.phidias.communication.bean.EventResponseBean;
 import br.ufrj.nce.labase.phidias.communication.bean.SessionBean;
 import br.ufrj.nce.labase.phidias.communication.bean.SessionResponseBean;
 import br.ufrj.nce.labase.phidias.communication.bean.StimulusBean;
+import br.ufrj.nce.labase.phidias.communication.bean.StimulusResponseBean;
 import br.ufrj.nce.labase.phidias.controller.Session;
+import br.ufrj.nce.labase.phidias.exception.PhidiasException;
 
 public class Controller {
 	private static boolean sendDataToServer = true;
@@ -16,7 +18,7 @@ public class Controller {
 		sendDataToServer = send;
 	}
 
-	public static boolean registerSession(String attendant, int game) {
+	public static boolean registerSession(String attendant, int game) throws PhidiasException {
 		if (sendDataToServer) {
 			SessionBean sessionContainer = new SessionBean();
 			sessionContainer.setAttendantId(attendant);
@@ -25,7 +27,11 @@ public class Controller {
 			SessionResponseBean sessionBean =
 				(SessionResponseBean) CommunicationProtocol.execute(CommunicationProtocol.REGISTER_SESSION_ACTION, sessionContainer);
 
-			if (sessionBean != null) {
+			if (sessionBean != null) {				
+				if (sessionBean.getGeneratedException() != null) {
+					throw sessionBean.getGeneratedException();
+				}
+				
 				Session.getInstance().setSessionBean(sessionBean);
 				return true;
 			}
@@ -36,7 +42,7 @@ public class Controller {
 		return true;
 	}
 
-	public static boolean registerSessionEnd(int game) {
+	public static boolean registerSessionEnd(int game) throws PhidiasException {
 		if (sendDataToServer) {
 			SessionBean sessionContainer = new SessionBean();
 			sessionContainer.setId(Session.getInstance().getId());
@@ -46,6 +52,10 @@ public class Controller {
 				(SessionResponseBean) CommunicationProtocol.execute(CommunicationProtocol.REGISTER_SESSION_END_ACTION, sessionContainer);
 
 			if (sessionBean != null) {
+				if (sessionBean.getGeneratedException() != null) {
+					throw sessionBean.getGeneratedException();
+				}
+				
 				Session.getInstance().setSessionBean(sessionBean);
 				return true;
 			}
@@ -56,7 +66,7 @@ public class Controller {
 		return true;
 	}
 
-	public static boolean joinSession(String patient, int game) {
+	public static boolean joinSession(String patient, int game) throws PhidiasException {
 		if (sendDataToServer) {
 			SessionBean sessaoContainer = new SessionBean();
 			sessaoContainer.setGameId(game);
@@ -76,7 +86,7 @@ public class Controller {
 		return true;
 	}
 
-	public static void registerGiveUpEvent(long time, String object) {
+	public static void registerGiveUpEvent(long time, String object) throws PhidiasException {
 		EventBean eventoContainer = new EventBean();
 		eventoContainer.setPhaseId(Session.getInstance().getCurrentPhase());
 		eventoContainer.setActionTypeId(EventBean.GIVE_UP_EVENT);
@@ -84,13 +94,13 @@ public class Controller {
 		eventoContainer.setObject1(object);
 		eventoContainer.setValidMove(true);
 		eventoContainer.setMoveTime(time);
-
+		
 		if (sendDataToServer) {
 			CommunicationProtocol.execute(CommunicationProtocol.REGISTER_EVENT_ACTION, eventoContainer);
 		}
 	}
 
-	public static void registerTakeFromSceneEvent(long time, String object) {
+	public static void registerTakeFromSceneEvent(long time, String object) throws PhidiasException {
 		if (sendDataToServer) {
 			EventBean eventoContainer = new EventBean();
 			eventoContainer.setPhaseId(Session.getInstance().getCurrentPhase());
@@ -104,7 +114,7 @@ public class Controller {
 		}
 	}
 
-	public static void registerMoveOnSceneEvent(long time, String object) {
+	public static void registerMoveOnSceneEvent(long time, String object) throws PhidiasException {
 		if (sendDataToServer) {
 			EventBean eventoContainer = new EventBean();
 			eventoContainer.setPhaseId(Session.getInstance().getCurrentPhase());
@@ -118,7 +128,7 @@ public class Controller {
 		}
 	}
 
-	public static void registerPutOnSceneEvent(long time, String object) {
+	public static void registerPutOnSceneEvent(long time, String object) throws PhidiasException {
 		if (sendDataToServer) {
 			EventBean eventoContainer = new EventBean();
 			eventoContainer.setPhaseId(Session.getInstance().getCurrentPhase());
@@ -132,7 +142,7 @@ public class Controller {
 		}
 	}
 
-	public static void registerCollisionEvent(String object1, String object2) {
+	public static void registerCollisionEvent(String object1, String object2) throws PhidiasException {
 		if (sendDataToServer) {
 			EventBean eventoContainer = new EventBean();
 			eventoContainer.setPhaseId(Session.getInstance().getCurrentPhase());
@@ -147,7 +157,7 @@ public class Controller {
 		}
 	}
 
-	public static boolean registerComment(String comment) {
+	public static boolean registerComment(String comment) throws PhidiasException {
 		if (sendDataToServer) {
 			CommentBean commentContainer = new CommentBean();
 			commentContainer.setPhaseId(Session.getInstance().getCurrentPhase());
@@ -160,15 +170,22 @@ public class Controller {
 		return true;
 	}
 
-	public static EventResponseBean getMoves() {
+	public static EventResponseBean getMoves() throws PhidiasException {
 		EventBean event = new EventBean();
 		event.setPhaseId(Session.getInstance().getCurrentPhase());
 		event.setSessionId(Session.getInstance().getId());
 
-		return (EventResponseBean) CommunicationProtocol.execute(CommunicationProtocol.GET_MOVES_ACTION, event);
+		EventResponseBean eventBean =
+			(EventResponseBean) CommunicationProtocol.execute(CommunicationProtocol.GET_MOVES_ACTION, event);
+		
+		if (eventBean != null) {
+			return eventBean;			
+		}
+		
+		return null;
 	}
 
-	public static boolean registerStimulus(String stimulus) {
+	public static boolean registerStimulus(String stimulus) throws PhidiasException {
 		if (sendDataToServer) {
 			StimulusBean stimulusContainer = new StimulusBean();
 			stimulusContainer.setPhaseId(Session.getInstance().getCurrentPhase());
@@ -182,7 +199,7 @@ public class Controller {
 		return true;
 	}
 
-	public static boolean registerPhaseChange() {
+	public static boolean registerPhaseChange() throws PhidiasException {
 		if (sendDataToServer) {
 			StimulusBean stimulusContainer = new StimulusBean();
 			stimulusContainer.setPhaseId(Session.getInstance().getCurrentPhase());
@@ -195,5 +212,22 @@ public class Controller {
 
 		Session.getInstance().changePhase();
 		return true;
+	}
+	
+	public static StimulusResponseBean getNextStimulus() throws PhidiasException {
+		if (sendDataToServer) {
+			StimulusBean stimulusContainer = new StimulusBean();
+			stimulusContainer.setPhaseId(Session.getInstance().getCurrentPhase());
+			stimulusContainer.setSessionId(Session.getInstance().getId());
+			
+			StimulusResponseBean stimulusBean = 
+				(StimulusResponseBean) CommunicationProtocol.execute(CommunicationProtocol.GET_NEXT_STIMULUS_ACTION, stimulusContainer);
+			
+			if (stimulusBean != null) {
+				return stimulusBean;
+			}
+		}
+		
+		return null;
 	}
 }

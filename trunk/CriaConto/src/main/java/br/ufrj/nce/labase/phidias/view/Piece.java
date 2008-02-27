@@ -4,6 +4,7 @@ import java.awt.Event;
 import java.awt.Image;
 
 import baklava.Sprite;
+import br.ufrj.nce.labase.common.MidiSound;
 
 public class Piece extends Sprite {
 	private String name;
@@ -13,6 +14,8 @@ public class Piece extends Sprite {
 	protected int downY;
 	protected long moveStartTime;
 	protected long moveEndTime;
+	private MidiSound sound;
+	private boolean playSound;
 	
 	public Piece() {
 		super();
@@ -33,6 +36,18 @@ public class Piece extends Sprite {
 		setSpeed(0);
 		setBackground(false);
 		setRectangular(false);		
+	}
+	
+	public void mouseEnter(Event evt, int x, int y) {
+		if (sound != null && isPlaySound()) {
+			sound.start();
+		}
+	}
+	
+	public void mouseExit(Event evt, int x, int y) {
+		if (sound != null) {
+			sound.stop();
+		}
 	}
 	
 	public void mouseDrag(Event evt, int x, int y) {
@@ -63,7 +78,6 @@ public class Piece extends Sprite {
 	}
 	
 	public long getMoveTime() {
-		System.out.println("moveEndTime - moveStartTime = " + (moveEndTime - moveStartTime));
 		return moveEndTime - moveStartTime;
 	}
 	
@@ -75,5 +89,21 @@ public class Piece extends Sprite {
 		if (s instanceof Piece) {
 			collisionWith ((Piece) s);
 		}
+	}
+
+	public void setSound(MidiSound sound) {
+		this.sound = sound;
+	}
+
+	public MidiSound getSound() {
+		return sound;
+	}
+
+	public void setPlaySound(boolean playSound) {
+		this.playSound = playSound;
+	}
+
+	public boolean isPlaySound() {
+		return playSound;
 	}
 }

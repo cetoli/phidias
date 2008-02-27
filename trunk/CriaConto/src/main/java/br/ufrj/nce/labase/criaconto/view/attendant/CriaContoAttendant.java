@@ -21,12 +21,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 import br.ufrj.nce.criaconto.images.Images;
 import br.ufrj.nce.labase.criaconto.control.Controller;
 import br.ufrj.nce.labase.criaconto.view.LoginPanel;
 import br.ufrj.nce.labase.phidias.communication.bean.EventResponseBean;
+import br.ufrj.nce.labase.phidias.exception.PhidiasException;
 
 public class CriaContoAttendant extends Applet {
 	private static final long serialVersionUID = 1L;
@@ -55,13 +57,24 @@ public class CriaContoAttendant extends Applet {
     		public void actionPerformed(ActionEvent e) {
     			if (registerSession()) {
     				startApplication();
+    			} else {
+    				showMessageDialog("Ocorreu um erro ao iniciar o aplicativo! Por favor, tente novamente mais tarde!");
     			}
     		}
     	});
 	}
 	
+	private void showMessageDialog(String message) {
+    	JOptionPane.showMessageDialog(this, message);	
+    }
+	
 	private boolean registerSession() {
-    	return Controller.registerSession(loginPanel.getLogin(), LoginPanel.CRIA_CONTO);
+    	try {
+    		return Controller.registerSession(loginPanel.getLogin(), LoginPanel.CRIA_CONTO);
+    	} catch (PhidiasException ex) {
+			showMessageDialog("Erro ao iniciar sessão!");
+			return false;
+		}
     }
 
 
@@ -146,32 +159,50 @@ public class CriaContoAttendant extends Applet {
 		
 		add(p, BorderLayout.NORTH);
 		
-		movesTimer = new Timer(2000, new MovesTimer());
+		movesTimer = new Timer(4000, new MovesTimer());
 		movesTimer.start();
 	}
 
 	private void registerComment() {
 		String comment = commentsText.getText();
-		if (Controller.registerComment(comment)) {
-			commentsText.setText("");
-			comments.append(comment + "\n");
+		try { 
+			if (Controller.registerComment(comment)) {
+				commentsText.setText("");
+				comments.append(comment + "\n");
+			}
+		} catch (PhidiasException ex) {
+			showMessageDialog("Erro ao inserir comentário!");
 		}
 	}
 
 	private void registerStimulus() {
 		String stimulusString = stimulusText.getText();
-		if (Controller.registerStimulus(stimulusString)) {
-			stimulusText.setText("");
-			stimulus.append(stimulusString + "\n");
+		try {
+			if (Controller.registerStimulus(stimulusString)) {
+				stimulusText.setText("");
+				stimulus.append(stimulusString + "\n");
+			}
+		} catch (PhidiasException ex) {
+			showMessageDialog("Erro ao enviar estímulo!");
 		}
 	}
 	
 	private boolean registerPhaseChange() {
-		return Controller.registerPhaseChange();
+		try {
+			return Controller.registerPhaseChange();
+		} catch (PhidiasException ex) {
+			showMessageDialog("Erro ao enviar solicitação de mudança de fase!");
+			return false;
+		}
 	}
 	
 	private boolean registerSessionEnd() {
-		return Controller.registerSessionEnd(LoginPanel.CRIA_CONTO);
+		try {
+			return Controller.registerSessionEnd(LoginPanel.CRIA_CONTO);
+		} catch (PhidiasException ex) {
+			showMessageDialog("Erro ao encerrar sessão!");
+			return false;
+		}
 	}
 
 	public void stop() {
@@ -223,11 +254,15 @@ public class CriaContoAttendant extends Applet {
 
 	private class MovesTimer implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {		
-			EventResponseBean response = Controller.getMoves();
-			if (response != null && response.getMoves() != null && response.getMoves().size() > 0) {
-				for (String move : response.getMoves()) {
-					moves.append(move + "\n");
+			try {
+				EventResponseBean response = Controller.getMoves();
+				if (response != null && response.getMoves() != null && response.getMoves().size() > 0) {
+					for (String move : response.getMoves()) {
+						moves.append(move + "\n");
+					}
 				}
+			} catch (PhidiasException ex) {
+				showMessageDialog("Erro ao recuperar as jogadas do paciente!");
 			}
 		}
 	}
