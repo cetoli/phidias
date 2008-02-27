@@ -21,7 +21,7 @@ import br.ufrj.nce.labase.phidias.persistence.model.SessionGamePhaseId;
 public class SessionBusiness {
 	
 	private final int WAITING_FOR_PATIENT = 0;
-	private final int ON_GOING_GAME = 1;
+	private final int PLAYING_GAME = 1;
 	private final int GAME_OVER = 2;
 	
 	public Session registerSession(SessionBean sessionContainer) {
@@ -79,7 +79,7 @@ public class SessionBusiness {
 				}
 				
 				session.setPatient(p);
-				session.setStatus(ON_GOING_GAME);
+				session.setStatus(PLAYING_GAME);
 
 				sDAO.update(session);
 
