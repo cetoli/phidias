@@ -1,11 +1,20 @@
 package baklava;
 
-import java.awt.*;
-import java.util.Hashtable;
-import java.applet.*;
+import java.applet.Applet;
+import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Event;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.MediaTracker;
+import java.awt.image.MemoryImageSource;
+import java.awt.image.PixelGrabber;
 import java.net.URL;
+import java.util.Hashtable;
 import java.util.Vector;
-import java.awt.image.*;
 
 public class Playfield extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;

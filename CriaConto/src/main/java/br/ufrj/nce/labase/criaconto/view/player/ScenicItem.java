@@ -5,6 +5,7 @@ import java.awt.Image;
 
 import baklava.Sprite;
 import br.ufrj.nce.labase.criaconto.control.Controller;
+import br.ufrj.nce.labase.phidias.exception.PhidiasException;
 import br.ufrj.nce.labase.phidias.view.Board;
 import br.ufrj.nce.labase.phidias.view.Piece;
 
@@ -37,7 +38,12 @@ public class ScenicItem extends Piece {
 		} else {
 			if (evt.y < 590 && evt.x < 850) {	
 				if (isOnScene()) {
-					Controller.registerMoveOnSceneEvent(getMoveTime(), getName());				
+					try {
+						Controller.registerMoveOnSceneEvent(getMoveTime(), getName());				
+					} catch (PhidiasException ex) {
+						//TODO: melhorar tratamento de excecao
+						ex.printStackTrace();
+					}
 				}
 			}
 		}
@@ -58,7 +64,12 @@ public class ScenicItem extends Piece {
 			item.setOnScene(true);
 			getPlayfield().removeSpriteFromList(this);
 		
-			Controller.registerPutOnSceneEvent(getMoveTime(), getName());	
+			try {
+				Controller.registerPutOnSceneEvent(getMoveTime(), getName());	
+			} catch (PhidiasException ex) {
+				//TODO: melhorar tratamento de excecao
+				ex.printStackTrace();
+			}
 		}
 	}
 

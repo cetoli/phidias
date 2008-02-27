@@ -5,6 +5,7 @@ import java.awt.Image;
 
 import baklava.Sprite;
 import br.ufrj.nce.labase.criaconto.control.Controller;
+import br.ufrj.nce.labase.phidias.exception.PhidiasException;
 import br.ufrj.nce.labase.phidias.view.Board;
 import br.ufrj.nce.labase.phidias.view.Piece;
 
@@ -20,22 +21,27 @@ public class Character extends Piece {
 	public void mouseUp(Event evt, int x, int y) {
 		super.mouseUp(evt, x, y);
 		
-		if (evt.y > 590 || evt.x > 850) {
-			if (!onScene) {
-				Controller.registerGiveUpEvent(getMoveTime(), getName());				
+		try {
+			if (evt.y > 590 || evt.x > 850) {
+				if (!onScene) {
+					Controller.registerGiveUpEvent(getMoveTime(), getName());				
+				} else {
+					Controller.registerTakeFromSceneEvent(getMoveTime(), getName());	
+				}
+				
+				setX(originalX);
+				setY(originalY);
 			} else {
-				Controller.registerTakeFromSceneEvent(getMoveTime(), getName());	
+				if (!onScene) {
+					Controller.registerPutOnSceneEvent(getMoveTime(), getName());	
+					onScene = true;
+				} else {
+					Controller.registerMoveOnSceneEvent(getMoveTime(), getName());					
+				}
 			}
-			
-			setX(originalX);
-			setY(originalY);
-		} else {
-			if (!onScene) {
-				Controller.registerPutOnSceneEvent(getMoveTime(), getName());	
-				onScene = true;
-			} else {
-				Controller.registerMoveOnSceneEvent(getMoveTime(), getName());					
-			}
+		} catch (PhidiasException ex) {
+			//TODO: melhorar tratamento de excecao
+			ex.printStackTrace();
 		}
 	}
 	
@@ -43,6 +49,12 @@ public class Character extends Piece {
 		if (collidedPiece == null || collidedPiece != s) {
 			collidedPiece = s;
 		}
-		Controller.registerCollisionEvent(getName(), ((Piece) s).getName());	
+		
+		try {
+			Controller.registerCollisionEvent(getName(), ((Piece) s).getName());	
+		} catch (PhidiasException ex) {
+			//TODO: melhorar tratamento de excecao
+			ex.printStackTrace();
+		}
 	}
 }

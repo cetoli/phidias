@@ -15,16 +15,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 import br.ufrj.nce.criaconto.images.Images;
 import br.ufrj.nce.labase.common.MidiSound;
 import br.ufrj.nce.labase.criaconto.control.Controller;
 import br.ufrj.nce.labase.criaconto.view.LoginPanel;
-import br.ufrj.nce.labase.phidias.communication.CommunicationProtocol;
 import br.ufrj.nce.labase.phidias.communication.bean.StimulusBean;
 import br.ufrj.nce.labase.phidias.communication.bean.StimulusResponseBean;
 import br.ufrj.nce.labase.phidias.controller.Session;
+import br.ufrj.nce.labase.phidias.exception.PhidiasException;
 import br.ufrj.nce.labase.phidias.view.Board;
 import br.ufrj.nce.labase.phidias.view.Piece;
 
@@ -37,12 +38,14 @@ public class CriaContoPlayer extends Applet {
     private Timer gameStartTimer;
     private Timer npcTimer;
     private int startSequence = 0;
-    private MidiSound sound;
     private Piece npc;
     
     
     static final String characters[] = {
         "principe", "branca_de_neve", "cacador_frente", "rainha_ma", "anao1", "anao2", "anao3", "anao4", "anao5", "anao6", "anao7"
+    };
+    static final String sounds[] = {
+        "toystory.mid", "snowwhite.mid", "pirates.mid", "fantasia.mid", "alegre.mid", "umpalumpa.mid", "littlemermaid.mid", "lionking.mid", "cinderella.mid", "aladdin.mid", "pinnochio.mid"
     };
     static final Scene scenes[] = {
     	new Scene("castelo", 0, 5), new Scene("ponte", 350, 360), new Scene("casa", 600, 100), new Scene("tronco", 465, 212), new Scene("mina", 570, 400)
@@ -63,17 +66,28 @@ public class CriaContoPlayer extends Applet {
     	
     	loginPanel.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
+    			showMessageDialog("Por favor aguarde!");
+    			
     			if (joinSession()) {
     				startGame();
     			} else {
-    				throw new RuntimeException("Nao havia aplicador disponivel!");
+    				showMessageDialog("Ocorreu um erro ao iniciar o jogo! Por favor, tente novamente mais tarde!");
     			}
     		}
     	});
     }
     
+    private void showMessageDialog(String message) {
+    	JOptionPane.showMessageDialog(this, message);		
+    }
+    
     private boolean joinSession() {
-    	return Controller.joinSession(loginPanel.getLogin(), LoginPanel.CRIA_CONTO);
+    	try {
+    		return Controller.joinSession(loginPanel.getLogin(), LoginPanel.CRIA_CONTO);
+    	} catch (PhidiasException ex) {
+    		showMessageDialog("Erro ao iniciar sessão!");
+			return false;
+		}
     }
 
 	private void startGame() {		
@@ -115,9 +129,6 @@ public class CriaContoPlayer extends Applet {
         
         stimulusTimer = new Timer(10000, new StimulusTimer());
     	stimulusTimer.start();
-        
-        sound = new MidiSound("102.mid", true);
-        sound.start();
 	}
     
 	private void secondPhase() {
@@ -175,9 +186,13 @@ public class CriaContoPlayer extends Applet {
 			}
 		};
 		
+		int i = 0;		
 		for (String personagem : characters) {
 			piece = new Character(board, Images.createImage(personagem + ".gif"), personagem, x, y);				
 			piece.setBackground(background);
+			
+			piece.setSound(new MidiSound(sounds[i++], true));
+			piece.setPlaySound(true);
 			
 			y = inc.incY(y);
 			x = inc.incX(x);
@@ -336,29 +351,25 @@ public class CriaContoPlayer extends Applet {
 						gameStartTimer = null;
 						firstPhase();
 		        	}
-		        } catch (Exception e) {
-		        	e.printStackTrace();
+		        } catch (Exception ex) {
+		        	showMessageDialog("Ocorreu um erro ao iniciar o jogo! Por favor, tente novamente mais tarde!");
 		        }
 		}
 	}
 	
 	private class StimulusTimer implements ActionListener {  
 		public void actionPerformed(ActionEvent arg0) {			
-			StimulusBean stimulus = new StimulusBean();
-			
-			stimulus.setPhaseId(Session.getInstance().getCurrentPhase());
-			stimulus.setSessionId(Session.getInstance().getId());
-	
-			StimulusResponseBean response = (StimulusResponseBean) CommunicationProtocol.execute(CommunicationProtocol.GET_NEXT_STIMULUS_ACTION, stimulus);
-			Integer stimulusType = response.getStimulusTypeId();
-			if (stimulusType != null) {
-				if (stimulusType.compareTo(StimulusBean.SHOW_NPC) == 0) {
+			StimulusResponseBean response = Controller.getNextStimulus();
+			if (response != null) {
+				Integer stimulusType = response.getStimulusTypeId();
+				if (stimulusType != null && stimulusType.compareTo(StimulusBean.SHOW_NPC) == 0) {
 					try {
 						showNPC(response.getStimulusText());
 					} catch (InterruptedException e) {
+						//TODO: melhorar tratamento de excecao
 						e.printStackTrace();
 					}
-				} else if (stimulusType.compareTo(StimulusBean.CHANGE_PHASE) == 0) {
+				} else if (stimulusType != null && stimulusType.compareTo(StimulusBean.CHANGE_PHASE) == 0) {
 					Session.getInstance().changePhase();
 					
 					if (Session.getInstance().getCurrentPhase() == 1) {
