@@ -33,9 +33,7 @@ public class Piece extends Sprite {
 		setY(y);
 
 		setDirection(0);
-		setSpeed(0);
-		setBackground(false);
-		setRectangular(false);		
+		setSpeed(0);		
 	}
 	
 	public void mouseEnter(Event evt, int x, int y) {
@@ -79,7 +77,7 @@ public class Piece extends Sprite {
 	}
 	
 	public long getMoveTime() {
-		return moveEndTime - moveStartTime;
+		return (moveEndTime - moveStartTime)/1000;
 	}
 	
 	public void collisionWith(Piece p) {

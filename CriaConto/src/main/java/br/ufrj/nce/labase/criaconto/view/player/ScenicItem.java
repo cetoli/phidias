@@ -18,11 +18,15 @@ public class ScenicItem extends Piece {
 	public ScenicItem(Board b, Image image, String name, int x, int y) {
 		super(b, image, name, x, y);
 		setEdgeHandling(Sprite.edgeSolid);
+		setBackground(false);
+		setRectangular(false);
 	}
 	
 	public ScenicItem(Board b, Image image, String name, Image bigImage, int x, int y, int bigImageX, int bigImageY) {
 		super(b, image, name, x, y);
 		setEdgeHandling(Sprite.edgeSolid);
+		setBackground(false);
+		setRectangular(false);
 		this.bigImage = bigImage;
 		this.bigImageX = bigImageX;
 		this.bigImageY = bigImageY;
@@ -62,7 +66,10 @@ public class ScenicItem extends Piece {
 			item.setBackground(false);
 			item.setRectangular(false);
 			item.setOnScene(true);
+			
 			getPlayfield().removeSpriteFromList(this);
+			getPlayfield().removeSpritesFromListNow();
+			getPlayfield().repaint();
 		
 			try {
 				Controller.registerPutOnSceneEvent(getMoveTime(), getName());	

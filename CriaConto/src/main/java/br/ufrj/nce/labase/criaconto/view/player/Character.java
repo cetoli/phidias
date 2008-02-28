@@ -58,4 +58,17 @@ public class Character extends Piece {
 			ex.printStackTrace();
 		}
 	}
+	
+	public void mouseEnter(Event evt, int x, int y) {
+		if (sound != null && isPlaySound()) {
+			Controller.setCurrentSound(sound);
+			Controller.startSound();
+		}
+	}
+	
+	public void mouseExit(Event evt, int x, int y) {
+		if (sound != null) {
+			Controller.stopSound();
+		}
+	}
 }

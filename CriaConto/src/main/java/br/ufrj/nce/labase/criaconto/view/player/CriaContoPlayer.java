@@ -39,7 +39,6 @@ public class CriaContoPlayer extends Applet {
     private Timer npcTimer;
     private int startSequence = 0;
     private Piece npc;
-    private MidiSound startSound = new MidiSound("entrada.midi", true);    
     
     static final String characters[] = {
         "principe", "branca_de_neve", "cacador_frente", "rainha_ma", "anao1", "anao2", "anao3", "anao4", "anao5", "anao6", "anao7"
@@ -60,7 +59,8 @@ public class CriaContoPlayer extends Applet {
     	setBackground(Color.WHITE);
     	setLayout(new GridBagLayout());
 
-    	startSound.start();
+    	Controller.setCurrentSound(new MidiSound("entrada.midi", true));
+    	Controller.startSound();
     	
     	loginPanel = new LoginPanel();
     	loginPanel.setPreferredSize(new Dimension(1024, 820));
@@ -83,20 +83,16 @@ public class CriaContoPlayer extends Applet {
     	JOptionPane.showMessageDialog(this, message);		
     }
     
-    private boolean joinSession() {
-    	try {
-    		return Controller.joinSession(loginPanel.getLogin(), LoginPanel.CRIA_CONTO);
-    	} catch (PhidiasException ex) {
-    		showMessageDialog("Erro ao iniciar sessão!");
-			return false;
-		}
-    }
-
-	private void startGame() {		
+    private void startGame() {		
 		createInitialBackground("tela_inicial.jpg");
         
         gameStartTimer = new Timer(1100, new GameStartTimer());
         gameStartTimer.start();        
+	}
+
+	private Board createBoard(String backgroundImageName){
+		Board b = new Board(this, getWidth(), getHeight(), backgroundImageName);
+		return b;
 	}
 
 	private void createInitialBackground(String backgroundImage) {
@@ -109,6 +105,74 @@ public class CriaContoPlayer extends Applet {
         board.start();
 	}
 
+	private boolean joinSession() {
+		try {
+			return Controller.joinSession(loginPanel.getLogin(), LoginPanel.CRIA_CONTO);
+		} catch (PhidiasException ex) {
+			showMessageDialog("Erro ao iniciar sessão!");
+			return false;
+		}
+	}
+
+	private void changePhase() {
+		Session.getInstance().changePhase();
+		
+		switch (Session.getInstance().getCurrentPhase()) {
+			case 1:
+				startStimulusTimer();
+				firstPhase();
+				break;
+			case 2:
+				showMessageDialog("Parabéns! Agora descubra novidades no cenário!");
+				secondPhase();
+				break;
+			case 3:
+				showMessageDialog("Parabéns! Agora monte seu próprio cenário!");
+				thirdPhase();
+				break;
+			default:
+				break;
+		} 
+	}
+
+	private void firstPhase() {
+		setSize(1024, 820);
+		removeAll();
+		
+	    board = createBoard("fundo.jpg");
+		
+	    add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
+	    putCharactersOnBoard(true, false);
+	    board.start();
+	}
+
+	private void secondPhase() {
+		setSize(1024, 820);
+		removeAll();
+		
+	    board = createBoard("fundo.jpg");
+		
+	    add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
+	    putCharactersOnBoard(true, true);
+	    board.start();
+	    
+	    stimulusTimer = new Timer(10000, new StimulusTimer());
+		stimulusTimer.start();
+	}
+
+	private void thirdPhase() {
+		setSize(1048, 820);
+		removeAll();
+	
+		board = createBoard("fundo2.jpg");
+		
+		add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
+		putScenicItensOnBoard();
+		putCharactersOnBoard(false, true);
+		putAnimalsOnBoard();
+		board.start();
+	}
+
 	private void showNPC(String stimulus) throws InterruptedException {
 		Image npcImage = Images.createImage("NPC.gif");		
 		npc = new Piece(board, npcImage, "npc", 650, 25);
@@ -118,60 +182,12 @@ public class CriaContoPlayer extends Applet {
 		npcTimer = new Timer(7000, new NPCTimer());
 		npcTimer.start();
 	}
-	
-	
-	private void stopTimer() {
-		npcTimer.stop();
-	}
-	
-	private void firstPhase() {
-		setSize(1024, 820);
-    	removeAll();
-		
-        board = createBoard("fundo.jpg");
-    	
-        add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
-        putCharactersOnBoard(true, false);
-        board.start();
-	}
-	
+
 	private void startStimulusTimer() {
 		stimulusTimer = new Timer(10000, new StimulusTimer());
     	stimulusTimer.start();
 	}
 	
-	private void secondPhase() {
-		setSize(1024, 820);
-    	removeAll();
-		
-        board = createBoard("fundo.jpg");
-    	
-        add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
-        putCharactersOnBoard(true, true);
-        board.start();
-        
-        stimulusTimer = new Timer(10000, new StimulusTimer());
-    	stimulusTimer.start();
-	}
-    
-	private void thirdPhase() {
-		setSize(1048, 820);
-		removeAll();
-
-		board = createBoard("fundo2.jpg");
-		
-		add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
-		putScenicItensOnBoard();
-		putCharactersOnBoard(false, true);
-		putAnimalsOnBoard();
-		board.start();
-	}
-	
-    private Board createBoard(String backgroundImageName){
-    	Board b = new Board(this, getWidth(), getHeight(), backgroundImageName);
-    	return b;
-    }
-    
 	public final void putImagesOnBoard(String[] images, Inc inc, int x, int y) {
 		for (String nomeImage : images) {
 			piece = new Piece(board, Images.createImage(nomeImage), nomeImage, x, y);
@@ -258,27 +274,6 @@ public class CriaContoPlayer extends Applet {
 		Image image4 = Images.createImage("esquilo_no_balde.gif");		
 		new Piece(board, image4, "esquilo_no_balse", 580, 300);
     }
-	private void changePhase() {
-		Session.getInstance().changePhase();
-		
-		System.out.println("fase = " + Session.getInstance().getCurrentPhase());
-		
-		
-		switch (Session.getInstance().getCurrentPhase()) {
-			case 1:
-				startStimulusTimer();
-				firstPhase();
-				break;
-			case 2:
-				secondPhase();
-				break;
-			case 3:
-				thirdPhase();
-				break;
-			default:
-				break;
-		} 
-	}
 	
 	/**Main method*/
 	public static void main(String[] args) {
@@ -314,7 +309,10 @@ public class CriaContoPlayer extends Applet {
 			if (npc != null) {
 				board.removeSpriteFromList(npc);
 				board.removeSpritesFromListNow();	
-				stopTimer();
+				board.repaint();
+				
+				npcTimer.stop();
+				npcTimer = null;
 			}
 		}		
 	}
@@ -397,7 +395,7 @@ public class CriaContoPlayer extends Applet {
 						startSequence++;
 						break;
 					case 12:
-						startSound.stop();
+						Controller.stopSound();
 						changePhase();
 						gameStartTimer.stop();
 						gameStartTimer = null;
