@@ -39,8 +39,7 @@ public class CriaContoPlayer extends Applet {
     private Timer npcTimer;
     private int startSequence = 0;
     private Piece npc;
-    private MidiSound startSound = new MidiSound("entrada.midi", true);
-    
+    private MidiSound startSound = new MidiSound("entrada.midi", true);    
     
     static final String characters[] = {
         "principe", "branca_de_neve", "cacador_frente", "rainha_ma", "anao1", "anao2", "anao3", "anao4", "anao5", "anao6", "anao7"
@@ -126,23 +125,36 @@ public class CriaContoPlayer extends Applet {
 	}
 	
 	private void firstPhase() {
-		gameStartTimer.stop();
-		gameStartTimer = null;
-		
 		setSize(1024, 820);
     	removeAll();
 		
         board = createBoard("fundo.jpg");
     	
         add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
-        putCharactersOnBoard(true);
+        putCharactersOnBoard(true, false);
+        board.start();
+	}
+	
+	private void startStimulusTimer() {
+		stimulusTimer = new Timer(10000, new StimulusTimer());
+    	stimulusTimer.start();
+	}
+	
+	private void secondPhase() {
+		setSize(1024, 820);
+    	removeAll();
+		
+        board = createBoard("fundo.jpg");
+    	
+        add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
+        putCharactersOnBoard(true, true);
         board.start();
         
         stimulusTimer = new Timer(10000, new StimulusTimer());
     	stimulusTimer.start();
 	}
     
-	private void secondPhase() {
+	private void thirdPhase() {
 		setSize(1048, 820);
 		removeAll();
 
@@ -150,7 +162,7 @@ public class CriaContoPlayer extends Applet {
 		
 		add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
 		putScenicItensOnBoard();
-		putCharactersOnBoard(false);
+		putCharactersOnBoard(false, true);
 		putAnimalsOnBoard();
 		board.start();
 	}
@@ -187,7 +199,7 @@ public class CriaContoPlayer extends Applet {
 	    } 
     }
 	
-	public void putCharactersOnBoard(boolean background) {
+	public void putCharactersOnBoard(boolean background, boolean playSound) {
 		int x = 60;
 		int y = 635;
 		
@@ -199,11 +211,16 @@ public class CriaContoPlayer extends Applet {
 		
 		int i = 0;		
 		for (String personagem : characters) {
-			piece = new Character(board, Images.createImage(personagem + ".gif"), personagem, x, y);				
-			piece.setBackground(background);
+			if (!background) {
+				piece = new Character(board, Images.createImage(personagem + ".gif"), personagem, x, y);			
+			} else {
+				piece = new BackgroundCharacter(board, Images.createImage(personagem + ".gif"), personagem, x, y);
+			}
 			
-			piece.setSound(new MidiSound(sounds[i++], true));
-			piece.setPlaySound(true);
+			if (playSound) {
+				piece.setSound(new MidiSound(sounds[i++], true));
+				piece.setPlaySound(playSound);
+			}
 			
 			y = inc.incY(y);
 			x = inc.incX(x);
@@ -241,6 +258,27 @@ public class CriaContoPlayer extends Applet {
 		Image image4 = Images.createImage("esquilo_no_balde.gif");		
 		new Piece(board, image4, "esquilo_no_balse", 580, 300);
     }
+	private void changePhase() {
+		Session.getInstance().changePhase();
+		
+		System.out.println("fase = " + Session.getInstance().getCurrentPhase());
+		
+		
+		switch (Session.getInstance().getCurrentPhase()) {
+			case 1:
+				startStimulusTimer();
+				firstPhase();
+				break;
+			case 2:
+				secondPhase();
+				break;
+			case 3:
+				thirdPhase();
+				break;
+			default:
+				break;
+		} 
+	}
 	
 	/**Main method*/
 	public static void main(String[] args) {
@@ -360,7 +398,9 @@ public class CriaContoPlayer extends Applet {
 						break;
 					case 12:
 						startSound.stop();
-						firstPhase();
+						changePhase();
+						gameStartTimer.stop();
+						gameStartTimer = null;
 		        	}
 		        } catch (Exception ex) {
 		        	ex.printStackTrace();
@@ -382,11 +422,7 @@ public class CriaContoPlayer extends Applet {
 						e.printStackTrace();
 					}
 				} else if (stimulusType != null && stimulusType.compareTo(StimulusBean.CHANGE_PHASE) == 0) {
-					Session.getInstance().changePhase();
-					
-					if (Session.getInstance().getCurrentPhase() == 1) {
-						secondPhase();
-					}
+					changePhase();
 				}
 			}
 		}

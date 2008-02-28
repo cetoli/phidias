@@ -16,6 +16,7 @@ public class Character extends Piece {
 	public Character(Board b, Image image, String name, int x, int y) {
 		super(b, image, name, x, y);
 		setEdgeHandling(Sprite.edgeSolid);
+		setBackground(false);
 	}
 	
 	public void mouseUp(Event evt, int x, int y) {
