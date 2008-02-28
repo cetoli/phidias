@@ -8,7 +8,7 @@ import br.ufrj.nce.labase.phidias.persistence.model.Session;
 public class SessionDAO extends GenericDAO<Session> {
 	public Session findByStatus(int status){
 		try {
-			Query query = this.getSession().createQuery("select s from Session s where s.status = :status");
+			Query query = this.getSession().createQuery("select s from Session s where s.status = :status and s.sessionEndDate is null");
 			query.setParameter("status", status);
 			query.setMaxResults(1);
 			
