@@ -30,7 +30,7 @@ public class Session {
 	}
 
 	public Integer getCurrentPhase() {
-		return 1;
+		return currentPhase;
 	}
 	
 	public void setCurrentPhase(Integer phase) {
