@@ -40,6 +40,9 @@ public class CriaContoAttendant extends Applet {
 	private TextArea moves;
 	private Timer movesTimer;
 	private LoginPanel loginPanel;
+	
+	private Color backgroundColor = new Color(249, 227, 203);
+	
 
 	public CriaContoAttendant() {
 	}
@@ -84,19 +87,31 @@ public class CriaContoAttendant extends Applet {
 		setSize(1024, 820);
     	removeAll();
     	
-    	Panel p = new Panel();
+    	Panel p = new Panel() {
+    		public void paint(Graphics g) {
+    			super.paint(g);
+    			
+    			if (backgroundImage != null) {
+    				g.drawImage(backgroundImage, 0, 0, null);
+    			}
+    		}
+    	};
+    	
     	p.setLayout(new GridBagLayout());
+    	p.setSize(1024, 820);
 		
 		Label movesLabel = new Label("Jogadas do paciente");
+		movesLabel.setBackground(backgroundColor);
 		p.add(movesLabel, new GridBagConstraints(0, 0, 3, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
 		moves = new TextArea();
-		moves.setRows(10);
+		moves.setRows(8);
 		moves.setColumns(80);
 		moves.setEditable(false);
 		p.add(moves, new GridBagConstraints(0, 1, 3, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
 		Label commentsLabel = new Label("Entre com os comentarios");
+		commentsLabel.setBackground(backgroundColor);
 		p.add(commentsLabel, new GridBagConstraints(0, 2, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
 		commentsText = new TextArea();
@@ -113,12 +128,13 @@ public class CriaContoAttendant extends Applet {
 		p.add(ok, new GridBagConstraints(2, 2, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
 		comments = new TextArea();
-		comments.setRows(10);
+		comments.setRows(8);
 		comments.setColumns(80);
 		comments.setEditable(false);
 		p.add(comments, new GridBagConstraints(0, 3, 3, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
 		Label interventionsLabel = new Label("Entre com os estimulos do NPC:");
+		interventionsLabel.setBackground(backgroundColor);
 		p.add(interventionsLabel, new GridBagConstraints(0, 4, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
 		stimulusText = new TextField();
@@ -133,7 +149,7 @@ public class CriaContoAttendant extends Applet {
 		p.add(ok2, new GridBagConstraints(2, 4, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
 		stimulus = new TextArea();
-		stimulus.setRows(10);
+		stimulus.setRows(8);
 		stimulus.setColumns(80);
 		stimulus.setEditable(false);
 		p.add(stimulus, new GridBagConstraints(0, 5, 3, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
@@ -157,7 +173,7 @@ public class CriaContoAttendant extends Applet {
 		});
 		p.add(exit, new GridBagConstraints(0, 7, 3, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 		
-		add(p, BorderLayout.NORTH);
+		add(p, BorderLayout.CENTER);
 		
 		movesTimer = new Timer(4000, new MovesTimer());
 		movesTimer.start();
@@ -212,14 +228,6 @@ public class CriaContoAttendant extends Applet {
 	}
 
 	public void destroy() {
-	}
-
-	public void paint(Graphics g) {
-		super.paint(g);
-		
-		if (backgroundImage != null) {
-			g.drawImage(backgroundImage, 0, 0, null);
-		}
 	}
 
 	/** Main method */

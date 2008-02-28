@@ -117,6 +117,11 @@ public class CriaContoPlayer extends Applet {
 		npcTimer.start();
 	}
 	
+	
+	private void stopTimer() {
+		npcTimer.stop();
+	}
+	
 	private void firstPhase() {
 		setSize(1024, 820);
     	removeAll();
@@ -124,7 +129,7 @@ public class CriaContoPlayer extends Applet {
         board = createBoard("fundo.jpg");
     	
         add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
-        putPersonagensOnBoard(true);
+        putCharactersOnBoard(true);
         board.start();
         
         stimulusTimer = new Timer(10000, new StimulusTimer());
@@ -138,9 +143,9 @@ public class CriaContoPlayer extends Applet {
 		board = createBoard("fundo2.jpg");
 		
 		add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
-		putCenariosOnBoard();
-		putPersonagensOnBoard(false);
-		putAnimaisOnBoard();
+		putScenicItensOnBoard();
+		putCharactersOnBoard(false);
+		putAnimalsOnBoard();
 		board.start();
 	}
 	
@@ -158,7 +163,7 @@ public class CriaContoPlayer extends Applet {
 	    } 
     }
 	
-	public void putCenariosOnBoard() {
+	public void putScenicItensOnBoard() {
 		int x = 865;
 		int y = 0;
 		
@@ -176,7 +181,7 @@ public class CriaContoPlayer extends Applet {
 	    } 
     }
 	
-	public void putPersonagensOnBoard(boolean background) {
+	public void putCharactersOnBoard(boolean background) {
 		int x = 60;
 		int y = 635;
 		
@@ -217,7 +222,7 @@ public class CriaContoPlayer extends Applet {
 		}
 	}
 
-	public void putAnimaisOnBoard() {
+	public void putAnimalsOnBoard() {
 		Image image = Images.createImage("passarinho.gif");			
 		new Piece(board, image, "passarinho", 480, 110);
 		
@@ -264,7 +269,8 @@ public class CriaContoPlayer extends Applet {
 		public void actionPerformed(ActionEvent arg0) {	
 			if (npc != null) {
 				board.removeSpriteFromList(npc);
-				board.removeSpritesFromListNow();
+				board.removeSpritesFromListNow();	
+				stopTimer();
 			}
 		}		
 	}
