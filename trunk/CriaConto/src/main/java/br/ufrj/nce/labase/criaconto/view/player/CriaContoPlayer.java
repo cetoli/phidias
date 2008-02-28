@@ -39,13 +39,14 @@ public class CriaContoPlayer extends Applet {
     private Timer npcTimer;
     private int startSequence = 0;
     private Piece npc;
+    private MidiSound startSound = new MidiSound("entrada.midi", true);
     
     
     static final String characters[] = {
         "principe", "branca_de_neve", "cacador_frente", "rainha_ma", "anao1", "anao2", "anao3", "anao4", "anao5", "anao6", "anao7"
     };
     static final String sounds[] = {
-        "toystory.mid", "snowwhite.mid", "pirates.mid", "fantasia.mid", "alegre.mid", "umpalumpa.mid", "littlemermaid.mid", "lionking.mid", "cinderella.mid", "aladdin.mid", "pinnochio.mid"
+        "principe.mid", "princesa.mid", "musicamadrasta.mid", "dunga.mid", "soneca.mid", "dunga.mid", "soneca.mid", "dunga.mid", "soneca.mid", "dunga.mid", "soneca.mid"
     };
     static final Scene scenes[] = {
     	new Scene("castelo", 0, 5), new Scene("ponte", 350, 360), new Scene("casa", 600, 100), new Scene("tronco", 465, 212), new Scene("mina", 570, 400)
@@ -60,6 +61,8 @@ public class CriaContoPlayer extends Applet {
     	setBackground(Color.WHITE);
     	setLayout(new GridBagLayout());
 
+    	startSound.start();
+    	
     	loginPanel = new LoginPanel();
     	loginPanel.setPreferredSize(new Dimension(1024, 820));
     	add(loginPanel, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
@@ -123,6 +126,9 @@ public class CriaContoPlayer extends Applet {
 	}
 	
 	private void firstPhase() {
+		gameStartTimer.stop();
+		gameStartTimer = null;
+		
 		setSize(1024, 820);
     	removeAll();
 		
@@ -353,11 +359,11 @@ public class CriaContoPlayer extends Applet {
 						startSequence++;
 						break;
 					case 12:
-						gameStartTimer.stop();
-						gameStartTimer = null;
+						startSound.stop();
 						firstPhase();
 		        	}
 		        } catch (Exception ex) {
+		        	ex.printStackTrace();
 		        	showMessageDialog("Ocorreu um erro ao iniciar o jogo! Por favor, tente novamente mais tarde!");
 		        }
 		}
