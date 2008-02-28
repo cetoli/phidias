@@ -46,7 +46,7 @@ public class CriaContoPlayer extends Applet {
         "principe", "branca_de_neve", "cacador_frente", "rainha_ma", "anao1", "anao2", "anao3", "anao4", "anao5", "anao6", "anao7"
     };
     static final String sounds[] = {
-        "principe.mid", "princesa.mid", "musicamadrasta.mid", "dunga.mid", "soneca.mid", "dunga.mid", "soneca.mid", "dunga.mid", "soneca.mid", "dunga.mid", "soneca.mid"
+        "entrada.midi", "entrada.midi", "entrada.midi", "entrada.midi", "entrada.midi", "entrada.midi", "entrada.midi", "entrada.midi", "entrada.midi", "entrada.midi", "entrada.midi"
     };
     static final Scene scenes[] = {
     	new Scene("castelo", 0, 5), new Scene("ponte", 350, 360), new Scene("casa", 600, 100), new Scene("tronco", 465, 212), new Scene("mina", 570, 400)
