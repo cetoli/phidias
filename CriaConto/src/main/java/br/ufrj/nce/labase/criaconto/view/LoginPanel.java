@@ -1,6 +1,7 @@
 package br.ufrj.nce.labase.criaconto.view;
 
 import java.awt.Button;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
@@ -28,6 +29,7 @@ public class LoginPanel extends Panel{
     	setLayout(new GridBagLayout());
 		
 		Label loginLabel = new Label("Nome:");
+		loginLabel.setBackground(new Color(249, 227, 203));
 		add(loginLabel, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
         
 		login = new TextField();
