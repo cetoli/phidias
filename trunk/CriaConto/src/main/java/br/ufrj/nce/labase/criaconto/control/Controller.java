@@ -1,5 +1,6 @@
 package br.ufrj.nce.labase.criaconto.control;
 
+import br.ufrj.nce.labase.common.MidiSound;
 import br.ufrj.nce.labase.phidias.communication.CommunicationProtocol;
 import br.ufrj.nce.labase.phidias.communication.bean.CommentBean;
 import br.ufrj.nce.labase.phidias.communication.bean.EventBean;
@@ -13,11 +14,12 @@ import br.ufrj.nce.labase.phidias.exception.PhidiasException;
 
 public class Controller {
 	private static boolean sendDataToServer = true;
+	private static MidiSound currentSound;
 
 	public static void setSendDataToServer(boolean send){
 		sendDataToServer = send;
 	}
-
+	
 	public static boolean registerSession(String attendant, int game) throws PhidiasException {
 		if (sendDataToServer) {
 			SessionBean sessionContainer = new SessionBean();
@@ -228,5 +230,25 @@ public class Controller {
 		}
 		
 		return null;
+	}
+
+	public static void setCurrentSound(MidiSound sound) {
+		if (currentSound != null) {
+			currentSound.stop();
+		}
+		
+		currentSound = sound;
+	}
+	
+	public static void startSound() {
+		if (currentSound != null) {
+			currentSound.start();
+		}
+	}
+	
+	public static void stopSound() {
+		if (currentSound != null) {
+			currentSound.stop();
+		}
 	}
 }

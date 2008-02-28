@@ -84,7 +84,10 @@ public class MidiSound implements MetaEventListener, Runnable {
 			}
 		}
 
-		sequencer.stop();
+		if (sequencer.isOpen()) {
+			sequencer.stop();
+		}
+		
 		sequencer.close();
 
 		if (!replay)
