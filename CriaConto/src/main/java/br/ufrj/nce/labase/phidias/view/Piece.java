@@ -7,15 +7,15 @@ import baklava.Sprite;
 import br.ufrj.nce.labase.common.MidiSound;
 
 public class Piece extends Sprite {
-	private String name;
+	protected String name;
 	protected int originalX;
 	protected int originalY;
 	protected int downX;
 	protected int downY;
 	protected long moveStartTime;
 	protected long moveEndTime;
-	private MidiSound sound;
-	private boolean playSound;
+	protected MidiSound sound;
+	protected boolean playSound;
 	
 	public Piece() {
 		super();
@@ -59,7 +59,8 @@ public class Piece extends Sprite {
 		downX = x;
 		downY = y;
 		
-		moveStartTime = System.currentTimeMillis();	}
+		moveStartTime = System.currentTimeMillis();	
+	}
 	
 	public void mouseUp(Event evt, int x, int y) {
 		moveEndTime = System.currentTimeMillis();
