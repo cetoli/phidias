@@ -210,7 +210,6 @@ public class Controller {
 			CommunicationProtocol.execute(CommunicationProtocol.REGISTER_STIMULUS_ACTION, stimulusContainer);
 		}
 
-		Session.getInstance().changePhase();
 		return true;
 	}
 	
