@@ -1,0 +1,251 @@
+-- ------------------------------------------------------------
+-- Essa tabela armazena os dados de um paciente.
+-- ------------------------------------------------------------
+
+CREATE TABLE PACIENTE (
+  PAC_ID_LOGIN VARCHAR(10) NOT NULL,
+  PAC_NM_PACIENTE VARCHAR(50) NOT NULL,
+  PAC_DT_NASCIMENTO DATE NOT NULL,
+  PAC_ID_SEXO CHAR(1) NULL,
+  PRIMARY KEY(PAC_ID_LOGIN)
+);
+
+-- ------------------------------------------------------------
+-- Identifica o jogo e o cenário utilizado pelo mesmo.
+-- ------------------------------------------------------------
+
+CREATE TABLE JOGO (
+  JOG_ID_JOGO INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  JOG_NM_JOGO VARCHAR(50) NOT NULL,
+  PRIMARY KEY(JOG_ID_JOGO)
+);
+
+-- ------------------------------------------------------------
+-- Essa tabela armazena as perguntas do formulario a serem respondidas pelo aplicador.
+-- ------------------------------------------------------------
+
+CREATE TABLE PERGUNTAS_FORMULARIO (
+  PEF_ID_PERGUNTAFORMULARIO INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  PEF_TX_PERGUNTA VARCHAR(200) NULL,
+  PRIMARY KEY(PEF_ID_PERGUNTAFORMULARIO)
+);
+
+-- ------------------------------------------------------------
+-- Tabela que registra os tipos de estimulos que podem ser utilizados pelo aplicador.
+-- ------------------------------------------------------------
+
+CREATE TABLE TIPO_ESTIMULO (
+  TIE_ID_TIPO_ESTIMULO INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  TIE_DS_TIPO_ESTIMULO VARCHAR(50) NULL,
+  PRIMARY KEY(TIE_ID_TIPO_ESTIMULO)
+);
+
+-- ------------------------------------------------------------
+-- Essa tabela guardará todas as ações que podem ser feitas durante o jogo realizado pela criança. 
+-- ------------------------------------------------------------
+
+CREATE TABLE TIPO_ACAO (
+  TIA_ID_TIPOACAO INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  TIA_DS_TIPOACAO VARCHAR(50) NULL,
+  PRIMARY KEY(TIA_ID_TIPOACAO)
+);
+
+-- ------------------------------------------------------------
+-- As palavras cadastradas pelos neurocientistas estão classificicadas em 8 grupos.
+-- ------------------------------------------------------------
+
+CREATE TABLE CLASSIFICACAO_PALAVRA (
+  CLP_ID_CLASSIFICACAO INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  CLP_DS_CLASSIFICACAO VARCHAR(50) NOT NULL,
+  PRIMARY KEY(CLP_ID_CLASSIFICACAO)
+);
+
+-- ------------------------------------------------------------
+-- Essa tabela armazena os dados do aplicador.
+-- ------------------------------------------------------------
+
+CREATE TABLE APLICADOR (
+  APL_ID_LOGIN VARCHAR(10) NOT NULL,
+  APL_NM_APLICADOR VARCHAR(50) NOT NULL,
+  APL_DS_PROFISSAO VARCHAR(50) NULL,
+  APL_DS_INSTITUICAO VARCHAR(70) NULL,
+  PRIMARY KEY(APL_ID_LOGIN)
+);
+
+-- ------------------------------------------------------------
+-- Essa tabla armazena o banco de dados de palavra definiidos pelos neurocientistas. A partir dessas palavras será feita uma anáilise automatizada pela aplicação.
+-- ------------------------------------------------------------
+
+CREATE TABLE PALAVRAS_CHAVE (
+  PAC_ID_PALAVRA INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  CLP_ID_CLASSIFICACAO INTEGER UNSIGNED NOT NULL,
+  PAC_DS_PALAVRA VARCHAR(40) NOT NULL,
+  PRIMARY KEY(PAC_ID_PALAVRA),
+  INDEX PALAVRAS_CHAVE_FKIndex1(CLP_ID_CLASSIFICACAO),
+  FOREIGN KEY(CLP_ID_CLASSIFICACAO)
+    REFERENCES CLASSIFICACAO_PALAVRA(CLP_ID_CLASSIFICACAO)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+);
+
+-- ------------------------------------------------------------
+-- Os jogos são divididos em fases. Todo tipo de estimula será identificado através da fase do jogo.
+-- ------------------------------------------------------------
+
+CREATE TABLE FASE_JOGO (
+  FAJ_ID_FASEJOGO INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  JOG_ID_JOGO INTEGER UNSIGNED NOT NULL,
+  FAJ_DS_FASEJOGO VARCHAR(300) NOT NULL,
+  PRIMARY KEY(FAJ_ID_FASEJOGO),
+  INDEX FASE_JOGO_FKIndex1(JOG_ID_JOGO),
+  FOREIGN KEY(JOG_ID_JOGO)
+    REFERENCES JOGO(JOG_ID_JOGO)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+);
+
+-- ------------------------------------------------------------
+-- Essa tabela armazena os dados de uma sessão que é aplicada a um paciente por um aplicador.
+-- ------------------------------------------------------------
+
+CREATE TABLE SESSAO (
+  SES_ID_SESSAO INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  PAC_ID_LOGIN VARCHAR(10) NULL,
+  JOG_ID_JOGO INTEGER UNSIGNED NOT NULL,
+  APL_ID_LOGIN VARCHAR(10) NOT NULL,
+  SES_DT_INICIO_SESSAO DATETIME NOT NULL,
+  SES_DT_FIM_SESSAO DATETIME NULL,
+  SES_ID_STATUS INTEGER UNSIGNED NOT NULL,
+  PRIMARY KEY(SES_ID_SESSAO),
+  INDEX SESSAO_JOGO_FKIndex1(APL_ID_LOGIN),
+  INDEX SESSAO_FKIndex2(JOG_ID_JOGO),
+  INDEX SESSAO_FKIndex3(PAC_ID_LOGIN),
+  FOREIGN KEY(PAC_ID_LOGIN)
+    REFERENCES PACIENTE(PAC_ID_LOGIN)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION,
+  FOREIGN KEY(APL_ID_LOGIN)
+    REFERENCES APLICADOR(APL_ID_LOGIN)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION,
+  FOREIGN KEY(JOG_ID_JOGO)
+    REFERENCES JOGO(JOG_ID_JOGO)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+);
+
+-- ------------------------------------------------------------
+-- Essa tabela armazena as respostas dadas pelo aplicador após a realização de uma sessão do usuário.
+-- ------------------------------------------------------------
+
+CREATE TABLE SESSAO_PERGUNTAS_FORMULARIO (
+  PEF_ID_PERGUNTAFORMULARIO INTEGER UNSIGNED NOT NULL,
+  SES_ID_SESSAO INTEGER UNSIGNED NOT NULL,
+  SPF_TX_RESPOSTA VARCHAR(200) NOT NULL,
+  PRIMARY KEY(PEF_ID_PERGUNTAFORMULARIO, SES_ID_SESSAO),
+  INDEX SESSAO_has_PERGUNTAS_FORMULARIO_FKIndex2(PEF_ID_PERGUNTAFORMULARIO),
+  INDEX SESSAO_PERGUNTAS_FORMULARIO_FKIndex3(SES_ID_SESSAO),
+  FOREIGN KEY(SES_ID_SESSAO)
+    REFERENCES SESSAO(SES_ID_SESSAO)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION,
+  FOREIGN KEY(PEF_ID_PERGUNTAFORMULARIO)
+    REFERENCES PERGUNTAS_FORMULARIO(PEF_ID_PERGUNTAFORMULARIO)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+);
+
+CREATE TABLE FASE_JOGO_SESSAO (
+  FAJ_ID_FASEJOGO INTEGER UNSIGNED NOT NULL,
+  SES_ID_SESSAO INTEGER UNSIGNED NOT NULL,
+  FJS_TX_COMENTARIOS VARCHAR(500) NULL,
+  PRIMARY KEY(FAJ_ID_FASEJOGO, SES_ID_SESSAO),
+  INDEX FASE_JOGO_has_SESSAO_FKIndex1(FAJ_ID_FASEJOGO),
+  INDEX FASE_JOGO_SESSAO_FKIndex2(SES_ID_SESSAO),
+  FOREIGN KEY(FAJ_ID_FASEJOGO)
+    REFERENCES FASE_JOGO(FAJ_ID_FASEJOGO)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION,
+  FOREIGN KEY(SES_ID_SESSAO)
+    REFERENCES SESSAO(SES_ID_SESSAO)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+);
+
+-- ------------------------------------------------------------
+-- Essa tabela visa armazenar os dados de uma dada ação do jogo, tais como: o personagem envolvido, o tipo de ação executado, o tempo de reação de inicio e de resposta, se foi uma jogada valida e a fase em que ocorreu a ação.
+-- ------------------------------------------------------------
+
+CREATE TABLE ACAO_JOGO (
+  ACJ_ID_ACAO INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  SES_ID_SESSAO INTEGER UNSIGNED NOT NULL,
+  FAJ_ID_FASEJOGO INTEGER UNSIGNED NOT NULL,
+  TIA_ID_TIPOACAO INTEGER UNSIGNED NOT NULL,
+  ACJ_TP_JOGADA INTEGER UNSIGNED NOT NULL,
+  ACJ_FG_JOGADA_VALIDA BOOL NOT NULL,
+  ACJ_NM_OBJETO_MANIPULAVEL_1 VARCHAR(50) NULL,
+  ACJ_NM_OBJETO_MANIPULAVEL_2 VARCHAR(50) NULL,
+  ACJ_FG_ENVIADO_APLICADOR TINYINT(1) DEFAULT NULL,
+  PRIMARY KEY(ACJ_ID_ACAO),
+  INDEX ACAO_JOGO_FKIndex2(FAJ_ID_FASEJOGO, SES_ID_SESSAO),
+  INDEX ACAO_JOGO_FKIndex3(TIA_ID_TIPOACAO),
+  FOREIGN KEY(FAJ_ID_FASEJOGO, SES_ID_SESSAO)
+    REFERENCES FASE_JOGO_SESSAO(FAJ_ID_FASEJOGO, SES_ID_SESSAO)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION,
+  FOREIGN KEY(TIA_ID_TIPOACAO)
+    REFERENCES TIPO_ACAO(TIA_ID_TIPOACAO)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+);
+
+-- ------------------------------------------------------------
+-- Tabela que registra os estimulos  informados pelo Aplicador.
+-- ------------------------------------------------------------
+
+CREATE TABLE FASE_JOGO_SESSAO_TIPO_ESTIMULO (
+  JJTE_ID_FASE_JOGO_TIPO_ESTIMULO INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  SES_ID_SESSAO INTEGER UNSIGNED NOT NULL,
+  FAJ_ID_FASEJOGO INTEGER UNSIGNED NOT NULL,
+  TIE_ID_TIPO_ESTIMULO INTEGER UNSIGNED NOT NULL,
+  JJTE_TX_COMANDO_ESTIMULO VARCHAR(200) NULL,
+  JJTE_FG_ESTIMULO_ENVIADO BOOL NULL DEFAULT FALSE,
+  PRIMARY KEY(JJTE_ID_FASE_JOGO_TIPO_ESTIMULO),
+  INDEX FASE_JOGO_SESSAO_has_TIPO_ESTIMULO_FKIndex1(FAJ_ID_FASEJOGO, SES_ID_SESSAO),
+  INDEX FASE_JOGO_SESSAO_has_TIPO_ESTIMULO_FKIndex2(TIE_ID_TIPO_ESTIMULO),
+  FOREIGN KEY(FAJ_ID_FASEJOGO, SES_ID_SESSAO)
+    REFERENCES FASE_JOGO_SESSAO(FAJ_ID_FASEJOGO, SES_ID_SESSAO)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION,
+  FOREIGN KEY(TIE_ID_TIPO_ESTIMULO)
+    REFERENCES TIPO_ESTIMULO(TIE_ID_TIPO_ESTIMULO)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+);
+
+-- ------------------------------------------------------------
+-- Caga das tabelas basicas.
+-- ------------------------------------------------------------
+
+INSERT INTO TIPO_ACAO VALUES(1,'Desistência');
+INSERT INTO TIPO_ACAO VALUES(2,'Colocar personagem no cenário');
+INSERT INTO TIPO_ACAO VALUES(3,'Colisão');
+INSERT INTO TIPO_ACAO VALUES(4,'Mover no cenário');
+INSERT INTO TIPO_ACAO VALUES(5,'Devolver personagem');
+
+INSERT INTO TIPO_ESTIMULO VALUES(1, 'Invoca NPC');
+INSERT INTO TIPO_ESTIMULO VALUES(2, 'Muda fase');
+
+INSERT INTO JOGO VALUES (1, 'CriaConto');
+
+INSERT INTO FASE_JOGO VALUES (1, 1, 'Etapa 1');
+INSERT INTO FASE_JOGO VALUES (2, 1, 'Etapa 2');
+INSERT INTO FASE_JOGO VALUES (3, 1, 'Etapa 3');
+INSERT INTO FASE_JOGO VALUES (4, 1, 'Etapa 4');
+INSERT INTO FASE_JOGO VALUES (5, 1, 'Etapa 5');
+INSERT INTO FASE_JOGO VALUES (6, 1, 'Etapa 6');
+INSERT INTO FASE_JOGO VALUES (7, 1, 'Etapa 7');
+
+
+
+
