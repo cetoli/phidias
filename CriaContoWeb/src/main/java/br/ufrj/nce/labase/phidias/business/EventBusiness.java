@@ -2,6 +2,10 @@ package br.ufrj.nce.labase.phidias.business;
 
 import java.util.List;
 
+import javax.persistence.EntityExistsException;
+
+import org.hibernate.exception.ConstraintViolationException;
+
 import br.ufrj.nce.labase.persistence.EntityManagerHelper;
 import br.ufrj.nce.labase.phidias.communication.bean.EventBean;
 import br.ufrj.nce.labase.phidias.persistence.dao.ActionDAO;
@@ -18,6 +22,13 @@ public class EventBusiness {
 	 * @return
 	 */
 	public Action registerEvent(EventBean eventContainer) {
+		Action action = new Action();
+		
+		action.setValidMove(eventContainer.getValidMove());
+		action.setObject1(eventContainer.getObject1());
+		action.setObject2(eventContainer.getObject2());
+		action.setMoveTime(eventContainer.getMoveTime());
+		
 		try {
 			if (eventContainer != null) {
 
@@ -25,8 +36,7 @@ public class EventBusiness {
 					throw new RuntimeException("Session id cannot be set, it is created automatically!");
 
 				EntityManagerHelper.getInstance().startTransaction();
-				Action action = new Action();
-
+				
 				SessionGamePhaseDAO sgpDAO = new SessionGamePhaseDAO();
 				SessionGamePhase gamePhase = sgpDAO.findById(SessionGamePhase.class, new SessionGamePhaseId(eventContainer.getPhaseId(), eventContainer.getSessionId()));
 				if (gamePhase == null)
@@ -37,11 +47,6 @@ public class EventBusiness {
 				ActionTypeDAO atDAO = new ActionTypeDAO();
 				action.setActionType(atDAO.findById(ActionType.class, eventContainer.getActionTypeId()));
 
-				action.setValidMove(eventContainer.getValidMove());
-				action.setObject1(eventContainer.getObject1());
-				action.setObject2(eventContainer.getObject2());
-				action.setMoveTime(eventContainer.getMoveTime());
-
 				ActionDAO aDAO = new ActionDAO();
 				aDAO.create(action);
 
@@ -49,6 +54,12 @@ public class EventBusiness {
 
 				return action;
 			}
+		} catch (EntityExistsException e) {
+			EntityManagerHelper.getInstance().rollbackTransaction();
+			return action;
+		} catch (ConstraintViolationException e) {
+			EntityManagerHelper.getInstance().rollbackTransaction();
+			return action;
 		} catch (RuntimeException e) {
 			EntityManagerHelper.getInstance().rollbackTransaction();
 			throw e;
