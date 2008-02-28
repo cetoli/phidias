@@ -28,6 +28,7 @@ import br.ufrj.nce.criaconto.images.Images;
 import br.ufrj.nce.labase.criaconto.control.Controller;
 import br.ufrj.nce.labase.criaconto.view.LoginPanel;
 import br.ufrj.nce.labase.phidias.communication.bean.EventResponseBean;
+import br.ufrj.nce.labase.phidias.controller.Session;
 import br.ufrj.nce.labase.phidias.exception.PhidiasException;
 
 public class CriaContoAttendant extends Applet {
@@ -175,6 +176,10 @@ public class CriaContoAttendant extends Applet {
 		
 		add(p, BorderLayout.CENTER);
 		
+		Session.getInstance().changePhase();
+		System.out.println("fase = " + Session.getInstance().getCurrentPhase());
+		
+		
 		movesTimer = new Timer(4000, new MovesTimer());
 		movesTimer.start();
 	}
@@ -204,12 +209,14 @@ public class CriaContoAttendant extends Applet {
 	}
 	
 	private boolean registerPhaseChange() {
+		boolean success = false;
 		try {
-			return Controller.registerPhaseChange();
+			success = Controller.registerPhaseChange();
+			Session.getInstance().changePhase();
 		} catch (PhidiasException ex) {
 			showMessageDialog("Erro ao enviar solicitação de mudança de fase!");
-			return false;
 		}
+		return success;
 	}
 	
 	private boolean registerSessionEnd() {
