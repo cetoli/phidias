@@ -5,7 +5,10 @@ import java.awt.AWTEvent;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -14,6 +17,14 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.awt.font.FontRenderContext;
+import java.awt.font.LineBreakMeasurer;
+import java.awt.font.TextAttribute;
+import java.awt.font.TextLayout;
+import java.awt.image.BufferedImage;
+import java.text.AttributedCharacterIterator;
+import java.text.AttributedString;
+import java.util.Hashtable;
 
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
@@ -49,6 +60,15 @@ public class CriaContoPlayer extends Applet {
     static final Scene scenes[] = {
     	new Scene("castelo", 0, 5), new Scene("ponte", 350, 360), new Scene("casa", 600, 100), new Scene("tronco", 465, 212), new Scene("mina", 570, 400)
     };
+    
+    private static final Hashtable<TextAttribute, Object> stimulusFont =
+        									new Hashtable<TextAttribute, Object>();
+
+    static {
+    	stimulusFont.put(TextAttribute.FAMILY, "Serif");
+    	stimulusFont.put(TextAttribute.SIZE, new Float(10));
+    }  
+    
     
     public CriaContoPlayer() { 
     	
@@ -143,6 +163,20 @@ public class CriaContoPlayer extends Applet {
 		
 	    add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
 	    putCharactersOnBoard(true, false);
+
+		
+		
+		
+	    try {
+		    showNPC("Estimulo Testando um estimulo com diversas linhas");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+
 	    board.start();
 	}
 
@@ -174,15 +208,105 @@ public class CriaContoPlayer extends Applet {
 	}
 
 	private void showNPC(String stimulus) throws InterruptedException {
-		Image npcImage = Images.createImage("NPC.gif");		
-		npc = new Piece(board, npcImage, "npc", 650, 25);
+		BufferedImage npcImage = (BufferedImage)Images.createImage("NPC.gif");		
+
+     // Get drawing context
+        Graphics2D g2d = npcImage.createGraphics();
+        g2d.setFont(new Font(Font.SERIF, Font.BOLD, 6));
+        
+        paintStimulus(g2d, stimulus);
 		
-		getGraphics().drawString(stimulus, 700, 25);
+		// Dispose context
+        g2d.dispose();
+        
+		npc = new Piece(board, npcImage, "npc", 650, 25);
 		
 		npcTimer = new Timer(7000, new NPCTimer());
 		npcTimer.start();
 	}
+	
+   private void paintStimulus(Graphics g, String stimulus) {
 
+        Graphics2D g2d = (Graphics2D)g;
+        LineBreakMeasurer lineMeasurer = null;
+        g2d.setColor(Color.BLACK);
+
+        int recuo = 85;
+        int yInicial = 15;
+        float width = g2d.getDeviceConfiguration().getBounds().width - recuo -10;
+        
+        System.out.println("TAMANHO ******************  " + width);
+
+        // index of the first character in the paragraph.
+        int paragraphStart = 0;
+
+        // index of the first character after the end of the paragraph.
+        int paragraphEnd = 0;
+
+        
+        AttributedString text = new AttributedString(stimulus, stimulusFont);
+        // Create a new LineBreakMeasurer from the paragraph.
+        // It will be cached and re-used.
+        if (lineMeasurer == null) {
+            AttributedCharacterIterator paragraph = text.getIterator();
+            paragraphStart = paragraph.getBeginIndex();
+            paragraphEnd = paragraph.getEndIndex();
+            FontRenderContext frc = g2d.getFontRenderContext();
+            lineMeasurer = new LineBreakMeasurer(paragraph, frc);
+        }
+
+        
+        // Set break width to width of Component.
+        float breakWidth = width;
+        float drawPosY = yInicial;
+        // Set position to the index of the first character in the paragraph.
+        lineMeasurer.setPosition(paragraphStart);
+
+        // Get lines until the entire paragraph has been displayed.
+        while (lineMeasurer.getPosition() < paragraphEnd) {
+
+            // Retrieve next layout. A cleverer program would also cache
+            // these layouts until the component is re-sized.
+            TextLayout layout = lineMeasurer.nextLayout(breakWidth);
+
+/*            // Compute pen x position. If the paragraph is right-to-left we
+            // will align the TextLayouts to the right edge of the panel.
+            // Note: this won't occur for the English text in this sample.
+            // Note: drawPosX is always where the LEFT of the text is placed.
+            float drawPosX = layout.isLeftToRight()
+                ? recuo : breakWidth - layout.getAdvance();
+*/
+            float drawPosX = recuo;
+
+            // Move y-coordinate by the ascent of the layout.
+            drawPosY += layout.getAscent();
+
+            // Draw the TextLayout at (drawPosX, drawPosY).
+            layout.draw(g2d, drawPosX, drawPosY);
+
+            // Move y-coordinate in preparation for next layout.
+            drawPosY += layout.getDescent() + layout.getLeading();
+        }
+    }
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	
+	
+	
+	
+	
 	private void startStimulusTimer() {
 		stimulusTimer = new Timer(10000, new StimulusTimer());
     	stimulusTimer.start();
