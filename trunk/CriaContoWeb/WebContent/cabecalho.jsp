@@ -6,10 +6,10 @@
 	<div id="navegacao">
 		<div id="menu">
 			<ul>
-				<li><a href="home">Home</a></li>
-				<li><a href="jogos">Jogos</a></li>
-				<li><a href="paciente">Novo Paciente</a></li>
-				<li><a href="aplicador">Novo Aplicador</a></li>
+				<li><a href="home.jsp">Home</a></li>
+				<li><a href="jogos.jsp">Jogos</a></li>
+				<li><a href="paciente.jsp">Novo Paciente</a></li>
+				<li><a href="aplicador.jsp">Novo Aplicador</a></li>
 			</ul>
 		</div>
 		

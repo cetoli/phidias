@@ -16,6 +16,40 @@ Design by Veronica Tosta
 		<div id="welcome" class="post">
 			<h2 class="title">Cadastro do Aplicador</h2>
 			
+<%
+	if (request.getAttribute("registrook") != null) {
+%>
+<script type="">
+ 	alert('<%=request.getAttribute("registrook")%>');
+	document.forms[0].reset();
+ </script>
+<%
+	}
+%>
+
+<form action="aplicador.do" method="post">
+<table>
+	<tr>
+		<td>Login:</td>
+		<td><input type="text" name="login" maxlength="10"/></td>
+	</tr>
+	<tr>
+		<td>Nome:</td>
+		<td><input type="text" name="name"  maxlength="40"/></td>
+	</tr>
+	<tr>
+		<td>Profissão:</td>
+		<td><input type="text" name="profession"  maxlength="20"/></td>
+	</tr>
+	<tr>
+		<td>Instituição:</td>
+		<td><input type="text" name="institution"  maxlength="20"/></td>
+	</tr>
+		<tr>
+		<td colspan="2"><input type="submit" value="Cadastrar"/></td>
+	</tr>
+	
+</table>
 		</div>
 		
 	</div>

@@ -1,7 +1,5 @@
 package br.ufrj.nce.labase.phidias.persistence.model;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 
 /**
  * @generated
@@ -13,7 +11,6 @@ public class Attendant implements java.io.Serializable {
 	 * @generated
 	 */
 	@javax.persistence.Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@javax.persistence.Column(name = "apl_id_login", length = 10, nullable = false)
 	private String id;
 	/**

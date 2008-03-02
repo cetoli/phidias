@@ -1,74 +1,14 @@
-
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><project>
   <modelVersion>4.0.0</modelVersion>
   <groupId>br.ufrj.nce.labase</groupId>
   <artifactId>phidias</artifactId>
-  <packaging>jar</packaging>
-  <version>1.0-SNAPSHOT</version>
   <name>phidias</name>
+  <version>1.0-SNAPSHOT</version>
   <url>http://labase.nce.ufrj.br/phidias</url>
-  <properties>
-    <compileSource>1.5</compileSource>
-  </properties>
-  <licenses>
-    <license>
-      <name>Apache 2</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-      <distribution>repo</distribution>
-      <comments>A business-friendly OSS license</comments>
-    </license>
-  </licenses>
-  <organization>
-    <name>LABASE-NCE-UFRJ</name>
-    <url>http://labase.nce.ufrj.br</url>
-  </organization>
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
   <issueManagement>
     <system>Google</system>
     <url>http://code.google.com/p/phidias/issues/list</url>
   </issueManagement>
-  <!--
-  <scm>
-    <connection>scm:svn:http://phidias.googlecode.com/svn/</connection>
-    <developerConnection>scm:svn:https://phidias.googlecode.com/svn/</developerConnection>
-    <tag>trunk</tag>
-    <url>http://code.google.com/p/phidias/source/browse</url>
-  </scm>
-  -->
-  <scm>
-    <connection>scm:svn:svn://lase.nce.ufrj.br/criaconto/phidias/</connection>
-    <developerConnection>scm:svn:svn://lase.nce.ufrj.br/criaconto/phidias/</developerConnection>
-    <tag>trunk</tag>
-    <url>http://code.google.com/p/phidias/source/browse</url>
-  </scm>
-  <distributionManagement>
-    <site>
-      <id>labase.website</id>
-      <name>LABASE Website</name>
-      <url>scp://labase.nce.ufrj.br/var/resin/www/phidias</url>
-    </site>
-    <repository>
-      <id>labase.maven</id>
-      <name>Labase Maven2</name>
-      <url>scp://labase.nce.ufrj.br/var/resin/www/maven2</url>
-    </repository>
-  <!-- use the following if you ARE using a snapshot version. -->
-    <snapshotRepository>
-      <id>labase.maven</id>
-      <name>Labase Maven2 SnapShot</name>
-      <url>scp://labase.nce.ufrj.br/var/resin/www/maven2snap</url>
-    </snapshotRepository>
-    <downloadUrl>http://code.google.com/p/phidias/downloads/list</downloadUrl>
-    <!--<status>deployed</status>-->
-  </distributionManagement>
   <developers>
     <developer>
       <id>cetoli</id>
@@ -103,28 +43,35 @@
       </properties>
     </developer>
   </developers>
+  <licenses>
+    <license>
+      <name>Apache 2</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+      <comments>A business-friendly OSS license</comments>
+    </license>
+  </licenses>
+  <scm>
+    <connection>scm:svn:svn://lase.nce.ufrj.br/criaconto/phidias/</connection>
+    <developerConnection>scm:svn:svn://lase.nce.ufrj.br/criaconto/phidias/</developerConnection>
+    <tag>trunk</tag>
+    <url>http://code.google.com/p/phidias/source/browse</url>
+  </scm>
+  <organization>
+    <name>LABASE-NCE-UFRJ</name>
+    <url>http://labase.nce.ufrj.br</url>
+  </organization>
   <build>
     <resources>
       <resource>
         <directory>img/src/main/resources</directory>
         <includes>
-          <include> **/images/** </include>
+          <include>**/images/**</include>
         </includes>
       </resource>
     </resources>
     <plugins>
-      <!--
       <plugin>
-       <groupId>org.apache.maven.plugins</groupId>
-       <artifactId>maven-site-plugin</artifactId>
-       <configuration>
-         <port>9000</port>
-         <tempWebappDirectory>${basedir}/target/site/tempdir</tempWebappDirectory>
-       </configuration>
-      </plugin>
-      -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
           <source>${compileSource}</source>
@@ -132,13 +79,10 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-       <executions>
+        <executions>
           <execution>
             <id>img</id>
-            <!--
-            -->
             <phase>compile</phase>
             <goals>
               <goal>jar</goal>
@@ -151,8 +95,6 @@
             </configuration>
           </execution>
           <execution>
-            <!--
-            -->
             <id>exec</id>
             <phase>package</phase>
             <goals>
@@ -178,40 +120,68 @@
       </plugin>
     </plugins>
   </build>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
+      <version>1.7.0</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-httpclient</groupId>
+      <artifactId>commons-httpclient</artifactId>
+      <version>3.1-rc1</version>
+    </dependency>
+  </dependencies>
   <reporting>
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-report-plugin</artifactId>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jxr-plugin</artifactId>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
         <configuration>
           <targetJdk>${compileSource}</targetJdk>
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <!--
-        <configuration>
-          <configLocation>checkstyle.xml</configLocation>
-        </configuration>
-        -->
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-changelog-plugin</artifactId>
       </plugin>
     </plugins>
   </reporting>
+  <distributionManagement>
+    <repository>
+      <id>labase.maven</id>
+      <name>Labase Maven2</name>
+      <url>scp://labase.nce.ufrj.br/var/resin/www/maven2</url>
+    </repository>
+    <snapshotRepository>
+      <id>labase.maven</id>
+      <name>Labase Maven2 SnapShot</name>
+      <url>scp://labase.nce.ufrj.br/var/resin/www/maven2snap</url>
+    </snapshotRepository>
+    <site>
+      <id>labase.website</id>
+      <name>LABASE Website</name>
+      <url>scp://labase.nce.ufrj.br/var/resin/www/phidias</url>
+    </site>
+    <downloadUrl>http://code.google.com/p/phidias/downloads/list</downloadUrl>
+  </distributionManagement>
+  <properties>
+    <compileSource>1.5</compileSource>
+  </properties>
 </project>
