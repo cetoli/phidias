@@ -82,11 +82,11 @@
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>CtrlPaciente</servlet-name>
-		<url-pattern>/paciente</url-pattern>
+		<url-pattern>/paciente.do</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>CtrlAplicador</servlet-name>
-		<url-pattern>/aplicador</url-pattern>
+		<url-pattern>/aplicador.do</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>CtrlCriaConto</servlet-name>
