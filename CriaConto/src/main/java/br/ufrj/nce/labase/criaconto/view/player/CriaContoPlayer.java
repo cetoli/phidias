@@ -288,24 +288,6 @@ public class CriaContoPlayer extends Applet {
             drawPosY += layout.getDescent() + layout.getLeading();
         }
     }
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	
-	
-	
-	
 	
 	private void startStimulusTimer() {
 		stimulusTimer = new Timer(10000, new StimulusTimer());
