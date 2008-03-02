@@ -177,9 +177,7 @@ public class CriaContoAttendant extends Applet {
 		add(p, BorderLayout.CENTER);
 		
 		Session.getInstance().changePhase();
-		System.out.println("fase = " + Session.getInstance().getCurrentPhase());
-		
-		
+				
 		movesTimer = new Timer(4000, new MovesTimer());
 		movesTimer.start();
 	}
