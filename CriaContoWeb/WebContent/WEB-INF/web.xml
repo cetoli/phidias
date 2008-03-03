@@ -30,10 +30,26 @@
 	</servlet>
 	<servlet>
 		<description></description>
+		<display-name>CtrlListagemPaciente</display-name>
+		<servlet-name>CtrlListagemPaciente</servlet-name>
+		<servlet-class>
+			br.ufrj.nce.labase.criaconto.site.controller.CtrlListagemPaciente
+		</servlet-class>
+	</servlet>
+	<servlet>
+		<description></description>
 		<display-name>CtrlAplicador</display-name>
 		<servlet-name>CtrlAplicador</servlet-name>
 		<servlet-class>
 			br.ufrj.nce.labase.criaconto.site.controller.CtrlAplicador
+		</servlet-class>
+	</servlet>
+	<servlet>
+		<description></description>
+		<display-name>CtrlListagemAplicador</display-name>
+		<servlet-name>CtrlListagemAplicador</servlet-name>
+		<servlet-class>
+			br.ufrj.nce.labase.criaconto.site.controller.CtrlListagemAplicador
 		</servlet-class>
 	</servlet>
 	<servlet>
@@ -85,8 +101,16 @@
 		<url-pattern>/paciente.do</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
+		<servlet-name>CtrlListagemPaciente</servlet-name>
+		<url-pattern>/listagempaciente.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
 		<servlet-name>CtrlAplicador</servlet-name>
 		<url-pattern>/aplicador.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CtrlListagemAplicador</servlet-name>
+		<url-pattern>/listagemaplicador.do</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>CtrlCriaConto</servlet-name>
