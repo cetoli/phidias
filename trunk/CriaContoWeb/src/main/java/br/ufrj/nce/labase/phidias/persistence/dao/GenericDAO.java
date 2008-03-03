@@ -56,7 +56,7 @@ public class GenericDAO<T extends Serializable> {
 			throw new IllegalArgumentException("object");
 		getSession().remove(object);
 	}
-
+	
 	/**
 	 * @generated
 	 */

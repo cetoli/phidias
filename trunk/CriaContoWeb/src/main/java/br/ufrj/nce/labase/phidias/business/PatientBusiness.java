@@ -1,6 +1,7 @@
 package br.ufrj.nce.labase.phidias.business;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
 
@@ -42,4 +43,18 @@ public class PatientBusiness {
 		
 		throw new RuntimeException("Null parameter not allowed!");
 	}
+	
+	public List<Patient> listPatients() {
+		try {
+			
+				PatientDAO pDAO = new PatientDAO();
+
+				return pDAO.findAll();
+	
+		} catch (RuntimeException e) {
+			EntityManagerHelper.getInstance().rollbackTransaction();
+			throw e;
+		}
+	}
+
 }
