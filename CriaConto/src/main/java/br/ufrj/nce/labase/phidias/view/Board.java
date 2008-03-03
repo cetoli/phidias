@@ -4,7 +4,7 @@ import java.applet.Applet;
 
 import baklava.Playfield;
 import baklava.Sprite;
-import br.ufrj.nce.criaconto.images.Images;
+import br.ufrj.nce.labase.criaconto.images.Images;
 
 public class Board extends Playfield {
 	

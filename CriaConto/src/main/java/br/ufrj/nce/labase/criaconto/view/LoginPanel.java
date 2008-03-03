@@ -13,7 +13,7 @@ import java.awt.Panel;
 import java.awt.TextField;
 import java.awt.event.ActionListener;
 
-import br.ufrj.nce.criaconto.images.Images;
+import br.ufrj.nce.labase.criaconto.images.Images;
 
 public class LoginPanel extends Panel{
 	private static final long serialVersionUID = 1L;

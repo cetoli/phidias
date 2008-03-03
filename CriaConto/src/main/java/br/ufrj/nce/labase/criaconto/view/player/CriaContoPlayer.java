@@ -29,7 +29,7 @@ import java.util.Hashtable;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
-import br.ufrj.nce.criaconto.images.Images;
+import br.ufrj.nce.labase.criaconto.images.Images;
 import br.ufrj.nce.labase.common.MidiSound;
 import br.ufrj.nce.labase.criaconto.control.Controller;
 import br.ufrj.nce.labase.criaconto.view.LoginPanel;
@@ -210,7 +210,7 @@ public class CriaContoPlayer extends Applet {
 	private void showNPC(String stimulus) throws InterruptedException {
 		BufferedImage npcImage = (BufferedImage)Images.createImage("NPC.gif");		
 
-     // Get drawing context
+        // Get drawing context
         Graphics2D g2d = npcImage.createGraphics();
         g2d.setFont(new Font(Font.SERIF, Font.BOLD, 6));
         
@@ -235,8 +235,6 @@ public class CriaContoPlayer extends Applet {
         int yInicial = 15;
         float width = g2d.getDeviceConfiguration().getBounds().width - recuo -10;
         
-        System.out.println("TAMANHO ******************  " + width);
-
         // index of the first character in the paragraph.
         int paragraphStart = 0;
 

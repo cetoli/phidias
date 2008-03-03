@@ -24,7 +24,7 @@ import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
-import br.ufrj.nce.criaconto.images.Images;
+import br.ufrj.nce.labase.criaconto.images.Images;
 import br.ufrj.nce.labase.criaconto.control.Controller;
 import br.ufrj.nce.labase.criaconto.view.LoginPanel;
 import br.ufrj.nce.labase.phidias.communication.bean.EventResponseBean;
