@@ -164,19 +164,6 @@ public class CriaContoPlayer extends Applet {
 	    add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
 	    putCharactersOnBoard(true, false);
 
-		
-		
-		
-	    try {
-		    showNPC("Estimulo Testando um estimulo com diversas linhas");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		
-		
-		
-
 	    board.start();
 	}
 
