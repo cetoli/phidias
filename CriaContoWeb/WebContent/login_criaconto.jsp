@@ -11,15 +11,15 @@
 <%@include file="cabecalho.jsp"%>
 <div id="main">
 <div id="welcome" class="post">
-<h2 class="title">Identificação</h2>
+<h2 class="title">Cria Conto</h2>
 <div id="login" class="boxed">
 <div class="content">
 <table>
 	<tr>
-		<td><a href="#" onclick="javascript:window.open('app_aplicador.html');">Aplicador</a></td>
+		<td><a href="#" onclick="javascript:window.open('app_aplicador.html');">Sistema - Aplicador</a></td>
 	</tr>
 	<tr>
-		<td><a href="#" onclick="javascript:window.open('app_paciente.html');">Paciente</a></td>
+		<td><a href="#" onclick="javascript:window.open('app_paciente.html');">Sistema - Paciente</a></td>
 	</tr>
 </table>
 
