@@ -227,7 +227,6 @@ public class CriaContoPlayer extends Applet {
 
         // index of the first character after the end of the paragraph.
         int paragraphEnd = 0;
-
         
         AttributedString text = new AttributedString(stimulus, stimulusFont);
         // Create a new LineBreakMeasurer from the paragraph.
@@ -239,7 +238,6 @@ public class CriaContoPlayer extends Applet {
             FontRenderContext frc = g2d.getFontRenderContext();
             lineMeasurer = new LineBreakMeasurer(paragraph, frc);
         }
-
         
         // Set break width to width of Component.
         float breakWidth = width;
