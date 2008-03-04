@@ -16,10 +16,10 @@
 <div class="content">
 <table>
 	<tr>
-		<td><a href="app_aplicador.jsp">Aplicador</a></td>
+		<td><a href="#" onclick="javascript:window.open('app_aplicador.html');">Aplicador</a></td>
 	</tr>
 	<tr>
-		<td><a href="app_paciente.jsp">Paciente</a></td>
+		<td><a href="#" onclick="javascript:window.open('app_paciente.html');">Paciente</a></td>
 	</tr>
 </table>
 
