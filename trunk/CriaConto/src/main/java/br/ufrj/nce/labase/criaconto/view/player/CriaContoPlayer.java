@@ -79,7 +79,7 @@ public class CriaContoPlayer extends Applet {
     	setBackground(Color.WHITE);
     	setLayout(new GridBagLayout());
 
-    	Controller.setCurrentSound(new MidiSound("entrada.midi", true));
+    	Controller.setCurrentSound(new MidiSound(MidiSound.class.getResourceAsStream("entrada.midi"), true));
     	Controller.startSound();
     	
     	loginPanel = new LoginPanel();
@@ -323,7 +323,7 @@ public class CriaContoPlayer extends Applet {
 			}
 			
 			if (playSound) {
-				piece.setSound(new MidiSound(sounds[i++], true));
+				piece.setSound(new MidiSound(MidiSound.class.getResourceAsStream(sounds[i++]), true));
 				piece.setPlaySound(playSound);
 			}
 			

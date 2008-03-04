@@ -1,6 +1,7 @@
 package br.ufrj.nce.labase.phidias.business;
 
 import java.util.Date;
+import java.util.List;
 
 import br.ufrj.nce.labase.persistence.EntityManagerHelper;
 import br.ufrj.nce.labase.phidias.communication.bean.CommentBean;
@@ -19,11 +20,11 @@ import br.ufrj.nce.labase.phidias.persistence.model.SessionGamePhase;
 import br.ufrj.nce.labase.phidias.persistence.model.SessionGamePhaseId;
 
 public class SessionBusiness {
-	
+
 	private final int WAITING_FOR_PATIENT = 0;
 	private final int PLAYING_GAME = 1;
 	private final int GAME_OVER = 2;
-	
+
 	public Session registerSession(SessionBean sessionContainer) {
 		try {
 			if (sessionContainer != null) {
@@ -44,6 +45,14 @@ public class SessionBusiness {
 				session.setStatus(WAITING_FOR_PATIENT);
 
 				SessionDAO sesDao = new SessionDAO();
+
+				//kill sessions not finalized.
+				List<Session> deadSessions = sesDao.findDeadSession();
+				for (Session sessDead : deadSessions) {
+					sessDead.setSessionEndDate(new Date());
+				}
+				
+				//create a new session
 				sesDao.create(session);
 
 				EntityManagerHelper.getInstance().commitTransaction();
@@ -55,10 +64,10 @@ public class SessionBusiness {
 			throw e;
 
 		}
-		
+
 		throw new PhidiasException("Null parameter not allowed!");
 	}
-	
+
 	public Session joinSession(SessionBean sessionContainer) {
 		try {
 			if (sessionContainer != null) {
@@ -67,17 +76,17 @@ public class SessionBusiness {
 					throw new RuntimeException("Session id cannot be set, it is created automatically!");
 
 				EntityManagerHelper.getInstance().startTransaction();
-				
+
 				PatientDAO pDAO = new PatientDAO();
 				Patient p = pDAO.findById(Patient.class, sessionContainer.getPatientId());
-				
+
 				SessionDAO sDAO = new SessionDAO();
 				Session session = sDAO.findByStatus(WAITING_FOR_PATIENT);
-				
+
 				if (session == null) {
 					throw new RuntimeException("No attendant online!");
 				}
-				
+
 				session.setPatient(p);
 				session.setStatus(PLAYING_GAME);
 

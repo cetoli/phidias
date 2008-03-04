@@ -1,5 +1,7 @@
 package br.ufrj.nce.labase.phidias.persistence.dao;
 
+import java.util.List;
+
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
@@ -14,6 +16,16 @@ public class SessionDAO extends GenericDAO<Session> {
 			
 			Object session = query.getSingleResult();
 			return (Session) session;
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+	
+	public List<Session> findDeadSession(){
+		try {
+			Query query = this.getSession().createQuery("select s from Session s where s.sessionEndDate is null order by s.id desc");
+			
+			return query.getResultList();
 		} catch (NoResultException e) {
 			return null;
 		}
