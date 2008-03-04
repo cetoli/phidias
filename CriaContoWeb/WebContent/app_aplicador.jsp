@@ -11,15 +11,12 @@
 <%@include file="cabecalho.jsp"%>
 <div id="main">
 <div id="welcome" class="post">
-<h2 class="title">Identificação</h2>
+<h2 class="title">Aplicação Paciente</h2>
 <div id="login" class="boxed">
 <div class="content">
 <table>
 	<tr>
-		<td><a href="app_aplicador.jsp">Aplicador</a></td>
-	</tr>
-	<tr>
-		<td><a href="app_paciente.jsp">Paciente</a></td>
+		<td><applet ARCHIVE="aCriaConto.jar" code="br.ufrj.nce.labase.criaconto.view.attendant.CriaContoAttendant.class" width=1024 height=800></td>
 	</tr>
 </table>
 
@@ -34,3 +31,4 @@
 <%@include file="rodape.jsp"%>
 </body>
 </html>
+
