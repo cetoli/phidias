@@ -1,5 +1,6 @@
 package br.ufrj.nce.labase.common;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.InputStream;
 
@@ -9,6 +10,8 @@ import javax.sound.midi.MetaMessage;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
+
+import br.ufrj.nce.labase.criaconto.images.Images;
 
 public class MidiSound implements MetaEventListener, Runnable {
 
@@ -27,7 +30,7 @@ public class MidiSound implements MetaEventListener, Runnable {
 		init(replay);
 
 		try {
-			currentSound = MidiSystem.getSequence(new File(filePath));
+			currentSound = MidiSystem.getSequence(MidiSound.class.getResourceAsStream(filePath));
 		} catch (InvalidMidiDataException imde) {
 			throw new RuntimeException("Unsupported audio file.", imde);
 		} catch (Exception ex) {
