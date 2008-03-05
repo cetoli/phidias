@@ -30,7 +30,7 @@ public class CommunicationProtocol {
 		try {
 			// Prepara o HttpClient e o metodo Post para fazer a requisicao;
 			HttpClient client = new HttpClient();
-			client.getHostConfiguration().setHost("localhost", 8080, "http");
+			client.getHostConfiguration().setHost("labase.nce.ufrj.br", 80, "http");
 			client.getParams().setCookiePolicy(CookiePolicy.BROWSER_COMPATIBILITY);
 
 			PostMethod post = new PostMethod("/CriaContoWeb/ClientServerServlet.do");

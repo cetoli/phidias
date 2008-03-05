@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <!--
 Design by Veronica Tosta
@@ -14,12 +16,12 @@ Design by Veronica Tosta
 <%@include file="cabecalho.jsp" %>
 	<div id="main">
 		<div id="welcome" class="post">
-			<h2 class="title">Bem-Vindo à Plataforma de Jogos Kuarup!</h2>
+			<h2 class="title">Bem-Vindo Ã  Plataforma de Jogos Kuarup!</h2>
 			<div class="meta">
-				Projeto idealizado pela Professora Carla Verônica da Universidade Federal do Rio de Janeiro.
+				Projeto idealizado pela Professora Carla VerÃ´nica da Universidade Federal do Rio de Janeiro.
 			</div>
 			<div class="story">
-				<p><strong>A História do Kuarup</strong> é bababa<br/>
+				<p><strong>A HistÃ³ria do Kuarup</strong> Ã© bababa<br/>
 				<em>Divirta-se!</em></p>
 			</div>
 		</div>

@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <!--
 Design by Veronica Tosta
@@ -17,7 +19,7 @@ Design by Veronica Tosta
 			<h2 class="title">Jogos</h2>
 			
 			<div class="story">
-				<p>Clique no ícone do jogo que deseja jogar.<br/>
+				<p>Clique no Ã­cone do jogo que deseja jogar.<br/>
 				<em>Divirta-se!</em></p>
 			</div>
 			<div id="jogos">

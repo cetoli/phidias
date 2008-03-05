@@ -199,7 +199,7 @@ public class CriaContoPlayer extends Applet {
 
         // Get drawing context
         Graphics2D g2d = npcImage.createGraphics();
-        g2d.setFont(new Font(Font.SERIF, Font.BOLD, 6));
+        g2d.setFont(new Font("Serif", Font.BOLD, 6));
         
         paintStimulus(g2d, stimulus);
 		

@@ -37,6 +37,7 @@ public class PatientBusiness {
 				return patient;
 			}
 		} catch (RuntimeException e) {
+			e.printStackTrace();
 			EntityManagerHelper.getInstance().rollbackTransaction();
 			throw e;
 		}
@@ -52,6 +53,7 @@ public class PatientBusiness {
 				return pDAO.findAll();
 	
 		} catch (RuntimeException e) {
+			e.printStackTrace();
 			EntityManagerHelper.getInstance().rollbackTransaction();
 			throw e;
 		}
