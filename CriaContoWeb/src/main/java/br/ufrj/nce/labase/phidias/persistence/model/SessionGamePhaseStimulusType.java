@@ -9,7 +9,7 @@ import javax.persistence.Id;
  * @generated
  */
 @javax.persistence.Entity
-@javax.persistence.Table(name = "FASE_JOGO_SESSAO_TIPO_ESTIMULO")
+@javax.persistence.Table(name = "fase_jogo_sessao_tipo_estimulo")
 public class SessionGamePhaseStimulusType implements java.io.Serializable {
 
 	/**

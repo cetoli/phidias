@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <!--
 Design by Veronica Tosta
@@ -38,11 +40,11 @@ Design by Veronica Tosta
 		<td><input type="text" name="name"  maxlength="40"/></td>
 	</tr>
 	<tr>
-		<td>Profiss„o:</td>
+		<td>Profiss√£o:</td>
 		<td><input type="text" name="profession"  maxlength="20"/></td>
 	</tr>
 	<tr>
-		<td>InstituiÁ„o:</td>
+		<td>Institui√ß√£o:</td>
 		<td><input type="text" name="institution"  maxlength="20"/></td>
 	</tr>
 		<tr>
