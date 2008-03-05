@@ -8,7 +8,7 @@ echo.
 
 keytool -genkey -dname "cn=Neurociencias, ou=NCE, o=UFRJ, c=BR" -alias key -keystore mykeystore -storepass 123456 -validity 180
 
-jarsigner -keystore mykeystore -storepass 123456 -signedjar signedCriaConto.jar criaConto.jar key
+jarsigner -keystore mykeystore -storepass 123456 -signedjar aCriaConto.jar criaconto.jar key
 
 keytool -export -keystore mykeystore -alias key -file keycert.x509 
 
