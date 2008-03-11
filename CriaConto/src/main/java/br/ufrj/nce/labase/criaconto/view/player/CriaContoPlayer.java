@@ -1,55 +1,31 @@
 package br.ufrj.nce.labase.criaconto.view.player;
 
-import java.applet.Applet;
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Frame;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
-import java.awt.font.FontRenderContext;
-import java.awt.font.LineBreakMeasurer;
-import java.awt.font.TextAttribute;
-import java.awt.font.TextLayout;
-import java.awt.image.BufferedImage;
-import java.text.AttributedCharacterIterator;
-import java.text.AttributedString;
-import java.util.Hashtable;
 
-import javax.swing.JOptionPane;
-import javax.swing.Timer;
-
-import br.ufrj.nce.labase.criaconto.images.Images;
 import br.ufrj.nce.labase.common.MidiSound;
 import br.ufrj.nce.labase.criaconto.control.Controller;
-import br.ufrj.nce.labase.criaconto.view.LoginPanel;
-import br.ufrj.nce.labase.phidias.communication.bean.StimulusBean;
-import br.ufrj.nce.labase.phidias.communication.bean.StimulusResponseBean;
+import br.ufrj.nce.labase.criaconto.images.Images;
 import br.ufrj.nce.labase.phidias.controller.Session;
-import br.ufrj.nce.labase.phidias.exception.PhidiasException;
-import br.ufrj.nce.labase.phidias.view.Board;
-import br.ufrj.nce.labase.phidias.view.Piece;
+import br.ufrj.nce.labase.phidias.view.player.BackgroundCharacter;
+import br.ufrj.nce.labase.phidias.view.player.Character;
+import br.ufrj.nce.labase.phidias.view.player.GameStartTimer;
+import br.ufrj.nce.labase.phidias.view.player.Piece;
+import br.ufrj.nce.labase.phidias.view.player.Player;
+import br.ufrj.nce.labase.phidias.view.player.Scene;
+import br.ufrj.nce.labase.phidias.view.player.ScenicItem;
 
-public class CriaContoPlayer extends Applet {
+public class CriaContoPlayer extends Player {
 	private static final long serialVersionUID = 1L;
-	private Board board;
-    private Piece piece = null;  
-    private LoginPanel loginPanel;
-    private Timer stimulusTimer;	
-    private Timer gameStartTimer;
-    private Timer npcTimer;
-    private int startSequence = 0;
-    private Piece npc;
+	private int startSequence = 0;
     
     static final String characters[] = {
         "principe", "branca_de_neve", "cacador_frente", "rainha_ma", "anao1", "anao2", "anao3", "anao4", "anao5", "anao6", "anao7"
@@ -61,81 +37,24 @@ public class CriaContoPlayer extends Applet {
     	new Scene("castelo", 0, 5), new Scene("ponte", 350, 360), new Scene("casa", 600, 100), new Scene("tronco", 465, 212), new Scene("mina", 570, 400)
     };
     
-    private static final Hashtable<TextAttribute, Object> stimulusFont =
-        									new Hashtable<TextAttribute, Object>();
-
-    static {
-    	stimulusFont.put(TextAttribute.FAMILY, "Serif");
-    	stimulusFont.put(TextAttribute.SIZE, new Float(10));
-    }  
-    
-    
     public CriaContoPlayer() { 
-    	
+    	super("entrada.midi", true, "NPC.gif");
 	}
 
     public void init() {
-		setSize(1024, 820);
-    	setBackground(Color.WHITE);
-    	setLayout(new GridBagLayout());
-
-    	Controller.setCurrentSound(new MidiSound(MidiSound.class.getResourceAsStream("entrada.midi"), true));
-    	Controller.startSound();
-    	
-    	loginPanel = new LoginPanel();
-    	loginPanel.setPreferredSize(new Dimension(1024, 820));
-    	add(loginPanel, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
-    	
-    	loginPanel.addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent e) {
-    			showMessageDialog("Por favor aguarde!");
-    			
-    			if (joinSession()) {
-    				startGame();
-    			} else {
-    				showMessageDialog("Ocorreu um erro ao iniciar o jogo! Por favor, tente novamente mais tarde!");
-    			}
-    		}
-    	});
+		super.init();
     }
     
-    private void showMessageDialog(String message) {
-    	JOptionPane.showMessageDialog(this, message);		
-    }
+    protected void startGame() {		
+		createInitialBackground("tela_inicial.jpg");             
+	}
     
-    private void startGame() {		
-		createInitialBackground("tela_inicial.jpg");
-        
-        gameStartTimer = new Timer(1100, new GameStartTimer());
-        gameStartTimer.start();        
-	}
+    protected void startTimer() {
+    	startGameStartTimer(new CriaContoGameStartTimer());
+    }
 
-	private Board createBoard(String backgroundImageName){
-		Board b = new Board(this, getWidth(), getHeight(), backgroundImageName);
-		return b;
-	}
-
-	private void createInitialBackground(String backgroundImage) {
-		setSize(1024, 820);
-    	removeAll();
-		
-    	board = createBoard(backgroundImage);
-    	
-        add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
-        board.start();
-	}
-
-	private boolean joinSession() {
-		try {
-			return Controller.joinSession(loginPanel.getLogin(), LoginPanel.CRIA_CONTO);
-		} catch (PhidiasException ex) {
-			showMessageDialog("Erro ao iniciar sessão!");
-			return false;
-		}
-	}
-
-	private void changePhase() {
-		Session.getInstance().changePhase();
+    protected void changePhase() {
+		super.changePhase();
 		
 		switch (Session.getInstance().getCurrentPhase()) {
 			case 1:
@@ -177,8 +96,7 @@ public class CriaContoPlayer extends Applet {
 	    putCharactersOnBoard(true, true);
 	    board.start();
 	    
-	    stimulusTimer = new Timer(10000, new StimulusTimer());
-		stimulusTimer.start();
+	    startStimulusTimer();
 	}
 
 	private void thirdPhase() {
@@ -193,90 +111,7 @@ public class CriaContoPlayer extends Applet {
 		putAnimalsOnBoard();
 		board.start();
 	}
-
-	private void showNPC(String stimulus) throws InterruptedException {
-		BufferedImage npcImage = (BufferedImage)Images.createImage("NPC.gif");		
-
-        // Get drawing context
-        Graphics2D g2d = npcImage.createGraphics();
-        g2d.setFont(new Font("Serif", Font.BOLD, 6));
-        
-        paintStimulus(g2d, stimulus);
 		
-		// Dispose context
-        g2d.dispose();
-        
-		npc = new Piece(board, npcImage, "npc", 650, 25);
-		
-		npcTimer = new Timer(7000, new NPCTimer());
-		npcTimer.start();
-	}
-	
-   private void paintStimulus(Graphics g, String stimulus) {
-
-        Graphics2D g2d = (Graphics2D)g;
-        LineBreakMeasurer lineMeasurer = null;
-        g2d.setColor(Color.BLACK);
-
-        int recuo = 85;
-        int yInicial = 15;
-        float width = g2d.getDeviceConfiguration().getBounds().width - recuo -10;
-        
-        // index of the first character in the paragraph.
-        int paragraphStart = 0;
-
-        // index of the first character after the end of the paragraph.
-        int paragraphEnd = 0;
-        
-        AttributedString text = new AttributedString(stimulus, stimulusFont);
-        // Create a new LineBreakMeasurer from the paragraph.
-        // It will be cached and re-used.
-        if (lineMeasurer == null) {
-            AttributedCharacterIterator paragraph = text.getIterator();
-            paragraphStart = paragraph.getBeginIndex();
-            paragraphEnd = paragraph.getEndIndex();
-            FontRenderContext frc = g2d.getFontRenderContext();
-            lineMeasurer = new LineBreakMeasurer(paragraph, frc);
-        }
-        
-        // Set break width to width of Component.
-        float breakWidth = width;
-        float drawPosY = yInicial;
-        // Set position to the index of the first character in the paragraph.
-        lineMeasurer.setPosition(paragraphStart);
-
-        // Get lines until the entire paragraph has been displayed.
-        while (lineMeasurer.getPosition() < paragraphEnd) {
-
-            // Retrieve next layout. A cleverer program would also cache
-            // these layouts until the component is re-sized.
-            TextLayout layout = lineMeasurer.nextLayout(breakWidth);
-
-/*            // Compute pen x position. If the paragraph is right-to-left we
-            // will align the TextLayouts to the right edge of the panel.
-            // Note: this won't occur for the English text in this sample.
-            // Note: drawPosX is always where the LEFT of the text is placed.
-            float drawPosX = layout.isLeftToRight()
-                ? recuo : breakWidth - layout.getAdvance();
-*/
-            float drawPosX = recuo;
-
-            // Move y-coordinate by the ascent of the layout.
-            drawPosY += layout.getAscent();
-
-            // Draw the TextLayout at (drawPosX, drawPosY).
-            layout.draw(g2d, drawPosX, drawPosY);
-
-            // Move y-coordinate in preparation for next layout.
-            drawPosY += layout.getDescent() + layout.getLeading();
-        }
-    }
-	
-	private void startStimulusTimer() {
-		stimulusTimer = new Timer(10000, new StimulusTimer());
-    	stimulusTimer.start();
-	}
-	
 	public final void putImagesOnBoard(String[] images, Inc inc, int x, int y) {
 		for (String nomeImage : images) {
 			piece = new Piece(board, Images.createImage(nomeImage), nomeImage, x, y);
@@ -297,7 +132,7 @@ public class CriaContoPlayer extends Applet {
 		};
 		
 		for (Scene cenario : scenes) {
-			piece = new ScenicItem(board, Images.createImage(cenario.getName() + ".gif"), cenario.getName(), Images.createImage(cenario.getName() + "_grande.gif"), x, y, cenario.getX(), cenario.getY());
+			piece = new ScenicItem(board, Images.createImage(cenario.getName() + ".gif"), cenario.getName(), Images.createImage(cenario.getName() + "_grande.gif"), x, y, cenario.getX(), cenario.getY(), 850, 590);
 			
 			y = inc.incY(y);
 			x = inc.incX(x);
@@ -317,9 +152,9 @@ public class CriaContoPlayer extends Applet {
 		int i = 0;		
 		for (String personagem : characters) {
 			if (!background) {
-				piece = new Character(board, Images.createImage(personagem + ".gif"), personagem, x, y);			
+				piece = new Character(board, Images.createImage(personagem + ".gif"), personagem, x, y, 850, 590);			
 			} else {
-				piece = new BackgroundCharacter(board, Images.createImage(personagem + ".gif"), personagem, x, y);
+				piece = new BackgroundCharacter(board, Images.createImage(personagem + ".gif"), personagem, x, y, 850, 590);
 			}
 			
 			if (playSound) {
@@ -333,21 +168,15 @@ public class CriaContoPlayer extends Applet {
     }
 	
     public void stop() {
-    	if (board != null) {
-    		board.suspend();
-    	}
+    	super.stop();
     }
       
     public void start() {
-    	if (board != null) {
-        	board.resume();
-    	}
+    	super.start();
     }
       
 	public void destroy() {
-		if (board != null) {
-	    	board.stop();
-		}
+		super.destroy();
 	}
 
 	public void putAnimalsOnBoard() {
@@ -392,21 +221,8 @@ public class CriaContoPlayer extends Applet {
 		frame.setLocation((d.width - frame.getSize().width) / 2, (d.height - frame.getSize().height) / 2);
 		frame.setVisible(true);
 	}
-	
-	private class NPCTimer implements ActionListener {
-		public void actionPerformed(ActionEvent arg0) {	
-			if (npc != null) {
-				board.removeSpriteFromList(npc);
-				board.removeSpritesFromListNow();	
-				board.repaint();
-				
-				npcTimer.stop();
-				npcTimer = null;
-			}
-		}		
-	}
-	
-	private class GameStartTimer implements ActionListener {
+		
+	private class CriaContoGameStartTimer extends GameStartTimer {
 		private Piece corujaAsasAcima;
 		private Piece corujaAsasMeio;
 		private Piece corujaAsasAbaixo;
@@ -486,32 +302,12 @@ public class CriaContoPlayer extends Applet {
 					case 12:
 						Controller.stopSound();
 						changePhase();
-						gameStartTimer.stop();
-						gameStartTimer = null;
+						clearGameStartTimer();
 		        	}
 		        } catch (Exception ex) {
 		        	ex.printStackTrace();
 		        	showMessageDialog("Ocorreu um erro ao iniciar o jogo! Por favor, tente novamente mais tarde!");
 		        }
-		}
-	}
-	
-	private class StimulusTimer implements ActionListener {  
-		public void actionPerformed(ActionEvent arg0) {			
-			StimulusResponseBean response = Controller.getNextStimulus();
-			if (response != null) {
-				Integer stimulusType = response.getStimulusTypeId();
-				if (stimulusType != null && stimulusType.compareTo(StimulusBean.SHOW_NPC) == 0) {
-					try {
-						showNPC(response.getStimulusText());
-					} catch (InterruptedException e) {
-						//TODO: melhorar tratamento de excecao
-						e.printStackTrace();
-					}
-				} else if (stimulusType != null && stimulusType.compareTo(StimulusBean.CHANGE_PHASE) == 0) {
-					changePhase();
-				}
-			}
 		}
 	}
 	
