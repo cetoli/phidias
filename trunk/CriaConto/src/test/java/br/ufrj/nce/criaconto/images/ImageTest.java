@@ -7,9 +7,9 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import br.ufrj.nce.labase.criaconto.images.Images;
-import br.ufrj.nce.labase.criaconto.view.player.Character;
-import br.ufrj.nce.labase.phidias.view.Board;
-import br.ufrj.nce.labase.phidias.view.Piece;
+import br.ufrj.nce.labase.phidias.view.player.Board;
+import br.ufrj.nce.labase.phidias.view.player.Character;
+import br.ufrj.nce.labase.phidias.view.player.Piece;
 
 /**
  * Unit test for simple App.
