@@ -4,7 +4,7 @@ import java.awt.Event;
 import java.awt.Image;
 
 import baklava.Sprite;
-import br.ufrj.nce.labase.criaconto.control.Controller;
+import br.ufrj.nce.labase.phidias.controller.Controller;
 import br.ufrj.nce.labase.phidias.exception.PhidiasException;
 
 public class Character extends Piece {

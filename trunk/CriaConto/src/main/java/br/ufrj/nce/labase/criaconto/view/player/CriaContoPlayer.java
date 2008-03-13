@@ -12,8 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 
 import br.ufrj.nce.labase.common.MidiSound;
-import br.ufrj.nce.labase.criaconto.control.Controller;
 import br.ufrj.nce.labase.criaconto.images.Images;
+import br.ufrj.nce.labase.phidias.controller.Controller;
 import br.ufrj.nce.labase.phidias.controller.Session;
 import br.ufrj.nce.labase.phidias.view.player.BackgroundCharacter;
 import br.ufrj.nce.labase.phidias.view.player.Character;
