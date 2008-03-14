@@ -15,7 +15,6 @@ import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 import br.ufrj.nce.labase.criaconto.images.Images;
-import br.ufrj.nce.labase.criaconto.view.LoginPanel;
 import br.ufrj.nce.labase.phidias.communication.bean.EventResponseBean;
 import br.ufrj.nce.labase.phidias.controller.Controller;
 import br.ufrj.nce.labase.phidias.controller.Session;
@@ -25,12 +24,19 @@ public abstract class Attendant extends Applet {
 	private static final long serialVersionUID = 1L;
 	private Image backgroundImage;	
 	private String background;
-	private LoginPanel loginPanel;
+	private AttendantLoginPanel loginPanel;
 	private Timer movesTimer;
+	private Timer gameOverTimer;
+    private String loginBackground;
+	private Color backgroundColor;
+	
 	protected Panel mainPanel;
 	
-	public Attendant(String background) {
+	public Attendant(String background, String loginBackground, int game, Color backgroundColor) {
 		this.background = background;
+		this.loginBackground = loginBackground;
+		this.backgroundColor = backgroundColor;
+		Session.getInstance().setGame(game);
 	}
 
 	public void init() {
@@ -38,13 +44,13 @@ public abstract class Attendant extends Applet {
 		setBackground(Color.WHITE);
 		setLayout(new BorderLayout());
 		
-		loginPanel = new LoginPanel();
+		loginPanel = new AttendantLoginPanel(loginBackground, backgroundColor);
     	loginPanel.setPreferredSize(new Dimension(1024, 820));
     	add(loginPanel, BorderLayout.CENTER);
     	
     	loginPanel.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
-    			if (registerSession()) {
+    			if (joinSession()) {
     				startApplication();
     				Session.getInstance().changePhase();    				
     				startMoverTimer();
@@ -55,18 +61,23 @@ public abstract class Attendant extends Applet {
     	});
 	}
 	
+	private void startGameOverTimer() {
+    	gameOverTimer = new Timer(2000, new GameOverTimer());
+    	gameOverTimer.start();
+    }
+	
 	protected void showMessageDialog(String message) {
     	JOptionPane.showMessageDialog(this, message);	
     }
 	
-	private boolean registerSession() {
-    	try {
-    		return Controller.registerSession(loginPanel.getLogin(), LoginPanel.CRIA_CONTO);
-    	} catch (PhidiasException ex) {
+	private boolean joinSession() {
+		try {
+			return Controller.joinSession(loginPanel.getLogin(), loginPanel.getSessionId());
+		} catch (PhidiasException ex) {
 			showMessageDialog("Erro ao iniciar sessão!");
 			return false;
 		}
-    }
+	}
 
 	protected void startApplication() {
 		backgroundImage = Images.createImage(background);
@@ -124,7 +135,7 @@ public abstract class Attendant extends Applet {
 	
 	protected boolean registerSessionEnd() {
 		try {
-			return Controller.registerSessionEnd(LoginPanel.CRIA_CONTO);
+			return Controller.registerSessionEnd();
 		} catch (PhidiasException ex) {
 			showMessageDialog("Erro ao encerrar sessão!");
 			return false;
@@ -140,6 +151,7 @@ public abstract class Attendant extends Applet {
 	}
 
 	public void destroy() {
+		Controller.registerSessionEnd();
 	}
 
 	private class MovesTimer implements ActionListener {
@@ -153,6 +165,15 @@ public abstract class Attendant extends Applet {
 				}
 			} catch (PhidiasException ex) {
 				showMessageDialog("Erro ao recuperar as jogadas do paciente!");
+			}
+		}
+	}
+	
+	private class GameOverTimer implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			if (Controller.getSessionEnded()) {
+				showMessageDialog("O Paciente encerrou o jogo!");
+				stop();
 			}
 		}
 	}

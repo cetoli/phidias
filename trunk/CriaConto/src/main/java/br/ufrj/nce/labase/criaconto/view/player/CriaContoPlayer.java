@@ -2,6 +2,7 @@ package br.ufrj.nce.labase.criaconto.view.player;
 
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
@@ -37,8 +38,10 @@ public class CriaContoPlayer extends Player {
     	new Scene("castelo", 0, 5), new Scene("ponte", 350, 360), new Scene("casa", 600, 100), new Scene("tronco", 465, 212), new Scene("mina", 570, 400)
     };
     
+    public static final int CRIA_CONTO = 1;
+	    
     public CriaContoPlayer() { 
-    	super("entrada.midi", true, "NPC.gif");
+    	super("entrada.midi", true, "NPC.gif", "fundoAplicador.jpg", CRIA_CONTO, new Color(249, 227, 203));
 	}
 
     public void init() {
@@ -53,6 +56,12 @@ public class CriaContoPlayer extends Player {
     	startGameStartTimer(new CriaContoGameStartTimer());
     }
 
+    private void startCriaConto() {
+    	Controller.stopSound();
+		clearGameStartTimer();
+		changePhase();
+    }
+    
     protected void changePhase() {
 		super.changePhase();
 		
@@ -95,8 +104,6 @@ public class CriaContoPlayer extends Player {
 	    add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
 	    putCharactersOnBoard(true, true);
 	    board.start();
-	    
-	    startStimulusTimer();
 	}
 
 	private void thirdPhase() {
@@ -300,9 +307,7 @@ public class CriaContoPlayer extends Player {
 						startSequence++;
 						break;
 					case 12:
-						Controller.stopSound();
-						changePhase();
-						clearGameStartTimer();
+						startCriaConto();
 		        	}
 		        } catch (Exception ex) {
 		        	ex.printStackTrace();

@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 
+import br.ufrj.nce.labase.phidias.controller.Session;
 import br.ufrj.nce.labase.phidias.view.attendant.Attendant;
 
 public class CriaContoAttendant extends Attendant {
@@ -27,8 +28,10 @@ public class CriaContoAttendant extends Attendant {
 	private TextArea stimulus;
 	private TextArea moves;
 	
+	public static final int CRIA_CONTO = 1;
+	
 	public CriaContoAttendant() {
-		super("fundoAplicador.jpg");
+		super("fundoAplicador.jpg", "fundoAplicador.jpg", CRIA_CONTO, new Color(249, 227, 203));
 	}
 
 	public void init() {
@@ -42,24 +45,28 @@ public class CriaContoAttendant extends Attendant {
 	protected void startApplication() {
 		super.startApplication();
 		
+		Label patientLabel = new Label("Paciente: " + Session.getInstance().getPatient());
+		patientLabel.setBackground(backgroundColor);
+		mainPanel.add(patientLabel, new GridBagConstraints(0, 0, 3, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		
 		Label movesLabel = new Label("Jogadas do paciente");
 		movesLabel.setBackground(backgroundColor);
-		mainPanel.add(movesLabel, new GridBagConstraints(0, 0, 3, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		mainPanel.add(movesLabel, new GridBagConstraints(0, 1, 3, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
 		moves = new TextArea();
 		moves.setRows(8);
 		moves.setColumns(80);
 		moves.setEditable(false);
-		mainPanel.add(moves, new GridBagConstraints(0, 1, 3, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		mainPanel.add(moves, new GridBagConstraints(0, 2, 3, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
 		Label commentsLabel = new Label("Entre com os comentarios");
 		commentsLabel.setBackground(backgroundColor);
-		mainPanel.add(commentsLabel, new GridBagConstraints(0, 2, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		mainPanel.add(commentsLabel, new GridBagConstraints(0, 3, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
 		commentsText = new TextArea();
 		commentsText.setColumns(80);
 		commentsText.setRows(3);
-		mainPanel.add(commentsText, new GridBagConstraints(1, 2, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		mainPanel.add(commentsText, new GridBagConstraints(1, 3, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
 		Button ok = new Button("OK");
 		ok.addActionListener(new ActionListener() {
@@ -67,20 +74,20 @@ public class CriaContoAttendant extends Attendant {
 				registerComment();
 			}
 		});
-		mainPanel.add(ok, new GridBagConstraints(2, 2, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		mainPanel.add(ok, new GridBagConstraints(2, 3, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
 		comments = new TextArea();
 		comments.setRows(8);
 		comments.setColumns(80);
 		comments.setEditable(false);
-		mainPanel.add(comments, new GridBagConstraints(0, 3, 3, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		mainPanel.add(comments, new GridBagConstraints(0, 4, 3, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
 		Label interventionsLabel = new Label("Entre com os estimulos do NPC:");
 		interventionsLabel.setBackground(backgroundColor);
-		mainPanel.add(interventionsLabel, new GridBagConstraints(0, 4, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		mainPanel.add(interventionsLabel, new GridBagConstraints(0, 5, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
 		stimulusText = new TextField();
-		mainPanel.add(stimulusText, new GridBagConstraints(1, 4, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		mainPanel.add(stimulusText, new GridBagConstraints(1, 5, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
 		Button ok2 = new Button("OK");
 		ok2.addActionListener(new ActionListener() {
@@ -88,13 +95,13 @@ public class CriaContoAttendant extends Attendant {
 				registerStimulus();
 			}
 		});
-		mainPanel.add(ok2, new GridBagConstraints(2, 4, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		mainPanel.add(ok2, new GridBagConstraints(2, 5, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
 		stimulus = new TextArea();
 		stimulus.setRows(8);
 		stimulus.setColumns(80);
 		stimulus.setEditable(false);
-		mainPanel.add(stimulus, new GridBagConstraints(0, 5, 3, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		mainPanel.add(stimulus, new GridBagConstraints(0, 6, 3, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 		
 		Button changePhase = new Button("Mudar fase");
 		changePhase.addActionListener(new ActionListener() {
@@ -102,7 +109,7 @@ public class CriaContoAttendant extends Attendant {
 				registerPhaseChange();
 			}
 		});
-		mainPanel.add(changePhase, new GridBagConstraints(0, 6, 3, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		mainPanel.add(changePhase, new GridBagConstraints(0, 7, 3, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 				
 		Button exit = new Button("Sair");
 		exit.addActionListener(new ActionListener() {
@@ -112,7 +119,7 @@ public class CriaContoAttendant extends Attendant {
 				}
 			}
 		});
-		mainPanel.add(exit, new GridBagConstraints(0, 7, 3, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+		mainPanel.add(exit, new GridBagConstraints(0, 8, 3, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 		
 		add(mainPanel, BorderLayout.CENTER);
 	}
