@@ -51,6 +51,7 @@ public abstract class Attendant extends Applet {
     	loginPanel.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
     			if (joinSession()) {
+    				startGameOverTimer();
     				startApplication();
     				Session.getInstance().changePhase();    				
     				startMoverTimer();
@@ -60,11 +61,6 @@ public abstract class Attendant extends Applet {
     		}
     	});
 	}
-	
-	private void startGameOverTimer() {
-    	gameOverTimer = new Timer(2000, new GameOverTimer());
-    	gameOverTimer.start();
-    }
 	
 	protected void showMessageDialog(String message) {
     	JOptionPane.showMessageDialog(this, message);	
@@ -99,6 +95,16 @@ public abstract class Attendant extends Applet {
     	mainPanel.setSize(1024, 820);	
 	}
 
+	private void startGameOverTimer() {
+    	gameOverTimer = new Timer(2000, new GameOverTimer());
+    	gameOverTimer.start();
+    }
+	
+	private void stopGameOverTimer() {
+		gameOverTimer.stop();
+		gameOverTimer = null;
+	}
+	
 	protected void startMoverTimer() {
 		movesTimer = new Timer(4000, new MovesTimer());
 		movesTimer.start();
@@ -173,6 +179,7 @@ public abstract class Attendant extends Applet {
 		public void actionPerformed(ActionEvent e) {
 			if (Controller.getSessionEnded()) {
 				showMessageDialog("O Paciente encerrou o jogo!");
+				stopGameOverTimer();
 				stop();
 			}
 		}
