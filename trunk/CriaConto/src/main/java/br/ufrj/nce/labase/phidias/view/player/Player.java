@@ -233,6 +233,11 @@ public abstract class Player extends Applet {
 		sessionTimer = null;
 	}
 	
+	private void stopGameOverTimer() {
+		gameOverTimer.stop();
+		gameOverTimer = null;
+	}
+	
     public void stop() {
     	if (board != null) {
     		board.suspend();
@@ -296,6 +301,7 @@ public abstract class Player extends Applet {
 		public void actionPerformed(ActionEvent e) {
 			if (Controller.getSessionEnded()) {
 				showMessageDialog("O Aplicador encerrou o jogo!");
+				stopGameOverTimer();
 				stop();
 			}
 		}
