@@ -21,9 +21,28 @@ import br.ufrj.nce.labase.phidias.persistence.model.SessionGamePhaseId;
 
 public class SessionBusiness {
 
-	private final int WAITING_FOR_PATIENT = 0;
+	private final int WAITING_FOR_ATTENDANT = 0;
 	private final int PLAYING_GAME = 1;
 	private final int GAME_OVER = 2;
+	
+	public List<Session> listOpenSessions(SessionBean sessionContainer) {
+		try {
+			if (sessionContainer != null) {
+
+				if (sessionContainer.getId() != null)
+					throw new RuntimeException("Session id cannot be set, it is created automatically!");
+
+				SessionDAO sDAO = new SessionDAO();
+				
+				return sDAO.findByStatus(WAITING_FOR_ATTENDANT);
+			}
+		} catch (RuntimeException e) {
+			EntityManagerHelper.getInstance().rollbackTransaction();
+			throw e;
+		}
+
+		throw new PhidiasException("Null parameter not allowed!");
+	}
 
 	public Session registerSession(SessionBean sessionContainer) {
 		try {
@@ -35,21 +54,22 @@ public class SessionBusiness {
 				EntityManagerHelper.getInstance().startTransaction();
 				Session session = new Session();
 
-				AttendantDAO aDAO = new AttendantDAO();
-				session.setAttendant(aDAO.findById(Attendant.class, sessionContainer.getAttendantId()));
+				PatientDAO pDAO = new PatientDAO();
+				session.setPatient(pDAO.findById(Patient.class, sessionContainer.getPatientId()));
 
 				GameDAO gDAO = new GameDAO();
 				session.setGame(gDAO.findById(Game.class, sessionContainer.getGameId()));
 
 				session.setSessionStartDate(new Date());
-				session.setStatus(WAITING_FOR_PATIENT);
+				session.setStatus(WAITING_FOR_ATTENDANT);
 
 				SessionDAO sesDao = new SessionDAO();
 
 				//kill sessions not finalized.
-				List<Session> deadSessions = sesDao.findDeadSession();
+				List<Session> deadSessions = sesDao.findDeadSession(session.getPacient().getId());
 				for (Session sessDead : deadSessions) {
 					sessDead.setSessionEndDate(new Date());
+					sesDao.update(sessDead);
 				}
 				
 				//create a new session
@@ -62,7 +82,6 @@ public class SessionBusiness {
 		} catch (RuntimeException e) {
 			EntityManagerHelper.getInstance().rollbackTransaction();
 			throw e;
-
 		}
 
 		throw new PhidiasException("Null parameter not allowed!");
@@ -72,22 +91,19 @@ public class SessionBusiness {
 		try {
 			if (sessionContainer != null) {
 
-				if (sessionContainer.getId() != null)
-					throw new RuntimeException("Session id cannot be set, it is created automatically!");
-
 				EntityManagerHelper.getInstance().startTransaction();
 
-				PatientDAO pDAO = new PatientDAO();
-				Patient p = pDAO.findById(Patient.class, sessionContainer.getPatientId());
+				AttendantDAO aDAO = new AttendantDAO();
+				Attendant a = aDAO.findById(Attendant.class, sessionContainer.getAttendantId());
 
 				SessionDAO sDAO = new SessionDAO();
-				Session session = sDAO.findByStatus(WAITING_FOR_PATIENT);
+				Session session = sDAO.findById(Session.class, sessionContainer.getId());
 
 				if (session == null) {
-					throw new RuntimeException("No attendant online!");
+					throw new RuntimeException("Error retrieving session " + sessionContainer.getId() + "!");
 				}
 
-				session.setPatient(p);
+				session.setAttendant(a);
 				session.setStatus(PLAYING_GAME);
 
 				sDAO.update(session);
@@ -100,6 +116,26 @@ public class SessionBusiness {
 			EntityManagerHelper.getInstance().rollbackTransaction();
 			throw e;
 		}
+		
+		throw new PhidiasException("Null parameter not allowed!");
+	}
+	
+	public Session getSession(SessionBean sessionContainer) {
+		try {
+			if (sessionContainer != null) {
+				SessionDAO sDAO = new SessionDAO();
+				Session session = sDAO.findById(Session.class, sessionContainer.getId());
+
+				if (session == null) {
+					throw new RuntimeException("Error retrieving session " + sessionContainer.getId() + "!");
+				}
+				return session;
+			}
+		} catch (RuntimeException e) {
+			EntityManagerHelper.getInstance().rollbackTransaction();
+			throw e;
+		}
+		
 		throw new PhidiasException("Null parameter not allowed!");
 	}
 
@@ -125,6 +161,7 @@ public class SessionBusiness {
 			EntityManagerHelper.getInstance().rollbackTransaction();
 			throw e;
 		}
+		
 		throw new PhidiasException("Null parameter not allowed!");
 	}
 
@@ -150,6 +187,7 @@ public class SessionBusiness {
 			EntityManagerHelper.getInstance().rollbackTransaction();
 			throw e;
 		}
+		
 		throw new PhidiasException("Null parameter not allowed!");
 	}
 }

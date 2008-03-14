@@ -26,6 +26,12 @@ public class ActionFactory {
 		else if (operacao
 				.equals(CommunicationProtocol.REGISTER_STIMULUS_ACTION))
 			return new RegisterStimulusAction();
+		else if (operacao
+				.equals(CommunicationProtocol.LIST_OPEN_SESSION_ACTION))
+			return new ListOpenSessionsAction();
+		else if (operacao
+				.equals(CommunicationProtocol.GET_SESSION_ACTION))
+			return new GetSessionAction();
 		
 		return null;
 	}

@@ -40,7 +40,7 @@ import javax.servlet.http.HttpServletResponse;
 		}
 		catch(NullPointerException npe)
 		{
-			System.out.println("Erro de acesso à memória em "+this.getServletName()+" : "+npe.toString());	
+			System.out.println("Erro de acesso a� memoria em "+this.getServletName()+" : "+npe.toString());	
 		}
 		catch(Exception e)
 		{

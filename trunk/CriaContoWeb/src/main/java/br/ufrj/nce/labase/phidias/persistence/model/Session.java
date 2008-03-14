@@ -45,8 +45,8 @@ public class Session implements java.io.Serializable {
 	/**
 	 * @generated
 	 */
-	@javax.persistence.ManyToOne(optional = false)
-	@javax.persistence.JoinColumn(name = "apl_id_login", nullable = false)
+	@javax.persistence.ManyToOne(optional = true)
+	@javax.persistence.JoinColumn(name = "apl_id_login", nullable = true)
 	private Attendant attendant;
 	/**
 	 * @generated
@@ -113,7 +113,7 @@ public class Session implements java.io.Serializable {
 		this.gamePhase = gamePhase;
 	}
 
-	public Patient getPaciente() {
+	public Patient getPacient() {
 		return patient;
 	}
 
@@ -129,7 +129,7 @@ public class Session implements java.io.Serializable {
 		this.game = game;
 	}
 
-	public Attendant getAttendat() {
+	public Attendant getAttendant() {
 		return attendant;
 	}
 

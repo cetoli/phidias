@@ -37,7 +37,6 @@ public class GetMovesAction implements IAction {
 			evt.setSuccess(true);
 			evt.setMoves(movesStrArr);
 
-
 		} catch (Throwable e) {
 			e.printStackTrace();
 			evt.setSuccess(false);

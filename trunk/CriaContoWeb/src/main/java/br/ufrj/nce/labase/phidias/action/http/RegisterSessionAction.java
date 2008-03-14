@@ -20,12 +20,15 @@ public class RegisterSessionAction implements IAction {
 			SessionBean container = new SessionBean();
 			container.loadPropertyValues(requestParameterMap);
 
-			SessionBusiness session = new SessionBusiness();
-			Session sessao = session.registerSession(container);
+			SessionBusiness sessionBusiness = new SessionBusiness();
+			Session session = sessionBusiness.registerSession(container);
 
 			evt.setSuccess(true);
-			evt.setSessionId(sessao.getId());
-
+			evt.setSessionId(session.getId());
+						
+			if (session.getPacient() != null) {
+				evt.setPatient(session.getPacient().getId());
+			}
 		} catch (Throwable e) {
 			e.printStackTrace();
 			evt.setSuccess(false);

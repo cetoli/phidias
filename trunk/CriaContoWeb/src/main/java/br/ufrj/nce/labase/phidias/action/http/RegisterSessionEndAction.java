@@ -20,12 +20,12 @@ public class RegisterSessionEndAction implements IAction {
 			SessionBean container = new SessionBean();
 			container.loadPropertyValues(requestParameterMap);
 
-			SessionBusiness session = new SessionBusiness();
-			Session sessao = session.registerSessionEnd(container);
+			SessionBusiness sessionBusiness = new SessionBusiness();
+			Session session = sessionBusiness.registerSessionEnd(container);
 
 			evt.setSuccess(true);
-			evt.setSessionId(sessao.getId());
-
+			evt.setSessionId(session.getId());
+			evt.setSessionEndDate(session.getSessionEndDate());
 		} catch (Throwable e) {
 			e.printStackTrace();
 			evt.setSuccess(false);
