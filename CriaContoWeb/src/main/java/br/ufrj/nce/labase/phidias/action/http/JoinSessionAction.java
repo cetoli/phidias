@@ -20,12 +20,19 @@ public class JoinSessionAction implements IAction {
 			SessionBean container = new SessionBean();
 			container.loadPropertyValues(requestParameterMap);
 
-			SessionBusiness session = new SessionBusiness();
-			Session sessao = session.joinSession(container);
+			SessionBusiness sessionBusiness = new SessionBusiness();
+			Session session = sessionBusiness.joinSession(container);
 
 			evt.setSuccess(true);
-			evt.setSessionId(sessao.getId());
-
+			evt.setSessionId(session.getId());
+			
+			if (session.getAttendant() != null) {
+				evt.setAttendant(session.getAttendant().getId());
+			}
+			
+			if (session.getPacient() != null) {
+				evt.setPatient(session.getPacient().getId());
+			}
 		} catch (Throwable e) {
 			e.printStackTrace();
 			evt.setSuccess(false);
