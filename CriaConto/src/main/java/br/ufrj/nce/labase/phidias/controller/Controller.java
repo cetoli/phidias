@@ -6,6 +6,7 @@ import br.ufrj.nce.labase.phidias.communication.bean.CommentBean;
 import br.ufrj.nce.labase.phidias.communication.bean.EventBean;
 import br.ufrj.nce.labase.phidias.communication.bean.EventResponseBean;
 import br.ufrj.nce.labase.phidias.communication.bean.SessionBean;
+import br.ufrj.nce.labase.phidias.communication.bean.SessionListResponseBean;
 import br.ufrj.nce.labase.phidias.communication.bean.SessionResponseBean;
 import br.ufrj.nce.labase.phidias.communication.bean.StimulusBean;
 import br.ufrj.nce.labase.phidias.communication.bean.StimulusResponseBean;
@@ -14,16 +15,36 @@ import br.ufrj.nce.labase.phidias.exception.PhidiasException;
 public class Controller {
 	private static boolean sendDataToServer = true;
 	private static MidiSound currentSound;
-
+		
 	public static void setSendDataToServer(boolean send){
 		sendDataToServer = send;
 	}
 	
-	public static boolean registerSession(String attendant, int game) throws PhidiasException {
+	public static SessionListResponseBean listOpenSessions() throws PhidiasException {
 		if (sendDataToServer) {
 			SessionBean sessionContainer = new SessionBean();
-			sessionContainer.setAttendantId(attendant);
-			sessionContainer.setGameId(game);
+			sessionContainer.setGameId(Session.getInstance().getGame());
+			
+			SessionListResponseBean sessionListBean =
+				(SessionListResponseBean) CommunicationProtocol.execute(CommunicationProtocol.LIST_OPEN_SESSION_ACTION, sessionContainer);
+
+			if (sessionListBean != null) {				
+				if (sessionListBean.getGeneratedException() != null) {
+					throw sessionListBean.getGeneratedException();
+				}
+				
+				return sessionListBean;
+			}
+		}
+		
+		return new SessionListResponseBean();
+	}
+	
+	public static boolean registerSession(String patient) throws PhidiasException {
+		if (sendDataToServer) {
+			SessionBean sessionContainer = new SessionBean();
+			sessionContainer.setPatientId(patient);
+			sessionContainer.setGameId(Session.getInstance().getGame());
 
 			SessionResponseBean sessionBean =
 				(SessionResponseBean) CommunicationProtocol.execute(CommunicationProtocol.REGISTER_SESSION_ACTION, sessionContainer);
@@ -43,11 +64,11 @@ public class Controller {
 		return true;
 	}
 
-	public static boolean registerSessionEnd(int game) throws PhidiasException {
+	public static boolean registerSessionEnd() throws PhidiasException {
 		if (sendDataToServer) {
 			SessionBean sessionContainer = new SessionBean();
 			sessionContainer.setId(Session.getInstance().getId());
-			sessionContainer.setGameId(game);
+			sessionContainer.setGameId(Session.getInstance().getGame());
 
 			SessionResponseBean sessionBean =
 				(SessionResponseBean) CommunicationProtocol.execute(CommunicationProtocol.REGISTER_SESSION_END_ACTION, sessionContainer);
@@ -66,17 +87,74 @@ public class Controller {
 
 		return true;
 	}
-
-	public static boolean joinSession(String patient, int game) throws PhidiasException {
+	
+	public static boolean getSessionAttendant() throws PhidiasException {
 		if (sendDataToServer) {
-			SessionBean sessaoContainer = new SessionBean();
-			sessaoContainer.setGameId(game);
-			sessaoContainer.setPatientId(patient);
+			SessionBean sessionContainer = new SessionBean();
+			sessionContainer.setGameId(Session.getInstance().getGame());
+			sessionContainer.setId(Session.getInstance().getId());
 
 			SessionResponseBean sessionBean =
-				(SessionResponseBean) CommunicationProtocol.execute(CommunicationProtocol.JOIN_SESSION_ACTION, sessaoContainer);
+				(SessionResponseBean) CommunicationProtocol.execute(CommunicationProtocol.GET_SESSION_ACTION, sessionContainer);
 
 			if (sessionBean != null) {
+				if (sessionBean.getGeneratedException() != null) {
+					throw sessionBean.getGeneratedException();
+				}
+				
+				if (sessionBean.getAttendant() != null) {
+					Session.getInstance().setSessionBean(sessionBean);
+					return true;
+				}				
+			}
+
+			return false;
+		}
+
+		return true;
+	}
+	
+	public static boolean getSessionEnded() throws PhidiasException {
+		if (sendDataToServer) {
+			SessionBean sessionContainer = new SessionBean();
+			sessionContainer.setGameId(Session.getInstance().getGame());
+			sessionContainer.setId(Session.getInstance().getId());
+
+			SessionResponseBean sessionBean =
+				(SessionResponseBean) CommunicationProtocol.execute(CommunicationProtocol.GET_SESSION_ACTION, sessionContainer);
+
+			if (sessionBean != null) {
+				if (sessionBean.getGeneratedException() != null) {
+					throw sessionBean.getGeneratedException();
+				}
+				
+				if (sessionBean.getSessionEndDate() != null) {
+					Session.getInstance().setSessionBean(sessionBean);
+					return true;
+				}				
+			}
+
+			return false;
+		}
+
+		return true;
+	}
+
+	public static boolean joinSession(String attendant, int sessionId) throws PhidiasException {
+		if (sendDataToServer) {
+			SessionBean sessionContainer = new SessionBean();
+			sessionContainer.setGameId(Session.getInstance().getGame());
+			sessionContainer.setAttendantId(attendant);
+			sessionContainer.setId(sessionId);
+
+			SessionResponseBean sessionBean =
+				(SessionResponseBean) CommunicationProtocol.execute(CommunicationProtocol.JOIN_SESSION_ACTION, sessionContainer);
+
+			if (sessionBean != null) {
+				if (sessionBean.getGeneratedException() != null) {
+					throw sessionBean.getGeneratedException();
+				}
+				
 				Session.getInstance().setSessionBean(sessionBean);
 				return true;
 			}
@@ -180,6 +258,10 @@ public class Controller {
 			(EventResponseBean) CommunicationProtocol.execute(CommunicationProtocol.GET_MOVES_ACTION, event);
 		
 		if (eventBean != null) {
+			if (eventBean.getGeneratedException() != null) {
+				throw eventBean.getGeneratedException();
+			}
+			
 			return eventBean;			
 		}
 		
@@ -224,6 +306,10 @@ public class Controller {
 				(StimulusResponseBean) CommunicationProtocol.execute(CommunicationProtocol.GET_NEXT_STIMULUS_ACTION, stimulusContainer);
 			
 			if (stimulusBean != null) {
+				if (stimulusBean.getGeneratedException() != null) {
+					throw stimulusBean.getGeneratedException();
+				}
+				
 				return stimulusBean;
 			}
 		}

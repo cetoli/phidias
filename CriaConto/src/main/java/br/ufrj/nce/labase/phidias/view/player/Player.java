@@ -25,7 +25,6 @@ import javax.swing.Timer;
 
 import br.ufrj.nce.labase.common.MidiSound;
 import br.ufrj.nce.labase.criaconto.images.Images;
-import br.ufrj.nce.labase.criaconto.view.LoginPanel;
 import br.ufrj.nce.labase.phidias.communication.bean.StimulusBean;
 import br.ufrj.nce.labase.phidias.communication.bean.StimulusResponseBean;
 import br.ufrj.nce.labase.phidias.controller.Controller;
@@ -34,27 +33,36 @@ import br.ufrj.nce.labase.phidias.exception.PhidiasException;
 
 public abstract class Player extends Applet {
 	private static final long serialVersionUID = 1L;
-	protected Board board;
-	protected Piece piece = null;  
-    private LoginPanel loginPanel;
+	private PlayerLoginPanel loginPanel;
     private Timer stimulusTimer;	
     private Timer gameStartTimer;
     private Timer npcTimer;
+    private Timer sessionTimer;
+    private Timer gameOverTimer;
+    private String loginBackground;
+    
+    protected Board board;
+	protected Piece piece = null;  
     protected String midiSound;
     protected String npcImage;
     protected boolean showNPC;
+    private Color backgroundColor;
+    
     
     private static final Hashtable<TextAttribute, Object> stimulusFont =
-        									new Hashtable<TextAttribute, Object>();
+        new Hashtable<TextAttribute, Object>();
+    
     static {
     	stimulusFont.put(TextAttribute.FAMILY, "Serif");
     	stimulusFont.put(TextAttribute.SIZE, new Float(10));
-    }  
+    }      
     
-    
-    public Player(String midiSound, boolean showNPC, String npcImage) {
+    public Player(String midiSound, boolean showNPC, String npcImage, String loginBackground, int game, Color backgroundColor) {
     	this.midiSound = midiSound;
     	this.showNPC = showNPC;
+    	this.loginBackground = loginBackground;
+    	this.backgroundColor = backgroundColor;
+    	Session.getInstance().setGame(game);
     	
     	if (showNPC) {
     		this.npcImage = npcImage;
@@ -69,22 +77,31 @@ public abstract class Player extends Applet {
     	Controller.setCurrentSound(new MidiSound(MidiSound.class.getResourceAsStream(midiSound), true));
     	Controller.startSound();
     	
-    	loginPanel = new LoginPanel();
+    	loginPanel = new PlayerLoginPanel(loginBackground, backgroundColor);
     	loginPanel.setPreferredSize(new Dimension(1024, 820));
     	add(loginPanel, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
     	
     	loginPanel.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
-    			showMessageDialog("Por favor aguarde!");
+    			showMessageDialog("Por favor aguarde enquanto encontramos um Aplicador disponível!");
     			
-    			if (joinSession()) {
-    				startGame();
-    				startTimer();
+    			if (registerSession()) {
+    				startSessionTimer();
     			} else {
     				showMessageDialog("Ocorreu um erro ao iniciar o jogo! Por favor, tente novamente mais tarde!");
     			}
     		}
     	});
+    }
+    
+    private void startSessionTimer() {
+    	sessionTimer = new Timer(2000, new SessionTimer());
+    	sessionTimer.start();
+    }
+    
+    private void startGameOverTimer() {
+    	gameOverTimer = new Timer(2000, new GameOverTimer());
+    	gameOverTimer.start();
     }
     
     protected void showMessageDialog(String message) {
@@ -115,15 +132,15 @@ public abstract class Player extends Applet {
         board.start();
 	}
 
-    private boolean joinSession() {
-		try {
-			return Controller.joinSession(loginPanel.getLogin(), LoginPanel.CRIA_CONTO);
-		} catch (PhidiasException ex) {
+    private boolean registerSession() {
+    	try {
+    		return Controller.registerSession(loginPanel.getLogin());
+    	} catch (PhidiasException ex) {
 			showMessageDialog("Erro ao iniciar sessão!");
 			return false;
 		}
-	}
-
+    }
+    
     protected void changePhase() {
 		Session.getInstance().changePhase();
 	}
@@ -211,6 +228,11 @@ public abstract class Player extends Applet {
     	stimulusTimer.start();
 	}
 	
+	private void stopSessionTimer() {
+		sessionTimer.stop();
+		sessionTimer = null;
+	}
+	
     public void stop() {
     	if (board != null) {
     		board.suspend();
@@ -226,6 +248,7 @@ public abstract class Player extends Applet {
 	public void destroy() {
 		if (board != null) {
 	    	board.stop();
+	    	Controller.registerSessionEnd();
 		}
 	}
 		
@@ -240,20 +263,40 @@ public abstract class Player extends Applet {
 	}
 	
 	private class StimulusTimer implements ActionListener {  
-		public void actionPerformed(ActionEvent arg0) {			
+		public void actionPerformed(ActionEvent e) {			
 			StimulusResponseBean response = Controller.getNextStimulus();
 			if (response != null) {
 				Integer stimulusType = response.getStimulusTypeId();
 				if (stimulusType != null && stimulusType.compareTo(StimulusBean.SHOW_NPC) == 0) {
 					try {
 						showNPC(response.getStimulusText());
-					} catch (InterruptedException e) {
+					} catch (InterruptedException ex) {
 						//TODO: melhorar tratamento de excecao
-						e.printStackTrace();
+						ex.printStackTrace();
 					}
 				} else if (stimulusType != null && stimulusType.compareTo(StimulusBean.CHANGE_PHASE) == 0) {
 					changePhase();
 				}
+			}
+		}
+	}
+	
+	private class SessionTimer implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			if (Controller.getSessionAttendant()) {
+				startGame();
+				startTimer();
+				stopSessionTimer();
+				startGameOverTimer();
+			}
+		}
+	}
+	
+	private class GameOverTimer implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			if (Controller.getSessionEnded()) {
+				showMessageDialog("O Aplicador encerrou o jogo!");
+				stop();
 			}
 		}
 	}

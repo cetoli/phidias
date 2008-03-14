@@ -25,12 +25,15 @@ public class CommunicationProtocol {
 	public static final String REGISTER_STIMULUS_ACTION = "registerStimulus";
 	public static final String GET_NEXT_STIMULUS_ACTION = "getNextStimulus";
 	public static final String GET_MOVES_ACTION = "getMoves";
-
+	public static final String LIST_OPEN_SESSION_ACTION = "listOpenSessions";
+	public static final String GET_SESSION_ACTION = "getSession";
+	
 	public static ActionResponseContainer execute(String action, ActionContainer actionData) {
 		try {
 			// Prepara o HttpClient e o metodo Post para fazer a requisicao;
 			HttpClient client = new HttpClient();
-			client.getHostConfiguration().setHost("labase.nce.ufrj.br", 80, "http");
+			//client.getHostConfiguration().setHost("labase.nce.ufrj.br", 80, "http");
+			client.getHostConfiguration().setHost("localhost", 8080, "http");
 			client.getParams().setCookiePolicy(CookiePolicy.BROWSER_COMPATIBILITY);
 
 			PostMethod post = new PostMethod("/CriaContoWeb/ClientServerServlet.do");

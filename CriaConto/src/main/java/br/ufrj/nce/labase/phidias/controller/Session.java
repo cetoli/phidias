@@ -6,7 +6,8 @@ public class Session {
 	private SessionResponseBean session;
 	private static Session instance;
 	private Integer currentPhase = 0;
-
+	private Integer game = 0;
+	
 	private Session() {
 	}
 	
@@ -39,6 +40,18 @@ public class Session {
 	
 	public void changePhase() {
 		currentPhase++;
+	}
+
+	public void setGame(Integer game) {
+		this.game = game;
+	}
+
+	public Integer getGame() {
+		return game;
+	}
+
+	public String getPatient() {
+		return session.getPatient();
 	}
 
 }
