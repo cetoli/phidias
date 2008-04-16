@@ -59,6 +59,8 @@ public class CriaContoAttendant extends Attendant {
 		moves.setEditable(false);
 		mainPanel.add(moves, new GridBagConstraints(0, 2, 3, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
+		moves.append(" ------ Fase " + Session.getInstance().getCurrentPhase() + " ------------- \n");
+		
 		Label commentsLabel = new Label("Entre com os comentarios");
 		commentsLabel.setBackground(backgroundColor);
 		mainPanel.add(commentsLabel, new GridBagConstraints(0, 3, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
@@ -82,6 +84,8 @@ public class CriaContoAttendant extends Attendant {
 		comments.setEditable(false);
 		mainPanel.add(comments, new GridBagConstraints(0, 4, 3, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 
+		comments.append(" ------ Fase " + Session.getInstance().getCurrentPhase() + " ------------- \n");
+		
 		Label interventionsLabel = new Label("Entre com os estimulos do NPC:");
 		interventionsLabel.setBackground(backgroundColor);
 		mainPanel.add(interventionsLabel, new GridBagConstraints(0, 5, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
@@ -103,24 +107,19 @@ public class CriaContoAttendant extends Attendant {
 		stimulus.setEditable(false);
 		mainPanel.add(stimulus, new GridBagConstraints(0, 6, 3, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 		
+		stimulus.append(" ------ Fase " + Session.getInstance().getCurrentPhase() + " ------------- \n");
+		
 		Button changePhase = new Button("Mudar fase");
 		changePhase.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				registerPhaseChange();
+				comments.append(" ------ Fase " + Session.getInstance().getCurrentPhase() + " ------------- \n");	
+				stimulus.append(" ------ Fase " + Session.getInstance().getCurrentPhase() + " ------------- \n");
+				moves.append(" ------ Fase " + Session.getInstance().getCurrentPhase() + " ------------- \n");
 			}
 		});
 		mainPanel.add(changePhase, new GridBagConstraints(0, 7, 3, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
-				
-		Button exit = new Button("Sair");
-		exit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (registerSessionEnd()) {
-					stop();
-				}
-			}
-		});
-		mainPanel.add(exit, new GridBagConstraints(0, 8, 3, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
-		
+			
 		add(mainPanel, BorderLayout.CENTER);
 	}
 	
@@ -136,15 +135,6 @@ public class CriaContoAttendant extends Attendant {
 			stimulus.append(stimulusText.getText() + "\n");
 			stimulusText.setText("");
 		}
-	}
-
-	public void stop() {
-	}
-
-	public void start() {
-	}
-
-	public void destroy() {
 	}
 
 	/** Main method */
