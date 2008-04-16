@@ -52,8 +52,8 @@ public abstract class Attendant extends Applet {
     		public void actionPerformed(ActionEvent e) {
     			if (joinSession()) {
     				startGameOverTimer();
-    				startApplication();
     				Session.getInstance().changePhase();    				
+    				startApplication();
     				startMoverTimer();
     			} else {
     				showMessageDialog("Ocorreu um erro ao iniciar o aplicativo! Por favor, tente novamente mais tarde!");
