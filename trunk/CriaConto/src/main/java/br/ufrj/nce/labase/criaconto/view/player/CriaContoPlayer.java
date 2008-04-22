@@ -41,11 +41,15 @@ public class CriaContoPlayer extends Player {
     public static final int CRIA_CONTO = 1;
 	    
     public CriaContoPlayer() { 
-    	super("entrada.midi", true, "NPC.gif", "fundoAplicador.jpg", CRIA_CONTO, new Color(249, 227, 203));
+    	super(true, CRIA_CONTO, new Color(249, 227, 203));
 	}
 
     public void init() {
-		super.init();
+    	midiSound = new MidiSound(MidiSound.class.getResourceAsStream("entrada.midi"), true);
+    	npcImage = Images.createImage("NPC.gif");
+    	loginBackgroundImage = Images.createImage("fundoAplicador.jpg");
+    	
+    	super.init();
     }
     
     protected void startGame() {		
@@ -289,19 +293,19 @@ public class CriaContoPlayer extends Player {
 						startSequence++;
 						break;
 					case 9:
-						board.setBackgroundImage("tela_inicial3.jpg");
+						setBoardImage("tela_inicial3.jpg", board);
 						imageCorujaPouso = Images.createImage("Asas_Pouso.gif");		
 						corujaPouso = new Piece(board, imageCorujaPouso, "Coruja pouso", 505, 205);
 						startSequence++;
 						break;
 					case 10:
-						board.setBackgroundImage("tela_inicial4.jpg");
+						setBoardImage("tela_inicial4.jpg", board);
 						imageCorujaPouso = Images.createImage("Asas_Pouso.gif");		
 						corujaPouso = new Piece(board, imageCorujaPouso, "Coruja pouso", 505, 205);
 						startSequence++;
 						break;
 					case 11:
-						board.setBackgroundImage("tela_inicial3.jpg");
+						setBoardImage("tela_inicial3.jpg", board);
 						imageCorujaPouso = Images.createImage("Asas_Pouso.gif");		
 						corujaPouso = new Piece(board, imageCorujaPouso, "Coruja pouso", 505, 205);
 						startSequence++;
