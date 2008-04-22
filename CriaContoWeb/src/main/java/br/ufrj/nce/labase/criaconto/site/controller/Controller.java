@@ -28,7 +28,7 @@ public class Controller {
 				responseObjectOutputStream = new ObjectOutputStream(response.getOutputStream());
 
 				// Chama a ção responsável pelo parametro
-				IAction acao = ActionFactory.getAcao(action);
+				IAction acao = ActionFactory.getAction(action);
 				acao.execute(parameterMap, responseObjectOutputStream);
 
 			} catch (IOException e1) {
