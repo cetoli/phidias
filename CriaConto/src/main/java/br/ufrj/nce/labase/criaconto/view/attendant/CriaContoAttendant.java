@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 
+import br.ufrj.nce.labase.criaconto.images.Images;
 import br.ufrj.nce.labase.phidias.controller.Session;
 import br.ufrj.nce.labase.phidias.view.attendant.Attendant;
 
@@ -31,11 +32,14 @@ public class CriaContoAttendant extends Attendant {
 	public static final int CRIA_CONTO = 1;
 	
 	public CriaContoAttendant() {
-		super("fundoAplicador.jpg", "fundoAplicador.jpg", CRIA_CONTO, new Color(249, 227, 203));
+		super(CRIA_CONTO, new Color(249, 227, 203));
 	}
 
 	public void init() {
-		super.init();
+		backgroundImage = Images.createImage("fundoAplicador.jpg");
+    	loginBackgroundImage = Images.createImage("fundoAplicador.jpg");
+    	
+    	super.init();
 	}	
 	
 	protected void appendMove(String move) {
