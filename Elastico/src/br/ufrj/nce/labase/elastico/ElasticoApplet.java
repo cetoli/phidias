@@ -1,30 +1,41 @@
 package br.ufrj.nce.labase.elastico;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.event.MouseInputListener;
+import javax.swing.Timer;
 
 import br.ufrj.nce.labase.criaconto.images.Images;
+import br.ufrj.nce.labase.phidias.view.player.GameStartTimer;
 
-public class ElasticoApplet extends javax.swing.JApplet implements MouseInputListener {
+public class ElasticoApplet extends javax.swing.JApplet implements Runnable, MouseListener, MouseMotionListener {
 
 	// global variables for off-screen rendering
+	private static final int PHASE_ONE = 1;
+	private static final int PHASE_TWO = 2;
+
+	private int phase;
+	private Timer phaseTimer;
+
 	private Graphics dbg;
 	private Image dbImage = null;
 
@@ -89,120 +100,121 @@ public class ElasticoApplet extends javax.swing.JApplet implements MouseInputLis
 		LIMITE_LATERAL_FILEIRA_CARTA = WIDTH - (WIDTH_CARTA + 20);
 	}
 
-	private Color[] elasticosCor = { Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.ORANGE, Color.GRAY };
+	private Color[] elasticosColor = { Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.ORANGE, Color.CYAN };
+	private String[] elasticosDescription = { "Vermelho", "Azul", "Verde", "Amarelo", "Laranja", "Azul claro" };
 
 	private List<Pino> pinos = new ArrayList<Pino>();
 
 	private List<Elastico> elasticos = new ArrayList<Elastico>();
 
-	private List<Carta> cartas = new ArrayList<Carta>();
-
 	private List<PaletaCorElastico> painel = new ArrayList<PaletaCorElastico>();
 
 	private Elastico elasticoCorrente;
 
-	@Override
-	public void paint(Graphics g) {
-		// TODO Auto-generated method stub
-		super.paint(g);
+	private SpriteManager spriteManager = new SpriteManager();
 
+	/**
+	 * Construtor que inicia o jogo e todos os seus recursos necessários.
+	 */
+	public ElasticoApplet() {
+		super();
+		this.initGame();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.JApplet#update(java.awt.Graphics)
+	 */
+	public void update(Graphics g) {
+		if (dbImage == null) {
+			dbImage = createImage(this.getSize().width, this.getSize().height);
+			dbg = dbImage.getGraphics();
+		}
+
+		dbg.setColor(getBackground());
+		dbg.fillRect(0, 0, this.getSize().width, this.getSize().height);
+
+		dbg.setColor(getForeground());
+		paint(dbg);
+
+		g.drawImage(dbImage, 0, 0, this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.awt.Container#paint(java.awt.Graphics)
+	 */
+	public void paint(Graphics g) {
 		if (dbImage == null) {
 			// create the buffer
 			dbImage = createImage(WIDTH, HEIGHT);
 			if (dbImage == null) {
-				System.out.println("dbImage is null");
 				return;
 			} else
 				dbg = dbImage.getGraphics();
 		}
 
 		Graphics2D g2d = (Graphics2D) dbg;
-		geraPainelElastico(g2d);
-		geraCartas(g2d);
-		geraTabuleiro(g2d);
 
-		geraPinos(g2d);
-		geraElasticos(g2d);
-		paintScreen();
-	}
-
-	private void paintScreen()
-	// actively render the buffer image to the screen
-	{
-		Graphics g;
-		try {
-			g = this.getGraphics(); // get the panel's graphic context
-			if ((g != null) && (dbImage != null))
-				g.drawImage(dbImage, 0, 0, null);
-
-			Toolkit.getDefaultToolkit().sync(); // sync the display on
-			// some systems
-			g.dispose();
-		} catch (Exception e) {
-			System.out.println("Graphics context error: " + e);
+		if (phase == PHASE_ONE) {
+			this.phaseOne(g2d);
+		} else if (phase == PHASE_TWO) {
+			this.phaseTwo(g2d);
 		}
-	} // end of paintScreen(
-
-	private void geraTabuleiro(Graphics2D g2d) {
-		Rectangle2D rec2D = new Rectangle2D.Double(TABULEIRO_X_MIN, TABULEIRO_Y_MIN, TABULEIRO_X_MAX, TABULEIRO_Y_MAX);
-
-		g2d.setPaint(Color.DARK_GRAY);
-		g2d.setStroke(new BasicStroke(10.0f));
-		g2d.draw(rec2D);
-		g2d.fill(rec2D);
 	}
 
-	private void geraPainelElastico(Graphics2D g2d) {
+	/**
+	 * Inicia Fase 1 do Jogo
+	 * 
+	 * @param g2d
+	 */
+	private void phaseOne(Graphics2D g2d) {
+		BufferedImage im = Images.getBufferedImage("/images/collage.jpg");
+		g2d.drawImage(im, (WIDTH - im.getWidth()) / 2, (HEIGHT - im.getHeight()) / 2, im.getWidth(), im.getHeight(), this);
+		g2d.setFont(new Font("Times New Roman", 1, 50));
+		g2d.drawString("Jogo dos Elásticos", (((WIDTH - im.getWidth()) / 2) + im.getWidth()) / 2 - 40, ((HEIGHT - im.getHeight()) / 2) - 20);
+
+		// Mantém a fase 1 por 5 segundos para a criança ver as peças do
+		// cenário.
+		this.phaseTimer = new Timer(5000, new AutomaticChangePhaseStartTimer(PHASE_TWO));
+		this.phaseTimer.start();
+	}
+
+	/**
+	 * Inica Fase 2 do Jogo
+	 * 
+	 * @param g2d
+	 */
+	private void phaseTwo(Graphics2D g2d) {
+		// Geração de pinos
+		for (GraphicPrintElement pino : this.pinos) {
+			pino.print(g2d);
+		}
+
+		// Geração so painel de Elasticos
 		for (PaletaCorElastico paleta : this.painel) {
-			if (!paleta.isDisabled())
-				g2d.setPaint(paleta.getColor());
-			else
-				g2d.setColor(Color.DARK_GRAY);
-			g2d.draw(paleta.getPaletaCor());
-			g2d.fill(paleta.getPaletaCor());
+			paleta.print(g2d);
 		}
-	}
 
-	private void geraPinos(Graphics2D g2d) {
-		for (Pino pino : this.pinos) {
-			g2d.setPaint(pino.getColor());
-			g2d.draw(pino.getElemento());
-			g2d.fill(pino.getElemento());
-		}
-	}
+		// Imprime sprites
+		this.spriteManager.paintSprites(g2d, this);
 
-	private void geraElasticos(Graphics2D g2d) {
+		// Geração dos Elásticos
 		for (Elastico elastico : this.elasticos) {
-			if (elastico.isConcluido()) {
-				g2d.setStroke(new BasicStroke(5.0f));
-				g2d.setPaint(elastico.getColor());
-				g2d.draw(elastico.getPoligono());
-			} else {
-				if (elastico.getCoordenadas() != null) {
-					Point[] pontos = new Point[elastico.getCoordenadas().size()];
-					elastico.getCoordenadas().toArray(pontos);
-					for (int i = 0; i < pontos.length - 1; i++) {
-						g2d.setStroke(new BasicStroke(5.0f));
-						g2d.setPaint(elastico.getColor());
-						g2d.draw(new Line2D.Double(pontos[i].getX(), pontos[i].getY(), pontos[i + 1].getX(), pontos[i + 1].getY()));
-
-					}
-				}
-			}
+			elastico.print(g2d);
 		}
 	}
 
-	private void geraCartas(Graphics2D g2d) {
-		for (Carta carta : this.cartas) {
-			g2d.drawImage(carta.getImage(), (int) carta.getCoordenada().getX(), (int) carta.getCoordenada().getY(), null);
-		}
-	}
-
+	/**
+	 * Inicializa as estruturas de dados de Pinos
+	 */
 	private void inicializaPinos() {
 		for (int y = ENCAIXE_Y_MIN; y < ENCAIXE_Y_MAX + TAMANHO_PINO;) {
 			for (int x = ENCAIXE_X_MIN; x < ENCAIXE_X_MAX + TAMANHO_PINO; x += DISTANCIA_PECA) {
 				Pino pino = new Pino();
-				pino.setElemento(new Ellipse2D.Double(x, y, TAMANHO_PINO, TAMANHO_PINO));
+				pino.setPinoBody(new Ellipse2D.Double(x, y, TAMANHO_PINO, TAMANHO_PINO));
 				pino.setColor(Color.GRAY);
 				pinos.add(pino);
 			}
@@ -210,6 +222,9 @@ public class ElasticoApplet extends javax.swing.JApplet implements MouseInputLis
 		}
 	}
 
+	/**
+	 * Iniicaliza as estruturas de dados das cartas
+	 */
 	private void inicializaCartas() {
 		// Randomiza grupo de 64 cartas
 		java.util.List<String> cartas = new ArrayList<String>();
@@ -220,32 +235,31 @@ public class ElasticoApplet extends javax.swing.JApplet implements MouseInputLis
 		Collections.shuffle(cartas);
 
 		// Inicializa primeira e ultima fileira de cartas
-		Image image = null;
+		BufferedImage image = null;
 		Carta carta = null;
 		int idimagem = 0;
 		for (int x = 0; (x + WIDTH_CARTA) < WIDTH; x += WIDTH_CARTA) {
-			image = Images.createImage("/images/" + cartas.get(idimagem) + " [80x60].GIF");
-			carta = new Carta(new Point(x, 0), image);
-			this.cartas.add(carta);
+			image = Images.getBufferedImage("/images/" + cartas.get(idimagem) + " [80x60].GIF");
+			carta = new Carta(this.spriteManager, new Point2D.Double(x, 0), image);
+			this.spriteManager.addSprite(carta);
 
-			image = Images.createImage("/images/" + cartas.get(idimagem + 1) + " [80x60].GIF");
-			carta = new Carta(new Point(x, LIMITE_INFERIOR_FILEIRA_CARTA), image);
-			this.cartas.add(carta);
-
+			image = Images.getBufferedImage("/images/" + cartas.get(idimagem + 1) + " [80x60].GIF");
+			carta = new Carta(this.spriteManager, new Point2D.Double(x, LIMITE_INFERIOR_FILEIRA_CARTA), image);
+			this.spriteManager.addSprite(carta);
 			idimagem += 2;
 		}
 
 		// Inicializa lateral esquerda e direita das cartas
 		int y;
 		for (y = HEIGHT_CARTA; (y + HEIGHT_CARTA) < HEIGHT - (HEIGHT_CARTA + 30); y += HEIGHT_CARTA) {
-			image = Images.createImage("/images/" + cartas.get(idimagem) + " [80x60].GIF");
-			carta = new Carta(new Point(0, y), image);
-			this.cartas.add(carta);
+			image = Images.getBufferedImage("/images/" + cartas.get(idimagem) + " [80x60].GIF");
+			carta = new Carta(this.spriteManager, new Point2D.Double(0, y), image);
+			this.spriteManager.addSprite(carta);
 
-			image = Images.createImage("/images/" + cartas.get(idimagem + 1) + " [80x60].GIF");
+			image = Images.getBufferedImage("/images/" + cartas.get(idimagem + 1) + " [80x60].GIF");
 
-			carta = new Carta(new Point(LIMITE_LATERAL_FILEIRA_CARTA, y), image);
-			this.cartas.add(carta);
+			carta = new Carta(this.spriteManager, new Point2D.Double(LIMITE_LATERAL_FILEIRA_CARTA, y), image);
+			this.spriteManager.addSprite(carta);
 
 			idimagem += 2;
 		}
@@ -262,19 +276,22 @@ public class ElasticoApplet extends javax.swing.JApplet implements MouseInputLis
 		PAINEL_X_MAX = LIMITE_LATERAL_FILEIRA_CARTA;
 	}
 
+	/**
+	 * Inicializa a paleta de elasticos.
+	 */
 	private void inicializaPaletaCorElastico() {
 
 		// Inicializa a paleta esquerda
 		PaletaCorElastico paleta = null;
 		for (int i = 0; i < 3; i++) {
-			paleta = new PaletaCorElastico(new Rectangle2D.Double(PAINEL_X_MIN, PAINEL_Y_MIN, WIDTH_PAINEL, HEIGHT_PAINEL), this.elasticosCor[i]);
+			paleta = new PaletaCorElastico(new Rectangle2D.Double(PAINEL_X_MIN, PAINEL_Y_MIN, WIDTH_PAINEL, HEIGHT_PAINEL), this.elasticosColor[i], this.elasticosDescription[i]);
 			painel.add(paleta);
 			PAINEL_Y_MIN = PAINEL_Y_MIN + HEIGHT_PAINEL;
 		}
 
 		// Inicializa a paleta direita
-		for (int i = 3; i < this.elasticosCor.length; i++) {
-			paleta = new PaletaCorElastico(new Rectangle2D.Double(PAINEL_X_MAX, PAINEL_Y_MAX, WIDTH_PAINEL, HEIGHT_PAINEL), this.elasticosCor[i]);
+		for (int i = 3; i < this.elasticosColor.length; i++) {
+			paleta = new PaletaCorElastico(new Rectangle2D.Double(PAINEL_X_MAX, PAINEL_Y_MAX, WIDTH_PAINEL, HEIGHT_PAINEL), this.elasticosColor[i], this.elasticosDescription[i]);
 			painel.add(paleta);
 			PAINEL_Y_MAX = PAINEL_Y_MAX + HEIGHT_PAINEL;
 		}
@@ -295,25 +312,20 @@ public class ElasticoApplet extends javax.swing.JApplet implements MouseInputLis
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setVisible(true);
-
 	}
 
-	public ElasticoApplet() {
-		super();
-		initGUI();
-	}
-
-	private void initGUI() {
+	private void initGame() {
 		try {
+
+			this.phase = PHASE_ONE;
 			this.inicializaPinos();
-
 			this.inicializaCartas();
-
 			this.inicializaPaletaCorElastico();
-
 			setBackground(Color.DARK_GRAY);
+
 			setSize(new Dimension(WIDTH, HEIGHT));
 			addMouseListener(this);
+			addMouseMotionListener(this);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -321,28 +333,30 @@ public class ElasticoApplet extends javax.swing.JApplet implements MouseInputLis
 	}
 
 	public void mouseClicked(MouseEvent e) {
+
 		Ellipse2D ellipse;
 
 		if (this.elasticoCorrente == null) {
 			for (PaletaCorElastico paletaCor : painel) {
-				if (paletaCor.getPaletaCor().contains(e.getX(), e.getY()) && !paletaCor.isDisabled()) {
+				if (paletaCor.getBody().contains(e.getX(), e.getY()) && !paletaCor.isDisabled()) {
 					// Inicializa o elastico corrente
 					this.elasticoCorrente = new Elastico();
 					this.elasticoCorrente.setColor(paletaCor.getColor());
 					this.elasticos.add(this.elasticoCorrente);
 					paletaCor.setDisabled(true);
-					JOptionPane.showMessageDialog(this, "Elástico " + paletaCor.getColor() + " escolhido!");
+					JOptionPane.showMessageDialog(this, "Elástico " + paletaCor.getColorDescription() + " escolhido!");
 				}
 			}
 		}
 
 		for (Pino pino : pinos) {
-			ellipse = pino.getElemento();
+			ellipse = (Ellipse2D) pino.getBody();
 			// Verifica se o ponto clicado é de algum pino
 			if (ellipse.getBounds2D().contains(e.getX(), e.getY())) {
 
 				if (this.elasticoCorrente == null) {
 					JOptionPane.showMessageDialog(this, "Escolha um elástico para montar o cenário!");
+					return;
 				}
 
 				// Adiciono a coordenada do elastico.
@@ -350,48 +364,90 @@ public class ElasticoApplet extends javax.swing.JApplet implements MouseInputLis
 
 				// Pinta o pino da cor do elastico corrente
 				pino.setColor(this.elasticoCorrente.getColor());
+				pino.setSelected(true);
 
 				// Apos a adição da coordenada verifico se o mesmo esta
 				// concluido e anulo o elastico coorente.
-				if (this.elasticoCorrente.isConcluido()) {
+				if (this.elasticoCorrente.isFinished()) {
 					this.elasticoCorrente = null;
 				}
-
-				this.repaint();
 
 				break;
 			}
 		}
-
 	}
 
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+		this.spriteManager.mousePressed(e);
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+		this.spriteManager.mouseReleased(e);
 	}
 
 	public void mouseDragged(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+		this.spriteManager.mouseDragged(e);
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
+	}
 
+	/*
+	 * Este método faz a chamada ao repaint responsavel por montar a interface
+	 * em 20 em 20 milesimos de segundo através de uma thread.
+	 * 
+	 * @see java.lang.Runnable#run()
+	 */
+	public void run() {
+		// Baixa prioridade para o Thread
+		Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
+
+		// Roda um loop infinito
+		while (true) {
+			repaint();
+			try {
+				Thread.sleep(20);
+			} catch (InterruptedException ex) {
+				// FAZ NADA!!
+			}
+
+			Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.applet.Applet#start()
+	 */
+	public void start() {
+		super.start();
+
+		Thread th = new Thread(this);
+		th.start();
+	}
+
+	/**
+	 * Classe interna que muda fase automaticamente.
+	 * 
+	 * @author Owner
+	 */
+	private class AutomaticChangePhaseStartTimer extends GameStartTimer {
+		private int intern_phase;
+
+		public AutomaticChangePhaseStartTimer(int phase) {
+			this.intern_phase = phase;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			phase = intern_phase;
+		}
 	}
 }

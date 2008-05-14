@@ -1,36 +1,24 @@
 package br.ufrj.nce.labase.elastico;
 
 import java.awt.Color;
-import java.awt.Rectangle;
+import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
-public class PaletaCorElastico {
-	private Rectangle2D paletaCor;
+public class PaletaCorElastico extends GraphicPrintElement {
 
-	private Color color;
-	
 	private boolean disabled;
+	
+	private String colorDescription;
 
-	public Rectangle2D getPaletaCor() {
-		return paletaCor;
+	public void setPaletaBody(Rectangle2D paletaCor) {
+		this.setBody(paletaCor);
 	}
 
-	public void setPaletaCor(Rectangle2D paletaCor) {
-		this.paletaCor = paletaCor;
-	}
-
-	public Color getColor() {
-		return color;
-	}
-
-	public void setColor(Color color) {
-		this.color = color;
-	}
-
-	public PaletaCorElastico(Rectangle2D paletaCor, Color color) {
+	public PaletaCorElastico(Rectangle2D paletaCor, Color color, String colorDescription) {
 		super();
-		this.paletaCor = paletaCor;
-		this.color = color;
+		this.colorDescription = colorDescription;
+		this.setBody(paletaCor);
+		setColor(color);
 	}
 
 	public boolean isDisabled() {
@@ -41,4 +29,16 @@ public class PaletaCorElastico {
 		this.disabled = disabled;
 	}
 
+	public void print(Graphics2D g2d) {
+		if (!this.isDisabled())
+			g2d.setPaint(this.getColor());
+		else
+			g2d.setColor(Color.DARK_GRAY);
+		g2d.draw(this.getBody());
+		g2d.fill(this.getBody());
+	}
+
+	public String getColorDescription() {
+		return colorDescription;
+	}
 }

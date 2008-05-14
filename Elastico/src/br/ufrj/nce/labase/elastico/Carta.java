@@ -1,34 +1,78 @@
 package br.ufrj.nce.labase.elastico;
 
-import java.awt.Image;
-import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 
-public class Carta {
-	private Point coordenada;
+public class Carta extends Sprite {
 
-	private Image image;
+	private boolean escolhida;
+	private double initialX, initialY;
 
-	public Point getCoordenada() {
-		return coordenada;
+	public Carta(SpriteManager spriteManager, Point2D coordinate, BufferedImage image) {
+		super(spriteManager, coordinate, image);
 	}
 
-	public void setCoordenada(Point coordenada) {
-		this.coordenada = coordenada;
+	public boolean isEscolhida() {
+		return escolhida;
 	}
 
-	public Image getImage() {
-		return image;
+	public void setEscolhida(boolean escolhida) {
+		this.escolhida = escolhida;
 	}
 
-	public void setImage(Image image) {
-		this.image = image;
+	public double getInitialX() {
+		return initialX;
 	}
 
-	public Carta(Point coordenada, Image image) {
-		super();
-		this.coordenada = coordenada;
-		this.image = image;
+	public void setInitialX(double initialX) {
+		this.initialX = initialX;
 	}
 
-	
+	public double getInitialY() {
+		return initialY;
+	}
+
+	public void setInitialY(double initialY) {
+		this.initialY = initialY;
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		this.setPosXY(e.getX() - this.initialX, e.getY() - this.initialY);		
+		//System.out.println(this.hasCollision());
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		this.initialX = e.getX() - this.getPosX();
+		this.initialY = e.getY() - this.getPosY();
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 }

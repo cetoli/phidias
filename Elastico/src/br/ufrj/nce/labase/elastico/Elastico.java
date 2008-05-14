@@ -1,23 +1,19 @@
 package br.ufrj.nce.labase.elastico;
 
-import java.awt.Color;
+import java.awt.BasicStroke;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
-import java.util.ArrayList;
+import java.awt.geom.Line2D;
 import java.util.LinkedList;
-import java.util.List;
 
-public class Elastico {
+public class Elastico extends GraphicPrintElement {
 
 	private Point coordenadaInicial;
 
 	private LinkedList<Point> coordenadas;
 
-	private Polygon poligono;
-
-	private Color color;
-
-	private boolean concluido;
+	private boolean finished;
 
 	public LinkedList<Point> getCoordenadas() {
 		return coordenadas;
@@ -27,24 +23,8 @@ public class Elastico {
 		this.coordenadas = coordenadas;
 	}
 
-	public Polygon getPoligono() {
-		return poligono;
-	}
-
-	public void setPoligono(Polygon poligono) {
-		this.poligono = poligono;
-	}
-
-	public Color getColor() {
-		return color;
-	}
-
-	public void setColor(Color color) {
-		this.color = color;
-	}
-
 	public void addCoordenada(Point coordenada) {
-		if (this.poligono != null)
+		if (this.getBody() != null)
 			return;
 
 		if (this.coordenadas == null)
@@ -61,22 +41,41 @@ public class Elastico {
 			// Trata se a coordenada inserida é a coordenada de origem e gera o
 			// poligono caso tenha mais de 2 pontos
 			if (this.coordenadas.size() > 2 && coordenada.equals(coordenadaInicial)) {
-				this.poligono = new Polygon();
+				this.setBody(new Polygon());
 				for (Point ponto : this.coordenadas)
-					this.poligono.addPoint((int) ponto.getX(), (int) ponto.getY());
+					((Polygon) this.getBody()).addPoint((int) ponto.getX(), (int) ponto.getY());
 
-				this.concluido = true;
+				this.finished = true;
 			}
 
 		}
 
 	}
 
-	public boolean isConcluido() {
-		return concluido;
+	public boolean isFinished() {
+		return finished;
 	}
 
-	public void setConcluido(boolean concluido) {
-		this.concluido = concluido;
+	public void setFinished(boolean concluido) {
+		this.finished = concluido;
+	}
+
+	public void print(Graphics2D g2d) {
+		if (this.isFinished()) {
+			g2d.setStroke(new BasicStroke(5.0f));
+			g2d.setPaint(this.getColor());
+			g2d.draw(this.getBody());
+		} else {
+			if (this.getCoordenadas() != null) {
+				Point[] pontos = new Point[this.getCoordenadas().size()];
+				this.getCoordenadas().toArray(pontos);
+				for (int i = 0; i < pontos.length - 1; i++) {
+					g2d.setStroke(new BasicStroke(5.0f));
+					g2d.setPaint(this.getColor());
+					g2d.draw(new Line2D.Double(pontos[i].getX(), pontos[i].getY(), pontos[i + 1].getX(), pontos[i + 1].getY()));
+				}
+			}
+		}
+
 	}
 }
