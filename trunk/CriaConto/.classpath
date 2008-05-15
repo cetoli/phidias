@@ -4,10 +4,7 @@
 	<classpathentry kind="src" path="img/src/main/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Phidias"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/COMMONS_BEAN"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/COMMONS_HTTPUNIT"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
