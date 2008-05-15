@@ -4,10 +4,10 @@
         <wb-resource deploy-path="/" source-path="/WebContent"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
-        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/resource/CriaConto/CriaConto">
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/resource/Phidias/Phidias">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/resource/Phidias/Phidias">
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/resource/CriaConto/CriaConto">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="java-output-path" value="build/classes"/>
