@@ -6,7 +6,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import br.ufrj.nce.labase.criaconto.images.Images;
+import br.ufrj.nce.labase.phidias.util.Images;
 
 public abstract class Sprite {
 	private static final int SIZE = 5;
@@ -106,4 +106,8 @@ public abstract class Sprite {
 	public abstract void mouseReleased(MouseEvent e);
 
 	public abstract void mousePressed(MouseEvent e);
+
+	protected SpriteManager getSpriteManager() {
+		return spriteManager;
+	}
 }

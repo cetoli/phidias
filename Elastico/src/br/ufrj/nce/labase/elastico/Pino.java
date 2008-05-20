@@ -21,14 +21,14 @@ public class Pino extends GraphicPrintElement {
 
 	public void print(Graphics2D g2d) {
 		if (this.isSelected())
-			g2d.setStroke(new BasicStroke(7.0f));
+			g2d.setStroke(new BasicStroke(8.0f));
 		else
 			g2d.setStroke(new BasicStroke(1.0f));
 		g2d.setPaint(this.getColor());
 		g2d.draw(this.getBody());
 		g2d.fill(this.getBody());
 		if (this.isSelected()) {
-			g2d.setPaint(Color.BLACK);
+			g2d.setPaint(Color.GRAY);
 			g2d.draw(this.internBody);
 			g2d.fill(this.internBody);
 		}

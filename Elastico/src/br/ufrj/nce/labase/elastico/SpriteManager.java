@@ -8,9 +8,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class SpriteManager {
-	LinkedList<Sprite> sprites = new LinkedList<Sprite>();
+	private LinkedList<Sprite> sprites = new LinkedList<Sprite>();
 	private Sprite currentSprite;
-	
+	private List<GraphicPrintElement> obstacules;
+
 	public void addSprite(Sprite sprite) {
 		this.sprites.add(sprite);
 	}
@@ -29,7 +30,7 @@ public class SpriteManager {
 	}
 
 	public void mouseDragged(MouseEvent e) {
-		if(currentSprite == null)
+		if (currentSprite == null)
 			this.currentSprite = findSprite(e.getX(), e.getY());
 
 		if (this.currentSprite != null)
@@ -63,7 +64,7 @@ public class SpriteManager {
 	public void mouseReleased(MouseEvent e) {
 		if (this.currentSprite != null)
 			this.currentSprite = null;
-		
+
 		Sprite sprite = findSprite(e.getX(), e.getY());
 		if (sprite != null)
 			sprite.mouseReleased(e);
@@ -92,5 +93,24 @@ public class SpriteManager {
 		for (Sprite spriteAux : sprites) {
 			g.drawImage(spriteAux.getImage(), (int) spriteAux.getPosX(), (int) spriteAux.getPosY(), imgObserver);
 		}
+	}
+
+	public List<GraphicPrintElement> getObstacules() {
+		return obstacules;
+	}
+
+	public void setObstacules(List<GraphicPrintElement> obstacules) {
+		this.obstacules = obstacules;
+	}
+
+	public boolean add(GraphicPrintElement o) {
+		if (obstacules == null)
+			obstacules = new ArrayList<GraphicPrintElement>();
+
+		return obstacules.add(o);
+	}
+
+	public LinkedList<Sprite> getSprites() {
+		return sprites;
 	}
 }

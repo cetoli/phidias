@@ -10,8 +10,6 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -23,11 +21,12 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
+import javax.swing.event.MouseInputListener;
 
-import br.ufrj.nce.labase.criaconto.images.Images;
+import br.ufrj.nce.labase.phidias.util.Images;
 import br.ufrj.nce.labase.phidias.view.player.GameStartTimer;
 
-public class ElasticoApplet extends javax.swing.JApplet implements Runnable, MouseListener, MouseMotionListener {
+public class ElasticoApplet extends javax.swing.JApplet implements Runnable, MouseInputListener {
 
 	// global variables for off-screen rendering
 	private static final int PHASE_ONE = 1;
@@ -111,7 +110,7 @@ public class ElasticoApplet extends javax.swing.JApplet implements Runnable, Mou
 
 	private Elastico elasticoCorrente;
 
-	private SpriteManager spriteManager = new SpriteManager();
+	private SpriteManager spriteManager = new ElasticoSpriteManager();
 
 	/**
 	 * Construtor que inicia o jogo e todos os seus recursos necessários.
@@ -215,8 +214,11 @@ public class ElasticoApplet extends javax.swing.JApplet implements Runnable, Mou
 			for (int x = ENCAIXE_X_MIN; x < ENCAIXE_X_MAX + TAMANHO_PINO; x += DISTANCIA_PECA) {
 				Pino pino = new Pino();
 				pino.setPinoBody(new Ellipse2D.Double(x, y, TAMANHO_PINO, TAMANHO_PINO));
-				pino.setColor(Color.GRAY);
+				pino.setColor(Color.BLACK);
 				pinos.add(pino);
+
+				// Adiciona um pino como obstaculo no sprite manager
+				this.spriteManager.add(pino);
 			}
 			y += DISTANCIA_PECA;
 		}
@@ -333,9 +335,26 @@ public class ElasticoApplet extends javax.swing.JApplet implements Runnable, Mou
 	}
 
 	public void mouseClicked(MouseEvent e) {
+	}
 
+	public void mouseEntered(MouseEvent e) {
+	}
+
+	public void mouseExited(MouseEvent e) {
+		this.spriteManager.mouseExited(e);
+	}
+
+	public void mousePressed(MouseEvent e) {
+		this.spriteManager.mousePressed(e);
+	}
+
+	public void mouseReleased(MouseEvent e) {
+
+		// Trata os eventos de sprite
+		this.spriteManager.mouseReleased(e);
+
+		// Trata os eventos 2D do Elastico corrente
 		Ellipse2D ellipse;
-
 		if (this.elasticoCorrente == null) {
 			for (PaletaCorElastico paletaCor : painel) {
 				if (paletaCor.getBody().contains(e.getX(), e.getY()) && !paletaCor.isDisabled()) {
@@ -349,46 +368,34 @@ public class ElasticoApplet extends javax.swing.JApplet implements Runnable, Mou
 			}
 		}
 
-		for (Pino pino : pinos) {
-			ellipse = (Ellipse2D) pino.getBody();
-			// Verifica se o ponto clicado é de algum pino
-			if (ellipse.getBounds2D().contains(e.getX(), e.getY())) {
+		// Trata os eventos 2D dos Pinos
+		if (this.elasticoCorrente != null) {
+			// JOptionPane.showMessageDialog(this, "Escolha um elástico para
+			// montar o cenário!");
+			// return;
 
-				if (this.elasticoCorrente == null) {
-					JOptionPane.showMessageDialog(this, "Escolha um elástico para montar o cenário!");
-					return;
+			for (Pino pino : pinos) {
+				ellipse = (Ellipse2D) pino.getBody();
+				// Verifica se o ponto clicado é de algum pino
+				if (ellipse.getBounds2D().contains(e.getX(), e.getY())) {
+
+					// Adiciono a coordenada do elastico.
+					this.elasticoCorrente.addCoordenada(new Point((int) ellipse.getCenterX(), (int) ellipse.getCenterY()));
+
+					// Pinta o pino da cor do elastico corrente
+					pino.setColor(this.elasticoCorrente.getColor());
+					pino.setSelected(true);
+
+					// Apos a adição da coordenada verifico se o mesmo esta
+					// concluido e anulo o elastico corrente.
+					if (this.elasticoCorrente.isFinished()) {
+						this.elasticoCorrente = null;
+					}
+
+					break;
 				}
-
-				// Adiciono a coordenada do elastico.
-				this.elasticoCorrente.addCoordenada(new Point((int) ellipse.getCenterX(), (int) ellipse.getCenterY()));
-
-				// Pinta o pino da cor do elastico corrente
-				pino.setColor(this.elasticoCorrente.getColor());
-				pino.setSelected(true);
-
-				// Apos a adição da coordenada verifico se o mesmo esta
-				// concluido e anulo o elastico coorente.
-				if (this.elasticoCorrente.isFinished()) {
-					this.elasticoCorrente = null;
-				}
-
-				break;
 			}
 		}
-	}
-
-	public void mouseEntered(MouseEvent e) {
-	}
-
-	public void mouseExited(MouseEvent e) {
-	}
-
-	public void mousePressed(MouseEvent e) {
-		this.spriteManager.mousePressed(e);
-	}
-
-	public void mouseReleased(MouseEvent e) {
-		this.spriteManager.mouseReleased(e);
 	}
 
 	public void mouseDragged(MouseEvent e) {
@@ -396,6 +403,7 @@ public class ElasticoApplet extends javax.swing.JApplet implements Runnable, Mou
 	}
 
 	public void mouseMoved(MouseEvent e) {
+		this.spriteManager.mouseMoved(e);
 	}
 
 	/*

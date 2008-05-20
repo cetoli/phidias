@@ -2,7 +2,6 @@ package br.ufrj.nce.labase.elastico;
 
 import java.awt.Color;
 import java.awt.Shape;
-import java.awt.geom.Ellipse2D;
 
 public abstract class GraphicPrintElement implements GraphicPrintable{
 
