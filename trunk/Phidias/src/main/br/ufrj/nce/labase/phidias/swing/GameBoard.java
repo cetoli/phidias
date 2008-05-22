@@ -7,6 +7,7 @@ import java.awt.MediaTracker;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,8 +117,7 @@ public abstract class GameBoard extends JApplet implements Runnable,MouseListene
 	public void paint(Graphics g)
 	{
 		// implementing double buffering
-		bufferGraphics.clearRect(0,0,screenHeight,screenHeight); 
-		
+		bufferGraphics.clearRect(0,0,screenWidth,screenHeight);
 		bufferGraphics.drawImage(this.backgroundImage,0,0,this);
 		this.printGraphicElements(bufferGraphics);
 		this.spriteManager.paintSprites(bufferGraphics, this);
@@ -147,7 +147,20 @@ public abstract class GameBoard extends JApplet implements Runnable,MouseListene
 	}
 
 	public void mouseDragged(MouseEvent e) {
-		this.spriteManager.mouseDragged(e);
+		/* this is needed to avoid dragging the sprite outside screen area, losing it */
+		if (checkScreenArea(e)){
+			this.spriteManager.mouseDragged(e);
+		}
+	}
+	
+	/**
+	 * Boolean method used to check if mouse event occured inside screen's area. This
+	 * is needed to avoid dragging the sprite out of screen and loosing it.
+	 * @param e
+	 * @return
+	 */
+	private boolean checkScreenArea(MouseEvent e){
+		return (new Rectangle2D.Double(0, 0, screenWidth, screenHeight)).contains(e.getPoint());
 	}
 
 	public void mouseMoved(MouseEvent e) {
