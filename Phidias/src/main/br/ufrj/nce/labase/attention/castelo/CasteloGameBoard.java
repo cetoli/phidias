@@ -37,7 +37,7 @@ public class CasteloGameBoard extends PickingGameBoard {
 	
 	@Override
 	protected Point2D getImageCoordinate() {
-		return new Point(700, 20);
+		return new Point(600, 20);
 	}
 
 }

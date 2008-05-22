@@ -7,5 +7,17 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/COMMONS_BEAN"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/COMMONS_HTTPUNIT"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/HIBERNATE_JPA"/>
+	<classpathentry kind="lib" path="C:/DesenvolvimentoSw/Sistemas/Mestrado/Bibliotecas/commons-beanutils-1.7.0/commons-beanutils.jar"/>
+	<classpathentry kind="lib" path="C:/DesenvolvimentoSw/Sistemas/Mestrado/Bibliotecas/commons-beanutils-1.7.0/commons-beanutils-bean-collections.jar"/>
+	<classpathentry kind="lib" path="C:/DesenvolvimentoSw/Sistemas/Mestrado/Bibliotecas/commons-beanutils-1.7.0/commons-beanutils-core.jar"/>
+	<classpathentry kind="lib" path="C:/DesenvolvimentoSw/Sistemas/Mestrado/Bibliotecas/commons-codec-1.3/commons-codec-1.3.jar"/>
+	<classpathentry kind="lib" path="C:/DesenvolvimentoSw/Sistemas/Mestrado/Bibliotecas/commons-httpclient-3.1/commons-httpclient-3.1.jar"/>
+	<classpathentry kind="lib" path="C:/DesenvolvimentoSw/Sistemas/Mestrado/Bibliotecas/commons-logging-1.1.1/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/DesenvolvimentoSw/Sistemas/Mestrado/Bibliotecas/commons-logging-1.1.1/commons-logging-api-1.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/DesenvolvimentoSw/Sistemas/Mestrado/Bibliotecas/hibernate/ejb3-persistence.jar"/>
+	<classpathentry kind="lib" path="C:/DesenvolvimentoSw/Sistemas/Mestrado/Bibliotecas/hibernate/hibernate3.jar"/>
+	<classpathentry kind="lib" path="C:/DesenvolvimentoSw/Sistemas/Mestrado/Bibliotecas/hibernate/hibernate-annotations.jar"/>
+	<classpathentry kind="lib" path="C:/DesenvolvimentoSw/Sistemas/Mestrado/Bibliotecas/hibernate/hibernate-commons-annotations.jar"/>
+	<classpathentry kind="lib" path="C:/DesenvolvimentoSw/Sistemas/Mestrado/Bibliotecas/jta.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

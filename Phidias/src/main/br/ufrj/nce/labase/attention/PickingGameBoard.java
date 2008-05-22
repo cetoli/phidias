@@ -28,10 +28,11 @@ public abstract class PickingGameBoard extends GameBoard {
 	
 	private StaticImage currentImage;
 	
-	private Random generator = new Random(System.currentTimeMillis());
+	private Random generator;
 	
 	public void init() {
 		super.init();
+		generator = new Random(System.currentTimeMillis());
 		this.spriteManager.setDragEnabled(false);
 		this.randomSprites = new ArrayList<Sprite>(this.spriteManager.getSprites());
 		this.setNextSpriteElement();
@@ -53,17 +54,16 @@ public abstract class PickingGameBoard extends GameBoard {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		Sprite spriteClicked = this.spriteManager.findSprite(e.getX(), e.getY());
-		spriteClicked.mouseClicked(e);
-		if (spriteClicked == this.currentSprite){
-			// acertou
-			this.setNextSpriteElement();
-			
-			
-			
-			System.out.println("Acertou");
-		} else {
-			// errou
-			System.out.println("Errou");
+		if (spriteClicked != null){
+			spriteClicked.mouseClicked(e);
+			if (spriteClicked == this.currentSprite){
+				// acertou
+				this.setNextSpriteElement();
+				System.out.println("Acertou");
+			} else {
+				// errou
+				System.out.println("Errou");
+			}
 		}
 	}
 	
