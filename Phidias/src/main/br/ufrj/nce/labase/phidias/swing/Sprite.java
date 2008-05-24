@@ -47,6 +47,8 @@ public class Sprite {
 	
 	private boolean dragEnabled;
 	
+	private boolean visible = true;
+	
 	/**
 	 * Sets if the sprite must be disabled from attending mouse events after a drag event that receives
 	 * a true response from this corresponting mapping.
@@ -102,16 +104,16 @@ public class Sprite {
 		this.setMapping(mapping);
 	}
 	
-	public Sprite(Point2D coordinate, int w, int h, String imagePath) {
+	public Sprite(Point2D coordinate, int width, int height, String imagePath) {
 		this(coordinate, getImage(imagePath));
-		width = w;
-		height = h;
+		this.width = width;
+		this.height = height;
 	}
 
-	public Sprite(Point2D coordinate, int w, int h, BufferedImage image) {
+	public Sprite(Point2D coordinate, int width, int height, BufferedImage image) {
 		this(coordinate, image);
-		width = w;
-		height = h;
+		this.width = width;
+		this.height = height;
 	}
 
 	public static BufferedImage getImage(String imagePath) {
@@ -290,6 +292,14 @@ public class Sprite {
 
 	public void setSpriteManager(SpriteManager spriteManager) {
 		this.spriteManager = spriteManager;
+	}
+
+	public boolean isVisible() {
+		return visible;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
 	}
 
 	

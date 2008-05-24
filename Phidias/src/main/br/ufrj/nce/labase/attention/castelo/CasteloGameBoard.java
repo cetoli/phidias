@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 
 import br.ufrj.nce.labase.attention.PickingGameBoard;
+import br.ufrj.nce.labase.phidias.swing.NPC;
 import br.ufrj.nce.labase.phidias.swing.Sprite;
 import br.ufrj.nce.labase.phidias.swing.images.Images;
 
@@ -29,9 +30,13 @@ public class CasteloGameBoard extends PickingGameBoard {
 		this.addSprite(new Sprite(new Point(420,130), "peca14.gif"));
 		this.addSprite(new Sprite(new Point(290,280), "peca15.gif"));
 		this.addSprite(new Sprite(new Point(280,200), "peca16.gif"));
-		this.addSprite(new Sprite(new Point(320,140), "peca16.gif"));
+//		this.addSprite(new Sprite(new Point(320,140), "peca17.gif"));
+		
+		this.setNpc(new NPC(new Point(600, 160),"NPC.gif"));
 
 		super.init();
+		
+		this.npcSayText("Testando estímulos do NPC");
 
 	}
 	
