@@ -12,6 +12,12 @@ public class SpriteManager {
 	private Sprite currentSprite;
 	
 	/**
+	 * Special sprite type, used to represent Non Playable Caracteres, responsible to print messages on screen
+	 * on an image.
+	 */
+	private NPC npc;
+	
+	/**
 	 * Adds Sprite to be managed by this instance.
 	 * A backward link is set on sprite instance too.
 	 * @param sprite
@@ -33,8 +39,12 @@ public class SpriteManager {
 	 * @return
 	 */
 	public Sprite findSprite(int x, int y) {
+		// handles npc dragging
+		if (npc.isVisible() && npc.getBody().contains(x, y)){
+			return npc;
+		}
 		for (Sprite sprite : sprites) {
-			if (sprite.getBody().contains(x, y))
+			if (sprite.isVisible() && sprite.getBody().contains(x, y))
 				return sprite;
 		}
 
@@ -120,14 +130,32 @@ public class SpriteManager {
 		return null;
 	}
 
-	public void paintSprites(Graphics g, ImageObserver imgObserver) {
+	public void paintSprites(Graphics graphics, ImageObserver imgObserver) {
 		for (Sprite spriteAux : sprites) {
-			g.drawImage(spriteAux.getImage(), (int) spriteAux.getPosX(), (int) spriteAux.getPosY(), imgObserver);
+			if (spriteAux.isVisible()){
+				paintSprite(spriteAux, graphics, imgObserver);
+			}
+		}
+		
+		if (this.npc != null && this.npc.isVisible()){
+			paintSprite(npc, graphics, imgObserver);
 		}
 
 		// used to simulate bringing sprite being dragged to the top level layer
 		if (currentSprite != null)
-			g.drawImage(currentSprite.getImage(), (int) currentSprite.getPosX(), (int) currentSprite.getPosY(), imgObserver);
+			paintSprite(currentSprite, graphics, imgObserver);
+	}
+	
+	private void paintSprite(Sprite sprite, Graphics g, ImageObserver imgObserver){
+		g.drawImage(sprite.getImage(), (int) sprite.getPosX(), (int) sprite.getPosY(), imgObserver);
+	}
+	
+	public void npcSayText(String text){
+		this.npc.sayText(text);
+	}
+	
+	public void hideNpc(){
+		this.npc.setVisible(false);
 	}
 
 	public List<Sprite> getSprites() {
@@ -151,5 +179,14 @@ public class SpriteManager {
 			spriteAux.setDragEnabled(isDragEnabled);
 		}
 	}
+
+	public NPC getNpc() {
+		return npc;
+	}
+
+	public void setNpc(NPC npc) {
+		this.npc = npc;
+	}
+	
 	
 }

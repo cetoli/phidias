@@ -153,6 +153,10 @@ public abstract class GameBoard extends JApplet implements Runnable,MouseListene
 		}
 	}
 	
+	public void npcSayText(String text){
+		this.spriteManager.npcSayText(text);
+	}
+	
 	/**
 	 * Boolean method used to check if mouse event occured inside screen's area. This
 	 * is needed to avoid dragging the sprite out of screen and loosing it.
@@ -199,6 +203,10 @@ public abstract class GameBoard extends JApplet implements Runnable,MouseListene
 
 	public void setSpriteManager(SpriteManager spriteManager) {
 		this.spriteManager = spriteManager;
+	}
+	
+	public void setNpc(NPC npc){
+		this.spriteManager.setNpc(npc);
 	}
 	
 }
