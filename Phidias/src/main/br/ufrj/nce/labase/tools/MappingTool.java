@@ -2,19 +2,18 @@ package br.ufrj.nce.labase.tools;
 
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
+
 import br.ufrj.nce.labase.phidias.swing.GameBoard;
 import br.ufrj.nce.labase.phidias.swing.Sprite;
-import br.ufrj.nce.labase.phidias.swing.images.Images;
 
 /**
  * A very simple tool to help identifying coordinates to determane Sprite mapping instances (point and
  * area mappings).<br>
  * This class can be used by changing the value of <code>imageFile</code> attribute, or by subclassing
- * this class and overriding only the method <code>getImage()</code>;<br>
+ * this class and overriding only the methods <code>getImage()</code>; and getImagesPackageName()<br>
  * When this applet is executed, it prints on screen the coordinates of mouse position, over the background
  * image defined, showing the exact position for the mapping to be located. If the user wants do use a 
  * rectange for an area mapping, just drag the mouse to draw the rectange, and its corner up-left
@@ -23,7 +22,7 @@ import br.ufrj.nce.labase.phidias.swing.images.Images;
  * @author Diogo Gomes
  *
  */
-public class MappingTool extends GameBoard {
+public abstract class MappingTool extends GameBoard {
 	
 	private int posX, posY;
 	private Rectangle currentRect;
@@ -31,18 +30,19 @@ public class MappingTool extends GameBoard {
 	
 	private static final String imageFile = "jmonta_pedacos.jpg";
 	
+	private static final String IMAGES_PACKAGE = "br.ufrj.nce.labase.attention.montapecas.images"; 
 	
 	public void init() {
 		Sprite silhueta = new Sprite(new Point(604, 190), "montapedacos_silueta.gif");
 		silhueta.setDragEnabled(false);
 		this.addSprite(silhueta);
 		
-		this.setBackgroundImage(Images.createImage(imageFile));
+		this.setBackgroundImage(imageFile);
 		super.init();
 	}
 	
-	public Image getImage(){
-		return Images.createImage(imageFile);
+	public String getImageFile(){
+		return imageFile;
 	}
 
 	public void paint(Graphics g)
@@ -79,5 +79,10 @@ public class MappingTool extends GameBoard {
                 			e.getY() - currentRect.y);
 		super.mouseDragged(e);
 
+    }
+	
+    @Override
+    public String getImagesPackageName() {
+    	return IMAGES_PACKAGE ;
     }
 }

@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 import br.ufrj.nce.labase.phidias.swing.Mapping;
-import br.ufrj.nce.labase.phidias.swing.images.Images;
+import br.ufrj.nce.labase.phidias.util.Images;
 
 /**
  * Sprites, by default, implement facilities for drag events.
@@ -94,7 +94,6 @@ public class Sprite {
 		this.setMapping(mapping);
 	}
 
-		
 	public Sprite(Point2D coordinate, String imagePath) {
 		this(coordinate, getImage(imagePath));
 	}
