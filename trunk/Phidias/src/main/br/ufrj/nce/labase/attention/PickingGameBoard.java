@@ -57,11 +57,11 @@ public abstract class PickingGameBoard extends GameBoard {
 		if (spriteClicked != null){
 			spriteClicked.mouseClicked(e);
 			if (spriteClicked == this.currentSprite){
-				// acertou
+				//TODO: implementar lóciga para acerto
 				this.setNextSpriteElement();
 				System.out.println("Acertou");
 			} else {
-				// errou
+				//TODO: implementar lógica para erro
 				System.out.println("Errou");
 			}
 		}

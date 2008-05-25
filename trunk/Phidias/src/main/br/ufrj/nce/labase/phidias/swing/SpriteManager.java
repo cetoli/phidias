@@ -18,6 +18,13 @@ public class SpriteManager {
 	private NPC npc;
 	
 	/**
+	 * Sets Sprite Brightenning hover behavior true/false. When the mouse moves over a Sprite,
+	 * if this attribute is set to true, it is renderer with a filter that makes it brighter
+	 * than the original image, highlighting the current sprite among others.
+	 */
+	private boolean spriteHoverEnabled = false;
+	
+	/**
 	 * Adds Sprite to be managed by this instance.
 	 * A backward link is set on sprite instance too.
 	 * @param sprite
@@ -40,7 +47,7 @@ public class SpriteManager {
 	 */
 	public Sprite findSprite(int x, int y) {
 		// handles npc dragging
-		if (npc.isVisible() && npc.getBody().contains(x, y)){
+		if (npc != null && npc.isVisible() && npc.getBody().contains(x, y)){
 			return npc;
 		}
 		for (Sprite sprite : sprites) {

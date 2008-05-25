@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.geom.Point2D;
 
+import br.ufrj.nce.labase.phidias.util.Images;
+
 /**
  * 
  * Basic class for static images, that don't interact with mouse events.
@@ -21,6 +23,11 @@ public class StaticImage implements GraphicPrintable {
 		this.image = image;
 	}
 
+	public StaticImage(Point2D coordinate, String imageFile){
+		this.coordinate = coordinate;
+		this.image = Images.createImage(imageFile);
+	}
+	
 	public void print(Graphics graphic) {
 		graphic.drawImage(image, (int) coordinate.getX(), (int) coordinate.getY(), null);
 	}
