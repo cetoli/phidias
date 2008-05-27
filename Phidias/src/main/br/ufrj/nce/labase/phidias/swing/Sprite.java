@@ -73,7 +73,7 @@ public class Sprite {
 
 	private SpriteManager spriteManager;
 
-	//TODO: verificar colocar "Mapping... mapping" no construtor, aceitando um conjunto de mapeamentos.
+	//TODO: verificar se é viável colocar "Mapping... mapping" no construtor, aceitando um conjunto de mapeamentos.
 	public Sprite(Point2D coordinate, BufferedImage image) {
 		this.coordinate = coordinate;
 		this.origin 	= (Point2D) coordinate.clone();
@@ -265,6 +265,10 @@ public class Sprite {
 		return snapToDestination;
 	}
 
+	/**
+	 * Sets if the sprite must be moved to its Mapped destination, after a mousReleased
+	 * event that returns a true value from its corresponding Mapping instance.
+	 */
 	public void setSnapToDestination(boolean snapToDestination) {
 		this.snapToDestination = snapToDestination;
 	}

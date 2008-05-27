@@ -1,6 +1,7 @@
 
 package br.ufrj.nce.labase.phidias.swing;
 
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -21,13 +22,16 @@ import br.ufrj.nce.labase.phidias.util.Images;
 /**
  * Base class that implements basic facilities for a game board.<br>
  * This facilities corresponds to mouse events methods implementation, such as drag and click.
- * Subclasses may extend particular caracteristics by overriding specific methods.
+ * Subclasses may extend particular caracteristics by overriding specific methods. <br>
+ * The class uses a SpriteManager as the responsible for dealig with mouse events and how sprites respond to them. 
+ * A base spriteManager implementation is supplied, that fully handles mouse events, but custom implementations may
+ * also be defined, passing a instance by the setSpriteManager() method.
  * 
  * @author Diogo Gomes
  * @author Andre Moraes
  * 
  */
-public abstract class GameBoard extends JApplet implements Runnable,MouseListener,MouseMotionListener {
+public abstract class GameBoard extends JApplet implements Runnable, MouseListener, MouseMotionListener {
 
 	protected Image backgroundImage;
 
@@ -66,20 +70,27 @@ public abstract class GameBoard extends JApplet implements Runnable,MouseListene
 		graphicPrintableElements = new ArrayList<GraphicPrintable>();
 	}
 	
-	public void init(){
+	/**
+	 * Applet init() method made final to avoid overriding in subclasses, tha must implement
+	 * initGame() method.
+	 */
+	public final void init(){
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
 		
-		/* implementing double buffering logic */
+		/* implementing double buffering infra structure */
 		offscreen = createImage(screenWidth,screenHeight); 
 		bufferGraphics = offscreen.getGraphics();
+		
+		this.initGame();
+		
 		
 //		this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
 		this.setSize(screenWidth, screenHeight);
 		
+		//TODO: check if MediaTracker is really needed in this context
 		MediaTracker mt = new MediaTracker(this);
 		if (this.backgroundImage != null) mt.addImage(backgroundImage,0);
-		
 		try
 		{
 			mt.waitForID(0);
@@ -88,6 +99,13 @@ public abstract class GameBoard extends JApplet implements Runnable,MouseListene
 		{
 		}
 	}
+	
+	/**
+	 * Main method to be implemented by subclasses. In this method sprites must be instantiated
+	 * and applet parameters must be configured, such as screenWidth, ScreenHeight, background,
+	 * otherwise defaults will be used.
+	 */
+	public abstract void initGame();
 	
 	public void start()
 	{
@@ -111,8 +129,10 @@ public abstract class GameBoard extends JApplet implements Runnable,MouseListene
 	 * specified in getImagesPackageName() abstract method. The name must be specified with its
 	 * extention, eg.: "image.gif", "buttonOK.jpg"
 	 */
-	public void createSprite(Point2D coordinate, String imageFileName){
-		this.addSprite(new Sprite(coordinate, this.getImageName(imageFileName)));
+	public Sprite createSprite(Point2D coordinate, String imageFileName){
+		Sprite sprite = new Sprite(coordinate, this.getImageName(imageFileName));
+		this.addSprite(sprite);
+		return sprite;
 	}
 
 	/**
@@ -236,6 +256,13 @@ public abstract class GameBoard extends JApplet implements Runnable,MouseListene
 	}
 
 	public void mouseMoved(MouseEvent e) {
+		// handling cursor format
+		Sprite sprite = this.spriteManager.findSprite(e.getX(), e.getY()); 
+		if (sprite!= null && sprite.isVisible()){
+			setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		} else {
+			this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		}
 		this.spriteManager.mouseMoved(e);
 	}
 	
@@ -273,12 +300,27 @@ public abstract class GameBoard extends JApplet implements Runnable,MouseListene
 	}
 
 
-	public void setSpriteManager(SpriteManager spriteManager) {
-		this.spriteManager = spriteManager;
+	/**
+	 * Subclasses may customize its own SpriteManager class, adding specific funcionalities to dealing
+	 * with sprites and how their responses to mouse events.<br>
+	 * If the current spriteManager already contais sprite instantes associated, so they are copied to the
+	 * spriteManager passed as parameter.
+	 * @param spriteManager
+	 */
+	public void setSpriteManager(SpriteManager newSpriteManager) {
+		for (Sprite sprite : this.spriteManager.getSprites()){
+			newSpriteManager.addSprite(sprite);
+		}
+		this.spriteManager = newSpriteManager;
 	}
 	
 	public void setNpc(NPC npc){
 		this.spriteManager.setNpc(npc);
+	}
+	
+	public void setScreenSize(int width, int height){
+		this.screenWidth = width;
+		this.screenHeight = height;
 	}
 	
 }

@@ -11,7 +11,8 @@ public class MontaPecasGameBoard extends GameBoard {
 	private static final String IMAGES_PACKAGE = "br.ufrj.nce.labase.attention.montapecas.images"; 
 
 	@Override
-	public void init() {
+	public void initGame() {
+		this.setScreenSize(800, 600);
 		this.setBackgroundImage("jmonta_pedacos.jpg");
 		
 		this.addGraphicPrintable(new StaticImage(new Point(604, 190), this.getImageName("montapedacos_silueta.gif")));
@@ -23,7 +24,8 @@ public class MontaPecasGameBoard extends GameBoard {
 		this.createSprite(new Point(274,230), "montapedacos_perna_direita.gif", Mapping.getMapping(new Point(655, 364)));
 		this.createSprite(new Point(315,230), "montapedacos_perna_esquerda.gif", Mapping.getMapping(new Point(625, 364)));
 		this.spriteManager.setSnapToDestination(true);
-		super.init();
+		this.getSpriteManager().setSpriteHoverEnabled(true);
+
 	}
 
 	@Override

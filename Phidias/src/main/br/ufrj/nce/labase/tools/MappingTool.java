@@ -22,7 +22,7 @@ import br.ufrj.nce.labase.phidias.swing.Sprite;
  * @author Diogo Gomes
  *
  */
-public abstract class MappingTool extends GameBoard {
+public class MappingTool extends GameBoard {
 	
 	private int posX, posY;
 	private Rectangle currentRect;
@@ -32,19 +32,13 @@ public abstract class MappingTool extends GameBoard {
 	
 	private static final String IMAGES_PACKAGE = "br.ufrj.nce.labase.attention.montapecas.images"; 
 	
-	public void init() {
-		Sprite silhueta = new Sprite(new Point(604, 190), "montapedacos_silueta.gif");
+	public void initGame() {
+		Sprite silhueta = this.createSprite(new Point(604, 190), "montapedacos_silueta.gif");
 		silhueta.setDragEnabled(false);
-		this.addSprite(silhueta);
 		
 		this.setBackgroundImage(imageFile);
-		super.init();
 	}
 	
-	public String getImageFile(){
-		return imageFile;
-	}
-
 	public void paint(Graphics g)
 	{
 		super.paint(g);
@@ -78,7 +72,6 @@ public abstract class MappingTool extends GameBoard {
         currentRect.setSize(e.getX() - currentRect.x,
                 			e.getY() - currentRect.y);
 		super.mouseDragged(e);
-
     }
 	
     @Override

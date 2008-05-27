@@ -1,4 +1,4 @@
-package br.ufrj.nce.labase.attention;
+package br.ufrj.nce.labase.phidias.swing;
 
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
@@ -7,9 +7,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import br.ufrj.nce.labase.phidias.swing.GameBoard;
-import br.ufrj.nce.labase.phidias.swing.Sprite;
-import br.ufrj.nce.labase.phidias.swing.StaticImage;
 
 
 /**
@@ -30,15 +27,32 @@ public abstract class PickingGameBoard extends GameBoard {
 	
 	private Random generator;
 	
-	public void init() {
-		super.init();
+	public final void initGame() {
+		this.initPickingGame();
 		generator = new Random(System.currentTimeMillis());
 		this.spriteManager.setDragEnabled(false);
 		this.randomSprites = new ArrayList<Sprite>(this.spriteManager.getSprites());
 		this.setNextSpriteElement();
 		this.addGraphicPrintable(this.currentImage);
 	}
+	
+	/**
+	 * PickingGameBoard class implements facilities to commonly used funcionalities of
+	 * picking-like games. It implements initGame() method, and subclasses must so
+	 * implement initPickingGame() method for sprites instantiation and game's parameters
+	 * configuring.
+	 */
+	public abstract void initPickingGame();
 
+	/**
+	 * Abstract method implemented by subclasses to define the position where the random
+	 * image should be located.
+	 * @return Point2D instance defining the location of the random image.
+	 */
+	protected abstract Point2D getImageCoordinate();
+
+
+	
 	private void setNextSpriteElement() {
 		this.currentSprite = randomSprites.remove( generator.nextInt(randomSprites.size()) );
 		if (this.currentImage == null){
@@ -48,9 +62,6 @@ public abstract class PickingGameBoard extends GameBoard {
 		}
 	}
 	
-	protected abstract Point2D getImageCoordinate();
-
-
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		Sprite spriteClicked = this.spriteManager.findSprite(e.getX(), e.getY());
