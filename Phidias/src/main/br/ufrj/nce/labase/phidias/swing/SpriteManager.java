@@ -10,23 +10,26 @@ import java.util.List;
 public class SpriteManager {
 	List<Sprite> sprites = new LinkedList<Sprite>();
 	private Sprite currentSprite;
-	
+	private List<GraphicPrintElement> obstacules;
+
 	/**
-	 * Special sprite type, used to represent Non Playable Caracteres, responsible to print messages on screen
-	 * on an image.
+	 * Special sprite type, used to represent Non Playable Caracteres,
+	 * responsible to print messages on screen on an image.
 	 */
 	private NPC npc;
-	
+
 	/**
-	 * Sets Sprite Brightenning hover behavior true/false. When the mouse moves over a Sprite,
-	 * if this attribute is set to true, it is renderer with a filter that makes it brighter
-	 * than the original image, highlighting the current sprite among others.
+	 * Sets Sprite Brightenning hover behavior true/false. When the mouse moves
+	 * over a Sprite, if this attribute is set to true, it is renderer with a
+	 * filter that makes it brighter than the original image, highlighting the
+	 * current sprite among others.
 	 */
 	private boolean spriteHoverEnabled = false;
-	
+
 	/**
-	 * Adds Sprite to be managed by this instance.
-	 * A backward link is set on sprite instance too.
+	 * Adds Sprite to be managed by this instance. A backward link is set on
+	 * sprite instance too.
+	 * 
 	 * @param sprite
 	 */
 	public void addSprite(Sprite sprite) {
@@ -39,15 +42,17 @@ public class SpriteManager {
 	}
 
 	/**
-	 * Finds and returns the sprite instance which area corresponds to the specified coordinates.
-	 * If no sprites are found for those coordinates, null is returned.
+	 * Finds and returns the sprite instance which area corresponds to the
+	 * specified coordinates. If no sprites are found for those coordinates,
+	 * null is returned.
+	 * 
 	 * @param x
 	 * @param y
 	 * @return
 	 */
 	public Sprite findSprite(int x, int y) {
 		// handles npc dragging
-		if (npc != null && npc.isVisible() && npc.getBody().contains(x, y)){
+		if (npc != null && npc.isVisible() && npc.getBody().contains(x, y)) {
 			return npc;
 		}
 		for (Sprite sprite : sprites) {
@@ -59,11 +64,13 @@ public class SpriteManager {
 	}
 
 	/**
-	 * Calls mouseDragged() event to the currentSprite instance, generally set by mousePressed() event.
+	 * Calls mouseDragged() event to the currentSprite instance, generally set
+	 * by mousePressed() event.
+	 * 
 	 * @param e
 	 */
 	public void mouseDragged(MouseEvent e) {
-		if(currentSprite == null)
+		if (currentSprite == null)
 			this.currentSprite = findSprite(e.getX(), e.getY());
 
 		if (this.currentSprite != null)
@@ -71,9 +78,11 @@ public class SpriteManager {
 	}
 
 	public void mouseExited(MouseEvent e) {
-		// Mouse leaves sprite area. CurrentSprite was defined by mouseEntered() event.
-		//TODO: validate this logic. What if one sprite is over another? How this implementation would actuate? 
-		if (this.currentSprite != null){
+		// Mouse leaves sprite area. CurrentSprite was defined by mouseEntered()
+		// event.
+		// TODO: validate this logic. What if one sprite is over another? How
+		// this implementation would actuate?
+		if (this.currentSprite != null) {
 			this.currentSprite.mouseExited(e);
 			this.currentSprite = null;
 		}
@@ -86,9 +95,9 @@ public class SpriteManager {
 	}
 
 	public void mouseEntered(MouseEvent e) {
-		//TODO: validate this logic over sprites that overlap
+		// TODO: validate this logic over sprites that overlap
 		this.currentSprite = findSprite(e.getX(), e.getY());
-		if (currentSprite != null){
+		if (currentSprite != null) {
 			currentSprite.mouseEntered(e);
 		}
 	}
@@ -100,22 +109,25 @@ public class SpriteManager {
 	}
 
 	/**
-	 * Sets currentSprite instance back to null, after calling its corresponding mousereleased() method,
-	 * currentSprite isntance was set by mousePressed() event.
+	 * Sets currentSprite instance back to null, after calling its corresponding
+	 * mousereleased() method, currentSprite isntance was set by mousePressed()
+	 * event.
+	 * 
 	 * @param e
 	 */
 	public void mouseReleased(MouseEvent e) {
-		if (this.currentSprite != null){
+		if (this.currentSprite != null) {
 			currentSprite.mouseReleased(e);
 			this.currentSprite = null;
 		}
 	}
 
 	/**
-	 * Sets currentSprite to the sprite instance that which area corresponds to the coordinates where 
-	 * the mouse event has occured.
-	 * This is due to optimize performance avoiding to loop through sprite list in every mouse event, as mouseDragged()
-	 * events specially.
+	 * Sets currentSprite to the sprite instance that which area corresponds to
+	 * the coordinates where the mouse event has occured. This is due to
+	 * optimize performance avoiding to loop through sprite list in every mouse
+	 * event, as mouseDragged() events specially.
+	 * 
 	 * @param e
 	 */
 	public void mousePressed(MouseEvent e) {
@@ -139,12 +151,12 @@ public class SpriteManager {
 
 	public void paintSprites(Graphics graphics, ImageObserver imgObserver) {
 		for (Sprite spriteAux : sprites) {
-			if (spriteAux.isVisible()){
+			if (spriteAux.isVisible()) {
 				paintSprite(spriteAux, graphics, imgObserver);
 			}
 		}
-		
-		if (this.npc != null && this.npc.isVisible()){
+
+		if (this.npc != null && this.npc.isVisible()) {
 			paintSprite(npc, graphics, imgObserver);
 		}
 
@@ -152,23 +164,23 @@ public class SpriteManager {
 		if (currentSprite != null)
 			paintSprite(currentSprite, graphics, imgObserver);
 	}
-	
-	private void paintSprite(Sprite sprite, Graphics g, ImageObserver imgObserver){
+
+	private void paintSprite(Sprite sprite, Graphics g, ImageObserver imgObserver) {
 		g.drawImage(sprite.getImage(), (int) sprite.getPosX(), (int) sprite.getPosY(), imgObserver);
 	}
-	
-	public void npcSayText(String text){
+
+	public void npcSayText(String text) {
 		this.npc.sayText(text);
 	}
-	
-	public void hideNpc(){
+
+	public void hideNpc() {
 		this.npc.setVisible(false);
 	}
 
 	public List<Sprite> getSprites() {
 		return sprites;
 	}
-	
+
 	public void setDisableDragAfterHit(boolean disableDragAfterHit) {
 		for (Sprite spriteAux : sprites) {
 			spriteAux.setDisableDragAfterHit(disableDragAfterHit);
@@ -180,8 +192,8 @@ public class SpriteManager {
 			spriteAux.setSnapToDestination(snapToDestination);
 		}
 	}
-	
-	public void setDragEnabled(boolean isDragEnabled){
+
+	public void setDragEnabled(boolean isDragEnabled) {
 		for (Sprite spriteAux : sprites) {
 			spriteAux.setDragEnabled(isDragEnabled);
 		}
@@ -194,6 +206,20 @@ public class SpriteManager {
 	public void setNpc(NPC npc) {
 		this.npc = npc;
 	}
-	
-	
+
+	public List<GraphicPrintElement> getObstacules() {
+		return obstacules;
+	}
+
+	public void setObstacules(List<GraphicPrintElement> obstacules) {
+		this.obstacules = obstacules;
+	}
+
+	public boolean addObstacule(GraphicPrintElement o) {
+		if (obstacules == null)
+			obstacules = new ArrayList<GraphicPrintElement>();
+
+		return obstacules.add(o);
+	}
+
 }

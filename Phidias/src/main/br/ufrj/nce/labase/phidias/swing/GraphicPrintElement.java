@@ -13,11 +13,11 @@ public abstract class GraphicPrintElement implements GraphicPrintable{
 		super();
 	}
 
-	protected Shape getBody() {
+	public Shape getBody() {
 		return body;
 	}
 
-	protected void setBody(Shape body) {
+	public void setBody(Shape body) {
 		this.body = body;
 	}
 

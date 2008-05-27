@@ -1,6 +1,7 @@
 package br.ufrj.nce.labase.phidias.swing;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.Point2D;
 
@@ -28,8 +29,8 @@ public class StaticImage implements GraphicPrintable {
 		this.image = Images.createImage(imageFile);
 	}
 	
-	public void print(Graphics graphic) {
-		graphic.drawImage(image, (int) coordinate.getX(), (int) coordinate.getY(), null);
+	public void print(Graphics2D graphic) {
+		graphic.drawImage(this.getImage(), (int) coordinate.getX(), (int) coordinate.getY(), null);
 	}
 
 	public Image getImage() {
