@@ -110,7 +110,9 @@ public class ElasticoApplet extends javax.swing.JApplet implements Runnable, Mou
 
 	private Elastico elasticoCorrente;
 
-	private SpriteManager spriteManager = new ElasticoSpriteManager();
+	private br.ufrj.nce.labase.phidias.swing.SpriteManager spriteManager = new ElasticoSpriteManager();
+
+	private PinoEstatico pinoEstatico;
 
 	/**
 	 * Construtor que inicia o jogo e todos os seus recursos necessários.
@@ -188,9 +190,12 @@ public class ElasticoApplet extends javax.swing.JApplet implements Runnable, Mou
 	 */
 	private void phaseTwo(Graphics2D g2d) {
 		// Geração de pinos
-		for (GraphicPrintElement pino : this.pinos) {
+		for (br.ufrj.nce.labase.phidias.swing.GraphicPrintElement pino : this.pinos) {
 			pino.print(g2d);
 		}
+
+		// Pinta o Pino estatico
+		this.pinoEstatico.print(g2d);
 
 		// Geração so painel de Elasticos
 		for (PaletaCorElastico paleta : this.painel) {
@@ -218,7 +223,7 @@ public class ElasticoApplet extends javax.swing.JApplet implements Runnable, Mou
 				pinos.add(pino);
 
 				// Adiciona um pino como obstaculo no sprite manager
-				this.spriteManager.add(pino);
+				this.spriteManager.addObstacule(pino);
 			}
 			y += DISTANCIA_PECA;
 		}
@@ -253,7 +258,7 @@ public class ElasticoApplet extends javax.swing.JApplet implements Runnable, Mou
 
 		// Inicializa lateral esquerda e direita das cartas
 		int y;
-		for (y = HEIGHT_CARTA; (y + HEIGHT_CARTA) < HEIGHT - (HEIGHT_CARTA + 30); y += HEIGHT_CARTA) {
+		for (y = HEIGHT_CARTA; (y + HEIGHT_CARTA) < HEIGHT - (HEIGHT_CARTA + 90); y += HEIGHT_CARTA) {
 			image = Images.getBufferedImage("/images/" + cartas.get(idimagem) + " [80x60].GIF");
 			carta = new Carta(this.spriteManager, new Point2D.Double(0, y), image);
 			this.spriteManager.addSprite(carta);
@@ -269,13 +274,17 @@ public class ElasticoApplet extends javax.swing.JApplet implements Runnable, Mou
 		// calcula os valores do painel esquerdo em funcao da disposicao das
 		// cartas
 		int espaco_reservado = LIMITE_INFERIOR_FILEIRA_CARTA - y;
-		HEIGHT_PAINEL = espaco_reservado / 3;
+		HEIGHT_PAINEL = espaco_reservado / 6;
 		PAINEL_Y_MIN = y;
 
 		// calcula os valores do painel direito em funcao da disposicao das
 		// cartas
 		PAINEL_Y_MAX = PAINEL_Y_MIN;
 		PAINEL_X_MAX = LIMITE_LATERAL_FILEIRA_CARTA;
+	}
+
+	private void inicializaPinoEstatico() {
+		this.pinoEstatico = new PinoEstatico(new Point2D.Double(PAINEL_X_MIN, PAINEL_Y_MIN + 30), Images.getBufferedImage("/images/DSC02456 [80x60].gif"));
 	}
 
 	/**
@@ -285,14 +294,16 @@ public class ElasticoApplet extends javax.swing.JApplet implements Runnable, Mou
 
 		// Inicializa a paleta esquerda
 		PaletaCorElastico paleta = null;
-		for (int i = 0; i < 3; i++) {
-			paleta = new PaletaCorElastico(new Rectangle2D.Double(PAINEL_X_MIN, PAINEL_Y_MIN, WIDTH_PAINEL, HEIGHT_PAINEL), this.elasticosColor[i], this.elasticosDescription[i]);
-			painel.add(paleta);
-			PAINEL_Y_MIN = PAINEL_Y_MIN + HEIGHT_PAINEL;
-		}
+		// for (int i = 0; i < 3; i++) {
+		// paleta = new PaletaCorElastico(new Rectangle2D.Double(PAINEL_X_MIN,
+		// PAINEL_Y_MIN, WIDTH_PAINEL, HEIGHT_PAINEL), this.elasticosColor[i],
+		// this.elasticosDescription[i]);
+		// painel.add(paleta);
+		// PAINEL_Y_MIN = PAINEL_Y_MIN + HEIGHT_PAINEL;
+		// }
 
 		// Inicializa a paleta direita
-		for (int i = 3; i < this.elasticosColor.length; i++) {
+		for (int i = 0; i < this.elasticosColor.length; i++) {
 			paleta = new PaletaCorElastico(new Rectangle2D.Double(PAINEL_X_MAX, PAINEL_Y_MAX, WIDTH_PAINEL, HEIGHT_PAINEL), this.elasticosColor[i], this.elasticosDescription[i]);
 			painel.add(paleta);
 			PAINEL_Y_MAX = PAINEL_Y_MAX + HEIGHT_PAINEL;
@@ -322,6 +333,7 @@ public class ElasticoApplet extends javax.swing.JApplet implements Runnable, Mou
 			this.phase = PHASE_ONE;
 			this.inicializaPinos();
 			this.inicializaCartas();
+			this.inicializaPinoEstatico();
 			this.inicializaPaletaCorElastico();
 			setBackground(Color.DARK_GRAY);
 
@@ -368,6 +380,36 @@ public class ElasticoApplet extends javax.swing.JApplet implements Runnable, Mou
 			}
 		}
 
+		// Trata os eventos de Pino Estatico
+		if (this.pinoEstatico.getBody().contains(e.getX(), e.getY())) {
+			if (!this.pinoEstatico.isSelected())
+				this.pinoEstatico.setSelected(true);
+			else
+				this.pinoEstatico.setSelected(false);
+		}
+
+		// Trata habilitacao de pinos
+		if (this.pinoEstatico.isSelected()) {
+			if (this.elasticoCorrente == null) {
+				for (Pino pino : pinos) {
+					ellipse = (Ellipse2D) pino.getBody();
+					// Verifica se o ponto clicado é de algum pino e habilita o
+					// pino
+					// para o elastico
+					if (ellipse.getBounds2D().contains(e.getX(), e.getY())) {
+						if (!pino.isEnabled()) {
+							pino.setEnabled(true);
+							pino.setColor(Color.GRAY);
+						} else {
+							pino.setEnabled(false);
+							pino.setColor(Color.BLACK);
+						}
+
+					}
+				}
+			}
+		}
+
 		// Trata os eventos 2D dos Pinos
 		if (this.elasticoCorrente != null) {
 			// JOptionPane.showMessageDialog(this, "Escolha um elástico para
@@ -377,15 +419,23 @@ public class ElasticoApplet extends javax.swing.JApplet implements Runnable, Mou
 			for (Pino pino : pinos) {
 				ellipse = (Ellipse2D) pino.getBody();
 				// Verifica se o ponto clicado é de algum pino
-				if (ellipse.getBounds2D().contains(e.getX(), e.getY())) {
+				if (pino.isEnabled() && ellipse.getBounds2D().contains(e.getX(), e.getY())) {
 
 					// Adiciono a coordenada do elastico.
 					this.elasticoCorrente.addCoordenada(new Point((int) ellipse.getCenterX(), (int) ellipse.getCenterY()));
 
-					// Pinta o pino da cor do elastico corrente
-					pino.setColor(this.elasticoCorrente.getColor());
-					pino.setSelected(true);
+					if (!pino.isSelected()) {
+						// Pinta o pino da cor do elastico corrente
+						pino.setColor(this.elasticoCorrente.getColor());
+						pino.setSelected(true);
+					} else if (!this.elasticoCorrente.isFinished()) {
 
+						this.elasticoCorrente.removeCoordenada(new Point((int) ellipse.getCenterX(), (int) ellipse.getCenterY()));
+
+						// Pinta o pino da cor do elastico corrente
+						pino.setColor(Color.GRAY);
+						pino.setSelected(false);
+					} else
 					// Apos a adição da coordenada verifico se o mesmo esta
 					// concluido e anulo o elastico corrente.
 					if (this.elasticoCorrente.isFinished()) {

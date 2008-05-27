@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
+import br.ufrj.nce.labase.phidias.swing.GraphicPrintElement;
+
 public class PaletaCorElastico extends GraphicPrintElement {
 
 	private boolean disabled;

@@ -7,6 +7,8 @@ import java.awt.Polygon;
 import java.awt.geom.Line2D;
 import java.util.LinkedList;
 
+import br.ufrj.nce.labase.phidias.swing.GraphicPrintElement;
+
 public class Elastico extends GraphicPrintElement {
 
 	private Point coordenadaInicial;
@@ -21,6 +23,11 @@ public class Elastico extends GraphicPrintElement {
 
 	public void setCoordenadas(LinkedList<Point> coordenadas) {
 		this.coordenadas = coordenadas;
+	}
+
+	public void removeCoordenada(Point coordenada) {
+		if (this.coordenadas != null)
+			this.coordenadas.remove(coordenada);
 	}
 
 	public void addCoordenada(Point coordenada) {

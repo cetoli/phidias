@@ -7,6 +7,8 @@ import java.awt.image.BufferedImageOp;
 import java.awt.image.ImageObserver;
 import java.awt.image.RescaleOp;
 
+import br.ufrj.nce.labase.phidias.swing.Sprite;
+import br.ufrj.nce.labase.phidias.swing.SpriteManager;
 import br.ufrj.nce.labase.phidias.util.Images;
 
 public class ElasticoSpriteManager extends SpriteManager {
@@ -15,7 +17,7 @@ public class ElasticoSpriteManager extends SpriteManager {
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		for (Sprite sprite : this.getSprites()) {
+		for (br.ufrj.nce.labase.phidias.swing.Sprite sprite : this.getSprites()) {
 			if (sprite instanceof Carta)
 				sprite.mouseMoved(e);
 			else
