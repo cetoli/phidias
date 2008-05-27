@@ -2,6 +2,7 @@
 package br.ufrj.nce.labase.phidias.swing;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.MediaTracker;
 import java.awt.event.MouseEvent;
@@ -158,7 +159,7 @@ public abstract class GameBoard extends JApplet implements Runnable,MouseListene
 		// implementing double buffering
 		bufferGraphics.clearRect(0,0,screenWidth,screenHeight);
 		bufferGraphics.drawImage(this.backgroundImage,0,0,this);
-		this.printGraphicElements(bufferGraphics);
+		this.printGraphicElements((Graphics2D) bufferGraphics);
 		this.spriteManager.paintSprites(bufferGraphics, this);
 		
 		g.drawImage(offscreen,0,0,this); 
@@ -171,7 +172,7 @@ public abstract class GameBoard extends JApplet implements Runnable,MouseListene
 	 * send to screen a variety os graphic types, such as Java2D graphics, and not only images. 
 	 * @param g
 	 */
-	private void printGraphicElements(Graphics g) {
+	private void printGraphicElements(Graphics2D g) {
 		for (GraphicPrintable element: this.graphicPrintableElements){
 			element.print(g);
 		}
