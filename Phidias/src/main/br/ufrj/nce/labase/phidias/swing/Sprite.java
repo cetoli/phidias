@@ -65,7 +65,7 @@ public class Sprite {
 	/**
 	 * Last position coordinate, used to track drag events and render the image in correct position,
 	 * as mous mouves through screen.
-	 * It is setted by mousePressed.
+	 * It is set by mousePressed.
 	 */
 	private Point2D lastPositionBeforeDrag;
 	
@@ -74,7 +74,8 @@ public class Sprite {
 	private SpriteManager spriteManager;
 
 	//TODO: verificar se é viável colocar "Mapping... mapping" no construtor, aceitando um conjunto de mapeamentos.
-	public Sprite(Point2D coordinate, BufferedImage image) {
+	public Sprite(SpriteManager spriteManager, Point2D coordinate, BufferedImage image) {
+		this.spriteManager = spriteManager;
 		this.coordinate = coordinate;
 		this.origin 	= (Point2D) coordinate.clone();
 		this.image = image;
@@ -89,28 +90,28 @@ public class Sprite {
 		this.dragEnabled = true;
 	}
 
-	public Sprite(Point2D coordinate, BufferedImage image, Mapping mapping) {
-		this(coordinate, image);
+	public Sprite(SpriteManager spriteManager, Point2D coordinate, BufferedImage image, Mapping mapping) {
+		this(spriteManager, coordinate, image);
 		this.setMapping(mapping);
 	}
 
-	public Sprite(Point2D coordinate, String imagePath) {
-		this(coordinate, getImage(imagePath));
+	public Sprite(SpriteManager spriteManager, Point2D coordinate, String imagePath) {
+		this(spriteManager, coordinate, getImage(imagePath));
 	}
 
-	public Sprite(Point2D coordinate, String imagePath, Mapping mapping) {
-		this(coordinate, getImage(imagePath));
+	public Sprite(SpriteManager spriteManager, Point2D coordinate, String imagePath, Mapping mapping) {
+		this(spriteManager, coordinate, getImage(imagePath));
 		this.setMapping(mapping);
 	}
 	
-	public Sprite(Point2D coordinate, int width, int height, String imagePath) {
-		this(coordinate, getImage(imagePath));
+	public Sprite(SpriteManager spriteManager, Point2D coordinate, int width, int height, String imagePath) {
+		this(spriteManager, coordinate, getImage(imagePath));
 		this.width = width;
 		this.height = height;
 	}
 
-	public Sprite(Point2D coordinate, int width, int height, BufferedImage image) {
-		this(coordinate, image);
+	public Sprite(SpriteManager spriteManager, Point2D coordinate, int width, int height, BufferedImage image) {
+		this(spriteManager, coordinate, image);
 		this.width = width;
 		this.height = height;
 	}
@@ -163,15 +164,11 @@ public class Sprite {
  		// actions only when a mapping is defined
  		if (this.dragEnabled && this.mapping != null){
  			if (this.mapping.intersect()){
- 				
- 				System.out.println("Intersect");
- 				
  				if (this.disableDragAfterHit){
  					this.dragEnabled = false;
  				}
  				if (this.snapToDestination){
  					this.coordinate.setLocation(mapping.getSpriteDestination());
- 	 				System.out.println("SnapToDestination?"+snapToDestination);
  				}
  			}else {
  				this.resetCoordinates();

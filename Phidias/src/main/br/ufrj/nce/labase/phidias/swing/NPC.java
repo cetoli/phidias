@@ -31,13 +31,13 @@ public class NPC extends Sprite {
     	stimulusFont.put(TextAttribute.SIZE, new Float(10));
     }      
     
-	public NPC(Point2D coordinate, String imagePath) {
-		super(coordinate, imagePath);
+	public NPC(SpriteManager spriteManager, Point2D coordinate, String imagePath) {
+		super(spriteManager, coordinate, imagePath);
 		this.setVisible(false);
 	}
 	
-	public NPC(Point2D coordinate, BufferedImage image) {
-		super(coordinate, image);
+	public NPC(SpriteManager spriteManager, Point2D coordinate, BufferedImage image) {
+		super(spriteManager, coordinate, image);
 		this.setVisible(false);
 	}
 	

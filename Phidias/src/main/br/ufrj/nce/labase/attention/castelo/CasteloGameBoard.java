@@ -34,7 +34,7 @@ public class CasteloGameBoard extends PickingGameBoard {
 		
 	//	this.getSpriteManager().setSpriteHoverEnabled(true);
 		
-		this.setNpc(new NPC(new Point(600, 160), this.getImageName("NPC.gif")));
+		this.setNpc(new NPC(this.getSpriteManager(), new Point(600, 160), this.getImageName("NPC.gif")));
 
 		this.npcSayText("Testando estímulos do NPC");
 		
