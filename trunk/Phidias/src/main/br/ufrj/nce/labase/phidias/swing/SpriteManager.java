@@ -2,7 +2,10 @@ package br.ufrj.nce.labase.phidias.swing;
 
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
 import java.awt.image.ImageObserver;
+import java.awt.image.RescaleOp;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,9 +18,9 @@ import br.ufrj.nce.labase.phidias.util.Images;
  * A custom implementation of a Sprite Manager may be implemented, by subclassing this class and overriding
  * appropriate methods. Custom SpriteManagers must be defined in GameBoard subclasses, in initGame() method,
  * by calling setSpriteManager() method.
+ * 
  * @author Diogo Gomes
  * @author Andre Moraes
- *
  */
 public class SpriteManager {
 	
@@ -75,14 +78,10 @@ public class SpriteManager {
 	
 	/**
 	 * Adds Sprite to be managed by this instance.
-	 * A backward link is set on sprite instance too.
-	 * Adds Sprite to be managed by this instance. A backward link is set on
-	 * sprite instance too.
 	 * 
 	 * @param sprite
 	 */
 	public void addSprite(Sprite sprite) {
-		sprite.setSpriteManager(this);
 		this.sprites.add(sprite);
 	}
 
@@ -179,11 +178,6 @@ public class SpriteManager {
 	 * events specially.
 	 * When a sprite location corresponds to the area where mousPressed event occured, it is 
 	 * moved to the beginning of the sprites list.
-	 * Sets currentSprite to the sprite instance that which area corresponds to
-	 * the coordinates where the mouse event has occured. This is due to
-	 * optimize performance avoiding to loop through sprite list in every mouse
-	 * event, as mouseDragged() events specially.
-	 * 
 	 * @param e
 	 */
 	public void mousePressed(MouseEvent e) {
@@ -237,7 +231,6 @@ public class SpriteManager {
 			}
 		}
 	*/
-		
 	}
 	
 	private void paintSprite(Sprite sprite, Graphics g, ImageObserver imgObserver){

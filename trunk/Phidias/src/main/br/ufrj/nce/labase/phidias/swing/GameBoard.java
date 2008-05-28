@@ -130,7 +130,7 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseListen
 	 * extention, eg.: "image.gif", "buttonOK.jpg"
 	 */
 	public Sprite createSprite(Point2D coordinate, String imageFileName){
-		Sprite sprite = new Sprite(coordinate, this.getImageName(imageFileName));
+		Sprite sprite = new Sprite(this.spriteManager, coordinate, this.getImageName(imageFileName));
 		this.addSprite(sprite);
 		return sprite;
 	}
@@ -145,7 +145,7 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseListen
 	 * @see GameBoard.createSprite(Point2D coordinate, String imageFileName)
 	 */
 	public void createSprite(Point2D coordinate, String imageFileName, Mapping mapping){
-		this.addSprite(new Sprite(coordinate, this.getImageName(imageFileName), mapping));
+		this.addSprite(new Sprite(this.spriteManager, coordinate, this.getImageName(imageFileName), mapping));
 	}
 	
 	public void addSprite(Sprite sprite){
@@ -310,6 +310,7 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseListen
 	public void setSpriteManager(SpriteManager newSpriteManager) {
 		for (Sprite sprite : this.spriteManager.getSprites()){
 			newSpriteManager.addSprite(sprite);
+			sprite.setSpriteManager(newSpriteManager);
 		}
 		this.spriteManager = newSpriteManager;
 	}

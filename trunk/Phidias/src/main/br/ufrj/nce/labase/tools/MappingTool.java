@@ -13,7 +13,7 @@ import br.ufrj.nce.labase.phidias.swing.Sprite;
  * A very simple tool to help identifying coordinates to determane Sprite mapping instances (point and
  * area mappings).<br>
  * This class can be used by changing the value of <code>imageFile</code> attribute, or by subclassing
- * this class and overriding only the methods <code>getImage()</code>; and getImagesPackageName()<br>
+ * this class and overriding only the methods <code>getImageFile()</code>; and getImagesPackageName()<br>
  * When this applet is executed, it prints on screen the coordinates of mouse position, over the background
  * image defined, showing the exact position for the mapping to be located. If the user wants do use a 
  * rectange for an area mapping, just drag the mouse to draw the rectange, and its corner up-left
@@ -33,10 +33,10 @@ public class MappingTool extends GameBoard {
 	private static final String IMAGES_PACKAGE = "br.ufrj.nce.labase.attention.montapecas.images"; 
 	
 	public void initGame() {
-		Sprite silhueta = this.createSprite(new Point(604, 190), "montapedacos_silueta.gif");
-		silhueta.setDragEnabled(false);
+	//	Sprite silhueta = this.createSprite(new Point(604, 190), "montapedacos_silueta.gif");
+	//	silhueta.setDragEnabled(false);
 		
-		this.setBackgroundImage(imageFile);
+		this.setBackgroundImage(this.getImageFile());
 	}
 	
 	public void paint(Graphics g)
@@ -77,5 +77,9 @@ public class MappingTool extends GameBoard {
     @Override
     public String getImagesPackageName() {
     	return IMAGES_PACKAGE ;
+    }
+    
+    public String getImageFile(){
+    	return this.imageFile;
     }
 }
