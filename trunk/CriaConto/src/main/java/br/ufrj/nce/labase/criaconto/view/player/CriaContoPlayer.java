@@ -13,22 +13,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 
 import br.ufrj.nce.labase.common.MidiSound;
-import br.ufrj.nce.labase.criaconto.images.Images;
 import br.ufrj.nce.labase.phidias.controller.Controller;
 import br.ufrj.nce.labase.phidias.controller.Session;
+import br.ufrj.nce.labase.phidias.util.Images;
 import br.ufrj.nce.labase.phidias.view.player.BackgroundCharacter;
-import br.ufrj.nce.labase.phidias.view.player.Character;
 import br.ufrj.nce.labase.phidias.view.player.GameStartTimer;
 import br.ufrj.nce.labase.phidias.view.player.Piece;
 import br.ufrj.nce.labase.phidias.view.player.Player;
 import br.ufrj.nce.labase.phidias.view.player.Scene;
 import br.ufrj.nce.labase.phidias.view.player.ScenicItem;
+import br.ufrj.nce.labase.phidias.view.player.Character;
 
 public class CriaContoPlayer extends Player {
 	private static final long serialVersionUID = 1L;
 	private int startSequence = 0;
     
-    static final String characters[] = {
+	private static final String IMAGES_PACKAGE = "br.ufrj.nce.labase.criaconto.images"; 
+	
+	static final String characters[] = {
         "principe", "branca_de_neve", "cacador_frente", "rainha_ma", "anao1", "anao2", "anao3", "anao4", "anao5", "anao6", "anao7"
     };
     static final String sounds[] = {
@@ -46,14 +48,19 @@ public class CriaContoPlayer extends Player {
 
     public void init() {
     	midiSound = new MidiSound(MidiSound.class.getResourceAsStream("entrada.midi"), true);
-    	npcImage = Images.createImage("NPC.gif");
-    	loginBackgroundImage = Images.createImage("fundoAplicador.jpg");
+    	npcImage = getImage("NPC.gif");
+    	loginBackgroundImage = getImage("fundoAplicador.jpg");
     	
     	super.init();
     }
     
-    protected void startGame() {		
-		createInitialBackground("tela_inicial.jpg");             
+    protected void startGame() {
+    	Image initialBackground = getImage("tela_inicial.jpg");
+		createInitialBackground(initialBackground);             
+	}
+
+	private Image getImage(String imageName) {
+		return Images.createImage(getImageName(imageName));
 	}
     
     protected void startTimer() {
@@ -91,7 +98,7 @@ public class CriaContoPlayer extends Player {
 		setSize(1024, 820);
 		removeAll();
 		
-	    board = createBoard("fundo.jpg");
+	    board = createBoard(getImage("fundo.jpg"));
 		
 	    add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
 	    putCharactersOnBoard(true, false);
@@ -103,7 +110,7 @@ public class CriaContoPlayer extends Player {
 		setSize(1024, 820);
 		removeAll();
 		
-	    board = createBoard("fundo.jpg");
+	    board = createBoard(getImage("fundo.jpg"));
 		
 	    add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
 	    putCharactersOnBoard(true, true);
@@ -114,7 +121,7 @@ public class CriaContoPlayer extends Player {
 		setSize(1048, 820);
 		removeAll();
 	
-		board = createBoard("fundo2.jpg");
+		board = createBoard(getImage("fundo2.jpg"));
 		
 		add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
 		putScenicItensOnBoard();
@@ -125,7 +132,7 @@ public class CriaContoPlayer extends Player {
 		
 	public final void putImagesOnBoard(String[] images, Inc inc, int x, int y) {
 		for (String nomeImage : images) {
-			piece = new Piece(board, Images.createImage(nomeImage), nomeImage, x, y);
+			piece = new Piece(board, getImage(nomeImage), nomeImage, x, y);
 			
 			y = inc.incY(y);
 			x = inc.incX(x);
@@ -143,7 +150,7 @@ public class CriaContoPlayer extends Player {
 		};
 		
 		for (Scene cenario : scenes) {
-			piece = new ScenicItem(board, Images.createImage(cenario.getName() + ".gif"), cenario.getName(), Images.createImage(cenario.getName() + "_grande.gif"), x, y, cenario.getX(), cenario.getY(), 850, 590);
+			piece = new ScenicItem(board, getImage(cenario.getName() + ".gif"), cenario.getName(), getImage(cenario.getName() + "_grande.gif"), x, y, cenario.getX(), cenario.getY(), 850, 590);
 			
 			y = inc.incY(y);
 			x = inc.incX(x);
@@ -163,9 +170,9 @@ public class CriaContoPlayer extends Player {
 		int i = 0;		
 		for (String personagem : characters) {
 			if (!background) {
-				piece = new Character(board, Images.createImage(personagem + ".gif"), personagem, x, y, 850, 590);			
+				piece = new Character(board, getImage(personagem + ".gif"), personagem, x, y, 850, 590);			
 			} else {
-				piece = new BackgroundCharacter(board, Images.createImage(personagem + ".gif"), personagem, x, y, 850, 590);
+				piece = new BackgroundCharacter(board, getImage(personagem + ".gif"), personagem, x, y, 850, 590);
 			}
 			
 			if (playSound) {
@@ -191,16 +198,16 @@ public class CriaContoPlayer extends Player {
 	}
 
 	public void putAnimalsOnBoard() {
-		Image image = Images.createImage("passarinho.gif");			
+		Image image = getImage("passarinho.gif");			
 		new Piece(board, image, "passarinho", 480, 110);
 		
-		Image image2 = Images.createImage("veado.gif");		
+		Image image2 = getImage("veado.gif");		
 		new Piece(board, image2, "veado", 110, 430);
 		
-		Image image3 = Images.createImage("cachorrinho.gif");		
+		Image image3 = getImage("cachorrinho.gif");		
 		new Piece(board, image3, "cachorrinho", 800, 390);
 				
-		Image image4 = Images.createImage("esquilo_no_balde.gif");		
+		Image image4 = getImage("esquilo_no_balde.gif");		
 		new Piece(board, image4, "esquilo_no_balse", 580, 300);
     }
 	
@@ -244,35 +251,35 @@ public class CriaContoPlayer extends Player {
 			try {
 				switch (startSequence) {
 					case 0:
-						Image imageCorujaAsasAcima = Images.createImage("Asas_Acima.gif");    		
+						Image imageCorujaAsasAcima = getImage("Asas_Acima.gif");    		
 						corujaAsasAcima = new Piece(board, imageCorujaAsasAcima, "Coruja asas acima", 930, 15);
 			    		startSequence++;
 			    		break;
 					case 1:
 						board.removeSpriteFromList(corujaAsasAcima);
 						board.removeSpritesFromListNow();
-			    		Image imageCorujaAsasMeio = Images.createImage("Asas_Meio.gif");		
+			    		Image imageCorujaAsasMeio = getImage("Asas_Meio.gif");		
 						corujaAsasMeio = new Piece(board, imageCorujaAsasMeio, "Coruja asas meio", 750, 85);
 						startSequence++;
 			    		break;
 					case 2:
 						board.removeSpriteFromList(corujaAsasMeio);
 						board.removeSpritesFromListNow();
-			    		Image imageCorujaAsasAbaixo = Images.createImage("Asas_Abaixo.gif");		
+			    		Image imageCorujaAsasAbaixo = getImage("Asas_Abaixo.gif");		
 						corujaAsasAbaixo = new Piece(board, imageCorujaAsasAbaixo, "Coruja asas abaixo", 600, 155);
 						startSequence++;
 			    		break;
 					case 3:
 						board.removeSpriteFromList(corujaAsasAbaixo);
 						board.removeSpritesFromListNow();
-			    		Image imageCorujaPouso = Images.createImage("Asas_Pouso.gif");		
+			    		Image imageCorujaPouso = getImage("Asas_Pouso.gif");		
 						corujaPouso = new Piece(board, imageCorujaPouso, "Coruja pouso", 505, 205);
 						startSequence++;
 						break;
 					case 4:
 						board.removeSpriteFromList(corujaPouso);
 						board.removeSpritesFromListNow();
-			    		Image imageCorujaPousoFala = Images.createImage("Asas_Pouso_Fala.gif");		
+			    		Image imageCorujaPousoFala = getImage("Asas_Pouso_Fala.gif");		
 						corujaPousoFala = new Piece(board, imageCorujaPousoFala, "Coruja pouso fala", 505, 205);
 						startSequence++;
 						break;
@@ -288,25 +295,25 @@ public class CriaContoPlayer extends Player {
 					case 8:
 						board.removeSpriteFromList(corujaPousoFala);
 						board.removeSpritesFromListNow();
-			    		imageCorujaPouso = Images.createImage("Asas_Pouso.gif");		
+			    		imageCorujaPouso = getImage("Asas_Pouso.gif");		
 						corujaPouso = new Piece(board, imageCorujaPouso, "Coruja pouso", 505, 205);
 						startSequence++;
 						break;
 					case 9:
-						setBoardImage("tela_inicial3.jpg", board);
-						imageCorujaPouso = Images.createImage("Asas_Pouso.gif");		
+						setBoardImage(getImage("tela_inicial3.jpg"), board);
+						imageCorujaPouso = getImage("Asas_Pouso.gif");		
 						corujaPouso = new Piece(board, imageCorujaPouso, "Coruja pouso", 505, 205);
 						startSequence++;
 						break;
 					case 10:
-						setBoardImage("tela_inicial4.jpg", board);
-						imageCorujaPouso = Images.createImage("Asas_Pouso.gif");		
+						setBoardImage(getImage("tela_inicial4.jpg"), board);
+						imageCorujaPouso = getImage("Asas_Pouso.gif");		
 						corujaPouso = new Piece(board, imageCorujaPouso, "Coruja pouso", 505, 205);
 						startSequence++;
 						break;
 					case 11:
-						setBoardImage("tela_inicial3.jpg", board);
-						imageCorujaPouso = Images.createImage("Asas_Pouso.gif");		
+						setBoardImage(getImage("tela_inicial3.jpg"), board);
+						imageCorujaPouso = getImage("Asas_Pouso.gif");		
 						corujaPouso = new Piece(board, imageCorujaPouso, "Coruja pouso", 505, 205);
 						startSequence++;
 						break;
@@ -328,5 +335,10 @@ public class CriaContoPlayer extends Player {
 		int incY(int i) {
 			return i;
 		}
+	}
+
+	@Override
+	public String getImagesPackageName() {
+		return IMAGES_PACKAGE;
 	}
 }
