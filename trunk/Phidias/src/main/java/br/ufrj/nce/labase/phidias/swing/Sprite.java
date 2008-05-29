@@ -7,6 +7,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
+import br.ufrj.nce.labase.common.MidiSound;
 import br.ufrj.nce.labase.phidias.swing.Mapping;
 import br.ufrj.nce.labase.phidias.util.Images;
 
@@ -18,6 +19,7 @@ import br.ufrj.nce.labase.phidias.util.Images;
  *  
  * @author Andre Moraes
  * @author Diogo Gomes
+ * @author Sabrina Bettini
  *
  */
 public class Sprite {
@@ -25,6 +27,10 @@ public class Sprite {
 	private static final int DEFAULT_SIZE = 5;
 
 	private BufferedImage image;
+	protected MidiSound sound;
+	protected boolean playSound;
+	protected long moveStartTime;
+	protected long moveEndTime;
 
 	/**
 	 * Current position for Sprite instance
@@ -154,6 +160,7 @@ public class Sprite {
  	public void mousePressed(MouseEvent e){
 		this.lastPositionBeforeDrag.setLocation(e.getX() - this.getPosX(),
 												e.getY() - this.getPosY());
+		moveStartTime = System.currentTimeMillis();	
  	}
  	
  	/**
@@ -174,7 +181,20 @@ public class Sprite {
  				this.resetCoordinates();
  			}
  		}
+ 		
+ 		moveEndTime = System.currentTimeMillis();
  	}
+ 	
+ 	/** 
+ 	 * Returns the total time of the sprite drag movement. The movement total time is the time
+ 	 * between the mouse being pressed and the mouse being released. In other words, the time
+ 	 * of the drag movement.
+ 	 *
+ 	 * @return the
+ 	 */
+ 	public long getMoveTime() {
+		return (moveEndTime - moveStartTime)/1000;
+	}
  	
  	/**
  	 * Retorna a instância Piece para seu local de origem.
@@ -302,5 +322,19 @@ public class Sprite {
 		this.visible = visible;
 	}
 
-	
+	public void setSound(MidiSound sound) {
+		this.sound = sound;
+	}
+
+	public MidiSound getSound() {
+		return sound;
+	}
+
+	public void setPlaySound(boolean playSound) {
+		this.playSound = playSound;
+	}
+
+	public boolean isPlaySound() {
+		return playSound;
+	}
 }
