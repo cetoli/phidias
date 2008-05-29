@@ -16,8 +16,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 
-import br.ufrj.nce.labase.criaconto.images.Images;
 import br.ufrj.nce.labase.phidias.controller.Session;
+import br.ufrj.nce.labase.phidias.util.Images;
 import br.ufrj.nce.labase.phidias.view.attendant.Attendant;
 
 public class CriaContoAttendant extends Attendant {
@@ -29,6 +29,8 @@ public class CriaContoAttendant extends Attendant {
 	private TextArea stimulus;
 	private TextArea moves;
 	
+	private static final String IMAGES_PACKAGE = "br.ufrj.nce.labase.criaconto.images"; 
+	
 	public static final int CRIA_CONTO = 1;
 	
 	public CriaContoAttendant() {
@@ -36,8 +38,8 @@ public class CriaContoAttendant extends Attendant {
 	}
 
 	public void init() {
-		backgroundImage = Images.createImage("fundoAplicador.jpg");
-    	loginBackgroundImage = Images.createImage("fundoAplicador.jpg");
+		backgroundImage = Images.createImage(getImageName("fundoAplicador.jpg"));
+    	loginBackgroundImage = Images.createImage(getImageName("fundoAplicador.jpg"));
     	
     	super.init();
 	}	
@@ -169,5 +171,10 @@ public class CriaContoAttendant extends Attendant {
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		frame.setLocation((d.width - frame.getSize().width) / 2, (d.height - frame.getSize().height) / 2);
 		frame.setVisible(true);
+	}
+
+	@Override
+	public String getImagesPackageName() {
+		return IMAGES_PACKAGE;
 	}
 }
