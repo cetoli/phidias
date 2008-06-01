@@ -3,8 +3,8 @@ package br.ufrj.nce.labase.attention.bichos;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 
-import br.ufrj.nce.labase.phidias.toolkit.PickingGameBoard;
 import br.ufrj.nce.labase.phidias.toolkit.sprite.NPC;
+import br.ufrj.nce.labase.phidias.toolkit.PickingGameBoard;
 
 public class BichosGameBoard extends PickingGameBoard{
 
@@ -14,25 +14,47 @@ public class BichosGameBoard extends PickingGameBoard{
 		this.setScreenSize(800, 600);
 		this.setBackgroundImage("background.gif");
 
-		this.createSprite(new Point(62,275), "peca-1.gif");
-		this.createSprite(new Point(134,276), "peca-2.gif");
-		this.createSprite(new Point(65,210), "peca-3.gif");
-		this.createSprite(new Point(25,290), "peca-4.gif");
-		this.createSprite(new Point(120,270), "peca-5.gif");
-		this.createSprite(new Point(250,30), "peca-6.gif");
-		this.createSprite(new Point(150,330), "peca-7.gif");
-		this.createSprite(new Point(160,170), "peca-8.gif");
-		this.createSprite(new Point(210,250), "peca-9.gif");
-		this.createSprite(new Point(230,100), "peca-10.gif");
-		this.createSprite(new Point(370,250), "peca-11.gif");
-		this.createSprite(new Point(470,290), "peca-12.gif");
-		this.createSprite(new Point(430,230), "peca-13.gif");
-		this.createSprite(new Point(420,130), "peca-14.gif");
-		this.createSprite(new Point(290,280), "peca-15.gif");
-		this.createSprite(new Point(280,200), "peca-16.gif");
-		this.createSprite(new Point(320,140), "peca-17.gif");
+		this.createSprite(new Point(391,128), "abelha1.gif");
+		this.createSprite(new Point(192,297), "aranha-1.gif");
+		this.createSprite(new Point(80,360), "avestruz.gif");
+		this.createSprite(new Point(480,186), "bambi1.gif");
+		this.createSprite(new Point(125,240), "bicho.gif");
+		this.createSprite(new Point(165,99), "camelo1.gif");
+		this.createSprite(new Point(64,275), "canguru.gif");
+		this.createSprite(new Point(252,259), "caracol.gif");
+		this.createSprite(new Point(434,362), "caranguejo1.gif");
+		this.createSprite(new Point(352,237), "coelho-1.gif");
+		this.createSprite(new Point(464,62), "coruja-1.gif");
+		this.createSprite(new Point(147,169), "elefante1.gif");
+		this.createSprite(new Point(253,136), "esquilo-1.gif");
+		this.createSprite(new Point(381,194), "esquilo2.gif");
+		this.createSprite(new Point(237,292), "foca1.gif");
+		this.createSprite(new Point(429,233), "galo-1.gif");
+		this.createSprite(new Point(110,323), "gamba-1.gif");
+		this.createSprite(new Point(55,100), "girafa1.gif");
+		this.createSprite(new Point(228,372), "jacare1.gif");
+		this.createSprite(new Point(63,206), "leao1.gif");
+		this.createSprite(new Point(426,155), "lobo-1.gif");
+		this.createSprite(new Point(310,94), "mico-1.gif");
+		this.createSprite(new Point(284,391), "minhoca-1.gif");
+		this.createSprite(new Point(165,349), "minoca2.gif");
+		this.createSprite(new Point(137,44), "morcego-1.gif");
+		this.createSprite(new Point(133,277), "onca.gif");
+		this.createSprite(new Point(294,270), "panda-1.gif");
+		this.createSprite(new Point(397,48), "passarinho-1.gif");
+		this.createSprite(new Point(327,317), "peixe-1.gif");
+		this.createSprite(new Point(459,383), "rato-1.gif");
+		this.createSprite(new Point(193,229), "rino-1.gif");
+		this.createSprite(new Point(173,326), "tartaruga-1.gif");
+		this.createSprite(new Point(248,215), "bicho2.gif");
+		this.createSprite(new Point(396,383), "tatu.gif");
+		this.createSprite(new Point(338,198), "guaxinim.gif");
+		this.createSprite(new Point(142,387), "porco.gif");
+		this.createSprite(new Point(350,137), "urso1.gif");
+		this.createSprite(new Point(218,168), "veado1.gif");
+		this.createSprite(new Point(100,128), "zebra-1.gif");
 		
-	//	this.getSpriteManager().setSpriteHoverEnabled(true);
+		this.getSpriteManager().setSpriteHoverEnabled(true);
 		
 //		this.setNpc(new NPC(this.getSpriteManager(), new Point(600, 160), this.getImageName("NPC.gif")));
 
