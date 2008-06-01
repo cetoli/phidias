@@ -63,7 +63,7 @@ public class Sprite {
 	
 	/**
 	 * Sets if the sprite must be disabled from attending mouse events after a drag event that receives
-	 * a true response from this corresponting mapping.
+	 * a true response from this corresponding mapping.
 	 */
 	//TODO:
 	private boolean disableDragAfterHit = false;
