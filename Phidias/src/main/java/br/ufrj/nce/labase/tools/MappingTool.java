@@ -6,8 +6,8 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 
-import br.ufrj.nce.labase.phidias.swing.GameBoard;
-import br.ufrj.nce.labase.phidias.swing.Sprite;
+import br.ufrj.nce.labase.phidias.toolkit.GameBoard;
+import br.ufrj.nce.labase.phidias.toolkit.sprite.Sprite;
 
 /**
  * A very simple tool to help identifying coordinates to determane Sprite mapping instances (point and
