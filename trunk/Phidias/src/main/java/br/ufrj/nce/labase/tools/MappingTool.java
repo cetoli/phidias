@@ -2,22 +2,20 @@ package br.ufrj.nce.labase.tools;
 
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 
 import br.ufrj.nce.labase.phidias.toolkit.GameBoard;
-import br.ufrj.nce.labase.phidias.toolkit.sprite.Sprite;
 
 /**
- * A very simple tool to help identifying coordinates to determane Sprite mapping instances (point and
+ * A very simple tool to help identifying coordinates to determine Sprite mapping instances (point and
  * area mappings).<br>
  * This class can be used by changing the value of <code>imageFile</code> attribute, or by subclassing
  * this class and overriding only the methods <code>getImageFile()</code>; and getImagesPackageName()<br>
  * When this applet is executed, it prints on screen the coordinates of mouse position, over the background
  * image defined, showing the exact position for the mapping to be located. If the user wants do use a 
- * rectange for an area mapping, just drag the mouse to draw the rectange, and its corner up-left
- * coordinate, as well as its width and heigh - will be shown.
+ * rectangle for an area mapping, just drag the mouse to draw the rectangle, and its corner up-left
+ * coordinate, as well as its width and height - will be shown.
  * 
  * @author Diogo Gomes
  *
