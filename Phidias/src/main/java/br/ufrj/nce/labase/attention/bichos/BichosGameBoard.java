@@ -3,8 +3,8 @@ package br.ufrj.nce.labase.attention.bichos;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 
-import br.ufrj.nce.labase.phidias.swing.NPC;
-import br.ufrj.nce.labase.phidias.swing.PickingGameBoard;
+import br.ufrj.nce.labase.phidias.toolkit.PickingGameBoard;
+import br.ufrj.nce.labase.phidias.toolkit.sprite.NPC;
 
 public class BichosGameBoard extends PickingGameBoard{
 
