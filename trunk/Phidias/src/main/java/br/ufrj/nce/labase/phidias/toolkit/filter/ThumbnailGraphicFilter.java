@@ -51,10 +51,6 @@ public class ThumbnailGraphicFilter implements GraphicFilter {
 	 * @see br.ufrj.nce.labase.phidias.swing.GraphicFilter#filter(java.awt.image.BufferedImage)
 	 */
 	public BufferedImage filter(BufferedImage imagem) {
-
-		int thumbWidth = 100;
-		int thumbHeight = 100;
-		int quality = 100;
 		return Images.createThumbnail(imageObserver, imagem, thumbWidth, thumbHeight, quality);
 	}
 
