@@ -2,9 +2,9 @@ package br.ufrj.nce.labase.attention.montapecas;
 
 import java.awt.Point;
 
-import br.ufrj.nce.labase.phidias.swing.GameBoard;
-import br.ufrj.nce.labase.phidias.swing.Mapping;
-import br.ufrj.nce.labase.phidias.swing.StaticImage;
+import br.ufrj.nce.labase.phidias.toolkit.GameBoard;
+import br.ufrj.nce.labase.phidias.toolkit.graphic.StaticImage;
+import br.ufrj.nce.labase.phidias.toolkit.mapping.Mapping;
 
 public class MontaPecasGameBoard extends GameBoard {
 
