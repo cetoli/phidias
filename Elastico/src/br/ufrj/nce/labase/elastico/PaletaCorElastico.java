@@ -4,12 +4,12 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
-import br.ufrj.nce.labase.phidias.swing.GraphicPrintElement;
+import br.ufrj.nce.labase.phidias.toolkit.graphic.GraphicPrintElement;
 
 public class PaletaCorElastico extends GraphicPrintElement {
 
 	private boolean disabled;
-	
+
 	private String colorDescription;
 
 	public void setPaletaBody(Rectangle2D paletaCor) {

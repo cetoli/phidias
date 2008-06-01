@@ -5,7 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 
-import br.ufrj.nce.labase.phidias.swing.GraphicPrintElement;
+import br.ufrj.nce.labase.phidias.toolkit.graphic.GraphicPrintElement;
 
 public class Pino extends GraphicPrintElement {
 

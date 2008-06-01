@@ -21,12 +21,16 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
-import javax.swing.event.MouseInputListener;
 
+import br.ufrj.nce.labase.phidias.toolkit.GameBoard;
+import br.ufrj.nce.labase.phidias.toolkit.filter.HighLightGraphicFilter;
+import br.ufrj.nce.labase.phidias.toolkit.filter.ThumbnailGraphicFilter;
+import br.ufrj.nce.labase.phidias.toolkit.graphic.GraphicPrintElement;
+import br.ufrj.nce.labase.phidias.toolkit.sprite.SpriteManager;
 import br.ufrj.nce.labase.phidias.util.Images;
 import br.ufrj.nce.labase.phidias.view.player.GameStartTimer;
 
-public class ElasticoApplet extends javax.swing.JApplet implements Runnable, MouseInputListener {
+public class ElasticoApplet extends GameBoard {
 
 	// global variables for off-screen rendering
 	private static final int PHASE_ONE = 1;
@@ -110,7 +114,7 @@ public class ElasticoApplet extends javax.swing.JApplet implements Runnable, Mou
 
 	private Elastico elasticoCorrente;
 
-	private br.ufrj.nce.labase.phidias.swing.SpriteManager spriteManager = new ElasticoSpriteManager();
+	private SpriteManager spriteManager = new SpriteManager();
 
 	private PinoEstatico pinoEstatico;
 
@@ -120,6 +124,9 @@ public class ElasticoApplet extends javax.swing.JApplet implements Runnable, Mou
 	public ElasticoApplet() {
 		super();
 		this.initGame();
+		this.spriteManager.addHoverFilter(new HighLightGraphicFilter());
+		this.spriteManager.addHoverFilter(new ThumbnailGraphicFilter());
+		this.spriteManager.setSpriteHoverEnabled(true);
 	}
 
 	/*
@@ -190,7 +197,7 @@ public class ElasticoApplet extends javax.swing.JApplet implements Runnable, Mou
 	 */
 	private void phaseTwo(Graphics2D g2d) {
 		// Geração de pinos
-		for (br.ufrj.nce.labase.phidias.swing.GraphicPrintElement pino : this.pinos) {
+		for (GraphicPrintElement pino : this.pinos) {
 			pino.print(g2d);
 		}
 
@@ -222,6 +229,7 @@ public class ElasticoApplet extends javax.swing.JApplet implements Runnable, Mou
 				pino.setColor(Color.BLACK);
 				pinos.add(pino);
 
+				// TODO VER A CHMADA DE GRAVAÇAO DE OBSTACULOS NO GAMEBOARD.
 				// Adiciona um pino como obstaculo no sprite manager
 				this.spriteManager.addObstacule(pino);
 			}
@@ -325,25 +333,6 @@ public class ElasticoApplet extends javax.swing.JApplet implements Runnable, Mou
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setVisible(true);
-	}
-
-	private void initGame() {
-		try {
-
-			this.phase = PHASE_ONE;
-			this.inicializaPinos();
-			this.inicializaCartas();
-			this.inicializaPinoEstatico();
-			this.inicializaPaletaCorElastico();
-			setBackground(Color.DARK_GRAY);
-
-			setSize(new Dimension(WIDTH, HEIGHT));
-			addMouseListener(this);
-			addMouseMotionListener(this);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	public void mouseClicked(MouseEvent e) {
@@ -507,5 +496,32 @@ public class ElasticoApplet extends javax.swing.JApplet implements Runnable, Mou
 		public void actionPerformed(ActionEvent arg0) {
 			phase = intern_phase;
 		}
+	}
+
+	@Override
+	public String getImagesPackageName() {
+
+		return "br.ufrj.nce.labase.elastico.imagens";
+	}
+
+	@Override
+	public void initGame() {
+		try {
+
+			this.phase = PHASE_ONE;
+			this.inicializaPinos();
+			this.inicializaCartas();
+			this.inicializaPinoEstatico();
+			this.inicializaPaletaCorElastico();
+			setBackground(Color.DARK_GRAY);
+
+			setSize(new Dimension(WIDTH, HEIGHT));
+			addMouseListener(this);
+			addMouseMotionListener(this);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 }

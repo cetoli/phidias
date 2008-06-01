@@ -7,7 +7,7 @@ import java.awt.Polygon;
 import java.awt.geom.Line2D;
 import java.util.LinkedList;
 
-import br.ufrj.nce.labase.phidias.swing.GraphicPrintElement;
+import br.ufrj.nce.labase.phidias.toolkit.graphic.GraphicPrintElement;
 
 public class Elastico extends GraphicPrintElement {
 

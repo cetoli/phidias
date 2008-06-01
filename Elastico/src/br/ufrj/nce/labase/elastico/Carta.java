@@ -6,8 +6,9 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import br.ufrj.nce.labase.phidias.swing.Sprite;
-import br.ufrj.nce.labase.phidias.swing.SpriteManager;
+import br.ufrj.nce.labase.phidias.toolkit.graphic.GraphicPrintElement;
+import br.ufrj.nce.labase.phidias.toolkit.sprite.Sprite;
+import br.ufrj.nce.labase.phidias.toolkit.sprite.SpriteManager;
 
 public class Carta extends Sprite {
 
@@ -15,7 +16,7 @@ public class Carta extends Sprite {
 	private double initialX, initialY;
 
 	public Carta(SpriteManager spriteManager, Point2D coordinate, BufferedImage image) {
-		super(coordinate, image);
+		super(spriteManager, coordinate, image);
 		this.setSpriteManager(spriteManager);
 	}
 
@@ -70,8 +71,8 @@ public class Carta extends Sprite {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		List<br.ufrj.nce.labase.phidias.swing.GraphicPrintElement> obstacules = this.getSpriteManager().getObstacules();
-		for (br.ufrj.nce.labase.phidias.swing.GraphicPrintElement obstacule : obstacules) {
+		List<GraphicPrintElement> obstacules = this.getSpriteManager().getObstacules();
+		for (GraphicPrintElement obstacule : obstacules) {
 			if (obstacule.getBody().intersects(this.getBody())) {
 				Point2D cartaInit = new Point2D.Double(this.getBody().getCenterX(), this.getBody().getCenterY());
 				Rectangle2D rectangle = obstacule.getBody().getBounds2D();

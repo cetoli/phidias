@@ -6,7 +6,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
 
-import br.ufrj.nce.labase.phidias.swing.StaticImage;
+import br.ufrj.nce.labase.phidias.toolkit.graphic.StaticImage;
 
 public class PinoEstatico extends StaticImage {
 
