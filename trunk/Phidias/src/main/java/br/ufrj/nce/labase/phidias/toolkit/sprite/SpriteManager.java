@@ -45,13 +45,13 @@ public class SpriteManager {
 	private List<GraphicPrintElement> obstacules;
 
 	/**
-	 * Special sprite type, used to represent Non Playable Caracteres,
+	 * Special sprite type, used to represent Non Playable Characters,
 	 * responsible to print messages on screen on an image.
 	 */
 	private NPC npc;
 
 	/**
-	 * Sets Sprite Brightenning hover behavior true/false. When the mouse moves
+	 * Sets Sprite Brightening hover behavior true/false. When the mouse moves
 	 * over a Sprite, if this attribute is set to true, it is renderer with a
 	 * filter that makes it brighter than the original image, highlighting the
 	 * current sprite among others.
@@ -242,6 +242,10 @@ public class SpriteManager {
 	
 	public void hideNpc(){
 		this.npc.setVisible(false);
+	}
+	
+	public void showNpc(){
+		this.npc.setVisible(true);
 	}
 
 	public List<Sprite> getSprites() {
