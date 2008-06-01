@@ -20,6 +20,7 @@ import javax.swing.Timer;
 import br.ufrj.nce.labase.phidias.toolkit.graphic.GraphicPrintable;
 import br.ufrj.nce.labase.phidias.toolkit.mapping.Mapping;
 import br.ufrj.nce.labase.phidias.toolkit.sprite.NPC;
+import br.ufrj.nce.labase.phidias.toolkit.sprite.NPCTimer;
 import br.ufrj.nce.labase.phidias.toolkit.sprite.Sprite;
 import br.ufrj.nce.labase.phidias.toolkit.sprite.SpriteManager;
 import br.ufrj.nce.labase.phidias.util.Images;
@@ -27,13 +28,14 @@ import br.ufrj.nce.labase.phidias.util.Images;
 /**
  * Base class that implements basic facilities for a game board.<br>
  * This facilities corresponds to mouse events methods implementation, such as drag and click.
- * Subclasses may extend particular caracteristics by overriding specific methods. <br>
- * The class uses a SpriteManager as the responsible for dealig with mouse events and how sprites respond to them. 
+ * Subclasses may extend particular characteristics by overriding specific methods. <br>
+ * The class uses a SpriteManager as the responsible for dealing with mouse events and how sprites respond to them. 
  * A base spriteManager implementation is supplied, that fully handles mouse events, but custom implementations may
  * also be defined, passing a instance by the setSpriteManager() method.
  * 
  * @author Diogo Gomes
  * @author Andre Moraes
+ * @author Sabrina Bettini
  * 
  */
 public abstract class GameBoard extends JApplet implements Runnable, MouseListener, MouseMotionListener {
@@ -43,6 +45,14 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseListen
 	protected SpriteManager spriteManager;
 	
 	private List<GraphicPrintable> graphicPrintableElements;
+	
+	
+	/**
+	 * The total seconds the NPC will be displayed on the board.
+	 */
+	private int npcDisplaySeconds;
+	
+	private Timer npcTimer;
 	
 	/**
 	 *  Object to be used to write with, instead of the standard screen graphics. (Double Buffering) 
@@ -58,7 +68,7 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseListen
      * Attribute used to store the package where image files may be found. This is a fully
      * qualified package name, starting with "/", that denotes an absolute path.
      * Each subclass must implement the method getImagesPackageName() to specify where
-     * its image resorces are.
+     * its image resources are.
      */
     private String imagesPackageName;
 	
@@ -76,14 +86,14 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseListen
 	}
 	
 	/**
-	 * Applet init() method made final to avoid overriding in subclasses, tha must implement
+	 * Applet init() method made final to avoid overriding in subclasses, the must implement
 	 * initGame() method.
 	 */
 	public final void init(){
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
 		
-		/* implementing double buffering infra structure */
+		/* implementing double buffering infrastructure */
 		offscreen = createImage(screenWidth,screenHeight); 
 		bufferGraphics = offscreen.getGraphics();
 		
@@ -126,13 +136,13 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseListen
 	
 	/**
 	 * Creates a Sprite instance and adds it to the applets Sprite collection.<br>
-	 * This is an utility method to perform produtivity in development, but a sprite can still
+	 * This is an utility method to perform productivity in development, but a sprite can still
 	 * be created manually and added to the sprite collection with addSprite() method.
-	 * @param coordinate Point2D intance determining location on screen when sprite must
+	 * @param coordinate Point2D instance determining location on screen when sprite must
 	 * be first rendered into.
 	 * @param imageFileName Image's file name. This name is joined with the images package
 	 * specified in getImagesPackageName() abstract method. The name must be specified with its
-	 * extention, eg.: "image.gif", "buttonOK.jpg"
+	 * extension, eg.: "image.gif", "buttonOK.jpg"
 	 */
 	public Sprite createSprite(Point2D coordinate, String imageFileName){
 		Sprite sprite = new Sprite(this.spriteManager, coordinate, this.getImageName(imageFileName));
@@ -141,8 +151,8 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseListen
 	}
 
 	/**
-	 * Creates an sprite and adds it tho the game instance collection. Detailed documentation
-	 * on melhod createSprite(Point2D coordinate, String imageFileName);
+	 * Creates an sprite and adds it to the game instance collection. Detailed documentation
+	 * on method createSprite(Point2D coordinate, String imageFileName);
 	 * 
 	 * @param coordinate
 	 * @param imageFileName
@@ -163,7 +173,7 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseListen
 	
 	public void run()
 	{
-		//Baixa prioridade para o Thread
+		//Low priority to the Thread
 		Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
 			
 		while (true)
@@ -193,8 +203,8 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseListen
 	/**
 	 * Prints all Graphic elements specified to this GameBoard.<br>
 	 * Graphic elements are different from sprites, since they don't interact with
-	 * mouse events. Graphic elements are alowed to manage their print logic, in order to
-	 * send to screen a variety os graphic types, such as Java2D graphics, and not only images. 
+	 * mouse events. Graphic elements are allowed to manage their print logic, in order to
+	 * send to screen a variety of graphic types, such as Java2D graphics, and not only images. 
 	 * @param g
 	 */
 	private void printGraphicElements(Graphics2D g) {
@@ -223,9 +233,9 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseListen
 	}
 	
 	/**
-	 * Abstract method that must be overriden by subclasses, used to specify the package
+	 * Abstract method that must be overridden by subclasses, used to specify the package
 	 * name where image files may be found.<br>
-	 * Image package name must fe a fully qualified packed name, separated by '.' or by "/", for
+	 * Image package name must be a fully qualified packed name, separated by '.' or by "/", for
 	 * example: "br.nce.ufrj.labase.images" or "br/nce/ufrj/labase/images"
 	 * @return String containing the package name where image files may be found.
 	 */
@@ -251,7 +261,7 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseListen
 	}
 	
 	/**
-	 * Boolean method used to check if mouse event occured inside screen's area. This
+	 * Boolean method used to check if mouse event occurred inside screen's area. This
 	 * is needed to avoid dragging the sprite out of screen and loosing it.
 	 * @param e
 	 * @return
@@ -283,7 +293,7 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseListen
 		this.spriteManager.mouseExited(e);
 	}
 
-	public List<Sprite> getsprites() {
+	public List<Sprite> getSprites() {
 		return spriteManager.getSprites();
 	}
 
@@ -306,9 +316,9 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseListen
 
 
 	/**
-	 * Subclasses may customize its own SpriteManager class, adding specific funcionalities to dealing
+	 * Subclasses may customize its own SpriteManager class, adding specific functionalities to dealing
 	 * with sprites and how their responses to mouse events.<br>
-	 * If the current spriteManager already contais sprite instantes associated, so they are copied to the
+	 * If the current spriteManager already contains sprite instances associated, so they are copied to the
 	 * spriteManager passed as parameter.
 	 * @param spriteManager
 	 */
@@ -324,9 +334,35 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseListen
 		this.spriteManager.setNpc(npc);
 	}
 	
+	public void hideNpc(){
+		this.spriteManager.hideNpc();
+		
+		if (npcTimer != null) {
+			npcTimer.stop();
+			npcTimer = null;
+		}
+	}
+	
+	public void showNpc(){
+		this.spriteManager.showNpc();
+		
+		if (getNpcDisplaySeconds() > 0) {
+			npcTimer = new Timer(getNpcDisplaySeconds(), new NPCTimer(this));
+			npcTimer.start();
+		}		
+	}
+	
 	public void setScreenSize(int width, int height){
 		this.screenWidth = width;
 		this.screenHeight = height;
+	}
+
+	public void setNpcDisplaySeconds(int npcDisplaySeconds) {
+		this.npcDisplaySeconds = npcDisplaySeconds;
+	}
+
+	public int getNpcDisplaySeconds() {
+		return npcDisplaySeconds;
 	}
 	
 }
