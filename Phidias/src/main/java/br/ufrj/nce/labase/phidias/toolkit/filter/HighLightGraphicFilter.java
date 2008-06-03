@@ -21,9 +21,6 @@ public class HighLightGraphicFilter implements GraphicFilter {
 	 * @see br.ufrj.nce.labase.phidias.graphictoolkit.filter.GraphicFilter#filter(java.awt.image.BufferedImage)
 	 */
 	public BufferedImage filter(BufferedImage imagem) {
-		
-		System.out.println("aumentando brilho do sprite");
-
 		return op.filter(imagem, null);
 	}
 
