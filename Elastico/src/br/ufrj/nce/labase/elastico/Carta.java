@@ -6,13 +6,14 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
+import br.ufrj.nce.labase.phidias.toolkit.filter.GraphicFilter;
 import br.ufrj.nce.labase.phidias.toolkit.graphic.GraphicPrintElement;
 import br.ufrj.nce.labase.phidias.toolkit.sprite.Sprite;
 import br.ufrj.nce.labase.phidias.toolkit.sprite.SpriteManager;
 
 public class Carta extends Sprite {
 
-	private boolean choosed, brighter;
+	private boolean choosed;
 	private double initialX, initialY;
 
 	public Carta(SpriteManager spriteManager, Point2D coordinate, BufferedImage image) {
@@ -20,6 +21,11 @@ public class Carta extends Sprite {
 		this.setSpriteManager(spriteManager);
 	}
 
+	public Carta(SpriteManager spriteManager, Point2D coordinate, BufferedImage image, List<GraphicFilter> filters) {
+		super(spriteManager, coordinate, image);
+		this.setHoverFilters(filters);
+	}
+	
 	public double getInitialX() {
 		return initialX;
 	}
@@ -28,39 +34,16 @@ public class Carta extends Sprite {
 		return initialY;
 	}
 
-	public boolean isBrighter() {
-		return brighter;
-	}
 
 	public boolean isChoosed() {
 		return choosed;
 	}
 
-	@Override
-	public void mouseClicked(MouseEvent e) {
-	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		this.setChoosed(true);
-		this.brighter = false;
 		this.setPosXY(e.getX() - this.initialX, e.getY() - this.initialY);
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseMoved(MouseEvent e) {
-		if (!this.choosed && this.getBody().contains(e.getX(), e.getY()))
-			this.brighter = true;
-		else
-			this.brighter = false;
 	}
 
 	@Override
@@ -71,7 +54,7 @@ public class Carta extends Sprite {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		List<GraphicPrintElement> obstacules = this.getSpriteManager().getObstacules();
+		List<GraphicPrintElement> obstacules = this.getSpriteManager().getGraphicPrintElement();
 		for (GraphicPrintElement obstacule : obstacules) {
 			if (obstacule.getBody().intersects(this.getBody())) {
 				Point2D cartaInit = new Point2D.Double(this.getBody().getCenterX(), this.getBody().getCenterY());

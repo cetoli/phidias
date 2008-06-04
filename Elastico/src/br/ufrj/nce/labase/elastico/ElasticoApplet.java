@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -23,55 +22,65 @@ import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 import br.ufrj.nce.labase.phidias.toolkit.GameBoard;
+import br.ufrj.nce.labase.phidias.toolkit.filter.GraphicFilter;
 import br.ufrj.nce.labase.phidias.toolkit.filter.HighLightGraphicFilter;
 import br.ufrj.nce.labase.phidias.toolkit.filter.ThumbnailGraphicFilter;
 import br.ufrj.nce.labase.phidias.toolkit.graphic.GraphicPrintElement;
-import br.ufrj.nce.labase.phidias.toolkit.sprite.SpriteManager;
 import br.ufrj.nce.labase.phidias.util.Images;
 import br.ufrj.nce.labase.phidias.view.player.GameStartTimer;
 
 public class ElasticoApplet extends GameBoard {
 
-	// global variables for off-screen rendering
-	private static final int PHASE_ONE = 1;
-	private static final int PHASE_TWO = 2;
+	/**
+	 * Classe interna que muda fase automaticamente.
+	 * 
+	 * @author Owner
+	 */
+	private class AutomaticChangePhaseStartTimer extends GameStartTimer {
+		private int intern_phase;
 
-	private int phase;
-	private Timer phaseTimer;
+		public AutomaticChangePhaseStartTimer(int phase) {
+			this.intern_phase = phase;
+		}
 
-	private Graphics dbg;
-	private Image dbImage = null;
-
-	private static int WIDTH;
-	private static int HEIGHT;
-
-	private static int TABULEIRO_X_MIN;
-	private static int TABULEIRO_Y_MIN;
-	private static int TABULEIRO_X_MAX;
-	private static int TABULEIRO_Y_MAX;
-
-	private static int ENCAIXE_X_MIN;
-	private static int ENCAIXE_Y_MIN;
-	private static int ENCAIXE_X_MAX;
-	private static int ENCAIXE_Y_MAX;
-
-	private static int PAINEL_X_MIN = 0;
-	private static int PAINEL_Y_MIN;
-
-	private static int PAINEL_X_MAX;
-	private static int PAINEL_Y_MAX;
-
-	private static int WIDTH_PAINEL;
-	private static int HEIGHT_PAINEL;
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			setPhase(intern_phase);
+		}
+	}
 
 	private static int DISTANCIA_PECA;
-	private static int TAMANHO_PINO;
+	private static int ENCAIXE_X_MAX;
 
-	private static int WIDTH_CARTA;
+	private static int ENCAIXE_X_MIN;
+	private static int ENCAIXE_Y_MAX;
+
+	private static int ENCAIXE_Y_MIN;
+	private static int HEIGHT;
 	private static int HEIGHT_CARTA;
+	private static int HEIGHT_PAINEL;
 
 	private static int LIMITE_INFERIOR_FILEIRA_CARTA;
 	private static int LIMITE_LATERAL_FILEIRA_CARTA;
+	private static int PAINEL_X_MAX;
+	private static int PAINEL_X_MIN = 0;
+
+	private static int PAINEL_Y_MAX;
+	private static int PAINEL_Y_MIN;
+
+	private static int TABULEIRO_X_MAX;
+	private static int TABULEIRO_X_MIN;
+
+	private static int TABULEIRO_Y_MAX;
+	private static int TABULEIRO_Y_MIN;
+
+	private static int TAMANHO_PINO;
+	private static int WIDTH;
+
+	private static int WIDTH_CARTA;
+	private static int WIDTH_PAINEL;
+
+	private boolean phaseOneCalled;
 
 	static {
 		PAINEL_X_MIN = 0;
@@ -103,221 +112,6 @@ public class ElasticoApplet extends GameBoard {
 		LIMITE_LATERAL_FILEIRA_CARTA = WIDTH - (WIDTH_CARTA + 20);
 	}
 
-	private Color[] elasticosColor = { Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.ORANGE, Color.CYAN };
-	private String[] elasticosDescription = { "Vermelho", "Azul", "Verde", "Amarelo", "Laranja", "Azul claro" };
-
-	private List<Pino> pinos = new ArrayList<Pino>();
-
-	private List<Elastico> elasticos = new ArrayList<Elastico>();
-
-	private List<PaletaCorElastico> painel = new ArrayList<PaletaCorElastico>();
-
-	private Elastico elasticoCorrente;
-
-	private SpriteManager spriteManager = new SpriteManager();
-
-	private PinoEstatico pinoEstatico;
-
-	/**
-	 * Construtor que inicia o jogo e todos os seus recursos necessários.
-	 */
-	public ElasticoApplet() {
-		super();
-		this.initGame();
-		this.spriteManager.addHoverFilter(new HighLightGraphicFilter());
-		this.spriteManager.addHoverFilter(new ThumbnailGraphicFilter());
-		this.spriteManager.setSpriteHoverEnabled(true);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.swing.JApplet#update(java.awt.Graphics)
-	 */
-	public void update(Graphics g) {
-		if (dbImage == null) {
-			dbImage = createImage(this.getSize().width, this.getSize().height);
-			dbg = dbImage.getGraphics();
-		}
-
-		dbg.setColor(getBackground());
-		dbg.fillRect(0, 0, this.getSize().width, this.getSize().height);
-
-		dbg.setColor(getForeground());
-		paint(dbg);
-
-		g.drawImage(dbImage, 0, 0, this);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.awt.Container#paint(java.awt.Graphics)
-	 */
-	public void paint(Graphics g) {
-		if (dbImage == null) {
-			// create the buffer
-			dbImage = createImage(WIDTH, HEIGHT);
-			if (dbImage == null) {
-				return;
-			} else
-				dbg = dbImage.getGraphics();
-		}
-
-		Graphics2D g2d = (Graphics2D) dbg;
-
-		if (phase == PHASE_ONE) {
-			this.phaseOne(g2d);
-		} else if (phase == PHASE_TWO) {
-			this.phaseTwo(g2d);
-		}
-	}
-
-	/**
-	 * Inicia Fase 1 do Jogo
-	 * 
-	 * @param g2d
-	 */
-	private void phaseOne(Graphics2D g2d) {
-		BufferedImage im = Images.getBufferedImage("/images/collage.jpg");
-		g2d.drawImage(im, (WIDTH - im.getWidth()) / 2, (HEIGHT - im.getHeight()) / 2, im.getWidth(), im.getHeight(), this);
-		g2d.setFont(new Font("Times New Roman", 1, 50));
-		g2d.drawString("Jogo dos Elásticos", (((WIDTH - im.getWidth()) / 2) + im.getWidth()) / 2 - 40, ((HEIGHT - im.getHeight()) / 2) - 20);
-
-		// Mantém a fase 1 por 5 segundos para a criança ver as peças do
-		// cenário.
-		this.phaseTimer = new Timer(5000, new AutomaticChangePhaseStartTimer(PHASE_TWO));
-		this.phaseTimer.start();
-	}
-
-	/**
-	 * Inica Fase 2 do Jogo
-	 * 
-	 * @param g2d
-	 */
-	private void phaseTwo(Graphics2D g2d) {
-		// Geração de pinos
-		for (GraphicPrintElement pino : this.pinos) {
-			pino.print(g2d);
-		}
-
-		// Pinta o Pino estatico
-		this.pinoEstatico.print(g2d);
-
-		// Geração so painel de Elasticos
-		for (PaletaCorElastico paleta : this.painel) {
-			paleta.print(g2d);
-		}
-
-		// Imprime sprites
-		this.spriteManager.paintSprites(g2d, this);
-
-		// Geração dos Elásticos
-		for (Elastico elastico : this.elasticos) {
-			elastico.print(g2d);
-		}
-	}
-
-	/**
-	 * Inicializa as estruturas de dados de Pinos
-	 */
-	private void inicializaPinos() {
-		for (int y = ENCAIXE_Y_MIN; y < ENCAIXE_Y_MAX + TAMANHO_PINO;) {
-			for (int x = ENCAIXE_X_MIN; x < ENCAIXE_X_MAX + TAMANHO_PINO; x += DISTANCIA_PECA) {
-				Pino pino = new Pino();
-				pino.setPinoBody(new Ellipse2D.Double(x, y, TAMANHO_PINO, TAMANHO_PINO));
-				pino.setColor(Color.BLACK);
-				pinos.add(pino);
-
-				// TODO VER A CHMADA DE GRAVAÇAO DE OBSTACULOS NO GAMEBOARD.
-				// Adiciona um pino como obstaculo no sprite manager
-				this.spriteManager.addObstacule(pino);
-			}
-			y += DISTANCIA_PECA;
-		}
-	}
-
-	/**
-	 * Iniicaliza as estruturas de dados das cartas
-	 */
-	private void inicializaCartas() {
-		// Randomiza grupo de 64 cartas
-		java.util.List<String> cartas = new ArrayList<String>();
-		for (int i = 1; i < 65; i++) {
-			cartas.add(String.valueOf(i));
-		}
-
-		Collections.shuffle(cartas);
-
-		// Inicializa primeira e ultima fileira de cartas
-		BufferedImage image = null;
-		Carta carta = null;
-		int idimagem = 0;
-		for (int x = 0; (x + WIDTH_CARTA) < WIDTH; x += WIDTH_CARTA) {
-			image = Images.getBufferedImage("/images/" + cartas.get(idimagem) + " [80x60].GIF");
-			carta = new Carta(this.spriteManager, new Point2D.Double(x, 0), image);
-			this.spriteManager.addSprite(carta);
-
-			image = Images.getBufferedImage("/images/" + cartas.get(idimagem + 1) + " [80x60].GIF");
-			carta = new Carta(this.spriteManager, new Point2D.Double(x, LIMITE_INFERIOR_FILEIRA_CARTA), image);
-			this.spriteManager.addSprite(carta);
-			idimagem += 2;
-		}
-
-		// Inicializa lateral esquerda e direita das cartas
-		int y;
-		for (y = HEIGHT_CARTA; (y + HEIGHT_CARTA) < HEIGHT - (HEIGHT_CARTA + 90); y += HEIGHT_CARTA) {
-			image = Images.getBufferedImage("/images/" + cartas.get(idimagem) + " [80x60].GIF");
-			carta = new Carta(this.spriteManager, new Point2D.Double(0, y), image);
-			this.spriteManager.addSprite(carta);
-
-			image = Images.getBufferedImage("/images/" + cartas.get(idimagem + 1) + " [80x60].GIF");
-
-			carta = new Carta(this.spriteManager, new Point2D.Double(LIMITE_LATERAL_FILEIRA_CARTA, y), image);
-			this.spriteManager.addSprite(carta);
-
-			idimagem += 2;
-		}
-
-		// calcula os valores do painel esquerdo em funcao da disposicao das
-		// cartas
-		int espaco_reservado = LIMITE_INFERIOR_FILEIRA_CARTA - y;
-		HEIGHT_PAINEL = espaco_reservado / 6;
-		PAINEL_Y_MIN = y;
-
-		// calcula os valores do painel direito em funcao da disposicao das
-		// cartas
-		PAINEL_Y_MAX = PAINEL_Y_MIN;
-		PAINEL_X_MAX = LIMITE_LATERAL_FILEIRA_CARTA;
-	}
-
-	private void inicializaPinoEstatico() {
-		this.pinoEstatico = new PinoEstatico(new Point2D.Double(PAINEL_X_MIN, PAINEL_Y_MIN + 30), Images.getBufferedImage("/images/DSC02456 [80x60].gif"));
-	}
-
-	/**
-	 * Inicializa a paleta de elasticos.
-	 */
-	private void inicializaPaletaCorElastico() {
-
-		// Inicializa a paleta esquerda
-		PaletaCorElastico paleta = null;
-		// for (int i = 0; i < 3; i++) {
-		// paleta = new PaletaCorElastico(new Rectangle2D.Double(PAINEL_X_MIN,
-		// PAINEL_Y_MIN, WIDTH_PAINEL, HEIGHT_PAINEL), this.elasticosColor[i],
-		// this.elasticosDescription[i]);
-		// painel.add(paleta);
-		// PAINEL_Y_MIN = PAINEL_Y_MIN + HEIGHT_PAINEL;
-		// }
-
-		// Inicializa a paleta direita
-		for (int i = 0; i < this.elasticosColor.length; i++) {
-			paleta = new PaletaCorElastico(new Rectangle2D.Double(PAINEL_X_MAX, PAINEL_Y_MAX, WIDTH_PAINEL, HEIGHT_PAINEL), this.elasticosColor[i], this.elasticosDescription[i]);
-			painel.add(paleta);
-			PAINEL_Y_MAX = PAINEL_Y_MAX + HEIGHT_PAINEL;
-		}
-	}
-
 	/**
 	 * Auto-generated main method to display this JApplet inside a new JFrame.
 	 */
@@ -335,32 +129,166 @@ public class ElasticoApplet extends GameBoard {
 		frame.setVisible(true);
 	}
 
-	public void mouseClicked(MouseEvent e) {
+	private Elastico elasticoCorrente;
+
+	private List<Elastico> elasticos = new ArrayList<Elastico>();
+
+	private Color[] elasticosColor = { Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.ORANGE, Color.CYAN };
+
+	private String[] elasticosDescription = { "Vermelho", "Azul", "Verde", "Amarelo", "Laranja", "Azul claro" };
+
+	private List<PaletaCorElastico> painel = new ArrayList<PaletaCorElastico>();
+
+	// global variables for off-screen rendering
+	private Timer phaseTimer;
+
+	private PinoEstatico pinoEstatico;
+
+	private List<Pino> pinos = new ArrayList<Pino>();
+
+	/**
+	 * Construtor que inicia o jogo e todos os seus recursos necessários.
+	 */
+	public ElasticoApplet() {
+		super();
+		setBackground(Color.DARK_GRAY);
 	}
 
-	public void mouseEntered(MouseEvent e) {
+	@Override
+	public String getImagesPackageName() {
+
+		return "br.ufrj.nce.labase.elastico.imagens";
 	}
 
-	public void mouseExited(MouseEvent e) {
-		this.spriteManager.mouseExited(e);
+	@Override
+	public int getScreenHeight() {
+		// TODO Auto-generated method stub
+		return HEIGHT;
 	}
 
-	public void mousePressed(MouseEvent e) {
-		this.spriteManager.mousePressed(e);
+	@Override
+	public int getScreenWidth() {
+		// TODO Auto-generated method stub
+		return WIDTH;
+	}
+
+	/**
+	 * Iniicaliza as estruturas de dados das cartas
+	 */
+	private void inicializaCartas() {
+		// Randomiza grupo de 64 cartas
+		java.util.List<String> cartas = new ArrayList<String>();
+		for (int i = 1; i < 65; i++) {
+			cartas.add(String.valueOf(i));
+		}
+
+		Collections.shuffle(cartas);
+
+		// Inicializa primeira e ultima fileira de cartas
+		BufferedImage image = null;
+		int idimagem = 0;
+		List<GraphicFilter> listFilter = new ArrayList<GraphicFilter>();
+		listFilter.add(new HighLightGraphicFilter());
+		listFilter.add(new ThumbnailGraphicFilter());
+		
+		for (int x = 0; (x + WIDTH_CARTA) < WIDTH; x += WIDTH_CARTA) {
+			image = Images.getBufferedImage(this.getImageName(cartas.get(idimagem) + " [80x60].GIF"));
+			this.addSprite(new Carta(this.spriteManager, new Point2D.Double(x, 0), image, listFilter));
+
+			image = Images.getBufferedImage(this.getImageName(cartas.get(idimagem + 1) + " [80x60].GIF"));
+			this.addSprite(new Carta(this.spriteManager, new Point2D.Double(x, LIMITE_INFERIOR_FILEIRA_CARTA), image, listFilter));
+			idimagem += 2;
+		}
+
+		// Inicializa lateral esquerda e direita das cartas
+		int y;
+		for (y = HEIGHT_CARTA; (y + HEIGHT_CARTA) < HEIGHT - (HEIGHT_CARTA + 90); y += HEIGHT_CARTA) {
+			image = Images.getBufferedImage(this.getImageName(cartas.get(idimagem) + " [80x60].GIF"));
+			this.addSprite(new Carta(this.spriteManager, new Point2D.Double(0, y), image, listFilter));
+
+			image = Images.getBufferedImage(this.getImageName(cartas.get(idimagem + 1) + " [80x60].GIF"));
+			this.addSprite(new Carta(this.spriteManager, new Point2D.Double(LIMITE_LATERAL_FILEIRA_CARTA, y), image, listFilter));
+
+			idimagem += 2;
+		}
+
+		// calcula os valores do painel esquerdo em funcao da disposicao das
+		// cartas
+		int espaco_reservado = LIMITE_INFERIOR_FILEIRA_CARTA - y;
+		HEIGHT_PAINEL = espaco_reservado / 6;
+		PAINEL_Y_MIN = y;
+
+		// calcula os valores do painel direito em funcao da disposicao das
+		// cartas
+		PAINEL_Y_MAX = PAINEL_Y_MIN;
+		PAINEL_X_MAX = LIMITE_LATERAL_FILEIRA_CARTA;
+	}
+
+	/**
+	 * Inicializa a paleta de elasticos.
+	 */
+	private void inicializaPaletaCorElastico() {
+
+		// Inicializa a paleta de elasticos
+		PaletaCorElastico paleta = null;
+		for (int i = 0; i < this.elasticosColor.length; i++) {
+			paleta = new PaletaCorElastico(new Rectangle2D.Double(PAINEL_X_MAX, PAINEL_Y_MAX, WIDTH_PAINEL, HEIGHT_PAINEL), this.elasticosColor[i], this.elasticosDescription[i]);
+			painel.add(paleta);
+			PAINEL_Y_MAX = PAINEL_Y_MAX + HEIGHT_PAINEL;
+		}
+	}
+
+	private void inicializaPinoEstatico() {
+		this.pinoEstatico = new PinoEstatico(new Point2D.Double(PAINEL_X_MIN, PAINEL_Y_MIN + 30), Images.getBufferedImage(this.getImageName("DSC02456 [80x60].gif")));
+	}
+
+	/**
+	 * Inicializa as estruturas de dados de Pinos
+	 */
+	private void inicializaPinos() {
+		Pino pino;
+		for (int y = ENCAIXE_Y_MIN; y < ENCAIXE_Y_MAX + TAMANHO_PINO;) {
+			for (int x = ENCAIXE_X_MIN; x < ENCAIXE_X_MAX + TAMANHO_PINO; x += DISTANCIA_PECA) {
+				pino = new Pino(Color.BLACK, new Ellipse2D.Double(x, y, TAMANHO_PINO, TAMANHO_PINO));
+				this.pinos.add(pino);
+				this.addGraphicPrintElement(pino);
+			}
+			y += DISTANCIA_PECA;
+		}
+	}
+
+	@Override
+	public void initGame() {
+		try {
+
+			setSize(new Dimension(WIDTH, HEIGHT));
+			addMouseListener(this);
+			addMouseMotionListener(this);
+			this.spriteManager.setSpriteHoverEnabled(true);
+			this.setPhase(PHASE_ONE);
+			this.inicializaPinos();
+			this.inicializaCartas();
+			this.inicializaPinoEstatico();
+			this.inicializaPaletaCorElastico();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	public void mouseReleased(MouseEvent e) {
 
-		// Trata os eventos de sprite
-		this.spriteManager.mouseReleased(e);
+		// Trata os eventos de mouse released do gameboard
+		super.mouseReleased(e);
 
 		// Trata os eventos 2D do Elastico corrente
 		Ellipse2D ellipse;
 		if (this.elasticoCorrente == null) {
 			for (PaletaCorElastico paletaCor : painel) {
 				if (paletaCor.getBody().contains(e.getX(), e.getY()) && !paletaCor.isDisabled()) {
-					// Inicializa o elastico corrente
-					this.elasticoCorrente = new Elastico();
+					// Inicializa o elastico corrent
+					this.elasticoCorrente = new Elastico(paletaCor.getColor());
 					this.elasticoCorrente.setColor(paletaCor.getColor());
 					this.elasticos.add(this.elasticoCorrente);
 					paletaCor.setDisabled(true);
@@ -437,91 +365,80 @@ public class ElasticoApplet extends GameBoard {
 		}
 	}
 
-	public void mouseDragged(MouseEvent e) {
-		this.spriteManager.mouseDragged(e);
-	}
+	@Override
+	public void paintPhaseFive(Graphics g) {
+		// TODO Auto-generated method stub
 
-	public void mouseMoved(MouseEvent e) {
-		this.spriteManager.mouseMoved(e);
-	}
-
-	/*
-	 * Este método faz a chamada ao repaint responsavel por montar a interface
-	 * em 20 em 20 milesimos de segundo através de uma thread.
-	 * 
-	 * @see java.lang.Runnable#run()
-	 */
-	public void run() {
-		// Baixa prioridade para o Thread
-		Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
-
-		// Roda um loop infinito
-		while (true) {
-			repaint();
-			try {
-				Thread.sleep(20);
-			} catch (InterruptedException ex) {
-				// FAZ NADA!!
-			}
-
-			Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.applet.Applet#start()
-	 */
-	public void start() {
-		super.start();
-
-		Thread th = new Thread(this);
-		th.start();
-	}
-
-	/**
-	 * Classe interna que muda fase automaticamente.
-	 * 
-	 * @author Owner
-	 */
-	private class AutomaticChangePhaseStartTimer extends GameStartTimer {
-		private int intern_phase;
-
-		public AutomaticChangePhaseStartTimer(int phase) {
-			this.intern_phase = phase;
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			phase = intern_phase;
-		}
 	}
 
 	@Override
-	public String getImagesPackageName() {
+	public void paintPhaseFour(Graphics g) {
+		// TODO Auto-generated method stub
 
-		return "br.ufrj.nce.labase.elastico.imagens";
 	}
 
 	@Override
-	public void initGame() {
-		try {
+	public void paintPhaseOne(Graphics g) {
 
-			this.phase = PHASE_ONE;
-			this.inicializaPinos();
-			this.inicializaCartas();
-			this.inicializaPinoEstatico();
-			this.inicializaPaletaCorElastico();
-			setBackground(Color.DARK_GRAY);
+		Graphics2D g2d = (Graphics2D) g;
+		BufferedImage im = Images.getBufferedImage(this.getImageName("collage.jpg"));
+		g2d.drawImage(im, (WIDTH - im.getWidth()) / 2, (HEIGHT - im.getHeight()) / 2, im.getWidth(), im.getHeight(), this);
+		g2d.setFont(new Font("Times New Roman", 1, 50));
+		g2d.drawString("Jogo dos Elásticos", (((WIDTH - im.getWidth()) / 2) + im.getWidth()) / 2 - 40, ((HEIGHT - im.getHeight()) / 2) - 20);
 
-			setSize(new Dimension(WIDTH, HEIGHT));
-			addMouseListener(this);
-			addMouseMotionListener(this);
-
-		} catch (Exception e) {
-			e.printStackTrace();
+		if (!phaseOneCalled) {
+			phaseOneCalled = true;
+			// Mantém a fase 1 por 5 segundos para a criança ver as peças do
+			// cenário.
+			this.phaseTimer = new Timer(5000, new AutomaticChangePhaseStartTimer(PHASE_TWO));
+			this.phaseTimer.start();
 		}
 
 	}
+
+	@Override
+	public void paintPhaseSeven(Graphics g) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void paintPhaseSix(Graphics g) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void paintPhaseThree(Graphics g) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void paintPhaseTwo(Graphics g) {
+		Graphics2D g2d = (Graphics2D) g;
+
+		// Geração de pinos
+		for (GraphicPrintElement pino : this.pinos) {
+			pino.print(g2d);
+		}
+
+		// Pinta o Pino estatico
+		this.pinoEstatico.print(g2d);
+
+		// Geração so painel de Elasticos
+		for (PaletaCorElastico paleta : this.painel) {
+			paleta.print(g2d);
+		}
+
+		// Imprime sprites
+		this.spriteManager.paintSprites(g2d, this);
+
+		// Geração dos Elásticos
+		for (Elastico elastico : this.elasticos) {
+			elastico.print(g2d);
+		}
+
+	}
+
 }

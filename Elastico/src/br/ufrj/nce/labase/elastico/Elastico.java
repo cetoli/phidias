@@ -1,9 +1,11 @@
 package br.ufrj.nce.labase.elastico;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.Shape;
 import java.awt.geom.Line2D;
 import java.util.LinkedList;
 
@@ -17,17 +19,9 @@ public class Elastico extends GraphicPrintElement {
 
 	private boolean finished;
 
-	public LinkedList<Point> getCoordenadas() {
-		return coordenadas;
-	}
-
-	public void setCoordenadas(LinkedList<Point> coordenadas) {
-		this.coordenadas = coordenadas;
-	}
-
-	public void removeCoordenada(Point coordenada) {
-		if (this.coordenadas != null)
-			this.coordenadas.remove(coordenada);
+	public Elastico(Color color) {
+		super(color, null);
+		// TODO Auto-generated constructor stub
 	}
 
 	public void addCoordenada(Point coordenada) {
@@ -59,12 +53,12 @@ public class Elastico extends GraphicPrintElement {
 
 	}
 
-	public boolean isFinished() {
-		return finished;
+	public LinkedList<Point> getCoordenadas() {
+		return coordenadas;
 	}
 
-	public void setFinished(boolean concluido) {
-		this.finished = concluido;
+	public boolean isFinished() {
+		return finished;
 	}
 
 	public void print(Graphics2D g2d) {
@@ -84,5 +78,18 @@ public class Elastico extends GraphicPrintElement {
 			}
 		}
 
+	}
+
+	public void removeCoordenada(Point coordenada) {
+		if (this.coordenadas != null)
+			this.coordenadas.remove(coordenada);
+	}
+
+	public void setCoordenadas(LinkedList<Point> coordenadas) {
+		this.coordenadas = coordenadas;
+	}
+
+	public void setFinished(boolean concluido) {
+		this.finished = concluido;
 	}
 }

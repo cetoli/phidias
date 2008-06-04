@@ -17,10 +17,9 @@ public class PaletaCorElastico extends GraphicPrintElement {
 	}
 
 	public PaletaCorElastico(Rectangle2D paletaCor, Color color, String colorDescription) {
-		super();
+		super(color, paletaCor);
 		this.colorDescription = colorDescription;
 		this.setBody(paletaCor);
-		setColor(color);
 	}
 
 	public boolean isDisabled() {
