@@ -91,7 +91,10 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseInputL
 	 */
 	private Integer phase;
 
-	private boolean paintGameboard = true;
+	/**
+	 * Attribute that enables the execution of the method enablePrintGameboard.
+	 */
+	private boolean enablePrintGameboard = true;
 
 	protected SpriteManager spriteManager;
 
@@ -372,7 +375,7 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseInputL
 		bufferGraphics.drawImage(this.backgroundImage, 0, 0, this);
 
 		// Call a custom paint or a default paint.
-		if (!paintGameboard) {
+		if (!enablePrintGameboard) {
 			this.printGraphicElements((Graphics2D) bufferGraphics);
 			this.spriteManager.paintSprites(bufferGraphics, this);
 			this.spriteManager.paintObstacules(bufferGraphics);
@@ -497,12 +500,12 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseInputL
 		paint(g);
 	}
 
-	public boolean isPaintGameboard() {
-		return paintGameboard;
+	public boolean isEnablePrintGameboard() {
+		return enablePrintGameboard;
 	}
 
-	public void setPaintGameboard(boolean paintGameboard) {
-		this.paintGameboard = paintGameboard;
+	public void setEnablePrintGameboard(boolean enableGameboard) {
+		this.enablePrintGameboard = enableGameboard;
 	}
 
 }
