@@ -6,8 +6,6 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.MediaTracker;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -92,6 +90,8 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseInputL
 	 * based in the Drive Elaboratin Theory that contains seven phases.
 	 */
 	private Integer phase;
+
+	private boolean paintGameboard = true;
 
 	protected SpriteManager spriteManager;
 
@@ -297,93 +297,113 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseInputL
 
 	/**
 	 * This method should be implemented if it is required to implement a custom
-	 * a paint to the phase one of Drive Elaboration. Leave it blank if you
-	 * don't want to implement this phase.
+	 * paint different of the default.
 	 * 
 	 * @param g
 	 */
-	public abstract void paintPhaseOne(Graphics g);
+	public abstract void paintGameBoard(Graphics g);
 
 	/**
 	 * This method should be implemented if it is required to implement a custom
-	 * a paint to the phase two of Drive Elaboration. Leave it blank if you
+	 * processing to the phase one of Drive Elaboration. Leave it blank if you
 	 * don't want to implement this phase.
 	 * 
 	 * @param g
 	 */
-	public abstract void paintPhaseTwo(Graphics g);
+	public abstract void handlePhaseOne();
 
 	/**
 	 * This method should be implemented if it is required to implement a custom
-	 * a paint to the phase three of Drive Elaboration. Leave it blank if you
+	 * processing to the phase two of Drive Elaboration. Leave it blank if you
 	 * don't want to implement this phase.
 	 * 
 	 * @param g
 	 */
-	public abstract void paintPhaseThree(Graphics g);
+	public abstract void handlePhaseTwo();
 
 	/**
 	 * This method should be implemented if it is required to implement a custom
-	 * a paint to the phase four of Drive Elaboration. Leave it blank if you
+	 * processing to the phase three of Drive Elaboration. Leave it blank if you
 	 * don't want to implement this phase.
 	 * 
 	 * @param g
 	 */
-	public abstract void paintPhaseFour(Graphics g);
+	public abstract void handlePhaseThree();
 
 	/**
 	 * This method should be implemented if it is required to implement a custom
-	 * a paint to the phase five of Drive Elaboration. Leave it blank if you
+	 * processing to the phase four of Drive Elaboration. Leave it blank if you
 	 * don't want to implement this phase.
 	 * 
 	 * @param g
 	 */
-	public abstract void paintPhaseFive(Graphics g);
+	public abstract void handlePhaseFour();
 
 	/**
 	 * This method should be implemented if it is required to implement a custom
-	 * a paint to the phase six of Drive Elaboration. Leave it blank if you
+	 * processing to the phase five of Drive Elaboration. Leave it blank if you
 	 * don't want to implement this phase.
 	 * 
 	 * @param g
 	 */
-	public abstract void paintPhaseSix(Graphics g);
+	public abstract void handlePhaseFive();
 
 	/**
 	 * This method should be implemented if it is required to implement a custom
-	 * a paint to the phase seven of Drive Elaboration. Leave it blank if you
+	 * processing to the phase six of Drive Elaboration. Leave it blank if you
 	 * don't want to implement this phase.
 	 * 
 	 * @param g
 	 */
-	public abstract void paintPhaseSeven(Graphics g);
+	public abstract void handlePhaseSix();
+
+	/**
+	 * This method should be implemented if it is required to implement a custom
+	 * processing to the phase seven of Drive Elaboration. Leave it blank if you
+	 * don't want to implement this phase.
+	 * 
+	 * @param g
+	 */
+	public abstract void handlePhaseSeven();
 
 	public final void paint(Graphics g) {
 		// implementing double buffering
 		bufferGraphics.clearRect(0, 0, this.getScreenWidth(), this.getScreenHeight());
 		bufferGraphics.drawImage(this.backgroundImage, 0, 0, this);
 
-		// Call the custom paint for each phase and a default one if the phase is not setted.
-		if (this.phase == null) {
+		// Call a custom paint or a default paint.
+		if (!paintGameboard) {
 			this.printGraphicElements((Graphics2D) bufferGraphics);
 			this.spriteManager.paintSprites(bufferGraphics, this);
 			this.spriteManager.paintObstacules(bufferGraphics);
-		} else if (this.phase.equals(PHASE_ONE))
-			this.paintPhaseOne((Graphics2D) bufferGraphics);
-		else if (this.phase.equals(PHASE_TWO))
-			this.paintPhaseTwo(bufferGraphics);
-		else if (this.phase.equals(PHASE_THREE))
-			this.paintPhaseThree(bufferGraphics);
-		else if (this.phase.equals(PHASE_FOUR))
-			this.paintPhaseFour(bufferGraphics);
-		else if (this.phase.equals(PHASE_FIVE))
-			this.paintPhaseFive(bufferGraphics);
-		else if (this.phase.equals(PHASE_SIX))
-			this.paintPhaseSix(bufferGraphics);
-		else if (this.phase.equals(PHASE_SEVEN))
-			this.paintPhaseSeven(bufferGraphics);
+		} else
+			this.paintGameBoard(bufferGraphics);
 
 		g.drawImage(offscreen, 0, 0, this);
+	}
+
+	/**
+	 * Method that call a handle during a phase change.
+	 * 
+	 * @param phase
+	 */
+	public void changePhase(Integer phase) {
+		this.phase = phase;
+
+		if (this.phase.equals(PHASE_ONE))
+			this.handlePhaseOne();
+		else if (this.phase.equals(PHASE_TWO))
+			this.handlePhaseTwo();
+		else if (this.phase.equals(PHASE_THREE))
+			this.handlePhaseThree();
+		else if (this.phase.equals(PHASE_FOUR))
+			this.handlePhaseFour();
+		else if (this.phase.equals(PHASE_FIVE))
+			this.handlePhaseFive();
+		else if (this.phase.equals(PHASE_SIX))
+			this.handlePhaseSix();
+		else if (this.phase.equals(PHASE_SEVEN))
+			this.handlePhaseSeven();
 	}
 
 	/**
@@ -443,15 +463,6 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseInputL
 	}
 
 	/**
-	 * This method should be called if you want to change the phase of the game.
-	 * 
-	 * @param phase
-	 */
-	public void setPhase(Integer phase) {
-		this.phase = phase;
-	}
-
-	/**
 	 * Subclasses may customize its own SpriteManager class, adding specific
 	 * functionalities to dealing with sprites and how their responses to mouse
 	 * events.<br>
@@ -484,6 +495,14 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseInputL
 
 	public void update(Graphics g) {
 		paint(g);
+	}
+
+	public boolean isPaintGameboard() {
+		return paintGameboard;
+	}
+
+	public void setPaintGameboard(boolean paintGameboard) {
+		this.paintGameboard = paintGameboard;
 	}
 
 }
