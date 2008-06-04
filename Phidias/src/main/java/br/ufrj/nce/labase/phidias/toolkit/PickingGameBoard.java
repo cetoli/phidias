@@ -54,14 +54,14 @@ public abstract class PickingGameBoard extends GameBoard {
 	 */
 	protected abstract Point2D getImageCoordinate();
 
-
-	
 	private void setNextSpriteElement() {
-		this.currentSprite = randomSprites.remove( generator.nextInt(randomSprites.size()) );
-		if (this.currentImage == null){
-			this.currentImage = new StaticImage(this.getImageCoordinate(), currentSprite.getImage());
-		} else {
-			this.currentImage.setImage(currentSprite.getImage());
+		if (randomSprites.size() >0){
+			this.currentSprite = randomSprites.remove( generator.nextInt(randomSprites.size()) );
+			if (this.currentImage == null){
+				this.currentImage = new StaticImage(this.getImageCoordinate(), currentSprite.getImage());
+			} else {
+				this.currentImage.setImage(currentSprite.getImage());
+			}
 		}
 	}
 	
