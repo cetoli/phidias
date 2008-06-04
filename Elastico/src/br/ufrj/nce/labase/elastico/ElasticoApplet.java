@@ -262,8 +262,6 @@ public class ElasticoApplet extends GameBoard {
 		try {
 
 			setSize(new Dimension(WIDTH, HEIGHT));
-			addMouseListener(this);
-			addMouseMotionListener(this);
 			this.spriteManager.setSpriteHoverEnabled(true);
 			this.changePhase(PHASE_ONE);
 			this.inicializaPinos();
