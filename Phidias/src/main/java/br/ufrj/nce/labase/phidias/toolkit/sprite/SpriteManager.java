@@ -1,6 +1,7 @@
 package br.ufrj.nce.labase.phidias.toolkit.sprite;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
@@ -10,7 +11,6 @@ import java.util.List;
 import java.util.ListIterator;
 
 import br.ufrj.nce.labase.phidias.toolkit.filter.GraphicFilter;
-import br.ufrj.nce.labase.phidias.toolkit.filter.HighLightGraphicFilter;
 import br.ufrj.nce.labase.phidias.toolkit.graphic.GraphicPrintElement;
 
 /**
@@ -27,16 +27,16 @@ import br.ufrj.nce.labase.phidias.toolkit.graphic.GraphicPrintElement;
 public class SpriteManager {
 
 	/**
-	 * List with Sprite intances to be used by this game. This list is read from the end to
-	 * the beginnig when the sprites are printed on screen, so that the last sprite printed remains
-	 * on top of other.
-	 * When application looks for a sprite in a specified screen location, the list is read
-	 * from the beginning to the end, so that the first sprite (on top of others) would be
-	 * returned.
-	 * When a sprite is clicked (on mousePressed event), it is moved to the beginning of the list.
+	 * List with Sprite intances to be used by this game. This list is read from
+	 * the end to the beginnig when the sprites are printed on screen, so that
+	 * the last sprite printed remains on top of other. When application looks
+	 * for a sprite in a specified screen location, the list is read from the
+	 * beginning to the end, so that the first sprite (on top of others) would
+	 * be returned. When a sprite is clicked (on mousePressed event), it is
+	 * moved to the beginning of the list.
 	 */
 	List<Sprite> sprites = new LinkedList<Sprite>();
-	
+
 	private Sprite currentSprite;
 
 	/**
@@ -44,7 +44,7 @@ public class SpriteManager {
 	 */
 	private Sprite hoveredSprite;
 
-	private List<GraphicPrintElement> obstacules;
+	private List<GraphicPrintElement> graphicPrintElement;
 
 	/**
 	 * Special sprite type, used to represent Non Playable Characters,
@@ -59,21 +59,6 @@ public class SpriteManager {
 	 * current sprite among others.
 	 */
 	private boolean spriteHoverEnabled = false;
-
-	/**
-	 * List of Graphic filters to be applied on Sprites on paint method, when
-	 * spriteHoverEnabled attribute is set to true.
-	 */
-	private List<GraphicFilter> hoverFilters = new ArrayList<GraphicFilter>();
-
-	public SpriteManager() {
-		// by default, adds brighter filter to hoverFilters collection.
-		this.hoverFilters.add(new HighLightGraphicFilter());
-	}
-
-	public void addHoverFilter(GraphicFilter filter) {
-		this.hoverFilters.add(filter);
-	}
 
 	/**
 	 * Adds Sprite to be managed by this instance.
@@ -182,7 +167,7 @@ public class SpriteManager {
 	 */
 	public void mousePressed(MouseEvent e) {
 		this.currentSprite = findSprite(e.getX(), e.getY());
-		if (this.currentSprite != null){
+		if (this.currentSprite != null) {
 			this.currentSprite.mousePressed(e);
 			// moving to the beginning of the list
 			this.sprites.remove(currentSprite);
@@ -227,11 +212,22 @@ public class SpriteManager {
 
 		if (this.spriteHoverEnabled && this.hoveredSprite != null) {
 			BufferedImage image = hoveredSprite.getImage();
-			for (GraphicFilter graphicFilter : this.hoverFilters) {
+			for (GraphicFilter graphicFilter : this.hoveredSprite.getHoverFilters()) {
 				image = graphicFilter.filter(image);
 			}
 			if (image != null)
 				graphics.drawImage(image, (int) hoveredSprite.getPosX(), (int) hoveredSprite.getPosY(), imgObserver);
+		}
+	}
+
+	/**
+	 * Method for printing obstacules on screen.
+	 * 
+	 * @param graphics
+	 */
+	public void paintObstacules(Graphics graphics) {
+		for (GraphicPrintElement obstacule : this.graphicPrintElement) {
+			obstacule.print((Graphics2D) graphics);
 		}
 	}
 
@@ -246,8 +242,8 @@ public class SpriteManager {
 	public void hideNpc() {
 		this.npc.setVisible(false);
 	}
-	
-	public void showNpc(){
+
+	public void showNpc() {
 		this.npc.setVisible(true);
 	}
 
@@ -298,27 +294,19 @@ public class SpriteManager {
 		this.spriteHoverEnabled = spriteHoverEnabled;
 	}
 
-	public List<GraphicFilter> getHoverFilters() {
-		return hoverFilters;
+	public List<GraphicPrintElement> getGraphicPrintElement() {
+		return graphicPrintElement;
 	}
 
-	public void setHoverFilters(List<GraphicFilter> hoverFilters) {
-		this.hoverFilters = hoverFilters;
+	public void setGraphicPrintElement(List<GraphicPrintElement> obstacules) {
+		this.graphicPrintElement = obstacules;
 	}
 
-	public List<GraphicPrintElement> getObstacules() {
-		return obstacules;
-	}
+	public boolean addGraphicPrintElement(GraphicPrintElement o) {
+		if (graphicPrintElement == null)
+			graphicPrintElement = new ArrayList<GraphicPrintElement>();
 
-	public void setObstacules(List<GraphicPrintElement> obstacules) {
-		this.obstacules = obstacules;
-	}
-
-	public boolean addObstacule(GraphicPrintElement o) {
-		if (obstacules == null)
-			obstacules = new ArrayList<GraphicPrintElement>();
-
-		return obstacules.add(o);
+		return graphicPrintElement.add(o);
 	}
 
 }
