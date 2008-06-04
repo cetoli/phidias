@@ -45,7 +45,7 @@ public class ElasticoApplet extends GameBoard {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			setPhase(intern_phase);
+			changePhase(intern_phase);
 		}
 	}
 
@@ -190,7 +190,7 @@ public class ElasticoApplet extends GameBoard {
 		List<GraphicFilter> listFilter = new ArrayList<GraphicFilter>();
 		listFilter.add(new HighLightGraphicFilter());
 		listFilter.add(new ThumbnailGraphicFilter());
-		
+
 		for (int x = 0; (x + WIDTH_CARTA) < WIDTH; x += WIDTH_CARTA) {
 			image = Images.getBufferedImage(this.getImageName(cartas.get(idimagem) + " [80x60].GIF"));
 			this.addSprite(new Carta(this.spriteManager, new Point2D.Double(x, 0), image, listFilter));
@@ -265,7 +265,7 @@ public class ElasticoApplet extends GameBoard {
 			addMouseListener(this);
 			addMouseMotionListener(this);
 			this.spriteManager.setSpriteHoverEnabled(true);
-			this.setPhase(PHASE_ONE);
+			this.changePhase(PHASE_ONE);
 			this.inicializaPinos();
 			this.inicializaCartas();
 			this.inicializaPinoEstatico();
@@ -365,19 +365,14 @@ public class ElasticoApplet extends GameBoard {
 		}
 	}
 
-	@Override
-	public void paintPhaseFive(Graphics g) {
-		// TODO Auto-generated method stub
+	public void paintGameBoard(Graphics g) {
+		if (this.getPhase().equals(PHASE_ONE))
+			this.paintPhaseOne(g);
+		else if (this.getPhase().equals(PHASE_TWO))
+			this.paintPhaseTwo(g);
 
 	}
 
-	@Override
-	public void paintPhaseFour(Graphics g) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void paintPhaseOne(Graphics g) {
 
 		Graphics2D g2d = (Graphics2D) g;
@@ -385,36 +380,8 @@ public class ElasticoApplet extends GameBoard {
 		g2d.drawImage(im, (WIDTH - im.getWidth()) / 2, (HEIGHT - im.getHeight()) / 2, im.getWidth(), im.getHeight(), this);
 		g2d.setFont(new Font("Times New Roman", 1, 50));
 		g2d.drawString("Jogo dos Elásticos", (((WIDTH - im.getWidth()) / 2) + im.getWidth()) / 2 - 40, ((HEIGHT - im.getHeight()) / 2) - 20);
-
-		if (!phaseOneCalled) {
-			phaseOneCalled = true;
-			// Mantém a fase 1 por 5 segundos para a criança ver as peças do
-			// cenário.
-			this.phaseTimer = new Timer(5000, new AutomaticChangePhaseStartTimer(PHASE_TWO));
-			this.phaseTimer.start();
-		}
-
 	}
 
-	@Override
-	public void paintPhaseSeven(Graphics g) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void paintPhaseSix(Graphics g) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void paintPhaseThree(Graphics g) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void paintPhaseTwo(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 
@@ -439,6 +406,55 @@ public class ElasticoApplet extends GameBoard {
 			elastico.print(g2d);
 		}
 
+	}
+
+	@Override
+	public void handlePhaseFive() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void handlePhaseFour() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void handlePhaseOne() {
+		System.out.println("Mudança Fase 1");
+
+		if (!phaseOneCalled) {
+			phaseOneCalled = true;
+			// Mantém a fase 1 por 5 segundos para a criança ver as peças do
+			// cenário.
+			this.phaseTimer = new Timer(5000, new AutomaticChangePhaseStartTimer(PHASE_TWO));
+			this.phaseTimer.start();
+		}
+	}
+
+	@Override
+	public void handlePhaseSeven() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void handlePhaseSix() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void handlePhaseThree() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void handlePhaseTwo() {
+		// TODO Auto-generated method stub
+		System.out.println("Mudança Fase 2");
 	}
 
 }
