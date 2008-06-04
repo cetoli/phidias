@@ -3,7 +3,6 @@ package br.ufrj.nce.labase.elastico;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 
 import br.ufrj.nce.labase.phidias.toolkit.graphic.GraphicPrintElement;
@@ -16,9 +15,10 @@ public class Pino extends GraphicPrintElement {
 
 	private boolean selected;
 
-	public Pino(Color color, Shape body) {
+	public Pino(Color color, Ellipse2D body) {
 		super(color, body);
-		// TODO Auto-generated constructor stub
+
+		this.internBody = new Ellipse2D.Double(body.getX() + (body.getWidth() / 4), body.getY() + (body.getHeight() / 4), (body.getWidth() / 2), (body.getWidth() / 2));
 	}
 
 	public boolean isEnabled() {
@@ -50,15 +50,6 @@ public class Pino extends GraphicPrintElement {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
-	}
-
-	public void setPinoBody(Ellipse2D body) {
-		// TODO Auto-generated method stub
-		this.setBody(body);
-
-		if (body != null) {
-			this.internBody = new Ellipse2D.Double(body.getX() + (body.getWidth() / 4), body.getY() + (body.getHeight() / 4), (body.getWidth() / 2), (body.getWidth() / 2));
-		}
 	}
 
 	public void setSelected(boolean selecionado) {
