@@ -427,6 +427,7 @@ public class ElasticoApplet extends GameBoard {
 			// Mantém a fase 1 por 5 segundos para a criança ver as peças do
 			// cenário.
 			this.phaseTimer = new Timer(5000, new AutomaticChangePhaseStartTimer(PHASE_TWO));
+			this.phaseTimer.setRepeats(false);
 			this.phaseTimer.start();
 		}
 	}
