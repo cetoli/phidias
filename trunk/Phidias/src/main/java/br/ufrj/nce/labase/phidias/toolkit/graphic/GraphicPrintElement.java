@@ -3,26 +3,34 @@ package br.ufrj.nce.labase.phidias.toolkit.graphic;
 import java.awt.Color;
 import java.awt.Shape;
 
+/**
+ * Used for representing non-sprite elements and Geometric Graphics 2D Objects like Rectangle, Ellipse
+ * and Polygons filled by a Color and should be referenced into the Gameboad.
+ * 
+ * @author Andre Moraes
+ * 
+ */
+public abstract class GraphicPrintElement implements GraphicPrintable {
 
-public abstract class GraphicPrintElement implements GraphicPrintable{
-
-	private Color color;
 	private Shape body;
+	private Color color;
 
-	public GraphicPrintElement() {
+	public GraphicPrintElement(Color color, Shape body) {
 		super();
+		this.color = color;
+		this.body = body;
 	}
 
 	public Shape getBody() {
 		return body;
 	}
 
-	public void setBody(Shape body) {
-		this.body = body;
-	}
-
 	public Color getColor() {
 		return color;
+	}
+
+	public void setBody(Shape body) {
+		this.body = body;
 	}
 
 	public void setColor(Color color) {
