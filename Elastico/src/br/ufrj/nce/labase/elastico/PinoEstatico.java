@@ -15,7 +15,7 @@ public class PinoEstatico extends StaticImage {
 		if (!this.isSelected())
 			return super.getImage();
 		else
-			return new RescaleOp(1.5f, 0, null).filter((BufferedImage) super.getImage(), null);
+			return new RescaleOp(4.0f, 0, null).filter((BufferedImage) super.getImage(), null);
 	}
 
 	private boolean selected;

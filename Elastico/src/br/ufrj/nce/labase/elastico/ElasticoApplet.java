@@ -87,7 +87,7 @@ public class ElasticoApplet extends GameBoard {
 		WIDTH_PAINEL = 60;
 		HEIGHT_PAINEL = 15;
 
-		DISTANCIA_PECA = 125;
+		DISTANCIA_PECA = 120;
 		TAMANHO_PINO = 30;
 
 		WIDTH_CARTA = 60;
@@ -96,7 +96,7 @@ public class ElasticoApplet extends GameBoard {
 		Dimension dimension_screen = Toolkit.getDefaultToolkit().getScreenSize();
 
 		WIDTH = dimension_screen.width;
-		HEIGHT = dimension_screen.height;
+		HEIGHT = dimension_screen.height - 20;
 
 		TABULEIRO_X_MIN = 65;
 		TABULEIRO_Y_MIN = 85;
@@ -232,14 +232,14 @@ public class ElasticoApplet extends GameBoard {
 		// Inicializa a paleta de elasticos
 		PaletaCorElastico paleta = null;
 		for (int i = 0; i < this.elasticosColor.length; i++) {
-			paleta = new PaletaCorElastico(new Rectangle2D.Double(PAINEL_X_MAX, PAINEL_Y_MAX, WIDTH_PAINEL, HEIGHT_PAINEL), this.elasticosColor[i], this.elasticosDescription[i]);
+			paleta = new PaletaCorElastico(new Ellipse2D.Double(PAINEL_X_MAX, PAINEL_Y_MAX, WIDTH_PAINEL, HEIGHT_PAINEL), this.elasticosColor[i], this.elasticosDescription[i]);
 			painel.add(paleta);
 			PAINEL_Y_MAX = PAINEL_Y_MAX + HEIGHT_PAINEL;
 		}
 	}
 
 	private void inicializaPinoEstatico() {
-		this.pinoEstatico = new PinoEstatico(new Point2D.Double(PAINEL_X_MIN, PAINEL_Y_MIN + 30), Images.getBufferedImage(this.getImageName("DSC02456 [80x60].gif")));
+		this.pinoEstatico = new PinoEstatico(new Point2D.Double(PAINEL_X_MIN, PAINEL_Y_MIN + 30), Images.getBufferedImage(this.getImageName("DSC02667 [80x60].jpg")));
 	}
 
 	/**
@@ -303,33 +303,29 @@ public class ElasticoApplet extends GameBoard {
 				this.pinoEstatico.setSelected(false);
 		}
 
-		// Trata habilitacao de pinos
+		// Trata a inserção de pinos no tabuleiro
 		if (this.pinoEstatico.isSelected()) {
-			if (this.elasticoCorrente == null) {
-				for (Pino pino : pinos) {
-					ellipse = (Ellipse2D) pino.getBody();
-					// Verifica se o ponto clicado é de algum pino e habilita o
-					// pino
-					// para o elastico
-					if (ellipse.getBounds2D().contains(e.getX(), e.getY())) {
+			for (Pino pino : pinos) {
+				ellipse = (Ellipse2D) pino.getBody();
+				// Verifica se o ponto clicado é de algum pino e habilita o
+				// pino
+				// para o elastico
+				if (ellipse.getBounds2D().contains(e.getX(), e.getY())) {
+					if (!pino.isSelected()) {
 						if (!pino.isEnabled()) {
 							pino.setEnabled(true);
 							pino.setColor(Color.GRAY);
-						} else {
+						} else if (this.elasticoCorrente == null) {
 							pino.setEnabled(false);
 							pino.setColor(Color.BLACK);
 						}
-
 					}
 				}
 			}
 		}
 
-		// Trata os eventos 2D dos Pinos
+		// Trata os eventos de inserção do elástico no tabuleiro.
 		if (this.elasticoCorrente != null) {
-			// JOptionPane.showMessageDialog(this, "Escolha um elástico para
-			// montar o cenário!");
-			// return;
 
 			for (Pino pino : pinos) {
 				ellipse = (Ellipse2D) pino.getBody();

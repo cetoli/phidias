@@ -30,7 +30,6 @@ public class Pino extends GraphicPrintElement {
 	}
 
 	public void print(Graphics2D g2d) {
-
 		if (this.isEnabled() || this.isSelected())
 			g2d.setStroke(new BasicStroke(8.0f));
 		else
