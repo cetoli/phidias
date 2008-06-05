@@ -1,5 +1,6 @@
 package br.ufrj.nce.labase.attention.montapecas;
 
+import java.awt.Graphics;
 import java.awt.Point;
 
 import br.ufrj.nce.labase.phidias.toolkit.GameBoard;
@@ -12,7 +13,6 @@ public class MontaPecasGameBoard extends GameBoard {
 
 	@Override
 	public void initGame() {
-		this.setScreenSize(800, 600);
 		this.setBackgroundImage("jmonta_pedacos.jpg");
 		
 		this.addGraphicPrintable(new StaticImage(new Point(604, 190), this.getImageName("montapedacos_silueta.gif")));
@@ -31,5 +31,47 @@ public class MontaPecasGameBoard extends GameBoard {
 	@Override
 	public String getImagesPackageName() {
 		return IMAGES_PACKAGE;
+	}
+
+	@Override
+	public int getScreenHeight() {
+		return 600;
+	}
+
+	@Override
+	public int getScreenWidth() {
+		return 800;
+	}
+
+	@Override
+	public void handlePhaseFive() {
+	}
+
+	@Override
+	public void handlePhaseFour() {
+	}
+
+	@Override
+	public void handlePhaseOne() {
+	}
+
+	@Override
+	public void handlePhaseSeven() {
+	}
+
+	@Override
+	public void handlePhaseSix() {
+	}
+
+	@Override
+	public void handlePhaseThree() {
+	}
+
+	@Override
+	public void handlePhaseTwo() {
+	}
+
+	@Override
+	public void paintGameBoard(Graphics g) {
 	}
 }

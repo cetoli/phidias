@@ -94,7 +94,7 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseInputL
 	/**
 	 * Attribute that enables the execution of the method enablePrintGameboard.
 	 */
-	private boolean enablePrintGameboard = true;
+	private boolean enablePrintGameboard = false;
 
 	protected SpriteManager spriteManager;
 
@@ -236,6 +236,8 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseInputL
 
 		this.initGame();
 
+		this.setSize(getScreenWidth(), getScreenHeight());
+
 		// TODO: check if MediaTracker is really needed in this context
 		MediaTracker mt = new MediaTracker(this);
 		if (this.backgroundImage != null)
@@ -369,7 +371,7 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseInputL
 	 */
 	public abstract void handlePhaseSeven();
 
-	public final void paint(Graphics g) {
+	public  void paint(Graphics g) {
 		// implementing double buffering
 		bufferGraphics.clearRect(0, 0, this.getScreenWidth(), this.getScreenHeight());
 		bufferGraphics.drawImage(this.backgroundImage, 0, 0, this);
@@ -378,7 +380,7 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseInputL
 		if (!enablePrintGameboard) {
 			this.printGraphicElements((Graphics2D) bufferGraphics);
 			this.spriteManager.paintSprites(bufferGraphics, this);
-			this.spriteManager.paintObstacules(bufferGraphics);
+			this.spriteManager.paintGraphicElements(bufferGraphics);
 		} else
 			this.paintGameBoard(bufferGraphics);
 

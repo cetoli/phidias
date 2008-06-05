@@ -1,5 +1,6 @@
 package br.ufrj.nce.labase.attention.bichos;
 
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 
@@ -11,7 +12,6 @@ public class BichosGameBoard extends PickingGameBoard{
 	private static final String IMAGES_PACKAGE = "br.ufrj.nce.labase.attention.bichos.images"; 
 		
 	public void initPickingGame(){
-		this.setScreenSize(800, 600);
 		this.setBackgroundImage("background.gif");
 
 		this.createSprite(new Point(391,128), "abelha1.gif");
@@ -54,7 +54,6 @@ public class BichosGameBoard extends PickingGameBoard{
 		this.createSprite(new Point(218,168), "veado1.gif");
 		this.createSprite(new Point(100,128), "zebra-1.gif");
 		
-		this.getSpriteManager().setSpriteHoverEnabled(true);
 		
 //		this.setNpc(new NPC(this.getSpriteManager(), new Point(600, 160), this.getImageName("NPC.gif")));
 
@@ -72,4 +71,45 @@ public class BichosGameBoard extends PickingGameBoard{
 		return IMAGES_PACKAGE;
 	}
 
+	@Override
+	public int getScreenHeight() {
+		return 600;
+	}
+
+	@Override
+	public int getScreenWidth() {
+		return 800;
+	}
+
+	@Override
+	public void handlePhaseFive() {
+	}
+
+	@Override
+	public void handlePhaseFour() {
+	}
+
+	@Override
+	public void handlePhaseOne() {
+	}
+
+	@Override
+	public void handlePhaseSeven() {
+	}
+
+	@Override
+	public void handlePhaseSix() {
+	}
+
+	@Override
+	public void handlePhaseThree() {
+	}
+
+	@Override
+	public void handlePhaseTwo() {
+	}
+
+	@Override
+	public void paintGameBoard(Graphics g) {
+	}
 }

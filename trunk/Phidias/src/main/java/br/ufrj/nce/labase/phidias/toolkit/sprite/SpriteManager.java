@@ -167,13 +167,14 @@ public class SpriteManager {
 	 */
 	public void mousePressed(MouseEvent e) {
 		this.currentSprite = findSprite(e.getX(), e.getY());
-		if (this.currentSprite != null) {
+		// Sprites are only ment to react to mouse events (such as moving to the beginig o the list)
+		// if their dragEnabled property is enabled.
+		if (this.currentSprite != null && this.currentSprite.isDragEnabled()==true){
 			this.currentSprite.mousePressed(e);
 			// moving to the beginning of the list
 			this.sprites.remove(currentSprite);
 			this.sprites.add(0, currentSprite);
 		}
-
 	}
 
 	public List<Sprite> spritesCollided(Sprite sprite) {
@@ -221,13 +222,15 @@ public class SpriteManager {
 	}
 
 	/**
-	 * Method for printing obstacules on screen.
+	 * Method for printing graphic elements on screen.
 	 * 
 	 * @param graphics
 	 */
-	public void paintObstacules(Graphics graphics) {
-		for (GraphicPrintElement obstacule : this.graphicPrintElement) {
-			obstacule.print((Graphics2D) graphics);
+	public void paintGraphicElements(Graphics graphics) {
+		if (this.graphicPrintElement != null){
+			for (GraphicPrintElement element : this.graphicPrintElement) {
+				element.print((Graphics2D) graphics);
+			}
 		}
 	}
 
@@ -309,4 +312,7 @@ public class SpriteManager {
 		return graphicPrintElement.add(o);
 	}
 
+	public Sprite getCurrentSprite() {
+		return currentSprite;
+	}
 }
