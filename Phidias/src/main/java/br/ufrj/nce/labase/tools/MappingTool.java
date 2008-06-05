@@ -102,4 +102,62 @@ public class MappingTool extends GameBoard {
     public String getImageFile(){
     	return this.imageFile;
     }
+
+	@Override
+	public int getScreenHeight() {
+		return 600;
+	}
+
+	@Override
+	public int getScreenWidth() {
+		return 800;
+	}
+
+	@Override
+	public void handlePhaseFive() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void handlePhaseFour() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void handlePhaseOne() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void handlePhaseSeven() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void handlePhaseSix() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void handlePhaseThree() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void handlePhaseTwo() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void paintGameBoard(Graphics g) {
+		// TODO Auto-generated method stub
+		
+	}
 }

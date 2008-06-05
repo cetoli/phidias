@@ -1,5 +1,6 @@
 package br.ufrj.nce.labase.attention.castelo;
 
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 
@@ -11,7 +12,6 @@ public class CasteloGameBoard extends PickingGameBoard {
 	private static final String IMAGES_PACKAGE = "br.ufrj.nce.labase.attention.castelo.images"; 
 	
 	public void initPickingGame(){
-		this.setScreenSize(800, 600);
 		this.setBackgroundImage("castelo.gif");
 
 		this.createSprite(new Point(45,150), "peca1.gif");
@@ -50,4 +50,45 @@ public class CasteloGameBoard extends PickingGameBoard {
 		return IMAGES_PACKAGE;
 	}
 
+	@Override
+	public int getScreenHeight() {
+		return 600;
+	}
+
+	@Override
+	public int getScreenWidth() {
+		return 800;
+	}
+
+	@Override
+	public void handlePhaseFive() {
+	}
+
+	@Override
+	public void handlePhaseFour() {
+	}
+
+	@Override
+	public void handlePhaseOne() {
+	}
+
+	@Override
+	public void handlePhaseSeven() {
+	}
+
+	@Override
+	public void handlePhaseSix() {
+	}
+
+	@Override
+	public void handlePhaseThree() {
+	}
+
+	@Override
+	public void handlePhaseTwo() {
+	}
+
+	@Override
+	public void paintGameBoard(Graphics g) {
+	}
 }
