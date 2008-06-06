@@ -1,0 +1,39 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence 
+    http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
+	version="1.0">
+	<persistence-unit name="CriaContoPersist"
+		transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<class>br.ufrj.nce.labase.phidias.persistence.model.Action</class>
+		<class>br.ufrj.nce.labase.phidias.persistence.model.ActionType</class>
+		<class>br.ufrj.nce.labase.phidias.persistence.model.Attendant</class>
+		<class>br.ufrj.nce.labase.phidias.persistence.model.Game</class>
+		<class>br.ufrj.nce.labase.phidias.persistence.model.GamePhase</class>
+		<class>br.ufrj.nce.labase.phidias.persistence.model.Keyword</class>
+		<class>br.ufrj.nce.labase.phidias.persistence.model.Patient</class>
+		<class>br.ufrj.nce.labase.phidias.persistence.model.Question</class>
+		<class>br.ufrj.nce.labase.phidias.persistence.model.Session</class>
+		<class>br.ufrj.nce.labase.phidias.persistence.model.SessionGamePhase</class>
+		<class>br.ufrj.nce.labase.phidias.persistence.model.SessionGamePhaseId</class>
+		<class>br.ufrj.nce.labase.phidias.persistence.model.SessionGamePhaseStimulusType</class>
+		<class>br.ufrj.nce.labase.phidias.persistence.model.SessionQuestion</class>
+		<class>br.ufrj.nce.labase.phidias.persistence.model.SessionQuestionId</class>
+		<class>br.ufrj.nce.labase.phidias.persistence.model.StimulusType</class>
+		<class>br.ufrj.nce.labase.phidias.persistence.model.WordClassification</class>
+		<properties>
+			<property name="hibernate.connection.driver_class"
+				value="com.mysql.jdbc.Driver" />
+			<property name="hibernate.connection.url"
+				value="jdbc:mysql://localhost:3306/criacontobd" />
+			<property name="hibernate.connection.username"
+				value="criacontouser" />
+			<property name="hibernate.connection.password"
+				value="criaconto" />
+			<property name="hibernate.dialect"
+				value="org.hibernate.dialect.MySQLDialect" />
+			<property name="hibernate.show_sql" value="true" />
+		</properties>
+		</persistence-unit>
+</persistence>
