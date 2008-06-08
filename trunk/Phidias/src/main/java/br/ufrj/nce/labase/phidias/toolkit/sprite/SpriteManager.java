@@ -200,8 +200,9 @@ public class SpriteManager {
 	 */
 	public void paintSprites(Graphics graphics, ImageObserver imgObserver) {
 		// reverse reading of sprites list
+		Sprite sprite;
 		for (ListIterator<Sprite> iterator = this.sprites.listIterator(sprites.size()); iterator.hasPrevious();) {
-			Sprite sprite = iterator.previous();
+			sprite = iterator.previous();
 			if (sprite.isVisible()) {
 				paintSprite(sprite, graphics, imgObserver);
 			}
