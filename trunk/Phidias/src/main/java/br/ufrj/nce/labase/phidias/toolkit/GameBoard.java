@@ -443,7 +443,7 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseInputL
 		while (true) {
 			repaint();
 			try {
-				Thread.sleep(20);
+				Thread.sleep(50);
 			} catch (InterruptedException ex) {
 			}
 

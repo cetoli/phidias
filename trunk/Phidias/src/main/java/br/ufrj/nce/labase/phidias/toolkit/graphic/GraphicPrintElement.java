@@ -14,6 +14,7 @@ public abstract class GraphicPrintElement implements GraphicPrintable {
 
 	private Shape body;
 	private Color color;
+	private boolean enabled;
 
 	public GraphicPrintElement(Color color, Shape body) {
 		super();
@@ -35,6 +36,14 @@ public abstract class GraphicPrintElement implements GraphicPrintable {
 
 	public void setColor(Color color) {
 		this.color = color;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 }
