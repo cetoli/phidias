@@ -56,7 +56,7 @@ public class Carta extends Sprite {
 	public void mouseReleased(MouseEvent e) {
 		List<GraphicPrintElement> obstacules = this.getSpriteManager().getGraphicPrintElement();
 		for (GraphicPrintElement obstacule : obstacules) {
-			if (obstacule.getBody().intersects(this.getBody())) {
+			if (obstacule.getBody().intersects(this.getBody()) && obstacule.isEnabled()) {
 				Point2D cartaInit = new Point2D.Double(this.getBody().getCenterX(), this.getBody().getCenterY());
 				Rectangle2D rectangle = obstacule.getBody().getBounds2D();
 				double obstaculeXYLeft = Math.abs(cartaInit.distance(rectangle.getMinX(), rectangle.getMinY()));
@@ -76,6 +76,8 @@ public class Carta extends Sprite {
 					this.setPosXY(rectangle.getMinX() - this.getBody().getWidth(), rectangle.getMaxY());
 				else if (obstaculeXYUpperRight <= obstaculeXYLeft && obstaculeXYUpperRight <= obstaculeXYRight && obstaculeXYUpperRight <= obstaculeXYUpperLeft)
 					this.setPosXY(rectangle.getMaxX(), rectangle.getMaxY());
+				
+				return;
 			}
 		}
 	}

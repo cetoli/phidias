@@ -9,8 +9,6 @@ import br.ufrj.nce.labase.phidias.toolkit.graphic.GraphicPrintElement;
 
 public class Pino extends GraphicPrintElement {
 
-	private boolean enabled;
-
 	private Ellipse2D internBody;
 
 	private boolean selected;
@@ -19,10 +17,6 @@ public class Pino extends GraphicPrintElement {
 		super(color, body);
 
 		this.internBody = new Ellipse2D.Double(body.getX() + (body.getWidth() / 4), body.getY() + (body.getHeight() / 4), (body.getWidth() / 2), (body.getWidth() / 2));
-	}
-
-	public boolean isEnabled() {
-		return enabled;
 	}
 
 	public boolean isSelected() {
@@ -45,10 +39,6 @@ public class Pino extends GraphicPrintElement {
 			g2d.fill(this.internBody);
 		}
 
-	}
-
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
 	}
 
 	public void setSelected(boolean selecionado) {

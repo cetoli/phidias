@@ -11,7 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -98,7 +97,7 @@ public class ElasticoApplet extends GameBoard {
 		WIDTH = dimension_screen.width;
 		HEIGHT = dimension_screen.height - 20;
 
-		TABULEIRO_X_MIN = 65;
+		TABULEIRO_X_MIN = 85;
 		TABULEIRO_Y_MIN = 85;
 		TABULEIRO_X_MAX = WIDTH - 150;
 		TABULEIRO_Y_MAX = HEIGHT - 200;
@@ -133,9 +132,9 @@ public class ElasticoApplet extends GameBoard {
 
 	private List<Elastico> elasticos = new ArrayList<Elastico>();
 
-	private Color[] elasticosColor = { Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.ORANGE, Color.CYAN };
+	private Color[] elasticosColor = { Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.MAGENTA, Color.CYAN };
 
-	private String[] elasticosDescription = { "Vermelho", "Azul", "Verde", "Amarelo", "Laranja", "Azul claro" };
+	private String[] elasticosDescription = { "Vermelho", "Azul", "Verde", "Amarelo", "Rosa", "Azul claro" };
 
 	private List<PaletaCorElastico> painel = new ArrayList<PaletaCorElastico>();
 
@@ -152,6 +151,7 @@ public class ElasticoApplet extends GameBoard {
 	public ElasticoApplet() {
 		super();
 		setBackground(Color.DARK_GRAY);
+		this.setEnablePrintGameboard(true);
 	}
 
 	@Override
@@ -239,7 +239,7 @@ public class ElasticoApplet extends GameBoard {
 	}
 
 	private void inicializaPinoEstatico() {
-		this.pinoEstatico = new PinoEstatico(new Point2D.Double(PAINEL_X_MIN, PAINEL_Y_MIN + 30), Images.getBufferedImage(this.getImageName("DSC02667 [80x60].jpg")));
+		this.pinoEstatico = new PinoEstatico(new Point2D.Double(PAINEL_X_MIN, PAINEL_Y_MIN + 15), Images.getBufferedImage(this.getImageName("pino2[80x60].jpg")));
 	}
 
 	/**
@@ -281,7 +281,6 @@ public class ElasticoApplet extends GameBoard {
 		super.mouseReleased(e);
 
 		// Trata os eventos 2D do Elastico corrente
-		Ellipse2D ellipse;
 		if (this.elasticoCorrente == null) {
 			for (PaletaCorElastico paletaCor : painel) {
 				if (paletaCor.getBody().contains(e.getX(), e.getY()) && !paletaCor.isDisabled()) {
@@ -303,57 +302,59 @@ public class ElasticoApplet extends GameBoard {
 				this.pinoEstatico.setSelected(false);
 		}
 
-		// Trata a inserção de pinos no tabuleiro
-		if (this.pinoEstatico.isSelected()) {
-			for (Pino pino : pinos) {
+		// Trata a recuperação do pino selecionado
+		Pino pinoSelecionado = null;
+		Ellipse2D ellipse = null;
+		for (Pino pino : pinos) {
+			ellipse = (Ellipse2D) pino.getBody();
+
+			if (ellipse.getBounds2D().contains(e.getX(), e.getY())) {
+				pinoSelecionado = pino;
 				ellipse = (Ellipse2D) pino.getBody();
-				// Verifica se o ponto clicado é de algum pino e habilita o
-				// pino
-				// para o elastico
-				if (ellipse.getBounds2D().contains(e.getX(), e.getY())) {
-					if (!pino.isSelected()) {
-						if (!pino.isEnabled()) {
-							pino.setEnabled(true);
-							pino.setColor(Color.GRAY);
-						} else if (this.elasticoCorrente == null) {
-							pino.setEnabled(false);
-							pino.setColor(Color.BLACK);
-						}
-					}
-				}
+				break;
 			}
 		}
 
-		// Trata os eventos de inserção do elástico no tabuleiro.
-		if (this.elasticoCorrente != null) {
+		// Verifica se o pino não está selecionado e habilita o pino para o uso
+		// do elastico ou tira o pina selecionado.
+		if (this.pinoEstatico.isSelected() && pinoSelecionado != null) {
+			if (!pinoSelecionado.isSelected()) {
+				if (!pinoSelecionado.isEnabled()) {
+					pinoSelecionado.setEnabled(true);
+					pinoSelecionado.setColor(Color.GRAY);
+				} else if (this.elasticoCorrente == null) {
+					pinoSelecionado.setEnabled(false);
+					pinoSelecionado.setColor(Color.BLACK);
+				}
+			} 
+		}
 
-			for (Pino pino : pinos) {
-				ellipse = (Ellipse2D) pino.getBody();
-				// Verifica se o ponto clicado é de algum pino
-				if (pino.isEnabled() && ellipse.getBounds2D().contains(e.getX(), e.getY())) {
+		// Trata os eventos de inserção do elástico no tabuleiro, verificando se o pino foi colocado, se o mesmo já tem algum elastico inserido 
+		if (this.elasticoCorrente != null && pinoSelecionado != null) {
 
-					// Adiciono a coordenada do elastico.
-					this.elasticoCorrente.addCoordenada(new Point((int) ellipse.getCenterX(), (int) ellipse.getCenterY()));
+			// Verifica se o ponto clicado é de algum pino
+			if (pinoSelecionado.isEnabled()) {
 
-					if (!pino.isSelected()) {
-						// Pinta o pino da cor do elastico corrente
-						pino.setColor(this.elasticoCorrente.getColor());
-						pino.setSelected(true);
-					} else if (!this.elasticoCorrente.isFinished()) {
+				// Adiciono a coordenada do elastico.
+				this.elasticoCorrente.addCoordenada(new Point((int) ellipse.getCenterX(), (int) ellipse.getCenterY()));
 
+				if (!pinoSelecionado.isSelected() || !this.elasticoCorrente.getColor().equals(pinoSelecionado.getColor())) {
+					// Pinta o pino da cor do elastico corrente
+					pinoSelecionado.setColor(this.elasticoCorrente.getColor());
+					pinoSelecionado.setSelected(true);
+				} else if (!this.elasticoCorrente.isFinished()) {
+			
 						this.elasticoCorrente.removeCoordenada(new Point((int) ellipse.getCenterX(), (int) ellipse.getCenterY()));
 
 						// Pinta o pino da cor do elastico corrente
-						pino.setColor(Color.GRAY);
-						pino.setSelected(false);
-					} else
-					// Apos a adição da coordenada verifico se o mesmo esta
-					// concluido e anulo o elastico corrente.
-					if (this.elasticoCorrente.isFinished()) {
-						this.elasticoCorrente = null;
-					}
-
-					break;
+						pinoSelecionado.setColor(Color.GRAY);
+						pinoSelecionado.setSelected(false);
+					
+				} else
+				// Apos a adição da coordenada verifico se o mesmo esta
+				// concluido e anulo o elastico corrente.
+				if (this.elasticoCorrente.isFinished()) {
+					this.elasticoCorrente = null;
 				}
 			}
 		}
@@ -372,6 +373,7 @@ public class ElasticoApplet extends GameBoard {
 		Graphics2D g2d = (Graphics2D) g;
 		BufferedImage im = Images.getBufferedImage(this.getImageName("collage.jpg"));
 		g2d.drawImage(im, (WIDTH - im.getWidth()) / 2, (HEIGHT - im.getHeight()) / 2, im.getWidth(), im.getHeight(), this);
+		g2d.setColor(Color.BLUE);
 		g2d.setFont(new Font("Times New Roman", 1, 50));
 		g2d.drawString("Jogo dos Elásticos", (((WIDTH - im.getWidth()) / 2) + im.getWidth()) / 2 - 40, ((HEIGHT - im.getHeight()) / 2) - 20);
 	}
@@ -422,7 +424,7 @@ public class ElasticoApplet extends GameBoard {
 			phaseOneCalled = true;
 			// Mantém a fase 1 por 5 segundos para a criança ver as peças do
 			// cenário.
-			this.phaseTimer = new Timer(5000, new AutomaticChangePhaseStartTimer(PHASE_TWO));
+			this.phaseTimer = new Timer(10000, new AutomaticChangePhaseStartTimer(PHASE_TWO));
 			this.phaseTimer.setRepeats(false);
 			this.phaseTimer.start();
 		}
