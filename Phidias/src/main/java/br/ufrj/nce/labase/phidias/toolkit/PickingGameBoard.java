@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Random;
 
 import br.ufrj.nce.labase.phidias.toolkit.graphic.StaticImage;
+import br.ufrj.nce.labase.phidias.toolkit.sprite.NPC;
 import br.ufrj.nce.labase.phidias.toolkit.sprite.Sprite;
+import br.ufrj.nce.labase.phidias.toolkit.sprite.event.ActionButton;
 
 
 
@@ -30,10 +32,19 @@ public abstract class PickingGameBoard extends GameBoard {
 	
 	private Random generator;
 	
+	private boolean sortSprites = true;
+	
 	public final void initGame() {
-		this.initPickingGame();
 		generator = new Random(System.currentTimeMillis());
+		this.initPickingGame();
+		if (this.sortSprites){
+			this.startSortingSprites();
+		}
 		this.spriteManager.setDragEnabled(false);
+	}
+	
+	public void startSortingSprites(){
+		this.sortSprites = true;
 		this.randomSprites = new ArrayList<Sprite>(this.spriteManager.getSprites());
 		this.setNextSpriteElement();
 		this.addGraphicPrintable(this.currentImage);
@@ -70,16 +81,28 @@ public abstract class PickingGameBoard extends GameBoard {
 		Sprite spriteClicked = this.spriteManager.findSprite(e.getX(), e.getY());
 		if (spriteClicked != null){
 			spriteClicked.mouseClicked(e);
-			if (spriteClicked == this.currentSprite){
-				//TODO: implementar lóciga para acerto
-				this.setNextSpriteElement();
-				System.out.println("Acertou");
-			} else {
-				//TODO: implementar lógica para erro
-				System.out.println("Errou");
+			if ((this.sortSprites) && 
+			    (!(spriteClicked instanceof NPC) && !(spriteClicked instanceof ActionButton)) ){
+				if (spriteClicked == this.currentSprite){
+					//TODO: implementar lóciga para acerto
+					this.setNextSpriteElement();
+					System.out.println("Acertou");
+				} else {
+					//TODO: implementar lógica para erro
+					System.out.println("Errou");
+				}
 			}
 		}
 	}
+
+	public boolean isSortSprites() {
+		return sortSprites;
+	}
+
+	public void setSortSprites(boolean sortSprites) {
+		this.sortSprites = sortSprites;
+	}
+	
 	
 	
 }
