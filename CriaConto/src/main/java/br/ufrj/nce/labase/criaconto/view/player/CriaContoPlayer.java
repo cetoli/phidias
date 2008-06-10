@@ -82,11 +82,12 @@ public class CriaContoPlayer extends Player {
 				firstPhase();
 				break;
 			case 2:
-				showMessageDialog("Parabéns! Agora descubra novidades no cenário!");
 				secondPhase();
 				break;
 			case 3:
-				showMessageDialog("Parabéns! Agora monte seu próprio cenário!");
+				thirdPhase();
+				break;
+			case 4:
 				thirdPhase();
 				break;
 			default:
@@ -101,7 +102,7 @@ public class CriaContoPlayer extends Player {
 	    board = createBoard(getImage("fundo.jpg"));
 		
 	    add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
-	    putCharactersOnBoard(true, false);
+	    putCharactersOnBoard(true, false, true);
 
 	    board.start();
 	}
@@ -113,7 +114,7 @@ public class CriaContoPlayer extends Player {
 	    board = createBoard(getImage("fundo.jpg"));
 		
 	    add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
-	    putCharactersOnBoard(true, true);
+	    putCharactersOnBoard(true, true, true);
 	    board.start();
 	}
 
@@ -125,7 +126,7 @@ public class CriaContoPlayer extends Player {
 		
 		add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
 		putScenicItensOnBoard();
-		putCharactersOnBoard(false, true);
+		putCharactersOnBoard(false, false, false);
 		putAnimalsOnBoard();
 		board.start();
 	}
@@ -151,13 +152,14 @@ public class CriaContoPlayer extends Player {
 		
 		for (Scene cenario : scenes) {
 			piece = new ScenicItem(board, getImage(cenario.getName() + ".gif"), cenario.getName(), getImage(cenario.getName() + "_grande.gif"), x, y, cenario.getX(), cenario.getY(), 850, 590);
+			piece.setHighlight(true);
 			
 			y = inc.incY(y);
 			x = inc.incX(x);
 	    } 
     }
 	
-	public void putCharactersOnBoard(boolean background, boolean playSound) {
+	public void putCharactersOnBoard(boolean background, boolean playSound, boolean highlight) {
 		int x = 60;
 		int y = 635;
 		
@@ -173,6 +175,10 @@ public class CriaContoPlayer extends Player {
 				piece = new Character(board, getImage(personagem + ".gif"), personagem, x, y, 850, 590);			
 			} else {
 				piece = new BackgroundCharacter(board, getImage(personagem + ".gif"), personagem, x, y, 850, 590);
+			}
+			
+			if (highlight) {
+				piece.setHighlight(true);
 			}
 			
 			if (playSound) {
