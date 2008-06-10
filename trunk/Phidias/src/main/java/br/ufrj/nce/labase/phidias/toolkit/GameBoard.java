@@ -55,6 +55,8 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseInputL
 
 	public static final Integer PHASE_TWO = 2;
 
+	public Integer CURRENT_PHASE = 0;
+
 	protected Image backgroundImage;
 
 	/**

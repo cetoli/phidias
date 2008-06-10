@@ -22,6 +22,8 @@ public class NPCTimer implements ActionListener {
 	}	
 	
 	public void actionPerformed(ActionEvent e) {
+		System.out.println("Hiding in NPC");
+		
 		if (board != null) {
 			board.hideNpc();
 		}

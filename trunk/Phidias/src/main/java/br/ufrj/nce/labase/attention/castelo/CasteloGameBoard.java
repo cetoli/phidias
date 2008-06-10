@@ -6,8 +6,11 @@ import java.awt.geom.Point2D;
 
 import br.ufrj.nce.labase.phidias.toolkit.PickingGameBoard;
 import br.ufrj.nce.labase.phidias.toolkit.sprite.NPC;
+import br.ufrj.nce.labase.phidias.toolkit.sprite.event.ActionButton;
+import br.ufrj.nce.labase.phidias.toolkit.sprite.event.SpriteActionEvent;
+import br.ufrj.nce.labase.phidias.toolkit.sprite.event.SpriteActionListener;
 
-public class CasteloGameBoard extends PickingGameBoard {
+public class CasteloGameBoard extends PickingGameBoard implements SpriteActionListener{
 
 	private static final String IMAGES_PACKAGE = "br.ufrj.nce.labase.attention.castelo.images"; 
 	
@@ -32,12 +35,16 @@ public class CasteloGameBoard extends PickingGameBoard {
 		this.createSprite(new Point(280,200), "peca16.gif");
 		this.createSprite(new Point(320,140), "peca17.gif");
 		
-	//	this.getSpriteManager().setSpriteHoverEnabled(true);
+		ActionButton changePhaseButton = new ActionButton(this.getSpriteManager(), new Point(600, 300), this.getImageName("botao1.gif"), this );
+		this.getSpriteManager().addActionButton(changePhaseButton);
+		
+		this.setSortSprites(false);
+		
 		
 		this.setNpc(new NPC(this.getSpriteManager(), new Point(600, 160), this.getImageName("NPC.gif")));
+		this.setNpcDisplaySeconds(15);
 
-		this.npcSayText("Testando estímulos do NPC");
-		
+		this.nextPhase();
 	}
 	
 	@Override
@@ -82,13 +89,29 @@ public class CasteloGameBoard extends PickingGameBoard {
 
 	@Override
 	public void handlePhaseThree() {
+		this.spriteManager.hideNpc();
+		this.startSortingSprites();
 	}
 
 	@Override
 	public void handlePhaseTwo() {
+		this.npcSayText("Conta pra mim o que você fez?");
 	}
 
 	@Override
 	public void paintGameBoard(Graphics g) {
+	}
+
+	public void spriteActionPerformed(SpriteActionEvent event) {
+//		handleNextPhase();
+		if (event.getType() == SpriteActionEvent.MOUSE_CLICKED){
+			nextPhase();
+		}
+	}
+	
+	private void nextPhase(){
+		this.CURRENT_PHASE++;
+		System.out.println("Mudando para a fase: "+CURRENT_PHASE);
+		this.changePhase(this.CURRENT_PHASE);
 	}
 }

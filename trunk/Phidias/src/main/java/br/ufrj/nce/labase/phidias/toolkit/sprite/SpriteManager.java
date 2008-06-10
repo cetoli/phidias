@@ -12,6 +12,7 @@ import java.util.ListIterator;
 
 import br.ufrj.nce.labase.phidias.toolkit.filter.GraphicFilter;
 import br.ufrj.nce.labase.phidias.toolkit.graphic.GraphicPrintElement;
+import br.ufrj.nce.labase.phidias.toolkit.sprite.event.ActionButton;
 
 /**
  * Base implementation for Sprite managing, that handles mouse events and
@@ -45,6 +46,8 @@ public class SpriteManager {
 	private Sprite hoveredSprite;
 
 	private List<GraphicPrintElement> graphicPrintElement;
+
+	private List<ActionButton> actionButtons;
 
 	/**
 	 * Special sprite type, used to represent Non Playable Characters,
@@ -87,6 +90,15 @@ public class SpriteManager {
 		if (npc != null && npc.isVisible() && npc.getBody().contains(x, y)) {
 			return npc;
 		}
+
+		// handle action buttons
+		if (actionButtons != null) {
+			for (ActionButton button : actionButtons) {
+				if (button.isVisible() && button.getBody().contains(x, y))
+					return button;
+			}
+		}
+		
 		for (Sprite sprite : sprites) {
 			if (sprite.isVisible() && sprite.getBody().contains(x, y))
 				return sprite;
@@ -212,6 +224,12 @@ public class SpriteManager {
 			paintSprite(npc, graphics, imgObserver);
 		}
 
+		if (this.actionButtons != null) {
+			for (ActionButton button: actionButtons){
+				paintSprite(button, graphics, imgObserver);
+			}
+		}
+		
 		if (this.spriteHoverEnabled && this.hoveredSprite != null) {
 			BufferedImage image = hoveredSprite.getImage();
 			for (GraphicFilter graphicFilter : this.hoveredSprite.getHoverFilters()) {
@@ -313,6 +331,13 @@ public class SpriteManager {
 		return graphicPrintElement.add(o);
 	}
 
+	public boolean addActionButton(ActionButton actionButton) {
+		if (actionButtons == null)
+			actionButtons = new ArrayList<ActionButton>();
+		
+		return actionButtons.add(actionButton);
+	}
+	
 	public Sprite getCurrentSprite() {
 		return currentSprite;
 	}
