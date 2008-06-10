@@ -16,6 +16,7 @@ public class Piece extends Sprite {
 	protected long moveEndTime;
 	protected MidiSound sound;
 	protected boolean playSound;
+	protected boolean highlight;
 	
 	public Piece() {
 		super();
@@ -63,7 +64,7 @@ public class Piece extends Sprite {
 	public void mouseUp(Event evt, int x, int y) {
 		moveEndTime = System.currentTimeMillis();
 	}
-
+	
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -104,5 +105,13 @@ public class Piece extends Sprite {
 
 	public boolean isPlaySound() {
 		return playSound;
+	}
+	
+	public void setHighlight(boolean highlight) {
+		this.highlight = highlight;
+	}
+
+	public boolean isHighlight() {
+		return highlight;
 	}
 }

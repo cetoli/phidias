@@ -91,7 +91,26 @@ public class ScenicItem extends Piece {
 			}
 		}
 	}
+	
+	public void mouseEnter(Event evt, int x, int y) {
+		if (isHighlight()) {
+			moveStartTime = System.currentTimeMillis();
+		}
+	}
+	
+	public void mouseExit(Event evt, int x, int y) {
+		if (isHighlight()) {
+			moveEndTime = System.currentTimeMillis();
+			Controller.registerMouseMoveEvent(getMoveTime(), getName());
+		}
+	}
 
+	public void mouseMove(Event evt, int x, int y) {
+		if (isHighlight()) {
+			
+		}
+	}
+	
 	public void setOnScene(boolean onScene) {
 		this.onScene = onScene;
 	}

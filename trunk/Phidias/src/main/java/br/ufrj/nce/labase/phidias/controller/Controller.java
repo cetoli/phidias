@@ -220,6 +220,20 @@ public class Controller {
 			CommunicationProtocol.execute(CommunicationProtocol.REGISTER_EVENT_ACTION, eventoContainer);
 		}
 	}
+	
+	public static void registerMouseMoveEvent(long time, String object) throws PhidiasException {
+		if (sendDataToServer) {
+			EventBean eventoContainer = new EventBean();
+			eventoContainer.setPhaseId(Session.getInstance().getCurrentPhase());
+			eventoContainer.setActionTypeId(EventBean.MOUSE_MOVE_EVENT);
+			eventoContainer.setSessionId(Session.getInstance().getId());
+			eventoContainer.setObject1(object);
+			eventoContainer.setValidMove(true);
+			eventoContainer.setMoveTime(time);
+
+			CommunicationProtocol.execute(CommunicationProtocol.REGISTER_EVENT_ACTION, eventoContainer);
+		}
+	}
 
 	public static void registerCollisionEvent(String object1, String object2) throws PhidiasException {
 		if (sendDataToServer) {
