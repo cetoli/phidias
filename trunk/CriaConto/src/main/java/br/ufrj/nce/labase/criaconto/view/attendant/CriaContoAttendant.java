@@ -28,6 +28,7 @@ public class CriaContoAttendant extends Attendant {
 	private TextArea comments;
 	private TextArea stimulus;
 	private TextArea moves;
+	private Button changePhase;
 	
 	private static final String IMAGES_PACKAGE = "br.ufrj.nce.labase.criaconto.images"; 
 	
@@ -115,7 +116,7 @@ public class CriaContoAttendant extends Attendant {
 		
 		stimulus.append(" ------ Fase " + Session.getInstance().getCurrentPhase() + " ------------- \n");
 		
-		Button changePhase = new Button("Mudar fase");
+		changePhase = new Button("Mudar fase");
 		changePhase.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				registerPhaseChange();
@@ -127,6 +128,25 @@ public class CriaContoAttendant extends Attendant {
 		mainPanel.add(changePhase, new GridBagConstraints(0, 7, 3, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 			
 		add(mainPanel, BorderLayout.CENTER);
+	}
+	
+	protected boolean registerPhaseChange() {
+		boolean ok = super.registerPhaseChange();
+		if (ok) {
+			if (Session.getInstance().getCurrentPhase() == 2) {
+				registerStimulus("Muito bem! Continue a explorar e veja o que acontece.");			
+			} else if (Session.getInstance().getCurrentPhase() == 3) {
+				registerStimulus("Parabéns! Continue a jogar e tente outras coisas.");			
+			} else if (Session.getInstance().getCurrentPhase() == 4) {
+				registerStimulus("Isso mesmo! Que legal! Voce esta indo muito bem.");
+				changePhase.setLabel("Encerrar jogo");
+			} else if (Session.getInstance().getCurrentPhase() == 5) {
+				registerStimulus("Muito bem! Voce esta de parabéns! Fim do jogo. Volte outro dia para jogarmos novamente");	
+				registerSessionEnd();
+			}
+		}
+		
+		return ok;
 	}
 	
 	protected void registerComment() {
