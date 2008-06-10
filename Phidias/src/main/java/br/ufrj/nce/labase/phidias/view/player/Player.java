@@ -149,10 +149,9 @@ public abstract class Player extends Applet {
 			return;
 		}
 		
-		BufferedImage image = (BufferedImage) npcImage;		
-
-        // Get drawing context
-        Graphics2D g2d = image.createGraphics();
+		BufferedImage npc = (BufferedImage) npcImage;		
+		 // Get drawing context
+        Graphics2D g2d = npc.createGraphics();
         g2d.setFont(new Font("Serif", Font.BOLD, 6));
         
         paintStimulus(g2d, stimulus);
@@ -160,9 +159,9 @@ public abstract class Player extends Applet {
 		// Dispose context
         g2d.dispose();
         
-		Piece npc = new Piece(board, image, "npc", 650, 25);
+		Piece npcSprite = new Piece(board, npc, "npc", 650, 25);
 		
-		npcTimer = new Timer(7000, new NPCTimer(board, npc, this));
+		npcTimer = new Timer(7000, new NPCTimer(board, npcSprite, this));
 		npcTimer.start();
 	}
 	
@@ -172,9 +171,9 @@ public abstract class Player extends Applet {
         LineBreakMeasurer lineMeasurer = null;
         g2d.setColor(Color.BLACK);
 
-        int recuo = 85;
-        int yInicial = 15;
-        float width = g2d.getDeviceConfiguration().getBounds().width - recuo -10;
+        int recuo = 70;
+        int yInicial = 5;
+        float width = g2d.getDeviceConfiguration().getBounds().width - recuo - 5;
         
         // index of the first character in the paragraph.
         int paragraphStart = 0;
@@ -191,7 +190,7 @@ public abstract class Player extends Applet {
             paragraphEnd = paragraph.getEndIndex();
             FontRenderContext frc = g2d.getFontRenderContext();
             lineMeasurer = new LineBreakMeasurer(paragraph, frc);
-        }
+        } 
         
         // Set break width to width of Component.
         float breakWidth = width;
@@ -217,7 +216,7 @@ public abstract class Player extends Applet {
 
             // Move y-coordinate by the ascent of the layout.
             drawPosY += layout.getAscent();
-
+            
             // Draw the TextLayout at (drawPosX, drawPosY).
             layout.draw(g2d, drawPosX, drawPosY);
 

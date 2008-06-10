@@ -72,11 +72,26 @@ public class Character extends Piece {
 			Controller.setCurrentSound(sound);
 			Controller.startSound();
 		}
+		
+		if (isHighlight()) {
+			moveStartTime = System.currentTimeMillis();
+		}
+	}
+	
+	public void mouseMove(Event evt, int x, int y) {
+		if (isHighlight()) {
+			
+		}
 	}
 	
 	public void mouseExit(Event evt, int x, int y) {
 		if (sound != null) {
 			Controller.stopSound();
+		}
+		
+		if (isHighlight()) {
+			moveEndTime = System.currentTimeMillis();
+			Controller.registerMouseMoveEvent(getMoveTime(), getName());
 		}
 	}
 }
