@@ -51,7 +51,7 @@ public class Images {
 		GraphicsConfiguration gc = ge.getDefaultScreenDevice().getDefaultConfiguration();
 
 		try {
-			BufferedImage im = ImageIO.read(Image.class.getResource(string));
+			BufferedImage im = ImageIO.read(Image.class.getResourceAsStream(string));
 
 			int transparency = im.getColorModel().getTransparency();
 			BufferedImage copy = gc.createCompatibleImage(im.getWidth(), im.getHeight(), transparency);
