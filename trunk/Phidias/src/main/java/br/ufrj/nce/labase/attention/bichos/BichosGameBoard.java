@@ -5,8 +5,12 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 
 import br.ufrj.nce.labase.phidias.toolkit.PickingGameBoard;
+import br.ufrj.nce.labase.phidias.toolkit.sprite.NPC;
+import br.ufrj.nce.labase.phidias.toolkit.sprite.event.ActionButton;
+import br.ufrj.nce.labase.phidias.toolkit.sprite.event.SpriteActionEvent;
+import br.ufrj.nce.labase.phidias.toolkit.sprite.event.SpriteActionListener;
 
-public class BichosGameBoard extends PickingGameBoard{
+public class BichosGameBoard extends PickingGameBoard  implements SpriteActionListener{
 
 	private static final String IMAGES_PACKAGE = "br.ufrj.nce.labase.attention.bichos.images"; 
 		
@@ -56,11 +60,19 @@ public class BichosGameBoard extends PickingGameBoard{
 		this.createSprite(new Point(193,132), "veado1.gif");
 		this.createSprite(new Point(75,92), "zebra-1.gif");
 		
+		ActionButton changePhaseButton = new ActionButton(this.getSpriteManager(), new Point(612, 301), this.getImageName("botao_sem_sombra.gif"), this );
+		this.getSpriteManager().addActionButton(changePhaseButton);
 		
-//		this.setNpc(new NPC(this.getSpriteManager(), new Point(600, 160), this.getImageName("NPC.gif")));
+		this.setSortSprites(false);
+		
+		NPC npc = new NPC(this.getSpriteManager(), new Point(550, 160), this.getImageName("personagem-npc.gif"));
+		npc.setRecuoTexto(10);
+		npc.setPosYInicial(10);
+		npc.setParagraphWidth(80);
+		this.setNpc(npc);
+		this.setNpcDisplaySeconds(15);
 
-//		this.npcSayText("Testando estímulos do NPC");
-		
+		this.nextPhase();
 	}
 	
 	@Override
@@ -93,6 +105,7 @@ public class BichosGameBoard extends PickingGameBoard{
 
 	@Override
 	public void handlePhaseOne() {
+		this.npcSayText("Joga pra mim?");
 	}
 
 	@Override
@@ -105,13 +118,30 @@ public class BichosGameBoard extends PickingGameBoard{
 
 	@Override
 	public void handlePhaseThree() {
+		this.spriteManager.hideNpc();
+		this.startSortingSprites();
 	}
 
 	@Override
 	public void handlePhaseTwo() {
+		this.npcSayText("Conta pra mim o que você fez?");
 	}
 
 	@Override
 	public void paintGameBoard(Graphics g) {
 	}
+
+	public void spriteActionPerformed(SpriteActionEvent event) {
+//		handleNextPhase();
+		if (event.getType() == SpriteActionEvent.MOUSE_CLICKED){
+			nextPhase();
+		}
+	}
+	
+	private void nextPhase(){
+		this.CURRENT_PHASE++;
+		System.out.println("Mudando para a fase: "+CURRENT_PHASE);
+		this.changePhase(this.CURRENT_PHASE);
+	}
+
 }

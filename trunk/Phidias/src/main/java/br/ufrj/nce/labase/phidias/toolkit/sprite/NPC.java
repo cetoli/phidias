@@ -24,6 +24,8 @@ public class NPC extends Sprite {
 	
 	private int posYInicial = 10;
 	
+	private int paragraphWidth = 0;
+	
     private static final Hashtable<TextAttribute, Object> stimulusFont =
         new Hashtable<TextAttribute, Object>();
     
@@ -74,7 +76,7 @@ public class NPC extends Sprite {
         }
         
         // Set break width to width of Component.
-        float breakWidth = width;
+        float breakWidth = (this.paragraphWidth != 0 ? paragraphWidth : width);
         float drawPosY = this.posYInicial;
         // Set position to the index of the first character in the paragraph.
         lineMeasurer.setPosition(paragraphStart);
@@ -129,6 +131,14 @@ public class NPC extends Sprite {
 
 	public void setPosYInicial(int posYInicial) {
 		this.posYInicial = posYInicial;
+	}
+
+	public int getParagraphWidth() {
+		return paragraphWidth;
+	}
+
+	public void setParagraphWidth(int paragraphWidth) {
+		this.paragraphWidth = paragraphWidth;
 	}
 
 	
