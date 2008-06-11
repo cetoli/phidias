@@ -386,8 +386,6 @@ public class ElasticoGameboard extends GameBoard {
 		for (GraphicPrintElement pino : this.pinos) {
 			pino.print(g2d);
 		}
-        
-		System.out.println("Pino Estatic -> " + this.pinoEstatico);
 		
 		// Pinta o Pino estatico
 		this.pinoEstatico.print(g2d);
