@@ -74,10 +74,13 @@ public class ScenicItem extends Piece {
 	
 	public void putOnBoard() {
 		if (!isOnScene()) {
-			ScenicItem item = new ScenicItem(getPlayfield(), bigImage, getName(), bigImageX, bigImageY);
-			item.setBackground(false);
-			item.setRectangular(false);
-			item.setOnScene(true);
+			ScenicItem piece = new ScenicItem(getPlayfield(), bigImage, getName(), bigImageX, bigImageY);
+			//piece.setHighlight(true);
+			//piece.setHighlightedImage(getHighlightedImage());
+			
+			piece.setBackground(false);
+			piece.setRectangular(false);
+			piece.setOnScene(true);
 			
 			getPlayfield().removeSpriteFromList(this);
 			getPlayfield().removeSpritesFromListNow();
@@ -90,26 +93,7 @@ public class ScenicItem extends Piece {
 				ex.printStackTrace();
 			}
 		}
-	}
-	
-	public void mouseEnter(Event evt, int x, int y) {
-		if (isHighlight()) {
-			moveStartTime = System.currentTimeMillis();
-		}
-	}
-	
-	public void mouseExit(Event evt, int x, int y) {
-		if (isHighlight()) {
-			moveEndTime = System.currentTimeMillis();
-			Controller.registerMouseMoveEvent(getMoveTime(), getName());
-		}
-	}
-
-	public void mouseMove(Event evt, int x, int y) {
-		if (isHighlight()) {
-			
-		}
-	}
+	}	
 	
 	public void setOnScene(boolean onScene) {
 		this.onScene = onScene;
