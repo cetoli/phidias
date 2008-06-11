@@ -47,34 +47,7 @@ public class Images {
 	}
 
 	public static BufferedImage getBufferedImage(String imagePath) {
-
-		// get this device's graphics configuration
-		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		GraphicsConfiguration gc = ge.getDefaultScreenDevice().getDefaultConfiguration();
-
-		try {
-
-			InputStream image = Image.class.getResourceAsStream(imagePath);
-			if (image == null) {
-				throw new IOException("Não foi possível encontrar a imagem no caminho especificado: " + imagePath);
-			}
-			BufferedImage im = ImageIO.read(image);
-
-			int transparency = im.getColorModel().getTransparency();
-			BufferedImage copy = gc.createCompatibleImage(im.getWidth(), im.getHeight(), transparency);
-
-			// create a graphics context
-			Graphics2D g2d = copy.createGraphics();
-
-			// copy image
-			g2d.drawImage(im, 0, 0, null);
-			g2d.dispose();
-
-			return copy;
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new PhidiasException("Erro no processo de recuperação de imagens!", e);
-		}
+		return getBufferedImage(null, imagePath);
 	}
 
 	/**
@@ -94,7 +67,11 @@ public class Images {
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsConfiguration gc = ge.getDefaultScreenDevice().getDefaultConfiguration();
 
+		if(resource == null)
+			resource = Image.class;
+
 		try {
+			
 			InputStream image = resource.getResourceAsStream(imagePath);
 			if (image == null) {
 				throw new IOException("Não foi possível encontrar a imagem no caminho especificado: " + imagePath);
