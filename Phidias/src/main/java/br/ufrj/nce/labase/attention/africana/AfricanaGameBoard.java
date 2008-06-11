@@ -22,20 +22,20 @@ public class AfricanaGameBoard extends PickingGameBoard {
 		this.createSprite(new Point(101,233), "peca7.gif");
 		this.createSprite(new Point(119,289), "peca8.gif");
 		this.createSprite(new Point(132,229), "peca9.gif");
-		this.createSprite(new Point(120,348), "peca10.gif");
+		this.createSprite(new Point(120,343), "peca10.gif");
 		this.createSprite(new Point(112,29), "peca11.gif");
 		this.createSprite(new Point(156,160), "peca12.gif");
-		this.createSprite(new Point(183,355), "peca13.gif");
+		this.createSprite(new Point(183,345), "peca13.gif");
 		this.createSprite(new Point(221,301), "peca14.gif");
 		this.createSprite(new Point(248,265), "peca15.gif");
 		this.createSprite(new Point(192,31), "peca16.gif");
-		this.createSprite(new Point(303,154), "peca17.gif");
+		this.createSprite(new Point(253,15), "peca17.gif");
 		this.createSprite(new Point(229,94), "peca18.gif");
 		this.createSprite(new Point(233,143), "peca19.gif");
 		this.createSprite(new Point(245,216), "peca20.gif");
-		this.createSprite(new Point(239,357), "peca21.gif");
+		this.createSprite(new Point(239,345), "peca21.gif");
 		this.createSprite(new Point(265,325), "peca22.gif");
-		this.createSprite(new Point(305,267), "peca23.gif");
+		this.createSprite(new Point(305,260), "peca23.gif");
 		this.createSprite(new Point(298,149), "peca24.gif");
 		this.createSprite(new Point(271,77), "peca25.gif");
 		this.createSprite(new Point(316,29), "peca26.gif");
@@ -44,8 +44,8 @@ public class AfricanaGameBoard extends PickingGameBoard {
 		this.createSprite(new Point(381,142), "peca29.gif");
 		this.createSprite(new Point(385,198), "peca30.gif");
 		this.createSprite(new Point(364,311), "peca31.gif");
-		this.createSprite(new Point(424,417), "peca32.gif");
-		this.createSprite(new Point(373,346), "peca33.gif");
+		this.createSprite(new Point(424,315), "peca32.gif");
+		this.createSprite(new Point(363,336), "peca33.gif");
 		
 	//	this.getSpriteManager().setSpriteHoverEnabled(true);
 		
