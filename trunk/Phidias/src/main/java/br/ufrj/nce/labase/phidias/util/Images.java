@@ -95,7 +95,7 @@ public class Images {
 		GraphicsConfiguration gc = ge.getDefaultScreenDevice().getDefaultConfiguration();
 
 		try {
-			InputStream image = Image.class.getResourceAsStream(imagePath);
+			InputStream image = resource.getResourceAsStream(imagePath);
 			if (image == null) {
 				throw new IOException("Não foi possível encontrar a imagem no caminho especificado: " + imagePath);
 			}
