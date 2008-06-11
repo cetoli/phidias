@@ -12,6 +12,7 @@ import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 
@@ -44,14 +45,18 @@ public class Images {
 		return img;
 	}
 
-	public static BufferedImage getBufferedImage(String string) {
+	public static BufferedImage getBufferedImage(String imagePath) {
 
 		// get this device's graphics configuration
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsConfiguration gc = ge.getDefaultScreenDevice().getDefaultConfiguration();
 
 		try {
-			BufferedImage im = ImageIO.read(Image.class.getResourceAsStream(string));
+			InputStream image = Image.class.getResourceAsStream(imagePath);
+			if (image == null){
+				throw new IOException("Não foi possível encontrar a imagem no caminho especificado: "+imagePath);
+			}
+			BufferedImage im = ImageIO.read(image);
 
 			int transparency = im.getColorModel().getTransparency();
 			BufferedImage copy = gc.createCompatibleImage(im.getWidth(), im.getHeight(), transparency);
@@ -66,7 +71,7 @@ public class Images {
 			return copy;
 		} catch (IOException e) {
 			e.printStackTrace();
-			return null;
+			throw new RuntimeException(e);
 		}
 	}
 
