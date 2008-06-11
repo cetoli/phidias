@@ -7,6 +7,7 @@ public class Session {
 	private static Session instance;
 	private Integer currentPhase = 0;
 	private Integer game = 0;
+	private boolean gameOver = false;
 	
 	private Session() {
 	}
@@ -52,6 +53,14 @@ public class Session {
 
 	public String getPatient() {
 		return session.getPatient();
+	}
+
+	public void setGameOver(boolean gameOver) {
+		this.gameOver = gameOver;
+	}
+
+	public boolean isGameOver() {
+		return gameOver;
 	}
 
 }
