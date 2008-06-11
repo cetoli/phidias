@@ -85,6 +85,7 @@ public class CriaContoPlayer extends Player {
 				secondPhase();
 				try {
 					showNPC("Muito bem! Continue a explorar e veja o que acontece.");
+					npcImage = getImage("NPC.gif");
 				} catch (Exception ex) {
 					ex.printStackTrace();
 		        	showMessageDialog("Ocorreu um erro ao mudar de fase! Por favor, tente novamente mais tarde!");
@@ -94,15 +95,18 @@ public class CriaContoPlayer extends Player {
 				thirdPhase();
 				try {
 					showNPC("Parabéns! Continue a jogar e tente outras coisas.");
+					npcImage = getImage("NPC.gif");
 				} catch (Exception ex) {
 					ex.printStackTrace();
 		        	showMessageDialog("Ocorreu um erro ao mudar de fase! Por favor, tente novamente mais tarde!");
+		        	npcImage = getImage("NPC.gif");
 				}
 				break;
 			case 4:
 				thirdPhase();
 				try {
 					showNPC("Isso mesmo! Que legal! Você está indo muito bem.");
+					npcImage = getImage("NPC.gif");
 				} catch (Exception ex) {
 					ex.printStackTrace();
 		        	showMessageDialog("Ocorreu um erro ao mudar de fase! Por favor, tente novamente mais tarde!");
@@ -111,7 +115,7 @@ public class CriaContoPlayer extends Player {
 			case 5:
 				Session.getInstance().setGameOver(true);
 				try { 
-					showNPC("Muito bem! Você está de parabéns! Fim do jogo. Volte outro dia para jogarmos novamente");
+					showNPC("Muito bem! Você está de parabéns! Fim do jogo. Volte outro dia.");
 				} catch (Exception ex) {
 					ex.printStackTrace();
 		        	showMessageDialog("Ocorreu um erro ao mudar de fase! Por favor, tente novamente mais tarde!");
