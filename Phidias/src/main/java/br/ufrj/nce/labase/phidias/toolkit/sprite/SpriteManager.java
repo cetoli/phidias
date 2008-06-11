@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
+import br.ufrj.nce.labase.phidias.toolkit.GameBoard;
 import br.ufrj.nce.labase.phidias.toolkit.filter.GraphicFilter;
 import br.ufrj.nce.labase.phidias.toolkit.graphic.GraphicPrintElement;
 import br.ufrj.nce.labase.phidias.toolkit.sprite.event.ActionButton;
@@ -37,7 +38,9 @@ public class SpriteManager {
 	 * moved to the beginning of the list.
 	 */
 	List<Sprite> sprites = new LinkedList<Sprite>();
-
+	
+	private GameBoard gameBoard;
+	
 	private Sprite currentSprite;
 
 	/**
@@ -340,5 +343,14 @@ public class SpriteManager {
 	
 	public Sprite getCurrentSprite() {
 		return currentSprite;
+	}
+
+	public SpriteManager(GameBoard gameboard) {
+		super();
+		this.gameBoard = gameboard;
+	}
+
+	public GameBoard getGameBoard() {
+		return gameBoard;
 	}
 }
