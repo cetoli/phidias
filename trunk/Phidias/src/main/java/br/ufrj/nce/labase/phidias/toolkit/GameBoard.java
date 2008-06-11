@@ -101,7 +101,7 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseInputL
 	protected SpriteManager spriteManager;
 
 	public GameBoard() {
-		this.spriteManager = new SpriteManager();
+		this.spriteManager = new SpriteManager(this);
 		graphicPrintableElements = new ArrayList<GraphicPrintable>();
 	}
 
