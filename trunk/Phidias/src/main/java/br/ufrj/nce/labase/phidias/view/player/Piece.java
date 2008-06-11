@@ -5,6 +5,7 @@ import java.awt.Image;
 
 import baklava.Sprite;
 import br.ufrj.nce.labase.common.MidiSound;
+import br.ufrj.nce.labase.phidias.controller.Controller;
 
 public class Piece extends Sprite {
 	protected String name;
@@ -17,6 +18,8 @@ public class Piece extends Sprite {
 	protected MidiSound sound;
 	protected boolean playSound;
 	protected boolean highlight;
+	protected Image highlightedImage; 
+	protected Image originalImage; 
 	
 	public Piece() {
 		super();
@@ -24,6 +27,7 @@ public class Piece extends Sprite {
 	
 	public Piece(Board p, Image image, String name, int x, int y) {
 		super(p);
+		originalImage = image;
 		setImage(image);
 		this.setName(name);
 		
@@ -39,13 +43,24 @@ public class Piece extends Sprite {
 	
 	public void mouseEnter(Event evt, int x, int y) {
 		if (sound != null && isPlaySound()) {
-			sound.start();
+			Controller.setCurrentSound(sound);
+			Controller.startSound();
+		}
+		
+		if (isHighlight()) {
+			moveStartTime = System.currentTimeMillis();
 		}
 	}
 	
 	public void mouseExit(Event evt, int x, int y) {
 		if (sound != null) {
-			sound.stop();
+			Controller.stopSound();
+		}
+		
+		if (isHighlight()) {
+			moveEndTime = System.currentTimeMillis();
+			Controller.registerMouseMoveEvent(getMoveTime(), getName());
+			setImage(originalImage);
 		}
 	}
 	
@@ -63,6 +78,12 @@ public class Piece extends Sprite {
 	
 	public void mouseUp(Event evt, int x, int y) {
 		moveEndTime = System.currentTimeMillis();
+	}
+	
+	public void mouseMove(Event evt, int x, int y) {
+		if (isHighlight() && highlightedImage != null) {
+			setImage(highlightedImage);
+		}
 	}
 	
 	public void setName(String name) {
@@ -113,5 +134,13 @@ public class Piece extends Sprite {
 
 	public boolean isHighlight() {
 		return highlight;
+	}
+
+	public void setHighlightedImage(Image highlightedImage) {
+		this.highlightedImage = highlightedImage;
+	}
+
+	public Image getHighlightedImage() {
+		return highlightedImage;
 	}
 }
