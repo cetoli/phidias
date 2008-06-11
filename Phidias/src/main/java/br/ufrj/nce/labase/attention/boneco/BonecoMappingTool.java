@@ -11,7 +11,7 @@ public class BonecoMappingTool extends MappingTool {
 
 	public void initGame() {
 			this.setBackgroundImage("background.gif");
-			this.addGraphicPrintable(new StaticImage(new Point(530, 48), getImageName("silhueta.gif")));
+			this.addGraphicPrintable(new StaticImage(new Point(530, 48), this.createImage(getImageName("silhueta.gif"))));
 			
 			this.createSprite(new Point(37,29), "cabeca.gif");
 			this.createSprite(new Point(196, 45), "bracoesquerdo.gif");

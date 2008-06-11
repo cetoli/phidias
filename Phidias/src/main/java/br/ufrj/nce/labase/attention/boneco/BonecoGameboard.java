@@ -17,7 +17,7 @@ public class BonecoGameboard extends GameBoard {
 		// mapeamento impossível para identificar peças errôneas
 		Mapping erroMapping = Mapping.getMapping(new Point(999,999));
 
-		this.addGraphicPrintable(new StaticImage(new Point(530, 48), this.getImageName("silhueta.gif")));
+		this.addGraphicPrintable(new StaticImage(new Point(530, 48), this.createImage(getImageName("silhueta.gif"))));
 		
 		this.createSprite(new Point(37,29), "cabeca.gif", Mapping.getMapping(new Point(629, 99)));
 		this.createSprite(new Point(267,145), "bracoesquerdo.gif", Mapping.getMapping(new Point(700, 212)));
