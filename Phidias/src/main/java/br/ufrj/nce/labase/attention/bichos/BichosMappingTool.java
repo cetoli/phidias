@@ -56,6 +56,7 @@ public class BichosMappingTool extends MappingTool {
 			this.createSprite(new Point(335,99), "urso1.gif");
 			this.createSprite(new Point(193,132), "veado1.gif");
 			this.createSprite(new Point(75,92), "zebra-1.gif");
+			this.createSprite(new Point(1,1), "botao_sem_sombra.gif");
 
 	}
 

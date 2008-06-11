@@ -9,7 +9,7 @@ import br.ufrj.nce.labase.phidias.toolkit.mapping.Mapping;
 
 public class BonecoGameboard extends GameBoard {
 
-	private static final String IMAGES_PACKAGE = "br.ufrj.nce.labase.games.attention.boneco.images"; 
+	private static final String IMAGES_PACKAGE = "br.ufrj.nce.labase.attention.boneco.images"; 
 	
 	public void initGame(){
 		this.setBackgroundImage("background.gif");
