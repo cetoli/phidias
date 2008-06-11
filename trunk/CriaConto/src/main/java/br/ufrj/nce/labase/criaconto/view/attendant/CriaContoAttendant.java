@@ -139,6 +139,7 @@ public class CriaContoAttendant extends Attendant {
 				changePhase.setLabel("Encerrar jogo");
 			} else if (Session.getInstance().getCurrentPhase() == 5) {
 				registerSessionEnd();
+				setGameOver(true);
 			}
 		}
 		
