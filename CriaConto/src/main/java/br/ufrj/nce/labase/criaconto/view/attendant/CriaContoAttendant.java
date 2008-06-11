@@ -128,20 +128,16 @@ public class CriaContoAttendant extends Attendant {
 		mainPanel.add(changePhase, new GridBagConstraints(0, 7, 3, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
 			
 		add(mainPanel, BorderLayout.CENTER);
+		
+		repaint();
 	}
 	
 	protected boolean registerPhaseChange() {
 		boolean ok = super.registerPhaseChange();
 		if (ok) {
-			if (Session.getInstance().getCurrentPhase() == 2) {
-				registerStimulus("Muito bem! Continue a explorar e veja o que acontece.");			
-			} else if (Session.getInstance().getCurrentPhase() == 3) {
-				registerStimulus("Parabéns! Continue a jogar e tente outras coisas.");			
-			} else if (Session.getInstance().getCurrentPhase() == 4) {
-				registerStimulus("Isso mesmo! Que legal! Voce esta indo muito bem.");
+			if (Session.getInstance().getCurrentPhase() == 4) {
 				changePhase.setLabel("Encerrar jogo");
 			} else if (Session.getInstance().getCurrentPhase() == 5) {
-				registerStimulus("Muito bem! Voce esta de parabéns! Fim do jogo. Volte outro dia para jogarmos novamente");	
 				registerSessionEnd();
 			}
 		}

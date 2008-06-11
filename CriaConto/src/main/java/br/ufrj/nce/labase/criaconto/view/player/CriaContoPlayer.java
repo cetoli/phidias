@@ -83,12 +83,39 @@ public class CriaContoPlayer extends Player {
 				break;
 			case 2:
 				secondPhase();
+				try {
+					showNPC("Muito bem! Continue a explorar e veja o que acontece.");
+				} catch (Exception ex) {
+					ex.printStackTrace();
+		        	showMessageDialog("Ocorreu um erro ao mudar de fase! Por favor, tente novamente mais tarde!");
+				}
 				break;
 			case 3:
 				thirdPhase();
+				try {
+					showNPC("Parabéns! Continue a jogar e tente outras coisas.");
+				} catch (Exception ex) {
+					ex.printStackTrace();
+		        	showMessageDialog("Ocorreu um erro ao mudar de fase! Por favor, tente novamente mais tarde!");
+				}
 				break;
 			case 4:
 				thirdPhase();
+				try {
+					showNPC("Isso mesmo! Que legal! Você está indo muito bem.");
+				} catch (Exception ex) {
+					ex.printStackTrace();
+		        	showMessageDialog("Ocorreu um erro ao mudar de fase! Por favor, tente novamente mais tarde!");
+				}
+				break;
+			case 5:
+				Session.getInstance().setGameOver(true);
+				try { 
+					showNPC("Muito bem! Você está de parabéns! Fim do jogo. Volte outro dia para jogarmos novamente");
+				} catch (Exception ex) {
+					ex.printStackTrace();
+		        	showMessageDialog("Ocorreu um erro ao mudar de fase! Por favor, tente novamente mais tarde!");
+				}
 				break;
 			default:
 				break;
@@ -152,7 +179,7 @@ public class CriaContoPlayer extends Player {
 		
 		for (Scene cenario : scenes) {
 			piece = new ScenicItem(board, getImage(cenario.getName() + ".gif"), cenario.getName(), getImage(cenario.getName() + "_grande.gif"), x, y, cenario.getX(), cenario.getY(), 850, 590);
-			piece.setHighlight(true);
+			piece.setHighlightedImage(getImage(cenario.getName() + "_grande_iluminado.gif"));
 			
 			y = inc.incY(y);
 			x = inc.incX(x);
@@ -179,6 +206,7 @@ public class CriaContoPlayer extends Player {
 			
 			if (highlight) {
 				piece.setHighlight(true);
+				piece.setHighlightedImage(getImage(personagem + "_iluminado.gif"));
 			}
 			
 			if (playSound) {
@@ -205,16 +233,29 @@ public class CriaContoPlayer extends Player {
 
 	public void putAnimalsOnBoard() {
 		Image image = getImage("passarinho.gif");			
-		new Piece(board, image, "passarinho", 480, 110);
+		Image highlightedImage = getImage("passarinho_iluminado.gif");			
+		Piece p = new Piece(board, image, "passarinho", 480, 110);
+		p.setHighlight(true);
+		p.setHighlightedImage(highlightedImage);
 		
 		Image image2 = getImage("veado.gif");		
-		new Piece(board, image2, "veado", 110, 430);
+		Image highlightedImage2 = getImage("veado_iluminado.gif");			
+		Piece v = new Piece(board, image2, "veado", 110, 430);
+		v.setHighlight(true);
+		v.setHighlightedImage(highlightedImage2);
 		
 		Image image3 = getImage("cachorrinho.gif");		
-		new Piece(board, image3, "cachorrinho", 800, 390);
+		Image highlightedImage3 = getImage("cachorrinho_iluminado.gif");			
+		Piece c = new Piece(board, image3, "cachorrinho", 800, 390);
+		c.setHighlight(true);
+		c.setHighlightedImage(highlightedImage3);
 				
 		Image image4 = getImage("esquilo_no_balde.gif");		
-		new Piece(board, image4, "esquilo_no_balse", 580, 300);
+		Image highlightedImage4 = getImage("esquilo_no_balde_iluminado.gif");			
+		Piece e = new Piece(board, image4, "esquilo_no_balde", 580, 300);
+		e.setHighlight(true);
+		e.setHighlightedImage(highlightedImage4);
+			
     }
 	
 	/**Main method*/
