@@ -4,7 +4,6 @@ import java.applet.Applet;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -79,7 +78,7 @@ public abstract class Player extends Applet {
     	
     	loginPanel.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
-    			showMessageDialog("Por favor aguarde enquanto encontramos um Aplicador disponível!");
+    			showMessageDialog("Por favor, aguarde enquanto encontramos um Aplicador disponível!");
     			
     			if (registerSession()) {
     				startSessionTimer();
@@ -144,7 +143,7 @@ public abstract class Player extends Applet {
 		Session.getInstance().changePhase();
 	}
 	
-	private void showNPC(String stimulus) throws InterruptedException {
+	protected void showNPC(String stimulus) throws InterruptedException {
 		if (!showNPC) {
 			return;
 		}
@@ -165,15 +164,14 @@ public abstract class Player extends Applet {
 		npcTimer.start();
 	}
 	
-   private void paintStimulus(Graphics g, String stimulus) {
+   private void paintStimulus(Graphics2D g2d, String stimulus) {
 
-        Graphics2D g2d = (Graphics2D)g;
         LineBreakMeasurer lineMeasurer = null;
         g2d.setColor(Color.BLACK);
 
-        int recuo = 70;
+        int recuo = 60;
         int yInicial = 5;
-        float width = g2d.getDeviceConfiguration().getBounds().width - recuo - 5;
+        float width = g2d.getDeviceConfiguration().getBounds().width - recuo;
         
         // index of the first character in the paragraph.
         int paragraphStart = 0;
@@ -307,7 +305,7 @@ public abstract class Player extends Applet {
 	
 	private class GameOverTimer implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			if (Controller.getSessionEnded()) {
+			if (Controller.getSessionEnded() && Session.getInstance().isGameOver()) {
 				showMessageDialog("O Aplicador encerrou o jogo!");
 				stopGameOverTimer();
 				stop();
