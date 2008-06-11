@@ -8,6 +8,7 @@ import java.awt.MediaTracker;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -182,6 +183,17 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseInputL
 		name.append(this.imagesPackageName).append(imageFileName);
 		return name.toString();
 	}
+	
+	
+	/*
+	 *  TODO: make this the default toolkit method for images instantiation.
+	 *  Actually, images instantiation occur in Sprite. The overrided constructors
+	 *  in sprite must be eliminated, and exist only a constructor that receives a BufferedImage
+	 *  as a parameter 
+	 */ 
+	public BufferedImage createImage(String imagePath){
+		return Images.getBufferedImage(this.getClass(), imagePath);
+	}
 
 	/**
 	 * Abstract method that must be overridden by subclasses, used to specify
@@ -300,6 +312,7 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseInputL
 
 	public void npcSayText(String text) {
 		this.spriteManager.npcSayText(text);
+		this.showNpc();
 	}
 
 	/**
@@ -458,7 +471,7 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseInputL
 	}
 
 	public void setBackgroundImage(String backgroundImage) {
-		this.backgroundImage = Images.createImage(getImageName(backgroundImage));
+		this.backgroundImage = this.createImage(getImageName(backgroundImage));
 	}
 
 	public void setNpc(NPC npc) {
@@ -490,7 +503,8 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseInputL
 		this.spriteManager.showNpc();
 
 		if (getNpcDisplaySeconds() > 0) {
-			npcTimer = new Timer(getNpcDisplaySeconds(), new NPCTimer(this));
+			npcTimer = new Timer(getNpcDisplaySeconds()*1000, new NPCTimer(this));
+			npcTimer.setRepeats(false);
 			npcTimer.start();
 		}
 	}

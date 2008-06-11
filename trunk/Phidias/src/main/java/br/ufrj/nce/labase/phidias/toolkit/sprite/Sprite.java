@@ -477,4 +477,10 @@ public class Sprite {
 
 		return hoverFilters.add(o);
 	}
+
+	public void setImage(BufferedImage image) {
+		this.image = image;
+	}
+	
+	
 }

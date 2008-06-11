@@ -143,5 +143,28 @@ public class Images {
 		}
 		return thumbImage;
 	}
+	
+	/**
+	 * Return a new image instance with same data as original image.
+	 * Changes made in new image doesn't reflect on old one.
+	 * @param image
+	 * @return A cloned instance of original image.
+	 */
+	public static BufferedImage cloneImage(BufferedImage image){ 
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsConfiguration gc = ge.getDefaultScreenDevice().getDefaultConfiguration();
+
+		int transparency = image.getColorModel().getTransparency();
+		BufferedImage copy = gc.createCompatibleImage(image.getWidth(), image.getHeight(), transparency);
+
+		// create a graphics context
+		Graphics2D g2d = copy.createGraphics();
+
+		// copy image
+		g2d.drawImage(image, 0, 0, null);
+		g2d.dispose();
+
+		return copy;
+	}
 
 }

@@ -12,7 +12,6 @@ public class BonecoColoridoGameBoard extends GameBoard {
 	private static final String IMAGES_PACKAGE = "br.ufrj.nce.labase.attention.bonecocolorido.images"; 
 	
 	public void initGame(){
-		this.setBackgroundImage("background.gif");
 		
 		// mapeamento impossível para identificar peças errôneas
 		Mapping erroMapping = Mapping.getMapping(new Point(999,999));

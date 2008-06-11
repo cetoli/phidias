@@ -13,8 +13,12 @@ import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 import java.util.Hashtable;
 
+import br.ufrj.nce.labase.phidias.util.Images;
+
 
 public class NPC extends Sprite {
+	
+	private BufferedImage originalImage;
 	
 	private Font font = new Font("Serif", Font.BOLD, 12);
 	
@@ -36,16 +40,20 @@ public class NPC extends Sprite {
     
 	public NPC(SpriteManager spriteManager, Point2D coordinate, String imagePath) {
 		super(spriteManager, coordinate, imagePath);
+		this.originalImage = this.getImage();
 		this.setVisible(false);
 	}
 	
 	public NPC(SpriteManager spriteManager, Point2D coordinate, BufferedImage image) {
 		super(spriteManager, coordinate, image);
+		this.originalImage = this.getImage();
 		this.setVisible(false);
 	}
 	
 	public void sayText(String text){
 		this.setVisible(true);
+
+		this.setImage(Images.cloneImage(this.originalImage));
 		
         Graphics2D g2d = this.getImage().createGraphics();
         g2d.setFont(this.font);
@@ -141,5 +149,12 @@ public class NPC extends Sprite {
 		this.paragraphWidth = paragraphWidth;
 	}
 
+	public BufferedImage getOriginalImage() {
+		return originalImage;
+	}
+
+	public void setOriginalImage(BufferedImage originalImage) {
+		this.originalImage = originalImage;
+	}
 	
 }

@@ -70,14 +70,14 @@ public class BichosGameBoard extends PickingGameBoard  implements SpriteActionLi
 		npc.setPosYInicial(10);
 		npc.setParagraphWidth(80);
 		this.setNpc(npc);
-		this.setNpcDisplaySeconds(15);
+		this.setNpcDisplaySeconds(10);
 
 		this.nextPhase();
 	}
 	
 	@Override
 	protected Point2D getImageCoordinate() {
-		return new Point(600, 20);
+		return new Point(550, 100);
 	}
 
 	@Override
