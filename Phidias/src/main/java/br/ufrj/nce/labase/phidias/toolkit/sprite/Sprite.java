@@ -122,16 +122,16 @@ public class Sprite {
 	}
 
 	public Sprite(SpriteManager spriteManager, Point2D coordinate, String imagePath) {
-		this(spriteManager, coordinate, getImage(imagePath));
+		this(spriteManager, coordinate, getImage(spriteManager.getGameBoard().getClass(), imagePath));
 	}
 
 	public Sprite(SpriteManager spriteManager, Point2D coordinate, String imagePath, Mapping mapping) {
-		this(spriteManager, coordinate, getImage(imagePath));
+		this(spriteManager, coordinate, getImage(spriteManager.getGameBoard().getClass(), imagePath));
 		this.setMapping(mapping);
 	}
 
 	public Sprite(SpriteManager spriteManager, Point2D coordinate, int width, int height, String imagePath) {
-		this(spriteManager, coordinate, getImage(imagePath));
+		this(spriteManager, coordinate, getImage(spriteManager.getGameBoard().getClass(), imagePath));
 		this.width = width;
 		this.height = height;
 	}
@@ -174,8 +174,9 @@ public class Sprite {
 		}
 	}
 
-	public static BufferedImage getImage(String imagePath) {
-		return Images.getBufferedImage(imagePath);
+	private static BufferedImage getImage(Class gameboardClass, String imagePath) {
+		
+		return Images.getBufferedImage(gameboardClass, imagePath);
 	}
 
 	public Rectangle2D getBody() {
