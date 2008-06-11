@@ -5,8 +5,11 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.util.Arrays;
+import java.util.Collections;
 
 import br.ufrj.nce.labase.phidias.toolkit.graphic.GraphicPrintElement;
+import br.ufrj.nce.labase.phidias.toolkit.sprite.Sprite;
 
 public class PaletaCorElastico extends GraphicPrintElement {
 
@@ -50,9 +53,7 @@ public class PaletaCorElastico extends GraphicPrintElement {
 			g2d.setPaint(Color.RED);
 			g2d.draw(new Line2D.Double(this.getBody().getBounds2D().getX(), this.getBody().getBounds2D().getY(), this.getBody().getBounds2D().getX() + this.getBody().getBounds2D().getWidth(), this.getBody().getBounds2D().getY() + this.getBody().getBounds2D().getHeight()));
 			g2d.setStroke(new BasicStroke(1.0f));
-		}
-		
-		
+		}		
 	}
 
 	public String getColorDescription() {
