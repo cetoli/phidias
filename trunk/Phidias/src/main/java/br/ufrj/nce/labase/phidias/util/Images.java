@@ -12,9 +12,10 @@ import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 
 import javax.imageio.ImageIO;
+
+import br.ufrj.nce.labase.phidias.exception.PhidiasException;
 
 import com.sun.image.codec.jpeg.ImageFormatException;
 import com.sun.image.codec.jpeg.JPEGCodec;
@@ -52,9 +53,10 @@ public class Images {
 		GraphicsConfiguration gc = ge.getDefaultScreenDevice().getDefaultConfiguration();
 
 		try {
+
 			InputStream image = Image.class.getResourceAsStream(imagePath);
-			if (image == null){
-				throw new IOException("Não foi possível encontrar a imagem no caminho especificado: "+imagePath);
+			if (image == null) {
+				throw new IOException("Não foi possível encontrar a imagem no caminho especificado: " + imagePath);
 			}
 			BufferedImage im = ImageIO.read(image);
 
@@ -71,7 +73,48 @@ public class Images {
 			return copy;
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new RuntimeException(e);
+			throw new PhidiasException("Erro no processo de recuperação de imagens!", e);
+		}
+	}
+
+	/**
+	 * This method load a buffered image, passing a resource class that is used
+	 * to load a image that is located out from Phidias's Project. Example:
+	 * //Load a image that is located in Elastico's Project.
+	 * Images.getBufferedImage(ElasticoGameboard.class,
+	 * this.getImageName("picture.jpg");
+	 * 
+	 * @param resource
+	 * @param string
+	 * @return
+	 */
+	public static BufferedImage getBufferedImage(Class resource, String imagePath) {
+
+		// get this device's graphics configuration
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsConfiguration gc = ge.getDefaultScreenDevice().getDefaultConfiguration();
+
+		try {
+			InputStream image = Image.class.getResourceAsStream(imagePath);
+			if (image == null) {
+				throw new IOException("Não foi possível encontrar a imagem no caminho especificado: " + imagePath);
+			}
+			BufferedImage im = ImageIO.read(image);
+
+			int transparency = im.getColorModel().getTransparency();
+			BufferedImage copy = gc.createCompatibleImage(im.getWidth(), im.getHeight(), transparency);
+
+			// create a graphics context
+			Graphics2D g2d = copy.createGraphics();
+
+			// copy image
+			g2d.drawImage(im, 0, 0, null);
+			g2d.dispose();
+
+			return copy;
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new PhidiasException("Erro no processo de recuperação de imagens!", e);
 		}
 	}
 
