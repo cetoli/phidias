@@ -7,6 +7,10 @@ import br.ufrj.nce.labase.phidias.toolkit.sprite.Sprite;
 import br.ufrj.nce.labase.phidias.toolkit.sprite.SpriteManager;
 
 
+/**
+ * 
+ * @author Diogo Gomes
+ */
 public class ActionButton extends Sprite {
     
 	public ActionButton(SpriteManager spriteManager, Point2D coordinate, String imagePath, SpriteActionListener actionListener) {

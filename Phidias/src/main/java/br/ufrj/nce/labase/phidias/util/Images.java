@@ -22,6 +22,14 @@ import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGEncodeParam;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
+/**
+ * Utility class for loading images from files.
+ * 
+ * @author Andre Moraes
+ * @author Diogo Gomes
+ * @author Sabrina Bettini
+ *
+ */
 public class Images {
 	private Image image = null;
 

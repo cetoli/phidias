@@ -11,13 +11,13 @@ public class IndigenaGameBoard extends PickingGameBoard{
 	private static final String IMAGES_PACKAGE = "br.ufrj.nce.labase.attention.indigena.images"; 
 	
 	public void initPickingGame(){
-		this.setBackgroundImage("fundo.gif");
+		this.setBackgroundImage("fundo.GIF");
 
-		this.createSprite(new Point(53,52), "i1.gif");
-		this.createSprite(new Point(230,40), "i2.gif");
-		this.createSprite(new Point(185,165), "i3.gif");
-		this.createSprite(new Point(313,177), "i4.gif");
-		this.createSprite(new Point(60,178), "i5.gif");
+		this.createSprite(new Point(53,52), "i1.GIF");
+		this.createSprite(new Point(230,40), "i2.GIF");
+		this.createSprite(new Point(185,165), "i3.GIF");
+		this.createSprite(new Point(313,177), "i4.GIF");
+		this.createSprite(new Point(60,178), "i5.GIF");
 	}
 	
 	@Override

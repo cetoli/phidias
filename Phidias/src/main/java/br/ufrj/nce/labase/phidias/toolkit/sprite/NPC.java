@@ -16,6 +16,10 @@ import java.util.Hashtable;
 import br.ufrj.nce.labase.phidias.util.Images;
 
 
+/**
+ * 
+ * @author Diogo Gomes
+ */
 public class NPC extends Sprite {
 	
 	private BufferedImage originalImage;

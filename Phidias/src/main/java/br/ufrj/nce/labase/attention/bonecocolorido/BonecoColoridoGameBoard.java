@@ -18,7 +18,7 @@ public class BonecoColoridoGameBoard extends GameBoard {
 
 		this.setBackgroundImage("plano_de_fundo.gif");
 		
-		this.addGraphicPrintable(new StaticImage(new Point(487,15), this.getImageName("silhuetacerta.gif")));
+		this.addGraphicPrintable(new StaticImage(new Point(487,15), createImage(getImageName("silhuetacerta.GIF"))));
 
 		this.createSprite(new Point(327,272), "peca1-2.gif", Mapping.getMapping(new Point(619,102)));
 		this.createSprite(new Point(178,110), "peca2.gif", Mapping.getMapping(new Point(618,213)));

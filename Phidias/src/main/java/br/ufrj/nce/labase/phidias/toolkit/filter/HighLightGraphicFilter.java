@@ -9,8 +9,9 @@ import java.awt.image.RescaleOp;
 
 /**
  * Graphic filter that apply a brighter effect to the image passed as parameter.
+ * 
  * @author Diogo Gomes
- *
+ * @author Andre Moraes
  */
 public class HighLightGraphicFilter implements GraphicFilter {
 

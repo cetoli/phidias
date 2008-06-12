@@ -5,6 +5,11 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 
+/**
+ * 
+ * @author Diogo Gomes
+ *
+ */
 public class AreaMapping extends Mapping{
 
 	/**
