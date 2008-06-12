@@ -11,8 +11,6 @@ public class PeixesGameBoard extends PickingGameBoard {
 	private static final String IMAGES_PACKAGE = "br.ufrj.nce.labase.attention.peixes.images"; 
 	
 	public void initPickingGame(){
-		this.setBackgroundImage("castelo.gif");
-
 		this.setBackgroundImage("aquario.gif");
 
 		this.createSprite(new Point(93,51), "peca1.gif");

@@ -13,6 +13,7 @@ import br.ufrj.nce.labase.phidias.toolkit.sprite.Sprite;
  * there is the possibility that the sprite must be moved to a specified position, defined by spriteDestination,
  * according to the game rule.
  * Subclasses may extend its funcionality by implementing abstract methods.
+ * 
  * @author Diogo Gomes
  *
  */

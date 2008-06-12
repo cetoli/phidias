@@ -9,6 +9,7 @@ import br.ufrj.nce.labase.phidias.util.Images;
 /**
  * 
  * Basic class for static images, that don't interact with mouse events.
+ * 
  * @author Diogo Gomes
  *
  */

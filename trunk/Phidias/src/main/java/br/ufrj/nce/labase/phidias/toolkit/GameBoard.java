@@ -229,11 +229,7 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseInputL
 
 	public void hideNpc() {
 		this.spriteManager.hideNpc();
-
-		if (npcTimer != null) {
-			npcTimer.stop();
-			npcTimer = null;
-		}
+		this.clearNpcTimer();
 	}
 
 	/**
@@ -501,11 +497,19 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseInputL
 
 	public void showNpc() {
 		this.spriteManager.showNpc();
-
+		
 		if (getNpcDisplaySeconds() > 0) {
+			this.clearNpcTimer();
 			npcTimer = new Timer(getNpcDisplaySeconds()*1000, new NPCTimer(this));
 			npcTimer.setRepeats(false);
 			npcTimer.start();
+		}
+	}
+	
+	private void clearNpcTimer(){
+		if (npcTimer != null) {
+			npcTimer.stop();
+			npcTimer = null;
 		}
 	}
 

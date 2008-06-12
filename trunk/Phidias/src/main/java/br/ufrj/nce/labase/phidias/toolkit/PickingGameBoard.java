@@ -18,8 +18,8 @@ import br.ufrj.nce.labase.phidias.toolkit.sprite.event.ActionButton;
  * Base class for picking-like games. This class implements basic facilities for
  * funcionalities demandes by attention games based on picking a specific object (specified
  * by a mapping instance in the background), according to current sprite shown.
+ * 
  * @author Diogo Gomes
- *
  */
 public abstract class PickingGameBoard extends GameBoard {
 	

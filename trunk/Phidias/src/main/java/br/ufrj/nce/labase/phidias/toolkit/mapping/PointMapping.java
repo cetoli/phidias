@@ -4,6 +4,10 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 
 
+/**
+ * 
+ * @author Diogo Gomes
+ */
 public class PointMapping extends Mapping {
 	
 	/**
