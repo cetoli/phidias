@@ -9,6 +9,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.font.FontRenderContext;
@@ -48,6 +49,8 @@ public abstract class Player extends Applet {
     protected boolean showNPC;
     protected Color backgroundColor;
     
+    private ScrollPane mainPanel;
+    
     private String imagesPackageName;
     
     private static final Hashtable<TextAttribute, Object> stimulusFont =
@@ -68,13 +71,16 @@ public abstract class Player extends Applet {
 		setSize(1024, 820);
     	setBackground(Color.WHITE);
     	setLayout(new GridBagLayout());
-
+    	
+    	mainPanel = new ScrollPane(ScrollPane.SCROLLBARS_ALWAYS);
+    	add(mainPanel, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+    	
     	Controller.setCurrentSound(midiSound);
     	Controller.startSound();
     	
     	loginPanel = new PlayerLoginPanel(loginBackgroundImage, backgroundColor);
     	loginPanel.setPreferredSize(new Dimension(1024, 820));
-    	add(loginPanel, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
+    	mainPanel.add(loginPanel);
     	
     	loginPanel.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
@@ -113,21 +119,23 @@ public abstract class Player extends Applet {
 	}
 
     protected Board createBoard(Image backgroundImage){
+    	mainPanel.removeAll();
+		
     	Board b = new Board(this, getWidth(), getHeight());
     	Sprite background = new Sprite(b);
     	background.setImage(backgroundImage);
     	b.setBackgroundImage(background);
-		return b;
+    	
+    	mainPanel.add(b);
+        return b;
 	}
 
     protected void createInitialBackground(Image backgroundImage) {
 		setSize(1024, 820);
-    	removeAll();
 		
     	board = createBoard(backgroundImage);
     	
-        add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
-        board.start();
+    	board.start();
 	}
 
     private boolean registerSession() {
