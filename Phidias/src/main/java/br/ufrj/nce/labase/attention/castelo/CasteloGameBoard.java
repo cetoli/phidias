@@ -110,8 +110,8 @@ public class CasteloGameBoard extends PickingGameBoard implements SpriteActionLi
 	}
 	
 	private void nextPhase(){
-		this.CURRENT_PHASE++;
-		System.out.println("Mudando para a fase: "+CURRENT_PHASE);
-		this.changePhase(this.CURRENT_PHASE);
+		this.currentPhase++;
+		System.out.println("Mudando para a fase: "+currentPhase);
+		this.changePhase(this.currentPhase);
 	}
 }
