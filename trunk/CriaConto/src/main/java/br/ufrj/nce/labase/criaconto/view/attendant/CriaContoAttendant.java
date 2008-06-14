@@ -126,9 +126,7 @@ public class CriaContoAttendant extends Attendant {
 			}
 		});
 		mainPanel.add(changePhase, new GridBagConstraints(0, 7, 3, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 0, 0));
-			
-		add(mainPanel, BorderLayout.CENTER);
-		
+				
 		repaint();
 	}
 	
