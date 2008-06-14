@@ -56,7 +56,9 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseInputL
 
 	public static final Integer PHASE_TWO = 2;
 
-	public Integer CURRENT_PHASE = 0;
+	public Integer currentPhase = 0;
+
+	private Integer gameId = 0;
 
 	protected Image backgroundImage;
 
@@ -90,7 +92,7 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseInputL
 
 	/**
 	 * Attribute used to store the current phase of the game. These phases are
-	 * based in the Drive Elaboratin Theory that contains seven phases.
+	 * based in the Driven Elaboration Theory that contains seven phases.
 	 */
 	private Integer phase;
 
@@ -102,6 +104,11 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseInputL
 	protected SpriteManager spriteManager;
 
 	public GameBoard() {
+		// sets Game Id to undefined value as -1
+		this(-1);
+	}
+	
+	public GameBoard(int gameId){
 		this.spriteManager = new SpriteManager(this);
 		graphicPrintableElements = new ArrayList<GraphicPrintable>();
 	}
@@ -321,7 +328,7 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseInputL
 
 	/**
 	 * This method should be implemented if it is required to implement a custom
-	 * processing to the phase one of Drive Elaboration. Leave it blank if you
+	 * processing to the phase one of Driven Elaboration. Leave it blank if you
 	 * don't want to implement this phase.
 	 * 
 	 * @param g
@@ -330,7 +337,7 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseInputL
 
 	/**
 	 * This method should be implemented if it is required to implement a custom
-	 * processing to the phase two of Drive Elaboration. Leave it blank if you
+	 * processing to the phase two of Driven Elaboration. Leave it blank if you
 	 * don't want to implement this phase.
 	 * 
 	 * @param g
@@ -339,7 +346,7 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseInputL
 
 	/**
 	 * This method should be implemented if it is required to implement a custom
-	 * processing to the phase three of Drive Elaboration. Leave it blank if you
+	 * processing to the phase three of Driven Elaboration. Leave it blank if you
 	 * don't want to implement this phase.
 	 * 
 	 * @param g
@@ -348,7 +355,7 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseInputL
 
 	/**
 	 * This method should be implemented if it is required to implement a custom
-	 * processing to the phase four of Drive Elaboration. Leave it blank if you
+	 * processing to the phase four of Driven Elaboration. Leave it blank if you
 	 * don't want to implement this phase.
 	 * 
 	 * @param g
@@ -357,7 +364,7 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseInputL
 
 	/**
 	 * This method should be implemented if it is required to implement a custom
-	 * processing to the phase five of Drive Elaboration. Leave it blank if you
+	 * processing to the phase five of Driven Elaboration. Leave it blank if you
 	 * don't want to implement this phase.
 	 * 
 	 * @param g
@@ -366,7 +373,7 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseInputL
 
 	/**
 	 * This method should be implemented if it is required to implement a custom
-	 * processing to the phase six of Drive Elaboration. Leave it blank if you
+	 * processing to the phase six of Driven Elaboration. Leave it blank if you
 	 * don't want to implement this phase.
 	 * 
 	 * @param g
@@ -375,7 +382,7 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseInputL
 
 	/**
 	 * This method should be implemented if it is required to implement a custom
-	 * processing to the phase seven of Drive Elaboration. Leave it blank if you
+	 * processing to the phase seven of Driven Elaboration. Leave it blank if you
 	 * don't want to implement this phase.
 	 * 
 	 * @param g
@@ -528,6 +535,14 @@ public abstract class GameBoard extends JApplet implements Runnable, MouseInputL
 
 	public void setEnablePrintGameboard(boolean enableGameboard) {
 		this.enablePrintGameboard = enableGameboard;
+	}
+
+	public void setGameId(Integer gameId) {
+		this.gameId = gameId;
+	}
+
+	public Integer getGameId() {
+		return gameId;
 	}
 
 }
