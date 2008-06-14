@@ -128,11 +128,9 @@ public class CriaContoPlayer extends Player {
 
 	private void firstPhase() {
 		setSize(1024, 820);
-		removeAll();
 		
 	    board = createBoard(getImage("fundo.jpg"));
 		
-	    add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
 	    putCharactersOnBoard(true, false, true);
 
 	    board.start();
@@ -140,22 +138,18 @@ public class CriaContoPlayer extends Player {
 
 	private void secondPhase() {
 		setSize(1024, 820);
-		removeAll();
 		
 	    board = createBoard(getImage("fundo.jpg"));
 		
-	    add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
 	    putCharactersOnBoard(true, true, true);
 	    board.start();
 	}
 
 	private void thirdPhase() {
 		setSize(1048, 820);
-		removeAll();
-	
+		
 		board = createBoard(getImage("fundo2.jpg"));
 		
-		add(board, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, 0, new Insets(1, 1, 1, 1), 0, 0));
 		putScenicItensOnBoard();
 		putCharactersOnBoard(false, false, false);
 		putAnimalsOnBoard();
