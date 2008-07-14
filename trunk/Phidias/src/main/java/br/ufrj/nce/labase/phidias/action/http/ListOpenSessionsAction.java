@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import br.ufrj.nce.labase.controller.action.http.IAction;
 import br.ufrj.nce.labase.phidias.business.SessionBusiness;
 import br.ufrj.nce.labase.phidias.communication.bean.SessionBean;
 import br.ufrj.nce.labase.phidias.communication.bean.SessionListResponseBean;
 import br.ufrj.nce.labase.phidias.communication.bean.SessionResponseBean;
+import br.ufrj.nce.labase.phidias.controller.action.http.IAction;
 import br.ufrj.nce.labase.phidias.exception.PhidiasException;
 import br.ufrj.nce.labase.phidias.persistence.model.Session;
 

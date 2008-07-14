@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.Map;
 
-import br.ufrj.nce.labase.controller.action.http.IAction;
 import br.ufrj.nce.labase.phidias.business.EventBusiness;
 import br.ufrj.nce.labase.phidias.communication.bean.EventBean;
 import br.ufrj.nce.labase.phidias.communication.bean.EventResponseBean;
+import br.ufrj.nce.labase.phidias.controller.action.http.IAction;
 import br.ufrj.nce.labase.phidias.exception.PhidiasException;
 
 public class RegisterEventAction implements IAction {

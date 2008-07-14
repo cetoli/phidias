@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.Map;
 
-import br.ufrj.nce.labase.controller.action.http.IAction;
 import br.ufrj.nce.labase.phidias.business.StimulusBusiness;
 import br.ufrj.nce.labase.phidias.communication.bean.StimulusBean;
 import br.ufrj.nce.labase.phidias.communication.bean.StimulusResponseBean;
+import br.ufrj.nce.labase.phidias.controller.action.http.IAction;
 import br.ufrj.nce.labase.phidias.exception.PhidiasException;
 
 public class RegisterStimulusAction implements IAction {
