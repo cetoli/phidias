@@ -55,7 +55,7 @@ public class Images {
 	}
 
 	public static BufferedImage getBufferedImage(String imagePath) {
-		return getBufferedImage(null, imagePath);
+		return getBufferedImage(Images.class, imagePath);
 	}
 
 	/**
@@ -74,9 +74,6 @@ public class Images {
 		// get this device's graphics configuration
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsConfiguration gc = ge.getDefaultScreenDevice().getDefaultConfiguration();
-
-		if(resource == null)
-			resource = Image.class;
 
 		try {
 			
