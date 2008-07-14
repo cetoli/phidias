@@ -6,8 +6,8 @@ import javax.persistence.EntityExistsException;
 
 import org.hibernate.exception.ConstraintViolationException;
 
-import br.ufrj.nce.labase.persistence.EntityManagerHelper;
 import br.ufrj.nce.labase.phidias.communication.bean.EventBean;
+import br.ufrj.nce.labase.phidias.persistence.EntityManagerHelper;
 import br.ufrj.nce.labase.phidias.persistence.dao.ActionDAO;
 import br.ufrj.nce.labase.phidias.persistence.dao.ActionTypeDAO;
 import br.ufrj.nce.labase.phidias.persistence.dao.SessionGamePhaseDAO;

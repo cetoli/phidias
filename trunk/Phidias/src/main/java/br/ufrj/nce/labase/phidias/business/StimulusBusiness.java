@@ -1,7 +1,7 @@
 package br.ufrj.nce.labase.phidias.business;
 
-import br.ufrj.nce.labase.persistence.EntityManagerHelper;
 import br.ufrj.nce.labase.phidias.communication.bean.StimulusBean;
+import br.ufrj.nce.labase.phidias.persistence.EntityManagerHelper;
 import br.ufrj.nce.labase.phidias.persistence.dao.SessionGamePhaseDAO;
 import br.ufrj.nce.labase.phidias.persistence.dao.SessionGamePhaseStimulusTypeDAO;
 import br.ufrj.nce.labase.phidias.persistence.model.SessionGamePhase;

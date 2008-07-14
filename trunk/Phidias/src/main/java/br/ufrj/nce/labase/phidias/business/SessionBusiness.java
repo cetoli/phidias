@@ -3,10 +3,10 @@ package br.ufrj.nce.labase.phidias.business;
 import java.util.Date;
 import java.util.List;
 
-import br.ufrj.nce.labase.persistence.EntityManagerHelper;
 import br.ufrj.nce.labase.phidias.communication.bean.CommentBean;
 import br.ufrj.nce.labase.phidias.communication.bean.SessionBean;
 import br.ufrj.nce.labase.phidias.exception.PhidiasException;
+import br.ufrj.nce.labase.phidias.persistence.EntityManagerHelper;
 import br.ufrj.nce.labase.phidias.persistence.dao.AttendantDAO;
 import br.ufrj.nce.labase.phidias.persistence.dao.GameDAO;
 import br.ufrj.nce.labase.phidias.persistence.dao.PatientDAO;

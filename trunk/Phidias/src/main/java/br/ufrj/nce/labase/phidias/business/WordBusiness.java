@@ -1,7 +1,7 @@
 package br.ufrj.nce.labase.phidias.business;
 
 import br.ufrj.nce.labase.common.FileUtil;
-import br.ufrj.nce.labase.persistence.EntityManagerHelper;
+import br.ufrj.nce.labase.phidias.persistence.EntityManagerHelper;
 import br.ufrj.nce.labase.phidias.persistence.dao.WordClassificationDAO;
 import br.ufrj.nce.labase.phidias.persistence.model.Keyword;
 import br.ufrj.nce.labase.phidias.persistence.model.WordClassification;
