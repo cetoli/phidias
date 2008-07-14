@@ -2,7 +2,7 @@ package br.ufrj.nce.labase.phidias.persistence.dao;
 
 import java.io.Serializable;
 
-import br.ufrj.nce.labase.persistence.EntityManagerHelper;
+import br.ufrj.nce.labase.phidias.persistence.EntityManagerHelper;
 
 /**
  * @generated
