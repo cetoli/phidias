@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
 
-import br.ufrj.nce.labase.persistence.EntityManagerHelper;
 import br.ufrj.nce.labase.phidias.communication.bean.PatientBean;
+import br.ufrj.nce.labase.phidias.persistence.EntityManagerHelper;
 import br.ufrj.nce.labase.phidias.persistence.dao.PatientDAO;
 import br.ufrj.nce.labase.phidias.persistence.model.Patient;
 
