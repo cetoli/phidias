@@ -1,7 +1,7 @@
 package br.ufrj.nce.labase.phidias.action.http;
 
-import br.ufrj.nce.labase.controller.action.http.IAction;
 import br.ufrj.nce.labase.phidias.communication.CommunicationProtocol;
+import br.ufrj.nce.labase.phidias.controller.action.http.IAction;
 
 public class ActionFactory {
 
