@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf12470122583380" configfile="/PhidiasWeb/WebContent/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="index.jsp" x="36" y="36" id="pf12473361827096" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf12475386631318 pf12476929145580" path="/index.jsp"/>
+  <nodes xsi:type="pageflow:PFPage" name="administracao/administracao" id="pf124753866313110" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf12475386631318" path="/administracao/administracao.jsp"/>
+  <nodes xsi:type="pageflow:PFPage" name="especialista/especialista.jsf" id="pf12476929145591" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" inlinks="pf12476929145580" path="/especialista/especialista.jsf"/>
+  <links id="pf12475386631318" target="pf124753866313110" source="pf12473361827096" outcome="administracao"/>
+  <links id="pf12476929145580" target="pf12476929145591" source="pf12473361827096" outcome="especialista"/>
+</pageflow:Pageflow>
