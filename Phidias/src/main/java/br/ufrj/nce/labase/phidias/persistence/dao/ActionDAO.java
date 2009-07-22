@@ -10,7 +10,6 @@ import br.ufrj.nce.labase.phidias.persistence.model.Action;
 public class ActionDAO extends GenericDAO<Action> {
 	public List<Action> listActions(Integer sessionId, Integer phaseId) {
 		try {
-
 			Query query = this
 					.getSession()
 					.createQuery(
@@ -19,7 +18,7 @@ public class ActionDAO extends GenericDAO<Action> {
 			query.setParameter("idFaseJogo", phaseId);
 
 			List<Action> events = (List<Action>) query.getResultList();
-
+			
 			return events;
 		} catch (NoResultException e) {
 			return null;

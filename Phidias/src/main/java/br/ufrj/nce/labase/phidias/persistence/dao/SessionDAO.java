@@ -13,7 +13,9 @@ public class SessionDAO extends GenericDAO<Session> {
 			Query query = this.getSession().createQuery("select s from Session s where s.status = :status and s.sessionEndDate is null order by s.id desc");
 			query.setParameter("status", status);
 			
-			return (List<Session>) query.getResultList();
+			List<Session> list = (List<Session>) query.getResultList();
+			
+			return list;
 		} catch (NoResultException e) {
 			return null;
 		}
@@ -25,7 +27,9 @@ public class SessionDAO extends GenericDAO<Session> {
 			
 			query.setParameter("patient", patient);
 			
-			return (List<Session>) query.getResultList();
+			List<Session> list = (List<Session>) query.getResultList();
+			
+			return list;
 		} catch (NoResultException e) {
 			return null;
 		}
