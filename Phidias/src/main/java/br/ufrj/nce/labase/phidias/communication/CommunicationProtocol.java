@@ -33,6 +33,7 @@ public class CommunicationProtocol {
 			// Prepara o HttpClient e o metodo Post para fazer a requisicao;
 			HttpClient client = new HttpClient();
 			//client.getHostConfiguration().setHost("labase.nce.ufrj.br", 80, "http");
+			//client.getHostConfiguration().setHost("baliu.com.br", 80, "http");
 			client.getHostConfiguration().setHost("localhost", 8080, "http");
 			client.getParams().setCookiePolicy(CookiePolicy.BROWSER_COMPATIBILITY);
 
