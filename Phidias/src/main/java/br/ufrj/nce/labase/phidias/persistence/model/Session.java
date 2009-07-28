@@ -113,7 +113,7 @@ public class Session implements java.io.Serializable {
 		this.gamePhase = gamePhase;
 	}
 
-	public Patient getPacient() {
+	public Patient getPatient() {
 		return patient;
 	}
 
