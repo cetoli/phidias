@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf12470122583380" configfile="/PhidiasWeb/WebContent/WEB-INF/faces-config.xml">
-  <nodes xsi:type="pageflow:PFPage" name="index.jsp" x="36" y="36" id="pf12473361827096" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf12475386631318 pf12476929145580" path="/index.jsp"/>
-  <nodes xsi:type="pageflow:PFPage" name="administracao/administracao" id="pf124753866313110" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf12475386631318" path="/administracao/administracao.jsp"/>
-  <nodes xsi:type="pageflow:PFPage" name="especialista/especialista.jsf" id="pf12476929145591" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" inlinks="pf12476929145580" path="/especialista/especialista.jsf"/>
-  <links id="pf12475386631318" target="pf124753866313110" source="pf12473361827096" outcome="administracao"/>
-  <links id="pf12476929145580" target="pf12476929145591" source="pf12473361827096" outcome="especialista"/>
+  <nodes xsi:type="pageflow:PFPage" name="administracao/administracao" x="228" y="312" id="pf124753866313110" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf12486263808812" inlinks="pf12485313590751" path="/administracao/administracao.jsp"/>
+  <nodes xsi:type="pageflow:PFPage" name="especialista/especialista.jsf" x="204" y="65" id="pf12476929145591" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" path="/especialista/especialista.jsf"/>
+  <nodes xsi:type="pageflow:PFPage" name="entrada" x="72" y="192" id="pf12485311765550" outlinks="pf12485313590751" path="/entrada.jsp"/>
+  <nodes xsi:type="pageflow:PFPage" name="acompanhamento/listagem_sessao" id="pf12486263808823" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" inlinks="pf12486263808812" path="/acompanhamento/listagem_sessao.jsp"/>
+  <links id="pf12485313590751" target="pf124753866313110" source="pf12485311765550" outcome="administracao"/>
+  <links id="pf12486263808812" target="pf12486263808823" source="pf124753866313110" outcome="listagem_sessao"/>
 </pageflow:Pageflow>
