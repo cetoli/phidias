@@ -89,7 +89,7 @@ public class Game implements java.io.Serializable {
 	/**
 	 * @generated
 	 */
-	public void seName(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
