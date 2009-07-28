@@ -2,10 +2,22 @@
     text-align: center;    
 }   
 
-.linha1 {
-	vertical-align:top;
+.pag1_linha1 {
+	background-color:#FFCC99";
 }
-	
+
+.pag1_tab1 {
+	background-color:"#FFFFCC";
+	text-align: center;
+}
+
 .coluna2 {   
+    text-align: left;   
+}  
+
+.rich-toolbar{   
+    background-color:#FFFFCC;   
+    border-color:transparent;   
+    font-style: normal;   
     text-align: left;   
 }  

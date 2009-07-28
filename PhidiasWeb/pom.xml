@@ -24,5 +24,10 @@
   		<artifactId>jsf-impl</artifactId>
   		<version>1.2-b19</version>
   	</dependency>
+  	<dependency>
+  		<groupId>Phidias</groupId>
+  		<artifactId>Phidias</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
   </dependencies>
 </project>

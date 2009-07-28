@@ -110,9 +110,8 @@
 			</rich:tab>
 		<rich:tab label="Fase 5" disabled="true">
 			...
-			</rich:tab>
+		</rich:tab>
 	</rich:tabPanel>
-
 </f:view>
 </body>
 </html>

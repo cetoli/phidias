@@ -3,6 +3,7 @@
 	<name>PhidiasWeb</name>
 	<comment></comment>
 	<projects>
+		<project>Phidias</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
