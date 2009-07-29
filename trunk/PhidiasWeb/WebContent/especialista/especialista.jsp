@@ -18,6 +18,10 @@
 </head>
 <body>
 <f:view>
+	<f:subview id="menu">
+  		<jsp:include page="/common/cabecalho.jsp"></jsp:include>
+	</f:subview>
+	
 	<h:dataTable border="1" style="width: 1000px" bgcolor="Silver">
 		<h:column id="column1">
 			<f:facet name="header">
