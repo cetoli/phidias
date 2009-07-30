@@ -65,7 +65,10 @@
 				<f:facet name="header">
 					<h:outputText value="Operações" />
 				</f:facet>
-				<h:outputText value="-" />
+				<h:commandLink value="Iniciar Aplicador" action="#{aplicadorBean.aderirSessaoJogo}"> 
+					<f:param name="paramsessaoid" value="#{sessao.id}"></f:param>
+				</h:commandLink>
+				
 			</rich:column>
 		</rich:dataTable>
 	</h:form>

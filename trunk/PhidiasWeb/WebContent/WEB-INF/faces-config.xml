@@ -14,7 +14,7 @@
 	<managed-bean>
 		<managed-bean-name>especialistaBean</managed-bean-name>
 		<managed-bean-class>br.ufrj.nce.labase.phidias.especialista.EspecialistaBean</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
+		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>estatisticaBean</managed-bean-name>
@@ -31,6 +31,11 @@
 		<managed-bean-class>br.ufrj.nce.labase.phidias.sessao.SessaoBean</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>aplicadorBean</managed-bean-name>
+		<managed-bean-class>br.ufrj.nce.labase.phidias.aplicador.AplicadorBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
 	<navigation-rule>
 		<display-name>entrada</display-name>
 		<from-view-id>/entrada.jsp</from-view-id>
@@ -45,6 +50,14 @@
 		<navigation-case>
 		<from-outcome>listagem_sessao</from-outcome>
 			<to-view-id>/acompanhamento/listagem_sessao.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>acompanhamento/listagem_sessao</display-name>
+		<from-view-id>/acompanhamento/listagem_sessao.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>acompanhamento</from-outcome>
+			<to-view-id>/acompanhamento/acompanhamento.jsp</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 </faces-config>

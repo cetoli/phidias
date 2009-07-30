@@ -6,7 +6,4 @@ public class EspecialistaBean {
 		// TODO Auto-generated constructor stub
 	}
 
-	public String goToEspecialista(){
-		return "especialista";
-	}
 }
