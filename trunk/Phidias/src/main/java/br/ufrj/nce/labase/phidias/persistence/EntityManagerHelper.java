@@ -38,7 +38,7 @@ public class EntityManagerHelper {
 	 */
 	private synchronized javax.persistence.EntityManagerFactory getFactory() {
 		if (factory == null) {
-			factory = javax.persistence.Persistence.createEntityManagerFactory("CriaContoPersist");
+			factory = javax.persistence.Persistence.createEntityManagerFactory("PhidiasPersist");
 		}
 		return factory;
 	}
