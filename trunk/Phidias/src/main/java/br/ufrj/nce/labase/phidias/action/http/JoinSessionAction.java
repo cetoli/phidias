@@ -30,8 +30,8 @@ public class JoinSessionAction implements IAction {
 				evt.setAttendant(session.getAttendant().getId());
 			}
 			
-			if (session.getPacient() != null) {
-				evt.setPatient(session.getPacient().getId());
+			if (session.getPatient() != null) {
+				evt.setPatient(session.getPatient().getId());
 			}
 		} catch (Throwable e) {
 			e.printStackTrace();
