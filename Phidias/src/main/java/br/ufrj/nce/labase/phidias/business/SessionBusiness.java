@@ -73,7 +73,7 @@ public class SessionBusiness {
 				SessionDAO sesDao = new SessionDAO();
 
 				//kill sessions not finalized.
-				List<Session> deadSessions = sesDao.findDeadSession(session.getPacient().getId());
+				List<Session> deadSessions = sesDao.findDeadSession(session.getPatient().getId());
 				for (Session sessDead : deadSessions) {
 					sessDead.setSessionEndDate(new Date());
 					sesDao.update(sessDead);
