@@ -1,6 +1,6 @@
 package br.ufrj.nce.labase.phidias.persistence.model;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -41,13 +41,13 @@ public class Question implements java.io.Serializable {
         inverseJoinColumns = {@JoinColumn(name = "RES_ID_RESPOSTA", referencedColumnName = "RES_ID_RESPOSTA"), 
     		@JoinColumn(name = "QUE_ID_QUESTIONARIO", referencedColumnName = "QUE_ID_QUESTIONARIO"),
     		@JoinColumn(name = "PEF_ID_PERGUNTA", referencedColumnName = "PEF_ID_PERGUNTA")})
-	private List<Answer> answerList;
+	private Set<Answer> answerList;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "trabalha",
         joinColumns = {@JoinColumn(name = "HAB_ID_HABILIDADE"), @JoinColumn(name = "TPH_ID_TIPO_HABILIDADE")},  
         inverseJoinColumns = {@JoinColumn(name = "QUE_ID_QUESTIONARIO"), @JoinColumn(name = "PEF_ID_PERGUNTA")})
-	private List<Skill> skillList;
+	private Set<Skill> skillList;
 
 	public QuestionPK getPk() {
 		return pk;
@@ -89,19 +89,19 @@ public class Question implements java.io.Serializable {
 		this.comments = comments;
 	}
 
-	public List<Answer> getAnswerList() {
+	public Set<Answer> getAnswerList() {
 		return answerList;
 	}
 
-	public void setAnswerList(List<Answer> answerList) {
+	public void setAnswerList(Set<Answer> answerList) {
 		this.answerList = answerList;
 	}
 
-	public List<Skill> getSkillList() {
+	public Set<Skill> getSkillList() {
 		return skillList;
 	}
 
-	public void setSkillList(List<Skill> skillList) {
+	public void setSkillList(Set<Skill> skillList) {
 		this.skillList = skillList;
 	}
 }
