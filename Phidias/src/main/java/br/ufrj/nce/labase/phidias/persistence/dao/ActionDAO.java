@@ -8,6 +8,7 @@ import javax.persistence.Query;
 import br.ufrj.nce.labase.phidias.persistence.model.Action;
 
 public class ActionDAO extends GenericDAO<Action> {
+	@SuppressWarnings("unchecked")
 	public List<Action> listActions(Integer sessionId, Integer phaseId) {
 		try {
 			Query query = this
