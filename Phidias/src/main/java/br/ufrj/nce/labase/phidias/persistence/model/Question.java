@@ -1,8 +1,14 @@
 package br.ufrj.nce.labase.phidias.persistence.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -27,6 +33,21 @@ public class Question implements java.io.Serializable {
 	
 	@Column(name = "PEF_COMENTARIO", length = 200)
 	private String comments;
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "respostas_perguntas",
+        joinColumns = {@JoinColumn(name = "RES_QUE_ID_QUESTIONARIO", referencedColumnName = "QUE_ID_QUESTIONARIO"), 
+    		@JoinColumn(name = "RES_PEF_ID_PERGUNTA", referencedColumnName = "PEF_ID_PERGUNTA")},  
+        inverseJoinColumns = {@JoinColumn(name = "RES_ID_RESPOSTA", referencedColumnName = "RES_ID_RESPOSTA"), 
+    		@JoinColumn(name = "QUE_ID_QUESTIONARIO", referencedColumnName = "QUE_ID_QUESTIONARIO"),
+    		@JoinColumn(name = "PEF_ID_PERGUNTA", referencedColumnName = "PEF_ID_PERGUNTA")})
+	private List<Answer> answerList;
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "trabalha",
+        joinColumns = {@JoinColumn(name = "HAB_ID_HABILIDADE"), @JoinColumn(name = "TPH_ID_TIPO_HABILIDADE")},  
+        inverseJoinColumns = {@JoinColumn(name = "QUE_ID_QUESTIONARIO"), @JoinColumn(name = "PEF_ID_PERGUNTA")})
+	private List<Skill> skillList;
 
 	public QuestionPK getPk() {
 		return pk;
@@ -66,5 +87,21 @@ public class Question implements java.io.Serializable {
 
 	public void setComments(String comments) {
 		this.comments = comments;
+	}
+
+	public List<Answer> getAnswerList() {
+		return answerList;
+	}
+
+	public void setAnswerList(List<Answer> answerList) {
+		this.answerList = answerList;
+	}
+
+	public List<Skill> getSkillList() {
+		return skillList;
+	}
+
+	public void setSkillList(List<Skill> skillList) {
+		this.skillList = skillList;
 	}
 }
