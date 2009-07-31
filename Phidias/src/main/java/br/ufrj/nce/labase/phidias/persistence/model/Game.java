@@ -1,6 +1,6 @@
 package br.ufrj.nce.labase.phidias.persistence.model;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -37,7 +37,7 @@ public class Game implements java.io.Serializable {
     @JoinTable(name = "jogo_are_disciplinar",
         joinColumns = @JoinColumn(name = "JOG_ID_JOGO"),  
         inverseJoinColumns = @JoinColumn(name = "ADI_ID_AREADISCIPLINAR"))
-	private List<DisciplinaryArea> disciplinaryAreaList;
+	private Set<DisciplinaryArea> disciplinaryAreaList;
 	
 	/**
 	 * @generated
@@ -113,11 +113,11 @@ public class Game implements java.io.Serializable {
 		return "Jogo" + " id=" + id + " jogNmJogo=" + name;
 	}
 
-	public List<DisciplinaryArea> getDisciplinaryAreaList() {
+	public Set<DisciplinaryArea> getDisciplinaryAreaList() {
 		return disciplinaryAreaList;
 	}
 
-	public void setDisciplinaryAreaList(List<DisciplinaryArea> disciplinaryAreaList) {
+	public void setDisciplinaryAreaList(Set<DisciplinaryArea> disciplinaryAreaList) {
 		this.disciplinaryAreaList = disciplinaryAreaList;
 	}
 }
