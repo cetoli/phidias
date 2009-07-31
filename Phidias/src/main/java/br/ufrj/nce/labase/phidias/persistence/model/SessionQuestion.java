@@ -1,5 +1,6 @@
 package br.ufrj.nce.labase.phidias.persistence.model;
 
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
@@ -8,7 +9,7 @@ import javax.persistence.GenerationType;
  * @generated
  */
 @javax.persistence.Entity
-@javax.persistence.Table(name = "sessao_perguntas_formulario")
+@javax.persistence.Table(name = "sessao_perguntas")
 public class SessionQuestion implements java.io.Serializable {
 	/**
 	 * @generated
@@ -21,6 +22,10 @@ public class SessionQuestion implements java.io.Serializable {
 	 */
 	@javax.persistence.Column(name = "spf_tx_resposta", length = 200, nullable = false)
 	private String answer;
+	
+	@Column(name = "SEP_PROB_DIAG", length = 500)
+	private String diagProb;
+	
 	/**
 	 * @generated
 	 */
@@ -65,5 +70,13 @@ public class SessionQuestion implements java.io.Serializable {
 	 */
 	public String toString() {
 		return "SessaoPerguntasFormulario" + " spfTxResposta=" + answer;
+	}
+
+	public String getDiagProb() {
+		return diagProb;
+	}
+
+	public void setDiagProb(String diagProb) {
+		this.diagProb = diagProb;
 	}
 }
