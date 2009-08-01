@@ -1,5 +1,6 @@
 package br.ufrj.nce.labase.phidias.persistence.model;
 
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
@@ -22,6 +23,10 @@ public class ActionType implements java.io.Serializable {
 	 */
 	@javax.persistence.Column(name = "tia_ds_tipoacao", length = 50)
 	private String description;
+	
+	@Column(name = "JOG_ID_JOGO")
+	private Long gameId;
+	
 	/**
 	 * @generated
 	 */
@@ -60,5 +65,13 @@ public class ActionType implements java.io.Serializable {
 
 	public String getDescription() {
 		return description;
+	}
+
+	public Long getGameId() {
+		return gameId;
+	}
+
+	public void setGameId(Long gameId) {
+		this.gameId = gameId;
 	}
 }
