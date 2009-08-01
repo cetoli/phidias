@@ -14,6 +14,7 @@
 		<class>br.ufrj.nce.labase.phidias.persistence.model.Keyword</class>
 		<class>br.ufrj.nce.labase.phidias.persistence.model.Patient</class>
 		<class>br.ufrj.nce.labase.phidias.persistence.model.Question</class>
+		<class>br.ufrj.nce.labase.phidias.persistence.model.QuestionPK</class>
 		<class>br.ufrj.nce.labase.phidias.persistence.model.Session</class>
 		<class>br.ufrj.nce.labase.phidias.persistence.model.SessionGamePhase</class>
 		<class>br.ufrj.nce.labase.phidias.persistence.model.SessionGamePhaseId</class>
@@ -22,23 +23,38 @@
 		<class>br.ufrj.nce.labase.phidias.persistence.model.SessionQuestionId</class>
 		<class>br.ufrj.nce.labase.phidias.persistence.model.StimulusType</class>
 		<class>br.ufrj.nce.labase.phidias.persistence.model.WordClassification</class>
+		
+		<class>br.ufrj.nce.labase.phidias.persistence.model.Answer</class>
+		<class>br.ufrj.nce.labase.phidias.persistence.model.AnswerPK</class>
+		<class>br.ufrj.nce.labase.phidias.persistence.model.DisciplinaryArea</class>
+		<class>br.ufrj.nce.labase.phidias.persistence.model.Movement</class>
+		<class>br.ufrj.nce.labase.phidias.persistence.model.Piece</class>
+		<class>br.ufrj.nce.labase.phidias.persistence.model.PiecePK</class>
+		<class>br.ufrj.nce.labase.phidias.persistence.model.PieceCollection</class>
+		<class>br.ufrj.nce.labase.phidias.persistence.model.Questionnaire</class>
+		<class>br.ufrj.nce.labase.phidias.persistence.model.Skill</class>
+		<class>br.ufrj.nce.labase.phidias.persistence.model.SkillPK</class>
+		<class>br.ufrj.nce.labase.phidias.persistence.model.SkillType</class>
+		<class>br.ufrj.nce.labase.phidias.persistence.model.ActionMovement</class>
+		<class>br.ufrj.nce.labase.phidias.persistence.model.ActionMovementPK</class>
+		
 		<properties>
 			<property name="hibernate.connection.driver_class"
 				value="com.mysql.jdbc.Driver" />
-			<!-- 
 			<property name="hibernate.connection.url"
-				value="jdbc:mysql://localhost:3306/criacontobd" />
+				value="jdbc:mysql://localhost:3306/phidias" />
 			<property name="hibernate.connection.username"
-				value="criacontouser" />
+				value="phidiasuser" />
 			<property name="hibernate.connection.password"
-				value="criaconto" />
-			-->
+				value="phidias" />
+			<!-- 
 			<property name="hibernate.connection.url"
 				value="jdbc:mysql://mysql.baliu.com.br:3306/baliu01" />
 			<property name="hibernate.connection.username"
 				value="baliu01" />
 			<property name="hibernate.connection.password"
 				value="123456" />
+			-->
 			<property name="hibernate.dialect"
 				value="org.hibernate.dialect.MySQLDialect" />
 			<property name="hibernate.show_sql" value="true" />
