@@ -1,7 +1,13 @@
 package br.ufrj.nce.labase.phidias.persistence.model;
 
+import java.util.Set;
+
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 /**
  * @generated
@@ -26,6 +32,13 @@ public class Game implements java.io.Serializable {
 	 */
 	@javax.persistence.Column(name = "jog_nm_jogo", length = 50, nullable = false)
 	private String name;
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "jogo_are_disciplinar",
+        joinColumns = @JoinColumn(name = "JOG_ID_JOGO"),  
+        inverseJoinColumns = @JoinColumn(name = "ADI_ID_AREADISCIPLINAR"))
+	private Set<DisciplinaryArea> disciplinaryAreaList;
+	
 	/**
 	 * @generated
 	 */
@@ -98,5 +111,13 @@ public class Game implements java.io.Serializable {
 	 */
 	public String toString() {
 		return "Jogo" + " id=" + id + " jogNmJogo=" + name;
+	}
+
+	public Set<DisciplinaryArea> getDisciplinaryAreaList() {
+		return disciplinaryAreaList;
+	}
+
+	public void setDisciplinaryAreaList(Set<DisciplinaryArea> disciplinaryAreaList) {
+		this.disciplinaryAreaList = disciplinaryAreaList;
 	}
 }

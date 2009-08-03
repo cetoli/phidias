@@ -30,7 +30,7 @@ public class ListOpenSessionsAction implements IAction {
 			for (Session s : sessions) {
 				SessionResponseBean b = new SessionResponseBean();
 				b.setSessionId(s.getId());
-				b.setPatient(s.getPacient().getId());
+				b.setPatient(s.getPatient().getId());
 				sessionResponseBeans.add(b);
 			}
 			

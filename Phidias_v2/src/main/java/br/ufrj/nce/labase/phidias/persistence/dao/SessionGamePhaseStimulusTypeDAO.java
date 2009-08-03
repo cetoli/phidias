@@ -15,6 +15,7 @@ public class SessionGamePhaseStimulusTypeDAO extends GenericDAO<SessionGamePhase
 			query.setMaxResults(1);
 			
 			Object stimulus = query.getSingleResult();
+			
 			return (SessionGamePhaseStimulusType) stimulus;
 		} catch (NoResultException e) {
 			return null;
