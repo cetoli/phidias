@@ -26,8 +26,8 @@ public class RegisterSessionAction implements IAction {
 			evt.setSuccess(true);
 			evt.setSessionId(session.getId());
 						
-			if (session.getPacient() != null) {
-				evt.setPatient(session.getPacient().getId());
+			if (session.getPatient() != null) {
+				evt.setPatient(session.getPatient().getId());
 			}
 		} catch (Throwable e) {
 			e.printStackTrace();

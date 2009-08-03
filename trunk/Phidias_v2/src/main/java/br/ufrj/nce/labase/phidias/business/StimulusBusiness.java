@@ -22,6 +22,7 @@ public class StimulusBusiness {
 					throw new RuntimeException("Session id cannot be set, it is created automatically!");
 
 				EntityManagerHelper.getInstance().startTransaction();
+				
 				SessionGamePhaseStimulusType stimulus = new SessionGamePhaseStimulusType();
 				stimulus.setSessionId(stimulusContainer.getSessionId());
 				stimulus.setPhaseId(stimulusContainer.getPhaseId());
@@ -63,8 +64,9 @@ public class StimulusBusiness {
 					// Atualiza o estimulo e informa que já foi enviado.
 					stimulus.setStimulusSent(true);
 					sgpstDAO.update(stimulus);
-					EntityManagerHelper.getInstance().commitTransaction();
 				}
+
+				EntityManagerHelper.getInstance().commitTransaction();
 
 				return stimulus;
 			}

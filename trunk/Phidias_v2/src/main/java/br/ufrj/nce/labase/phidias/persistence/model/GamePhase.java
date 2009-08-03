@@ -1,7 +1,13 @@
 package br.ufrj.nce.labase.phidias.persistence.model;
 
+import java.util.Set;
+
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 
 /**
@@ -28,6 +34,13 @@ public class GamePhase implements java.io.Serializable {
 	 */
 	@javax.persistence.Column(name = "faj_ds_fasejogo", length = 300, nullable = false)
 	private String description;
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "fase_jogo_perguntas",
+        joinColumns = @JoinColumn(name = "faj_id_fasejogo"),  
+        inverseJoinColumns = {@JoinColumn(name = "QUE_ID_QUESTIONARIO"), @JoinColumn(name = "PEF_ID_PERGUNTA")})
+	private Set<Question> questionList;
+	
 	/**
 	 * @generated
 	 */
@@ -85,5 +98,11 @@ public class GamePhase implements java.io.Serializable {
 	 */
 	public String toString() {
 		return "FaseJogo" + " id=" + id + " fajDsFasejogo=" + description;
+	}
+	public Set<Question> getQuestionList() {
+		return questionList;
+	}
+	public void setQuestionList(Set<Question> questionList) {
+		this.questionList = questionList;
 	}
 }

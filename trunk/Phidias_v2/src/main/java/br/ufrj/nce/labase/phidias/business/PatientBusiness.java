@@ -47,10 +47,15 @@ public class PatientBusiness {
 	
 	public List<Patient> listPatients() {
 		try {
+				EntityManagerHelper.getInstance().startTransaction();
 			
 				PatientDAO pDAO = new PatientDAO();
+				
+				List<Patient> result = pDAO.findAll();
+				
+				EntityManagerHelper.getInstance().commitTransaction();
 
-				return pDAO.findAll();
+				return result;
 	
 		} catch (RuntimeException e) {
 			e.printStackTrace();

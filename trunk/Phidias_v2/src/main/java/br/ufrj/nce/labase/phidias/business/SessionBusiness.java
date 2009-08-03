@@ -32,9 +32,15 @@ public class SessionBusiness {
 				if (sessionContainer.getId() != null)
 					throw new RuntimeException("Session id cannot be set, it is created automatically!");
 
+				EntityManagerHelper.getInstance().startTransaction();
+				
 				SessionDAO sDAO = new SessionDAO();
 				
-				return sDAO.findByStatus(WAITING_FOR_ATTENDANT);
+				List<Session> result = sDAO.findByStatus(WAITING_FOR_ATTENDANT);
+				
+				EntityManagerHelper.getInstance().commitTransaction();
+				
+				return result;
 			}
 		} catch (RuntimeException e) {
 			EntityManagerHelper.getInstance().rollbackTransaction();
@@ -52,6 +58,7 @@ public class SessionBusiness {
 					throw new RuntimeException("Session id cannot be set, it is created automatically!");
 
 				EntityManagerHelper.getInstance().startTransaction();
+				
 				Session session = new Session();
 
 				PatientDAO pDAO = new PatientDAO();
@@ -66,7 +73,7 @@ public class SessionBusiness {
 				SessionDAO sesDao = new SessionDAO();
 
 				//kill sessions not finalized.
-				List<Session> deadSessions = sesDao.findDeadSession(session.getPacient().getId());
+				List<Session> deadSessions = sesDao.findDeadSession(session.getPatient().getId());
 				for (Session sessDead : deadSessions) {
 					sessDead.setSessionEndDate(new Date());
 					sesDao.update(sessDead);
@@ -123,8 +130,13 @@ public class SessionBusiness {
 	public Session getSession(SessionBean sessionContainer) {
 		try {
 			if (sessionContainer != null) {
+				
+				EntityManagerHelper.getInstance().startTransaction();
+				
 				SessionDAO sDAO = new SessionDAO();
 				Session session = sDAO.findById(Session.class, sessionContainer.getId());
+				
+				EntityManagerHelper.getInstance().commitTransaction();
 
 				if (session == null) {
 					throw new RuntimeException("Error retrieving session " + sessionContainer.getId() + "!");
@@ -142,7 +154,7 @@ public class SessionBusiness {
 	public Session registerSessionEnd(SessionBean sessionContainer) {
 		try {
 			if (sessionContainer != null) {
-
+				
 				if (sessionContainer.getId() == null)
 					throw new RuntimeException("Session id must not be null!");
 
