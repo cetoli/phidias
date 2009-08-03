@@ -5,28 +5,13 @@
   <version>0.0.1-SNAPSHOT</version>
   <dependencies>
   	<dependency>
-  		<groupId>org.apache.myfaces.core</groupId>
-  		<artifactId>myfaces-impl</artifactId>
-  		<version>1.2.7</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>javax.faces</groupId>
-  		<artifactId>jsf-api</artifactId>
-  		<version>1.2_02</version>
-  	</dependency>
-  	<dependency>
   		<groupId>javax.servlet</groupId>
   		<artifactId>jstl</artifactId>
   		<version>1.2</version>
   	</dependency>
   	<dependency>
-  		<groupId>javax.faces</groupId>
-  		<artifactId>jsf-impl</artifactId>
-  		<version>1.2-b19</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>Phidias</groupId>
-  		<artifactId>Phidias</artifactId>
+  		<groupId>Phidias_V2</groupId>
+  		<artifactId>Phidias_V2</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
   </dependencies>
