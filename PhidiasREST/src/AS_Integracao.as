@@ -8,44 +8,36 @@
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	public class Functions extends MovieClip {
-		public function sendData(e:Event):void {
-			var url:String="http://localhost:8080/PhidiasREST/acao";
+		public static var _dataXML:XML;
+		public static var _variables:URLVariables;
+		public static var _url:String;
+		
+		public function sendGET(e:Event):void {
+			//var url:String="http://localhost:8080/PhidiasREST/acao";
 
-			var variables:URLVariables = new URLVariables();
-			variables.userID=2;
+			//var variables:URLVariables = new URLVariables();
+			//variables.userID=2;
 
-			var urlRequest:URLRequest=new URLRequest(url);
-			urlRequest.data=variables;
+			var urlRequest:URLRequest=new URLRequest(_url);
+			urlRequest.data=_variables;
 
 			var loader:URLLoader = new URLLoader();			
 			loader.addEventListener(Event.COMPLETE, handleServerResponse);
 			loader.load(urlRequest);
 		}
 		
-		public function sendData2(e:Event):void {
-			var url:String="http://localhost:8080/PhidiasREST/acao";
-
-			var secondsUTC:Number = new Date().time; 
-			var dataXML:XML =  
-				<login> 
-					<time>{secondsUTC}</time> 
-					<username>Ernie</username> 
-					<password>guru</password> 
-				</login>; 
-
-			var urlRequest:URLRequest=new URLRequest(url);
+		public function sendPOST(e:Event):void {
+			var urlRequest:URLRequest=new URLRequest(_url);
 			urlRequest.method = URLRequestMethod.POST;
 			urlRequest.contentType = "text/xml"; 
-			urlRequest.data = dataXML.toXMLString(); 
+			urlRequest.data = _dataXML.toXMLString(); 
 
 			var loader:URLLoader = new URLLoader();			
-			//loader.dataFormat = URLLoaderDataFormat.TEXT;
-			loader.addEventListener(Event.COMPLETE, handleServerResponse2);
+			loader.addEventListener(Event.COMPLETE, handleServerResponsePOST);
 			loader.load(urlRequest);
 		}
 
 		public function handleServerResponse(e:Event):void {
-			// handle server response here
 			var xmlData:XML = new XML(e.target.data);
 			var patientList:XMLList = xmlData.paciente;
 
@@ -56,7 +48,7 @@
 			} 			
 		}
 		
-		public function handleServerResponse2(e:Event):void {
+		public function handleServerResponsePOST(e:Event):void {
 			// handle server response here
 			var xmlData:XML = new XML(e.target.data);
 			trace("Resultado: " + xmlData.valor); 			
