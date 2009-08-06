@@ -67,8 +67,10 @@
 				</f:facet>
 				<h:commandLink value="Iniciar Aplicador" action="#{aplicadorBean.aderirSessaoJogo}"> 
 					<f:param name="paramsessaoid" value="#{sessao.id}"></f:param>
+				</h:commandLink><br></br>
+				<h:commandLink value="Iniciar Especialista" action="#{aplicadorBean.aderirSessaoJogo}"> 
+					<f:param name="paramsessaoid" value="#{sessao.id}"></f:param>
 				</h:commandLink>
-				
 			</rich:column>
 		</rich:dataTable>
 	</h:form>

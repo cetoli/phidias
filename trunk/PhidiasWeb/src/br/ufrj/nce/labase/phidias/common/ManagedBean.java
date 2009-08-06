@@ -7,6 +7,16 @@ import javax.faces.context.FacesContext;
 
 public abstract class ManagedBean {
 
+	private String mensagem;
+	
+	public String getMensagem() {
+		return mensagem;
+	}
+
+	public void setMensagem(String mensagem) {
+		this.mensagem = mensagem;
+	}
+
 	public static Object getSessionAttribute(String attributeName) {
 		try {
 			ExternalContext ec = getExternalContext();
