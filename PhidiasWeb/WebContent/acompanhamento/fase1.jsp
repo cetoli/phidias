@@ -4,47 +4,58 @@
 <%@ taglib prefix="h" uri="http://java.sun.com/jsf/html"%>
 <%@ taglib uri="http://richfaces.org/a4j" prefix="a4j"%>
 <%@ taglib uri="http://richfaces.org/rich" prefix="rich"%>
-<f:view>
-	<h:form>
-		<rich:panel header="Iteração com a criança">
-			<h:panelGrid border="0" columns="2" style="tabelaac" cellpadding="0"
-				cellspacing="0" bgcolor="#99CCCC" width="1000">
 
-				<h:panelGrid border="0" columns="3" style="tabelaac" cellpadding="0"
-					cellspacing="0" bgcolor="#99CCCC">
-
-					<h:outputText style="texto" value="NPC:"></h:outputText>
-
-					<h:inputText value=""></h:inputText>
-					<h:commandButton value="Enviar"></h:commandButton>
-
-					<h:outputText value="Registrar resposta jogador:"></h:outputText>
-					<h:inputText value=""></h:inputText>
-					<h:commandButton value="Registrar"></h:commandButton>
-				</h:panelGrid>
+<rich:panel header="Iteração com a criança">
+	<h:panelGrid border="0" columns="1" style="tabelaac" cellpadding="0" width="1000" >
+		<a4j:form ajaxSubmit="true">
 				<h:commandButton value="Mudar de Fase"></h:commandButton>
-
+		</a4j:form>
+	</h:panelGrid>
+	<h:panelGrid border="0" columns="1" style="tabelaac" cellpadding="0"
+		cellspacing="10" bgcolor="#99CCCC" width="1000">
+		<a4j:form ajaxSubmit="true"
+			oncomplete="alert('Estímulo enviado com sucesso!');">
+			<h:panelGrid border="1" columns="6" style="tabelaac" cellpadding="0" width="100%">
+				<h:panelGrid border="0" columns="1" style="tabelaac" cellpadding="0">
+					<h:outputText style="texto" value="Pergunta estímulo:"></h:outputText>
+					<h:inputTextarea cols="40" rows="5" value="#{aplicadorBean.fase1.estimuloNPC}"></h:inputTextarea>
+					<h:commandButton value="Enviar estímulo" actionListener="#{aplicadorBean.registrarEstimulo}" />
+				</h:panelGrid>
+				<h:panelGrid border="0" columns="1" style="tabelaac" cellpadding="0">
+					<h:outputText style="texto" value="Resposta de Estímulo:"></h:outputText>
+					<h:inputTextarea cols="40" rows="5"
+						value="#{aplicadorBean.fase1.estimuloNPC}"></h:inputTextarea>
+					<h:commandButton value="Registrar resposta"
+						actionListener="#{aplicadorBean.registrarEstimulo}" />
+				</h:panelGrid>
+				<h:panelGrid border="0" columns="1" style="tabelaac" cellpadding="0">
+					<h:outputText value="Comentário:"></h:outputText>
+					<h:inputTextarea cols="40" rows="5"
+						value="#{aplicadorBean.fase1.respostaJogador}"></h:inputTextarea>
+					<h:commandButton value="Registrar"
+						action="#{aplicadorBean.registrarRespostaJogador}"></h:commandButton>
+				</h:panelGrid>
 			</h:panelGrid>
-		</rich:panel>
+		</a4j:form>
+	</h:panelGrid>
+</rich:panel>
+<br></br>
+<rich:panel header="Crivo" style="background-color: white">
+	<h:panelGrid border="0" columns="2" style="tabelaac" cellpadding="0"
+		cellspacing="0" bgcolor="#99CCCC" width="1000"
+		rowClasses="odd-row,even-row">
+		<h:outputText style="texto"
+			value="Coloca os personagens na posição de sujeito."></h:outputText>
+		<h:selectOneRadio id="subscription1">
+			<f:selectItem itemLabel="Sim" itemValue="S" />
+			<f:selectItem itemLabel="Não" itemValue="N" />
+		</h:selectOneRadio>
 
-		<rich:panel header="Crivo">
-			<h:panelGrid border="0" columns="2" style="tabelaac" cellpadding="0"
-				cellspacing="0" bgcolor="#99CCCC" width="1000"
-				rowClasses="odd-row,even-row">
-				<h:outputText style="texto"
-					value="Coloca os personagens na posição de sujeito."></h:outputText>
-				<h:selectOneRadio id="subscription1">
-					<f:selectItem itemLabel="Sim" itemValue="S" />
-					<f:selectItem itemLabel="Não" itemValue="N" />
-				</h:selectOneRadio>
-
-				<h:outputText style="texto"
-					value="Utiliza mais de um complemento para o verbo."></h:outputText>
-				<h:selectOneRadio id="subscription2">
-					<f:selectItem itemLabel="Sim" itemValue="S" />
-					<f:selectItem itemLabel="Não" itemValue="N" />
-				</h:selectOneRadio>
-			</h:panelGrid>
-		</rich:panel>
-	</h:form>
-</f:view>
+		<h:outputText style="texto"
+			value="Utiliza mais de um complemento para o verbo."></h:outputText>
+		<h:selectOneRadio id="subscription2">
+			<f:selectItem itemLabel="Sim" itemValue="S" />
+			<f:selectItem itemLabel="Não" itemValue="N" />
+		</h:selectOneRadio>
+	</h:panelGrid>
+</rich:panel>

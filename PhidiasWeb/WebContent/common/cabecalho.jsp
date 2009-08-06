@@ -15,10 +15,10 @@
 
 	<h:form>
 	<table width="100%" height="120" border=0>
-		<tr bgcolor="#FFCC99">
+		<tr bgcolor="#99CCCC">
 			<td width="100">
 			<h:graphicImage url="/imagens/img_roda_ling.gif"></h:graphicImage></td>
-			<td bgcolor="#FFCC99">
+			<td bgcolor="#99CCCC">
 			<div align="center">
 			<p align="center"><b><font color="#000033" size="3"
 				face="Geneva, Arial, Helvetica, sans-serif">Phidias</font></b></p>
