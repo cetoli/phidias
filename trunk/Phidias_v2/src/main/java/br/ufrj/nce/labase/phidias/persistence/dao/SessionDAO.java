@@ -36,4 +36,23 @@ public class SessionDAO extends GenericDAO<Session> {
 			return null;
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	public Integer findCurrentPatientSessionId(String patient){
+		try {
+			Query query = this.getSession().createQuery("select s from Session s where s.sessionEndDate is null and s.patient.name = :patient order by s.id desc");
+			
+			query.setParameter("patient", patient);
+			
+			List<Session> list = (List<Session>) query.getResultList();
+			
+			if (!list.isEmpty()) {
+				return list.get(0).getId();
+			}
+			
+			return null;
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
 }

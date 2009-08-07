@@ -8,24 +8,24 @@ public class PiecePK implements java.io.Serializable {
 	private static final long serialVersionUID = -2916232412212086056L;
 
 	@Column(name = "JOG_ID_JOGO")
-	private long gameId;
+	private int gameId;
 	
 	@Column(name = "PEC_ID_PECA")
-	private long pieceId;
+	private int pieceId;
 
-	public long getGameId() {
+	public int getGameId() {
 		return gameId;
 	}
 
-	public void setGameId(long gameId) {
+	public void setGameId(int gameId) {
 		this.gameId = gameId;
 	}
 
-	public long getPieceId() {
+	public int getPieceId() {
 		return pieceId;
 	}
 
-	public void setPieceId(long pieceId) {
+	public void setPieceId(int pieceId) {
 		this.pieceId = pieceId;
 	}
 

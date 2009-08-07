@@ -16,10 +16,10 @@ public class ActionMovement implements Serializable {
 	private ActionMovementPK pk;
 	
 	@Column(name = "JOG_ID_JOGO")
-	private Long gameId;
+	private Integer gameId;
 	
 	@Column(name = "PEC_ID_PECA")
-	private Long pieceId;
+	private Integer pieceId;
 
 	public ActionMovementPK getPk() {
 		return pk;
@@ -29,19 +29,19 @@ public class ActionMovement implements Serializable {
 		this.pk = pk;
 	}
 
-	public Long getGameId() {
+	public int getGameId() {
 		return gameId;
 	}
 
-	public void setGameId(Long gameId) {
+	public void setGameId(int gameId) {
 		this.gameId = gameId;
 	}
 
-	public Long getPieceId() {
+	public int getPieceId() {
 		return pieceId;
 	}
 
-	public void setPieceId(Long pieceId) {
+	public void setPieceId(int pieceId) {
 		this.pieceId = pieceId;
 	}
 }
