@@ -37,6 +37,11 @@ public class SessionDAO extends GenericDAO<Session> {
 		}
 	}
 	
+	public void removeDeadSessions(String patient){
+		Query query = this.getSession().createQuery("Delete from Session s where s.sessionEndDate is null and s.patient.id = :patient");
+		query.executeUpdate();
+	}
+	
 	@SuppressWarnings("unchecked")
 	public Integer findCurrentPatientSessionId(String patient){
 		try {
