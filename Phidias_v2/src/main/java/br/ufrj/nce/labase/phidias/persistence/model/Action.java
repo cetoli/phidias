@@ -1,27 +1,32 @@
 package br.ufrj.nce.labase.phidias.persistence.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  * @generated
  */
-@javax.persistence.Entity
-@javax.persistence.Table(name = "acao_jogo")
+@Entity
+@Table(name = "acao_jogo")
 public class Action implements java.io.Serializable {
 	/**
 	 * @generated
 	 */
-	@javax.persistence.Id
+	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@javax.persistence.Column(name = "acj_id_acao", length = 10, nullable = false)
+	@Column(name = "acj_id_acao", length = 10, nullable = false)
 	private int id;
 	/**
 	 * @generated
 	 */
-	@javax.persistence.ManyToOne(optional = false)
+	@ManyToOne(optional = false)
 	@JoinColumns( { @JoinColumn(name = "FAJ_ID_FASEJOGO"), @JoinColumn(name = "SES_ID_SESSAO") })
 	private SessionGamePhase sessionGamePhase;
 
@@ -29,32 +34,32 @@ public class Action implements java.io.Serializable {
 	 * @generated
 	 */
 	@javax.persistence.ManyToOne(optional = false)
-	@javax.persistence.JoinColumn(name = "tia_id_tipoacao", nullable = false)
+	@JoinColumn(name = "tia_id_tipoacao", nullable = false)
 	private ActionType actionType;
 	/**
 	 * @generated
 	 */
-	@javax.persistence.Column(name = "acj_tp_jogada", length = 10, nullable = false)
+	@Column(name = "acj_tp_jogada", length = 10, nullable = false)
 	private long moveTime;
 	/**
 	 * @generated
 	 */
-	@javax.persistence.Column(name = "acj_fg_jogada_valida", length = 0, nullable = false)
+	@Column(name = "acj_fg_jogada_valida", length = 0, nullable = false)
 	private Boolean validMove;
 	/**
 	 * @generated
 	 */
-	@javax.persistence.Column(name = "acj_nm_objeto_manipulavel_1", length = 50)
+	@Column(name = "acj_nm_objeto_manipulavel_1", length = 50)
 	private String object1;
 	/**
 	 * @generated
 	 */
-	@javax.persistence.Column(name = "acj_nm_objeto_manipulavel_2", length = 50)
+	@Column(name = "acj_nm_objeto_manipulavel_2", length = 50)
 	private String object2;
 	/**
 	 * @generated
 	 */
-	@javax.persistence.Column(name = "acj_fg_enviado_aplicador", length = 0)
+	@Column(name = "acj_fg_enviado_aplicador", length = 0)
 	private Boolean sentToAttendant;
 	/**
 	 * @generated

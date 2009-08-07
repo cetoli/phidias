@@ -10,24 +10,24 @@ public class ActionMovementPK implements Serializable {
 	private static final long serialVersionUID = -385382439380465401L;
 
 	@Column(name = "ACJ_ID_ACAO")
-	private long actionId;
+	private int actionId;
 	
 	@Column(name = "JGD_ID_JOGADA")
-	private long movementId;
+	private int movementId;
 
-	public long getActionId() {
+	public int getActionId() {
 		return actionId;
 	}
 
-	public void setActionId(long actionId) {
+	public void setActionId(int actionId) {
 		this.actionId = actionId;
 	}
 
-	public long getMovementId() {
+	public int getMovementId() {
 		return movementId;
 	}
 
-	public void setMovementId(long movementId) {
+	public void setMovementId(int movementId) {
 		this.movementId = movementId;
 	}
 

@@ -14,10 +14,10 @@ public class Piece implements java.io.Serializable {
 	private PiecePK pk;
 	
 	@Column(name = "ENX_ID_ENXOVAL")
-	private Long pieceCollectionId;
+	private Integer pieceCollectionId;
 	
 	@Column(name = "PEC_JOG_ID_JOGO")
-	private Long gameId;
+	private Integer gameId;
 	
 	@Column(name = "PEC_NM_PECA")
 	private String pieceName;
@@ -36,19 +36,19 @@ public class Piece implements java.io.Serializable {
 		this.pk = pk;
 	}
 
-	public Long getPieceCollectionId() {
+	public Integer getPieceCollectionId() {
 		return pieceCollectionId;
 	}
 
-	public void setPieceCollectionId(Long pieceCollectionId) {
+	public void setPieceCollectionId(Integer pieceCollectionId) {
 		this.pieceCollectionId = pieceCollectionId;
 	}
 
-	public Long getGameId() {
+	public Integer getGameId() {
 		return gameId;
 	}
 
-	public void setGameId(Long gameId) {
+	public void setGameId(Integer gameId) {
 		this.gameId = gameId;
 	}
 
