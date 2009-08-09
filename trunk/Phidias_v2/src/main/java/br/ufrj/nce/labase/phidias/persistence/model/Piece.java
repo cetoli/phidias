@@ -16,9 +16,6 @@ public class Piece implements java.io.Serializable {
 	@Column(name = "ENX_ID_ENXOVAL")
 	private Integer pieceCollectionId;
 	
-	@Column(name = "PEC_JOG_ID_JOGO")
-	private Integer gameId;
-	
 	@Column(name = "PEC_NM_PECA")
 	private String pieceName;
 	
@@ -42,14 +39,6 @@ public class Piece implements java.io.Serializable {
 
 	public void setPieceCollectionId(Integer pieceCollectionId) {
 		this.pieceCollectionId = pieceCollectionId;
-	}
-
-	public Integer getGameId() {
-		return gameId;
-	}
-
-	public void setGameId(Integer gameId) {
-		this.gameId = gameId;
 	}
 
 	public String getPieceName() {
