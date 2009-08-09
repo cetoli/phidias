@@ -5,6 +5,9 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -20,6 +23,15 @@ public class ActionMovement implements Serializable {
 	
 	@Column(name = "PEC_ID_PECA")
 	private Integer pieceId;
+	
+	@ManyToOne()
+	@JoinColumn(name = "JGD_ID_JOGADA", insertable=false, updatable=false)
+	private Movement movement;
+	
+	@ManyToOne()
+	@JoinColumns(value = {@JoinColumn(name = "JOG_ID_JOGO", insertable=false, updatable=false), 
+			@JoinColumn(name = "PEC_ID_PECA", insertable=false, updatable=false)})
+	private Piece piece;
 
 	public ActionMovementPK getPk() {
 		return pk;
@@ -43,5 +55,19 @@ public class ActionMovement implements Serializable {
 
 	public void setPieceId(int pieceId) {
 		this.pieceId = pieceId;
+	}
+
+	/**
+	 * @return the movement
+	 */
+	public Movement getMovement() {
+		return movement;
+	}
+
+	/**
+	 * @return the piece
+	 */
+	public Piece getPiece() {
+		return piece;
 	}
 }

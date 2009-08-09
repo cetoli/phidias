@@ -13,7 +13,7 @@ public class PieceDAO extends GenericDAO<Piece> {
 		Query query = this
 				.getSession()
 				.createQuery(
-						"select f.pk.gameId from Piece f where f.pieceName = :pieceName");
+						"select f.pk.pieceId from Piece f where f.pieceName = :pieceName");
 		query.setParameter("pieceName", pieceName);
 
 		List<Integer> resultList = (List<Integer>) query.getResultList();

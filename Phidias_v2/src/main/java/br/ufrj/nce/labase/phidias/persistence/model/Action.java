@@ -1,13 +1,18 @@
 package br.ufrj.nce.labase.phidias.persistence.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -61,6 +66,11 @@ public class Action implements java.io.Serializable {
 	 */
 	@Column(name = "acj_fg_enviado_aplicador", length = 0)
 	private Boolean sentToAttendant;
+	
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "ACJ_ID_ACAO")
+	private List<ActionMovement> actionMovements;
+	
 	/**
 	 * @generated
 	 */
@@ -146,5 +156,19 @@ public class Action implements java.io.Serializable {
 	 */
 	public void setSentToAttendant(Boolean sentToAttendant) {
 		this.sentToAttendant = sentToAttendant;
+	}
+
+	/**
+	 * @return the actionMovements
+	 */
+	public List<ActionMovement> getActionMovements() {
+		return actionMovements;
+	}
+
+	/**
+	 * @param actionMovements the actionMovements to set
+	 */
+	public void setActionMovements(List<ActionMovement> actionMovements) {
+		this.actionMovements = actionMovements;
 	}
 }
