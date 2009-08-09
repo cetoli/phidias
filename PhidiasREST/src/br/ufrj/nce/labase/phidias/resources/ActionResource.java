@@ -4,11 +4,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
@@ -116,7 +118,7 @@ public class ActionResource {
 
 			EntityManagerHelper.getInstance().commitTransaction();
 
-			return Response.ok(getActions(), MediaType.APPLICATION_XML).build();
+			return Response.ok(getResult(), MediaType.APPLICATION_XML).build();
 		} catch (Exception e) {
 			EntityManagerHelper.getInstance().rollbackTransaction();
 			
@@ -145,9 +147,7 @@ public class ActionResource {
 		return session;
 	}
 
-	@GET()
-	@Produces("text/xml")
-	public StreamingOutput getActions() {
+	public StreamingOutput getResult() {
 		return new StreamingOutput() {
 			public void write(OutputStream outputStream) {
 				PrintWriter out = new PrintWriter(outputStream);
@@ -155,6 +155,47 @@ public class ActionResource {
 				out.println("<resultado>");
 				out.println("<valor>OK</valor>");
 				out.println("</resultado>");
+				
+				out.close();
+			}
+		};
+	}
+	
+	@GET()
+	@Path("{phaseId}/{sessionId}")
+	@Produces("text/xml")
+	public StreamingOutput getActions(@PathParam ("phaseId") String phaseId, @PathParam ("sessionId") String sessionId) {
+		EntityManagerHelper.getInstance().startTransaction();
+		
+		ActionDAO aDAO = new ActionDAO();
+		final List<Action> events = aDAO.listActions(Integer.valueOf(sessionId), Integer.valueOf(phaseId));
+
+		for (Action action : events)
+			action.setSentToAttendant(true);
+		
+		EntityManagerHelper.getInstance().commitTransaction();
+		
+		return new StreamingOutput() {
+			public void write(OutputStream outputStream) {
+				PrintWriter out = new PrintWriter(outputStream);
+				out.println("<?xml version=\"1.0\"?>");
+				out.println("<acaolista>");
+				for (Action action : events)
+				{
+					out.println("<acao>");
+					out.println("<id>" + action.getId() + "</id>");
+					out.println("<tipo>" + action.getActionType().getDescription() + "</tipo>");
+					
+					for (ActionMovement actionMovement : action.getActionMovements()) {
+						out.println("<jogada>");
+						out.println("<nome>" + actionMovement.getMovement().getMovementDesc() + "</nome>");
+						out.println("<peca>" + actionMovement.getPiece().getPieceName() + "</peca>");
+						out.println("</jogada>");
+					}
+					
+					out.println("</acao>");
+				}
+				out.println("</acaolista>");
 				
 				out.close();
 			}
