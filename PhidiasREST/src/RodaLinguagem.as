@@ -15,7 +15,7 @@
 		public function enviarAcao(e:Event, faseJogo:String, tipoAcao:String, movimento:String, peca:String):void {
 			var dataXML:XML =
 				<action>
-					<jogo>2</jogo>
+					<jogo>1</jogo>
 					<jogador>lucio</jogador>
 					<fasejogo>{faseJogo}</fasejogo>
 					<tipoacao>{tipoAcao}</tipoacao>
@@ -26,7 +26,7 @@
 				</action>;
 			
 			_dataXML = dataXML;
-			_url = "http://localhost:8080/PhidiasREST/acao";						
+			_url = "http://www.baliu.com.br/PhidiasREST/acao";						
 			
 			sendPOST(e);
 		}
@@ -45,7 +45,6 @@
 		public function handleServerResponse(e:Event):void {
 			// handle server response here
 			var xmlData:XML = new XML(e.target.data);
-			trace(e.target.data);
 			trace("Acao enviada: " + xmlData.valor); 			
 		}
 	}
