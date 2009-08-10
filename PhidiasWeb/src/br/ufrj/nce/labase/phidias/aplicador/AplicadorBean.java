@@ -1,8 +1,14 @@
 package br.ufrj.nce.labase.phidias.aplicador;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.faces.event.ActionEvent;
 
 import br.ufrj.nce.labase.phidias.common.ManagedBean;
+import br.ufrj.nce.labase.phidias.persistence.model.Answer;
+import br.ufrj.nce.labase.phidias.persistence.model.Question;
+import br.ufrj.nce.labase.phidias.persistence.model.QuestionPK;
 import br.ufrj.nce.labase.phidias.persistence.model.Session;
 import br.ufrj.nce.labase.phidias.sessao.SessaoBean;
 
@@ -41,6 +47,7 @@ public class AplicadorBean extends ManagedBean {
 
 	public AplicadorBean() {
 		this.fase1 = new Fase1Bean();
+		
 	}
 
 	public void registrarEstimulo(ActionEvent event) {
