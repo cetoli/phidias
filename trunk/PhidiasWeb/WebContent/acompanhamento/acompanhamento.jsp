@@ -31,6 +31,10 @@
 .even-row {
 	background-color: #99CCCC;
 }
+
+.table_column {
+	width: 30%;
+}
 </style>
 </head>
 <body bgcolor="">
@@ -41,45 +45,43 @@
 	</f:subview>
 
 	<h2>Módulo de Acompanhamento</h2>
-	<rich:panel header="Dados Gerais">
-		<h:panelGrid border="0" columns="2" style="tabelaac" cellpadding="0"
-			width="1000">
-			<rich:panel header="Aplicação">
-				<h:panelGrid border="0" columns="4" style="tabelaac" cellpadding="0" cellspacing="0">
-					<h:outputText style="texto" value="Nome Aplicação:"></h:outputText>
-					<h:outputText style="texto" value="Roda da Linguagem"></h:outputText>
 
-					<h:outputText style="texto" value="Objetivo:"></h:outputText>
-					<h:outputText style="texto" value="Trabalhar a capacidade da criança de formação de frases."></h:outputText>
+	<table width="100%" border=0>
+		<tr bgcolor="#99CCCC">
+			<td bgcolor="#99CCCC" valign="top"><rich:panel
+				header="Aplicação">
+				<h:panelGrid border="0" columns="2" style="tabelaac" cellpadding="0"
+					cellspacing="0" width="350" rules="cols"
+					columnClasses="table_column">
+					<h:outputText style="font: bold" value="Jogo:"></h:outputText>
+					<h:outputText style="texto" value="#{sessaoBean.sessaoAtiva.jogo.name}"></h:outputText>
+
+					<h:outputText style="font: bold" value="Aplicador:"></h:outputText>
+					<h:outputText style="texto" value="#{sessaoBean.sessaoAtiva.attendant.name}"></h:outputText>
+
+					<h:outputText style="font: bold" value="Início Sessão:"></h:outputText>
+					<h:outputText style="texto" value="#{sessaoBean.sessaoAtiva.sessionStartDate}"></h:outputText>
 				</h:panelGrid>
-			</rich:panel>
+			</rich:panel></td>
+			<td bgcolor="#99CCCC" valign="top"><rich:panel header="Jogador">
+				<h:panelGrid border="0" columns="2" rules="cols" style="tabelaac"
+					cellpadding="0" width="350" columnClasses="table_column">
+					<h:outputText style="font: bold" value="Nome:"></h:outputText>
+					<h:outputText style="texto" value="#{sessaoBean.sessaoAtiva.patient.name}"></h:outputText>
 
-			<rich:panel header="Jogador">
-				<h:panelGrid border="0" columns="4" style="tabelaac" cellpadding="0" >
-					<h:outputText style="texto" value="Nome criança:"></h:outputText>
-					<h:outputText style="texto" value="Andre"></h:outputText>
+					<h:outputText style="font: bold" value="Data de Nascimento:"></h:outputText>
+					<h:outputText style="texto" value="#{sessaoBean.sessaoAtiva.patient.birthday}"></h:outputText>
 
-					<h:outputText style="texto" value="Idade da criança:"></h:outputText>
-					<h:outputText style="texto" value="7"></h:outputText>
-
-					<h:outputText style="texto" value="Instituição:"></h:outputText>
-					<h:outputText style="texto" value="UFRJ"></h:outputText>
-
-					<h:outputText style="texto" value="Série:"></h:outputText>
-					<h:outputText style="texto" value="7"></h:outputText>
+					<h:outputText style="font: bold" value="Sexo:"></h:outputText>
+					<h:outputText style="texto" value="#{sessaoBean.sessaoAtiva.patient.gender}"></h:outputText>
 				</h:panelGrid>
-			</rich:panel>
+			</rich:panel></td>
+			<td bgcolor="#99CCCC" valign="top"><rich:panel header="Eventos">
+				<h:inputTextarea style="texto" value="7" cols="80" rows="10"></h:inputTextarea>
+			</rich:panel></td>
+		</tr>
+	</table>
 
-		</h:panelGrid>
-
-		<h:panelGrid border="0" columns="1" style="tabelaac" cellpadding="0">
-		<rich:panel header="Eventos">
-				<h:inputTextarea style="texto" value="7" cols="150" rows="5"></h:inputTextarea>
-		</rich:panel>
-		</h:panelGrid>
-
-
-	</rich:panel>
 	<br></br>
 
 	<rich:tabPanel width="40%" headerAlignment="left" switchType="ajax">

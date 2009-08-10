@@ -12,15 +12,28 @@
 <title>Documento sem t&iacute;tulo</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link href="css/rodalinguagem.css" rel="stylesheet" type="text/css">
+
+<style type="text/css">
+
+.odd-row {
+	background-color: white;
+}
+
+.even-row {
+	background-color: #99CCCC;
+}
+
+</style>
 </head>
-<body bgcolor="#FFFFCC">
+<body>
 <f:view>
 	<f:subview id="menu">
 		<jsp:include page="/common/cabecalho.jsp"></jsp:include>
 	</f:subview>
 
 	<h:form>
-		<rich:dataTable value="#{sessaoBean.sessoes}" var="sessao" width="750">
+		<center>
+		<rich:dataTable value="#{sessaoBean.sessoes}" var="sessao" width="750" rowClasses="odd-row,even-row">
 
 			<f:facet name="header">
 				<h:outputText value="Sessões Disponíveis"></h:outputText>
@@ -73,6 +86,7 @@
 				</h:commandLink>
 			</rich:column>
 		</rich:dataTable>
+		</center>
 	</h:form>
 
 </f:view>
