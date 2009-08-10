@@ -1,0 +1,66 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://java.sun.com/xml/ns/persistence 
+    http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
+ version="1.0">
+ <persistence-unit name="PhidiasPersist"
+  transaction-type="RESOURCE_LOCAL">
+  <provider>org.hibernate.ejb.HibernatePersistence</provider>
+  <class>br.ufrj.nce.labase.phidias.persistence.model.Action</class>
+  <class>br.ufrj.nce.labase.phidias.persistence.model.ActionType</class>
+  <class>br.ufrj.nce.labase.phidias.persistence.model.Attendant</class>
+  <class>br.ufrj.nce.labase.phidias.persistence.model.Game</class>
+  <class>br.ufrj.nce.labase.phidias.persistence.model.GamePhase</class>
+  <class>br.ufrj.nce.labase.phidias.persistence.model.Keyword</class>
+  <class>br.ufrj.nce.labase.phidias.persistence.model.Patient</class>
+  <class>br.ufrj.nce.labase.phidias.persistence.model.Question</class>
+  <class>br.ufrj.nce.labase.phidias.persistence.model.QuestionPK</class>
+  <class>br.ufrj.nce.labase.phidias.persistence.model.Session</class>
+  <class>br.ufrj.nce.labase.phidias.persistence.model.SessionGamePhase</class>
+  <class>br.ufrj.nce.labase.phidias.persistence.model.SessionGamePhaseId</class>
+  <class>br.ufrj.nce.labase.phidias.persistence.model.SessionGamePhaseStimulusType</class>
+  <class>br.ufrj.nce.labase.phidias.persistence.model.SessionQuestion</class>
+  <class>br.ufrj.nce.labase.phidias.persistence.model.SessionQuestionId</class>
+  <class>br.ufrj.nce.labase.phidias.persistence.model.StimulusType</class>
+  <class>br.ufrj.nce.labase.phidias.persistence.model.WordClassification</class>
+  
+  <class>br.ufrj.nce.labase.phidias.persistence.model.Answer</class>
+  <class>br.ufrj.nce.labase.phidias.persistence.model.AnswerPK</class>
+  <class>br.ufrj.nce.labase.phidias.persistence.model.DisciplinaryArea</class>
+  <class>br.ufrj.nce.labase.phidias.persistence.model.Movement</class>
+  <class>br.ufrj.nce.labase.phidias.persistence.model.Piece</class>
+  <class>br.ufrj.nce.labase.phidias.persistence.model.PiecePK</class>
+  <class>br.ufrj.nce.labase.phidias.persistence.model.PieceCollection</class>
+  <class>br.ufrj.nce.labase.phidias.persistence.model.Questionnaire</class>
+  <class>br.ufrj.nce.labase.phidias.persistence.model.Skill</class>
+  <class>br.ufrj.nce.labase.phidias.persistence.model.SkillPK</class>
+  <class>br.ufrj.nce.labase.phidias.persistence.model.SkillType</class>
+  <class>br.ufrj.nce.labase.phidias.persistence.model.ActionMovement</class>
+  <class>br.ufrj.nce.labase.phidias.persistence.model.ActionMovementPK</class>
+  
+  
+  <properties>
+<!--  
+    <property name="hibernate.connection.driver_class"
+    value="com.mysql.jdbc.Driver" />
+   <property name="hibernate.connection.url"
+    value="jdbc:mysql://127.0.0.1:3306/baliu03" />
+   <property name="hibernate.connection.username"
+    value="root" />
+   <property name="hibernate.connection.password"
+    value="root" />
+ -->  
+   
+   <property name="hibernate.connection.url"
+    value="jdbc:mysql://mysql.baliu.com.br:3306/baliu03" />
+   <property name="hibernate.connection.username"
+    value="baliu03" />
+   <property name="hibernate.connection.password"
+    value="123456" />
+ 
+   <property name="hibernate.dialect"
+    value="org.hibernate.dialect.MySQLDialect" />
+   <property name="hibernate.show_sql" value="true" />
+  </properties>
+  </persistence-unit>
+</persistence>
