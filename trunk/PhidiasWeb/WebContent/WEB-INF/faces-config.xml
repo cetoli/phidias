@@ -48,7 +48,7 @@
 		<display-name>administracao/administracao</display-name>
 		<from-view-id>/administracao/administracao.jsp</from-view-id>
 		<navigation-case>
-		<from-outcome>listagem_sessao</from-outcome>
+			<from-outcome>listagem_sessao</from-outcome>
 			<to-view-id>/acompanhamento/listagem_sessao.jsp</to-view-id>
 		</navigation-case>
 	</navigation-rule>
