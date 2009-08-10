@@ -3,8 +3,7 @@
  xsi:schemaLocation="http://java.sun.com/xml/ns/persistence 
     http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
  version="1.0">
- <persistence-unit name="PhidiasPersist"
-  transaction-type="RESOURCE_LOCAL">
+ <persistence-unit name="PhidiasPersist" transaction-type="RESOURCE_LOCAL">
   <provider>org.hibernate.ejb.HibernatePersistence</provider>
   <class>br.ufrj.nce.labase.phidias.persistence.model.Action</class>
   <class>br.ufrj.nce.labase.phidias.persistence.model.ActionType</class>
@@ -40,9 +39,9 @@
   
   
   <properties>
-<!--  
     <property name="hibernate.connection.driver_class"
     value="com.mysql.jdbc.Driver" />
+<!--  
    <property name="hibernate.connection.url"
     value="jdbc:mysql://127.0.0.1:3306/baliu03" />
    <property name="hibernate.connection.username"
