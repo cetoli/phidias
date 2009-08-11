@@ -14,11 +14,8 @@ public class Questionnaire implements java.io.Serializable {
 	@Column(name = "QUE_ID_QUESTIONARIO")
 	private long questionnaireId;
 	
-	@Column(name = "JOG_ID_JOGO")
-	private Long gameId;
-	
-	@Column(name = "APL_ID_LOGIN")
-	private String loginId;
+	@Column(name = "QUE_NM_QUESTIONARIO")
+	private String questionnaireName;
 
 	public long getQuestionnaireId() {
 		return questionnaireId;
@@ -28,19 +25,17 @@ public class Questionnaire implements java.io.Serializable {
 		this.questionnaireId = questionnaireId;
 	}
 
-	public Long getGameId() {
-		return gameId;
+	/**
+	 * @return the questionnaireName
+	 */
+	public String getQuestionnaireName() {
+		return questionnaireName;
 	}
 
-	public void setGameId(Long gameId) {
-		this.gameId = gameId;
-	}
-
-	public String getLoginId() {
-		return loginId;
-	}
-
-	public void setLoginId(String loginId) {
-		this.loginId = loginId;
+	/**
+	 * @param questionnaireName the questionnaireName to set
+	 */
+	public void setQuestionnaireName(String questionnaireName) {
+		this.questionnaireName = questionnaireName;
 	}
 }

@@ -1,5 +1,6 @@
 package br.ufrj.nce.labase.phidias.persistence.model;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.FetchType;
@@ -38,6 +39,12 @@ public class Game implements java.io.Serializable {
         joinColumns = @JoinColumn(name = "JOG_ID_JOGO"),  
         inverseJoinColumns = @JoinColumn(name = "ADI_ID_AREADISCIPLINAR"))
 	private Set<DisciplinaryArea> disciplinaryAreaList;
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "questionarios_jogo",
+        joinColumns = @JoinColumn(name = "JOG_ID_JOGO"),  
+        inverseJoinColumns = @JoinColumn(name = "QUE_ID_QUESTIONARIO"))
+	private List<Questionnaire> questionnaireList;
 	
 	/**
 	 * @generated
@@ -119,5 +126,19 @@ public class Game implements java.io.Serializable {
 
 	public void setDisciplinaryAreaList(Set<DisciplinaryArea> disciplinaryAreaList) {
 		this.disciplinaryAreaList = disciplinaryAreaList;
+	}
+
+	/**
+	 * @return the questionnaireList
+	 */
+	public List<Questionnaire> getQuestionnaireList() {
+		return questionnaireList;
+	}
+
+	/**
+	 * @param questionnaireList the questionnaireList to set
+	 */
+	public void setQuestionnaireList(List<Questionnaire> questionnaireList) {
+		this.questionnaireList = questionnaireList;
 	}
 }
