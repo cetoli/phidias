@@ -14,7 +14,7 @@ import br.ufrj.nce.labase.phidias.persistence.dao.ActionTypeDAO;
 import br.ufrj.nce.labase.phidias.persistence.model.ActionType;
 
 @Path("/tipoacao")
-public class ActionTypeResource {
+public class ActionTypeResource extends BaseResource {
 
 	@GET()
 	@Path("/jogo/{gameId}")

@@ -43,11 +43,9 @@ import br.ufrj.nce.labase.phidias.persistence.model.Session;
 import br.ufrj.nce.labase.phidias.persistence.model.SessionGamePhase;
 import br.ufrj.nce.labase.phidias.persistence.model.SessionGamePhaseId;
 
-import com.sun.org.apache.xerces.internal.dom.ChildNode;
-
 
 @Path("/acao")
-public class ActionResource {
+public class ActionResource extends BaseResource {
 	private final int PLAYING_GAME = 1;
 	
 	@POST
@@ -147,20 +145,6 @@ public class ActionResource {
 		return session;
 	}
 
-	public StreamingOutput getResult() {
-		return new StreamingOutput() {
-			public void write(OutputStream outputStream) {
-				PrintWriter out = new PrintWriter(outputStream);
-				out.println("<?xml version=\"1.0\"?>");
-				out.println("<resultado>");
-				out.println("<valor>OK</valor>");
-				out.println("</resultado>");
-				
-				out.close();
-			}
-		};
-	}
-	
 	@GET()
 	@Path("{phaseId}/{sessionId}")
 	@Produces("text/xml")
@@ -200,33 +184,5 @@ public class ActionResource {
 				out.close();
 			}
 		};
-	}
-	
-	private String getNodeValue(NodeList nodes, String nodeName) {
-		String retValue = null;
-		
-		for (int i = 0; i < nodes.getLength(); i++) {
-			ChildNode childElement = (ChildNode)nodes.item(i);
-			
-			if (nodeName.equals(childElement.getNodeName())) {
-				retValue = childElement.getTextContent();
-			}
-		}
-		
-		return retValue;
-	}
-	
-	private NodeList getChildNodes(NodeList nodes, String nodeName) {
-		NodeList retValue = null;
-		
-		for (int i = 0; i < nodes.getLength(); i++) {
-			ChildNode childElement = (ChildNode)nodes.item(i);
-			
-			if (nodeName.equals(childElement.getNodeName())) {
-				retValue = childElement.getChildNodes();
-			}
-		}
-		
-		return retValue;
 	}
 }
