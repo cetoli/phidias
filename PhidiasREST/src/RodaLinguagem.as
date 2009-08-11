@@ -16,7 +16,7 @@
 			var dataXML:XML =
 				<action>
 					<jogo>1</jogo>
-					<jogador>lucio</jogador>
+					<jogador>jogadorflash</jogador>
 					<fasejogo>{faseJogo}</fasejogo>
 					<tipoacao>{tipoAcao}</tipoacao>
 					<movimento>
@@ -27,6 +27,19 @@
 			
 			_dataXML = dataXML;
 			_url = "http://www.baliu.com.br/PhidiasREST/acao";						
+			
+			sendPOST(e);
+		}
+		
+		public function criaSessao(e:Event):void {
+			var dataXML:XML =
+				<sessao>
+					<jogo>1</jogo>
+					<jogador>jogadorflash</jogador>
+				</sessao>;
+			
+			_dataXML = dataXML;
+			_url = "http://www.baliu.com.br/PhidiasREST/sessao";						
 			
 			sendPOST(e);
 		}
