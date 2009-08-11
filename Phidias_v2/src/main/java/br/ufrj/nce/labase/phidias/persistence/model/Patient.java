@@ -1,5 +1,6 @@
 package br.ufrj.nce.labase.phidias.persistence.model;
 
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
@@ -67,6 +68,11 @@ public class Patient implements java.io.Serializable {
 		return birthday;
 	}
 
+	public Date getBirthdayDate() {
+		return (birthday != null?birthday.getTime(): null);
+	}
+
+	
 	public void setBirthday(GregorianCalendar birthday) {
 		this.birthday = birthday;
 	}

@@ -1,5 +1,7 @@
 package br.ufrj.nce.labase.phidias.persistence.model;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -17,6 +19,13 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "perguntas")
 public class Question implements java.io.Serializable {
+	public boolean add(Answer arg0) {
+		if(answerList == null)
+			answerList = new HashSet<Answer>();
+		
+		return answerList.add(arg0);
+	}
+
 	private static final long serialVersionUID = 8303415617187735765L;
 
 	@EmbeddedId

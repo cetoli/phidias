@@ -12,7 +12,7 @@ public class Attendant implements java.io.Serializable {
 	 */
 	@javax.persistence.Id
 	@javax.persistence.Column(name = "apl_id_login", length = 10, nullable = false)
-	private String id;
+	private Integer id;
 	/**
 	 * @generated
 	 */
@@ -37,14 +37,14 @@ public class Attendant implements java.io.Serializable {
 	/**
 	 * @generated
 	 */
-	public String getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
 	/**
 	 * @generated
 	 */
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

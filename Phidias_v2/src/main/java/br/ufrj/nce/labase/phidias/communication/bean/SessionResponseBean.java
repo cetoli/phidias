@@ -7,7 +7,7 @@ import br.ufrj.nce.labase.phidias.communication.container.ActionResponseContaine
 public class SessionResponseBean extends ActionResponseContainer {
 	private Integer sessionId;
 	private String patient;
-	private String attendant;
+	private Integer attendant;
 	private Date sessionEndDate;
 	
 	public Integer getSessionId() {
@@ -26,11 +26,11 @@ public class SessionResponseBean extends ActionResponseContainer {
 		return patient;
 	}
 
-	public void setAttendant(String attendant) {
+	public void setAttendant(Integer attendant) {
 		this.attendant = attendant;
 	}
 
-	public String getAttendant() {
+	public Integer getAttendant() {
 		return attendant;
 	}
 
