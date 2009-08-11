@@ -12,6 +12,10 @@ import javax.persistence.GenerationType;
 @javax.persistence.Table(name = "sessao")
 public class Session implements java.io.Serializable {
 
+	public static final int STATUS_WAITING_FOR_ATTENDANT = 0;
+	public static final int STATUS_PLAYING_GAME = 1;
+	public static final int STATUS_GAME_OVER = 2;
+    
 	/**
 	 * @generated
 	 */
@@ -167,5 +171,17 @@ public class Session implements java.io.Serializable {
 
 	public int getStatus() {
 		return status;
+	}
+	
+	public boolean isWaitingAttendant(){
+		return this.getStatus() == STATUS_WAITING_FOR_ATTENDANT;
+	}
+	
+	public boolean isPlayingGame(){
+		return this.getStatus() == STATUS_PLAYING_GAME;
+	}
+
+	public boolean isGameOver(){
+		return this.getStatus() == STATUS_GAME_OVER;
 	}
 }
