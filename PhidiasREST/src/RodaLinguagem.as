@@ -1,4 +1,4 @@
-﻿package {
+package {
 	import flash.net.URLRequest;
     import flash.net.URLVariables;
 	import flash.net.URLLoader;
@@ -12,7 +12,7 @@
 		public static var _variables:URLVariables;
 		public static var _url:String;
 		
-		public function enviarAcao(e:Event, faseJogo:String, tipoAcao:String, movimento:String, peca:String):void {
+		public function enviarAcao(faseJogo:String, tipoAcao:String, movimento:String, peca:String):void {
 			var dataXML:XML =
 				<action>
 					<jogo>1</jogo>
@@ -26,12 +26,12 @@
 				</action>;
 			
 			_dataXML = dataXML;
-			_url = "http://www.baliu.com.br/PhidiasREST/acao";						
+			_url = "http://www.baliu.com.br/PhidiasREST/acao";
 			
-			sendPOST(e);
+			sendPOST();
 		}
 		
-		public function criaSessao(e:Event):void {
+		public function criaSessao():void {
 			var dataXML:XML =
 				<sessao>
 					<jogo>1</jogo>
@@ -41,10 +41,10 @@
 			_dataXML = dataXML;
 			_url = "http://www.baliu.com.br/PhidiasREST/sessao";						
 			
-			sendPOST(e);
+			sendPOST();
 		}
 		
-		public function sendPOST(e:Event):void {
+		public function sendPOST():void {
 			var urlRequest:URLRequest=new URLRequest(_url);
 			urlRequest.method = URLRequestMethod.POST;
 			urlRequest.contentType = "text/xml"; 

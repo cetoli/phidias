@@ -86,10 +86,13 @@ public class ActionResource extends BaseResource {
 				sessionId = session.getId(); 
 			}
 			
-			SessionGamePhaseDAO sgpDAO = new SessionGamePhaseDAO();
-			SessionGamePhase gamePhase = sgpDAO.findById(SessionGamePhase.class, new SessionGamePhaseId(phaseId, sessionId));
-			if (gamePhase == null)
-				gamePhase = sgpDAO.create(new SessionGamePhase(phaseId, sessionId));
+			SessionGamePhase gamePhase = null;
+			synchronized (EntityManagerHelper.getInstance()) {
+				SessionGamePhaseDAO sgpDAO = new SessionGamePhaseDAO();
+				gamePhase = sgpDAO.findById(SessionGamePhase.class, new SessionGamePhaseId(phaseId, sessionId));
+				if (gamePhase == null)
+					gamePhase = sgpDAO.merge(new SessionGamePhase(phaseId, sessionId));				
+			}
 
 			action.setSessionGamePhase(gamePhase);
 
@@ -158,6 +161,7 @@ public class ActionResource extends BaseResource {
 			action.setSentToAttendant(true);
 		
 		EntityManagerHelper.getInstance().commitTransaction();
+		EntityManagerHelper.getInstance().closeEntityManager();
 		
 		return new StreamingOutput() {
 			public void write(OutputStream outputStream) {
