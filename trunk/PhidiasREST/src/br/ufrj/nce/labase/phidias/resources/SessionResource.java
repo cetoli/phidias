@@ -2,6 +2,7 @@ package br.ufrj.nce.labase.phidias.resources;
 
 import java.io.InputStream;
 import java.util.Date;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -24,6 +25,7 @@ import br.ufrj.nce.labase.phidias.persistence.dao.GameDAO;
 import br.ufrj.nce.labase.phidias.persistence.dao.PatientDAO;
 import br.ufrj.nce.labase.phidias.persistence.dao.SessionDAO;
 import br.ufrj.nce.labase.phidias.persistence.model.Game;
+import br.ufrj.nce.labase.phidias.persistence.model.Patient;
 import br.ufrj.nce.labase.phidias.persistence.model.Session;
 
 
@@ -49,10 +51,12 @@ public class SessionResource extends BaseResource {
 			
 			EntityManagerHelper.getInstance().startTransaction();
 			
+			PatientDAO pDAO = new PatientDAO();
+			Patient patientEntity = pDAO.findByName(patient);
+			
 			Session session = new Session();
 			
-			PatientDAO pDAO = new PatientDAO();
-			session.setPatient(pDAO.findByName(patient));
+			session.setPatient(patientEntity);
 
 			GameDAO gDAO = new GameDAO();
 			session.setGame(gDAO.findById(Game.class, gameId));
@@ -63,7 +67,12 @@ public class SessionResource extends BaseResource {
 			SessionDAO sesDao = new SessionDAO();
 			
 			// Apaga sessões antigas do jogador
-			sesDao.removeDeadSessions(patient);
+			//kill sessions not finalized.
+			List<Session> deadSessions = sesDao.findDeadSession(patientEntity.getId());
+			for (Session sessDead : deadSessions) {
+				sessDead.setSessionEndDate(new Date());
+				sesDao.update(sessDead);
+			}
 
 			//create a new session
 			sesDao.create(session);
