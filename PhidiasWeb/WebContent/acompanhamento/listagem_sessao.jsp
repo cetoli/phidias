@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsf/core"%>
 <%@ taglib prefix="h" uri="http://java.sun.com/jsf/html"%>
 <!-- RichFaces tag library declaration -->
@@ -46,6 +47,15 @@
 			</rich:column>
 			<rich:column>
 				<f:facet name="header">
+					<h:outputText value="Status da Sessão" />
+				</f:facet>
+				
+				<h:outputText value="Aguardando Aplicador" rendered="#{sessao.waitingAttendant}"/>
+				<h:outputText value="Jogando" rendered="#{sessao.playingGame}"/>
+				<h:outputText value="Jogo Finalizado" rendered="#{sessao.gameOver}"/>
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
 					<h:outputText value="Jogo" />
 				</f:facet>
 				<h:outputText value="#{sessao.jogo.name}" />
@@ -78,12 +88,12 @@
 				<f:facet name="header">
 					<h:outputText value="Operações" />
 				</f:facet>
-				<h:commandLink value="Iniciar Aplicador" action="#{aplicadorBean.aderirSessaoJogo}"> 
-					<f:param name="paramsessaoid" value="#{sessao.id}"></f:param>
-				</h:commandLink><br></br>
-				<h:commandLink value="Iniciar Especialista" action="#{aplicadorBean.aderirSessaoJogo}"> 
-					<f:param name="paramsessaoid" value="#{sessao.id}"></f:param>
-				</h:commandLink>
+					<h:commandLink value="Iniciar Aplicador" action="#{aplicadorBean.aderirSessaoJogo}" rendered="#{sessao.waitingAttendant}"> 
+						<f:param name="paramsessaoid" value="#{sessao.id}"></f:param>
+					</h:commandLink><br></br>
+					<h:commandLink value="Iniciar Especialista" action="#{aplicadorBean.aderirSessaoJogo}" rendered="#{sessao.waitingAttendant}"> 
+						<f:param name="paramsessaoid" value="#{sessao.id}"></f:param>
+					</h:commandLink>
 			</rich:column>
 		</rich:dataTable>
 		</center>

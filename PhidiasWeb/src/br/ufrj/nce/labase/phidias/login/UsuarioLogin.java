@@ -1,11 +1,24 @@
 package br.ufrj.nce.labase.phidias.login;
 
-public class UsuarioLogin {
+import br.ufrj.nce.labase.phidias.persistence.dao.AttendantDAO;
+import br.ufrj.nce.labase.phidias.persistence.model.Attendant;
 
+public class UsuarioLogin {
+	
+	private Attendant atendente;
+	
 	private String usuario;
 
-
 	private String senha;
+	
+	public Attendant getAtendente() {
+		return atendente;
+	}
+
+	public void setAtendente(Attendant atendente) {
+		this.atendente = atendente;
+	}
+
 	
 	public String getUsuario() {
 		return usuario;
@@ -28,6 +41,13 @@ public class UsuarioLogin {
 	}
 	
 	public String autenticarUsuario(){
+		try {
+			AttendantDAO dao = new AttendantDAO();
+			this.atendente = dao.findByName(this.getUsuario());
+		} catch (Exception e) {
+			return null;
+		}
+		
 		return "administracao";
 	}
 }
