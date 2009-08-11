@@ -3,7 +3,7 @@
   <nodes xsi:type="pageflow:PFPage" name="administracao/administracao" x="228" y="312" id="pf124753866313110" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf12498562267670" inlinks="pf12485313590751" path="/administracao/administracao.jsp"/>
   <nodes xsi:type="pageflow:PFPage" name="especialista/especialista.jsf" x="204" y="65" id="pf12476929145591" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" path="/especialista/especialista.jsf"/>
   <nodes xsi:type="pageflow:PFPage" name="entrada" x="72" y="192" id="pf12485311765550" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf12485313590751" path="/entrada.jsp"/>
-  <nodes xsi:type="pageflow:PFPage" name="acompanhamento/listagem_sessao" x="343" y="168" id="pf12486263808823" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" outlinks="pf12489164440270" inlinks="pf12498562267670" path="/acompanhamento/listagem_sessao.jsp"/>
+  <nodes xsi:type="pageflow:PFPage" name="acompanhamento/listagem_sessao" x="343" y="168" id="pf12486263808823" referenceLink="//@navigationRule.2/@fromViewId|" outlinks="pf12489164440270" inlinks="pf12498562267670" path="/acompanhamento/listagem_sessao.jsp"/>
   <nodes xsi:type="pageflow:PFPage" name="acompanhamento/acompanhamento" x="529" y="65" id="pf12489164440271" referenceLink="//@navigationRule.2/@navigationCase.0/@toViewId|" inlinks="pf12489164440270" path="/acompanhamento/acompanhamento.jsp"/>
   <links id="pf12485313590751" target="pf124753866313110" source="pf12485311765550" outcome="administracao"/>
   <links id="pf12489164440270" target="pf12489164440271" source="pf12486263808823" outcome="acompanhamento"/>

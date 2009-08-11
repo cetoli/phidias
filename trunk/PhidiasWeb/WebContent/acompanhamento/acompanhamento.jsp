@@ -70,7 +70,7 @@
 					<h:outputText style="texto" value="#{sessaoBean.sessaoAtiva.patient.name}"></h:outputText>
 
 					<h:outputText style="font: bold" value="Data de Nascimento:"></h:outputText>
-					<h:outputText style="texto" value="#{sessaoBean.sessaoAtiva.patient.birthday}"></h:outputText>
+					<h:outputText style="texto" value="#{sessaoBean.sessaoAtiva.patient.birthdayDate}"></h:outputText>
 
 					<h:outputText style="font: bold" value="Sexo:"></h:outputText>
 					<h:outputText style="texto" value="#{sessaoBean.sessaoAtiva.patient.gender}"></h:outputText>

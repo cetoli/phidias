@@ -15,6 +15,16 @@ public class Fase1Bean {
 	
 	private String estimuloNPC;
 
+	private String comentario;
+
+	public String getComentario() {
+		return comentario;
+	}
+
+	public void setComentario(String comentario) {
+		this.comentario = comentario;
+	}
+
 	public List<Question> getQuestoes() {
 		//Recupera questoes fase1
 		List<Question> questoes= new ArrayList<Question>();
