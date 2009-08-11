@@ -32,7 +32,8 @@ public class Action implements java.io.Serializable {
 	 * @generated
 	 */
 	@ManyToOne(optional = false)
-	@JoinColumns( { @JoinColumn(name = "FAJ_ID_FASEJOGO"), @JoinColumn(name = "SES_ID_SESSAO") })
+	@JoinColumns( { @JoinColumn(name = "FAJ_ID_FASEJOGO", nullable = false), 
+		@JoinColumn(name = "SES_ID_SESSAO", nullable = false) })
 	private SessionGamePhase sessionGamePhase;
 
 	/**

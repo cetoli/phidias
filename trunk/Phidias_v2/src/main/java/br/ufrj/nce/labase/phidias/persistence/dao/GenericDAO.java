@@ -47,6 +47,12 @@ public class GenericDAO<T extends Serializable> {
 			throw new IllegalArgumentException("object");
 		getSession().merge(object);
 	}
+	
+	public T merge(T object) {
+		if (object == null)
+			throw new IllegalArgumentException("object");
+		return getSession().merge(object);
+	}
 
 	/**
 	 * @generated
