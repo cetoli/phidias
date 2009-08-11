@@ -8,20 +8,18 @@ import javax.persistence.Embeddable;
  */
 @Embeddable
 public class SessionQuestionId implements java.io.Serializable {
-	/**
-	 * @generated
-	 */
-	@Column(name = "PEF_ID_PERGUNTA")
-	private Integer questionId;
+
+	@Column(name = "SES_ID_SESSAO")
+	private Integer sessionId;
 	
 	@Column(name = "QUE_ID_QUESTIONARIO")
 	private Integer questionnaireId;
 	
-	/**
-	 * @generated
-	 */
-	@Column(name = "SES_ID_SESSAO")
-	private Integer sessionId;
+	@Column(name = "PEF_ID_PERGUNTA")
+	private Integer questionId;
+	
+	@Column(name = "RES_ID_RESPOSTA")
+	private Long answerId;
 	
 	/**
 	 * @generated
@@ -31,10 +29,11 @@ public class SessionQuestionId implements java.io.Serializable {
 	/**
 	 * @generated
 	 */
-	public SessionQuestionId(Integer questionId, Integer sessionId, Integer questionnaireId) {
+	public SessionQuestionId(Integer questionId, Integer sessionId, Integer questionnaireId, Long answerId) {
 		this.questionId = questionId;
 		this.sessionId = sessionId;
 		this.questionnaireId = questionnaireId;
+		this.answerId = answerId;
 	}
 
 	public Integer getIdPerguntasFormularios() {
@@ -49,10 +48,19 @@ public class SessionQuestionId implements java.io.Serializable {
 		return questionnaireId;
 	}
 
+	/**
+	 * @return the answerId
+	 */
+	public Long getAnswerId() {
+		return answerId;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result
+				+ ((answerId == null) ? 0 : answerId.hashCode());
 		result = prime * result
 				+ ((questionId == null) ? 0 : questionId.hashCode());
 		result = prime * result
@@ -71,6 +79,11 @@ public class SessionQuestionId implements java.io.Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		SessionQuestionId other = (SessionQuestionId) obj;
+		if (answerId == null) {
+			if (other.answerId != null)
+				return false;
+		} else if (!answerId.equals(other.answerId))
+			return false;
 		if (questionId == null) {
 			if (other.questionId != null)
 				return false;
