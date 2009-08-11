@@ -7,7 +7,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import br.ufrj.nce.labase.phidias.persistence.model.Attendant;
-import br.ufrj.nce.labase.phidias.persistence.model.Patient;
 import br.ufrj.nce.labase.phidias.persistence.model.Session;
 
 public class SessionDAO extends GenericDAO<Session> {
@@ -28,6 +27,7 @@ public class SessionDAO extends GenericDAO<Session> {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Session> findAll() {
 		try {
 			Query query = this.getSession().createQuery(
@@ -64,6 +64,9 @@ public class SessionDAO extends GenericDAO<Session> {
 				.getSession()
 				.createQuery(
 						"Delete from Session s where s.sessionEndDate is null and s.patient.id = :patient");
+		
+		query.setParameter("patient", patient);
+		
 		query.executeUpdate();
 	}
 
