@@ -37,8 +37,6 @@
 		<class>br.ufrj.nce.labase.phidias.persistence.model.SkillType</class>
 		<class>br.ufrj.nce.labase.phidias.persistence.model.ActionMovement</class>
 		<class>br.ufrj.nce.labase.phidias.persistence.model.ActionMovementPK</class>
-		<class>br.ufrj.nce.labase.phidias.persistence.model.Outfit</class>
-		
 		
 		<properties>
 		 	<property name="hibernate.connection.driver_class"
