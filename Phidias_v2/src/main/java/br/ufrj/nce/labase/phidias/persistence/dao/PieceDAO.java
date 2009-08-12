@@ -22,6 +22,6 @@ public class PieceDAO extends GenericDAO<Piece> {
 			return resultList.get(0);
 		}
 		
-		return 0;
+		return null;
 	}
 }
