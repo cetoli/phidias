@@ -29,7 +29,7 @@ public class SessionDAO extends GenericDAO<Session> {
 	@SuppressWarnings("unchecked")
 	public List<Session> findAll() {
 		try {
-			Query query = this.getSession().createQuery("select distinct s from Session s inner join fetch s.gamePhase order by s.id asc");
+			Query query = this.getSession().createQuery("select distinct s from Session s inner join fetch s.gamePhase order by s.id desc");
 
 			List<Session> list = (List<Session>) query.getResultList();
 
