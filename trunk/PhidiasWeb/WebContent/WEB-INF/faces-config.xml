@@ -60,4 +60,12 @@
 			<to-view-id>/acompanhamento/acompanhamento.jsp</to-view-id>
 		</navigation-case>
 	</navigation-rule>
+	<navigation-rule>
+		<display-name>acompanhamento/listagem_sessao</display-name>
+		<from-view-id>/acompanhamento/listagem_sessao.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>teste</from-outcome>
+			<to-view-id>/acompanhamento/teste.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
 </faces-config>
