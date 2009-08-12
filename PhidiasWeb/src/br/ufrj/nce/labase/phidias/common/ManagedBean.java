@@ -52,6 +52,41 @@ public abstract class ManagedBean {
 		}
 	}
 
+	public static Object getRequestAttribute(String attributeName) {
+		try {
+			ExternalContext ec = getExternalContext();
+			if (ec != null) {
+				Map attrMap = ec.getRequestMap();
+				if (attrMap != null) {
+					return attrMap.get(attributeName);
+				} else {
+					return null;
+				}
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public static void setRequestAttribute(String attributeName,
+			Object attributeValue) {
+		try {
+			ExternalContext ec = getExternalContext();
+			if (ec != null) {
+				Map attrMap = ec.getRequestMap();
+				if (attrMap != null) {
+					attrMap.put(attributeName, attributeValue);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static ExternalContext getExternalContext() {
 		try {
 			FacesContext facesContext = FacesContext.getCurrentInstance();

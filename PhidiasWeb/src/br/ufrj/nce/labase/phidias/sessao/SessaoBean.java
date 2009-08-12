@@ -2,14 +2,17 @@ package br.ufrj.nce.labase.phidias.sessao;
 
 import java.util.List;
 
+import br.ufrj.nce.labase.phidias.common.ManagedBean;
+import br.ufrj.nce.labase.phidias.persistence.dao.ActionDAO;
 import br.ufrj.nce.labase.phidias.persistence.dao.SessionDAO;
+import br.ufrj.nce.labase.phidias.persistence.dao.SessionGamePhaseStimulusTypeDAO;
+import br.ufrj.nce.labase.phidias.persistence.model.Action;
 import br.ufrj.nce.labase.phidias.persistence.model.Session;
+import br.ufrj.nce.labase.phidias.persistence.model.SessionGamePhaseStimulusType;
 
-public class SessaoBean {
+public class SessaoBean extends ManagedBean {
 
 	private Session sessaoAtiva;
-
-	private List<Session> sessoes;
 
 	public Session getSessaoAtiva() {
 		return sessaoAtiva;
@@ -19,14 +22,6 @@ public class SessaoBean {
 		this.sessaoAtiva = sessaoAtiva;
 	}
 
-	public List<Session> getSessoes() {
-		return sessoes;
-	}
-
-	public void setSessoes(List<Session> sessoes) {
-		this.sessoes = sessoes;
-	}
-
 	public SessaoBean() {
 
 	}
@@ -34,9 +29,15 @@ public class SessaoBean {
 	public String listarSessoes() {
 		// TODO Auto-generated constructor stub
 		SessionDAO sessaoDAO = new SessionDAO();
-
-		this.sessoes = sessaoDAO.findAll();
+		this.setSessionAttribute("sessoes", sessaoDAO.findAll());
 
 		return "listagem_sessao";
+	}
+	
+	public List<Action> getEventosJogo(){
+		int sessaoId = ((SessaoBean) getSessionAttribute("sessaoBean")).getSessaoAtiva().getId();
+		
+		ActionDAO dao = new ActionDAO();
+		return dao.listActions(sessaoId, 1);
 	}
 }

@@ -1,11 +1,19 @@
 package br.ufrj.nce.labase.phidias.aplicador;
 
+import java.util.List;
+
 import javax.faces.event.ActionEvent;
 
 import br.ufrj.nce.labase.phidias.common.ManagedBean;
-import br.ufrj.nce.labase.phidias.communication.bean.SessionBean;
 import br.ufrj.nce.labase.phidias.login.UsuarioLogin;
+import br.ufrj.nce.labase.phidias.persistence.dao.QuestionnaireDAO;
 import br.ufrj.nce.labase.phidias.persistence.dao.SessionDAO;
+import br.ufrj.nce.labase.phidias.persistence.dao.SessionGamePhaseDAO;
+import br.ufrj.nce.labase.phidias.persistence.dao.SessionGamePhaseStimulusTypeDAO;
+import br.ufrj.nce.labase.phidias.persistence.model.Question;
+import br.ufrj.nce.labase.phidias.persistence.model.SessionGamePhase;
+import br.ufrj.nce.labase.phidias.persistence.model.SessionGamePhaseId;
+import br.ufrj.nce.labase.phidias.persistence.model.SessionGamePhaseStimulusType;
 import br.ufrj.nce.labase.phidias.sessao.SessaoBean;
 
 public class AplicadorBean extends ManagedBean {
@@ -36,7 +44,20 @@ public class AplicadorBean extends ManagedBean {
 	}
 
 	public void registrarEstimulo(ActionEvent event) {
-		System.out.println(this.getFase1().getEstimuloNPC());
+		int sessaoId = ((SessaoBean) getSessionAttribute("sessaoBean")).getSessaoAtiva().getId();
+		String estimulo = this.getFase1().getEstimuloNPC();
+
+		SessionGamePhaseStimulusType stimulus = new    SessionGamePhaseStimulusType();
+		stimulus.setSessionId(sessaoId);
+		//Fase1
+		stimulus.setPhaseId(1);
+		//Tipo de estimulo NPC
+		stimulus.setStimulusTypeId(1);
+		stimulus.setStimulusText(estimulo);
+
+		SessionGamePhaseStimulusTypeDAO sgpstDAO = new       SessionGamePhaseStimulusTypeDAO();
+		sgpstDAO.create(stimulus);
+
 		this.setMensagem("Estimulo enviado com sucesso!");
 	}
 
@@ -46,24 +67,35 @@ public class AplicadorBean extends ManagedBean {
 	}
 
 	public void registrarComentario(ActionEvent event) {
-		System.out.println(getFase1().getComentario());
+		int sessaoId = ((SessaoBean) getSessionAttribute("sessaoBean")).getSessaoAtiva().getId();
+		String comentario = getFase1().getComentario(); 
+		
+		SessionGamePhaseDAO gpsDAO = new SessionGamePhaseDAO();
+		gpsDAO.atualizaComentarioSessaofase(sessaoId,1,comentario);
+		
 		this.setMensagem("Comentário enviado com sucesso!");
 	}
 
+	public String goTeste() {
+		return "teste";
+	}
+	
 	public String aderirSessaoJogo() {
-		SessaoBean sessao = (SessaoBean) getSessionAttribute("sessaoBean");
-		sessao.getSessoes();
-
 		int sessaoId = Integer.valueOf(getParameter("paramsessaoid"));
-		int aplicadorId = ((UsuarioLogin) getSessionAttribute("usuarioLogin"))
-				.getAtendente().getId();
+		int paramjogoid = Integer.valueOf(getParameter("paramjogoid"));
+		int aplicadorId = ((UsuarioLogin) getSessionAttribute("usuarioLogin")).getAtendente().getId();
 
 		SessionDAO dao = new SessionDAO();
 
 		SessaoBean sessaoBean = (SessaoBean) this.getSessionAttribute("sessaoBean");
-
-		sessaoBean.setSessaoAtiva(dao.updateSessionAttendant(
-				sessaoId, aplicadorId));
+		sessaoBean.setSessaoAtiva(dao.updateSessionAttendant(sessaoId, aplicadorId));
+		
+		QuestionnaireDAO daoQ = new QuestionnaireDAO();
+		
+		//fase 1
+		List<Question> questoes = daoQ.findQuestionarieByGameFaseId(paramjogoid, 1);
+		
+		this.getFase1().setQuestoes(questoes);
 
 		return "acompanhamento";
 	}
