@@ -90,7 +90,7 @@ function goTab() {
 			<h:panelGrid columns="1" id="grid" width="300">
 						
 				<rich:scrollableDataTable rowKeyVar="rkv" frozenColCount="0"  height="200px" 
-	                width="150px" rows="5"	value="#{sessaoBean.eventosJogo}" var="evento" sortMode="single">
+	                width="300px" value="#{sessaoBean.eventosJogo}" var="evento" sortMode="single">
 	
 	                <rich:column id="evento">
 	                	<f:facet name="header">
@@ -98,13 +98,13 @@ function goTab() {
 	                	</f:facet>
 	                    <h:outputText value="#{evento.actionType.description}" />
 	                </rich:column>
-	                <rich:column id="evento">
+	                <rich:column id="jogada">
 	                	<f:facet name="header">
-	                		<h:outputText value="Evento"></h:outputText>
+	                		<h:outputText value="Jogada"></h:outputText>
 	                	</f:facet>
 	                    <h:outputText value="#{evento.actionType.description}" />
 	                </rich:column>
-	                <rich:column id="evento">
+	                <rich:column id="peca">
 	                	<f:facet name="header">
 	                		<h:outputText value="Peça"></h:outputText>
 	                	</f:facet>
@@ -118,7 +118,7 @@ function goTab() {
 
 	<a4j:region>
         <h:form>
-            <a4j:poll id="poll" interval="2000" enabled="true"
+            <a4j:poll id="poll" interval="5000" enabled="true"
                 reRender="poll,grid" />
         </h:form>
     </a4j:region>

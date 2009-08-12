@@ -1,25 +1,52 @@
 package br.ufrj.nce.labase.phidias.aplicador;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.faces.model.SelectItem;
+
+import org.apache.commons.beanutils.BeanUtils;
+
+import br.ufrj.nce.labase.phidias.persistence.model.Answer;
 import br.ufrj.nce.labase.phidias.persistence.model.Question;
 
 public class Fase1Bean {
 
-	private List<Question> questoes;
+	private List<QuestionUI> questoesUI;
 
+	private String[] respostasQuestionario;
+	
 	private String respostaJogador;
 
 	private String estimuloNPC;
 
 	private String comentario;
 
-	public List<Question> getQuestoes() {
-		return questoes;
+	public String[] getRespostasQuestionario() {
+		return respostasQuestionario;
+	}
+
+	public void setRespostasQuestionario(String[] respostasQuestionario) {
+		this.respostasQuestionario = respostasQuestionario;
+	}
+
+	public List<QuestionUI> getQuestoesUI() {
+		return questoesUI;
+	}
+
+	public void setQuestoesUI(List<QuestionUI> questoesUI) {
+		this.questoesUI = questoesUI;
 	}
 
 	public void setQuestoes(List<Question> questoes) {
-		this.questoes = questoes;
+		if (questoes != null) {
+			this.questoesUI = new ArrayList<QuestionUI>();
+			for (Question questao : questoes) {
+				this.questoesUI.add(new QuestionUI(questao));
+			}
+		}
 	}
 
 	public String getComentario() {

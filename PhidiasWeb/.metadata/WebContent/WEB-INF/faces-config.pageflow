@@ -1,13 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf12470122583380" configfile="/PhidiasWeb/WebContent/WEB-INF/faces-config.xml">
-  <nodes xsi:type="pageflow:PFPage" name="administracao/administracao" x="228" y="312" id="pf124753866313110" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf12498562267670" inlinks="pf12485313590751" path="/administracao/administracao.jsp"/>
-  <nodes xsi:type="pageflow:PFPage" name="entrada" x="40" y="288" id="pf12485311765550" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf12485313590751" path="/entrada.jsp"/>
-  <nodes xsi:type="pageflow:PFPage" name="acompanhamento/listagem_sessao" x="343" y="168" id="pf12486263808823" referenceLink="//@navigationRule.4/@navigationCase.0/@toViewId|" outlinks="pf12489164440270 pf12499992701160" inlinks="pf12498562267670 pf12500439642660" path="/acompanhamento/listagem_sessao.jsp"/>
-  <nodes xsi:type="pageflow:PFPage" name="acompanhamento/acompanhamento" x="612" y="48" id="pf12489164440271" referenceLink="//@navigationRule.4/@fromViewId|" outlinks="pf12500439642660" inlinks="pf12489164440270" path="/acompanhamento/acompanhamento.jsp"/>
-  <nodes xsi:type="pageflow:PFPage" name="acompanhamento/teste" id="pf12499992701171" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" inlinks="pf12499992701160" path="/acompanhamento/teste.jsp"/>
+  <nodes xsi:type="pageflow:PFPage" name="administracao/administracao" x="338" y="946" id="pf124753866313110" referenceLink="//@navigationRule.2/@navigationCase.5/@toViewId|" outlinks="pf12498562267670 pf12501129356970 pf12501129356971 pf12501129356972 pf12501129356973 pf12501129356974" inlinks="pf12485313590751 pf12501129356975 pf12501129356974" path="/administracao/administracao.jsp"/>
+  <nodes xsi:type="pageflow:PFPage" name="entrada" x="122" y="562" id="pf12485311765550" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf12485313590751" path="/entrada.jsp"/>
+  <nodes xsi:type="pageflow:PFPage" name="acompanhamento/listagem_sessao" x="554" y="178" id="pf12486263808823" referenceLink="//@navigationRule.3/@fromViewId|" outlinks="pf12489164440270" inlinks="pf12498562267670 pf125011300382913" path="/acompanhamento/listagem_sessao.jsp"/>
+  <nodes xsi:type="pageflow:PFPage" name="acompanhamento/acompanhamento" x="770" y="178" id="pf12489164440271" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" outlinks="pf125011300382913" inlinks="pf12489164440270" path="/acompanhamento/acompanhamento.jsp"/>
+  <nodes xsi:type="pageflow:PFPage" name="acompanhamento/teste" x="122" y="946" id="pf12499992701171" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" path="/acompanhamento/teste.jsp"/>
+  <nodes xsi:type="pageflow:PFPage" name="*" x="122" y="1330" id="pf12501129356996" outlinks="pf12501129356975" path="*"/>
+  <nodes xsi:type="pageflow:PFPage" name="/administracao/jogo/PrincipalJogo" x="554" y="562" id="pf12501129356997" referenceLink="//@navigationRule.4/@fromViewId|" outlinks="pf12501129356998" inlinks="pf12501129356970" path="/administracao/jogo/PrincipalJogo.jsp"/>
+  <nodes xsi:type="pageflow:PFPage" name="administracao/enxoval/PrincipalEnxoval" x="554" y="946" id="pf12501129356999" referenceLink="//@navigationRule.2/@navigationCase.2/@toViewId|" inlinks="pf12501129356971" path="/administracao/enxoval/PrincipalEnxoval.jsp"/>
+  <nodes xsi:type="pageflow:PFPage" name="administracao/questionario/PrincipalQuestionario" x="554" y="1330" id="pf125011293569910" referenceLink="//@navigationRule.2/@navigationCase.3/@toViewId|" inlinks="pf12501129356972" path="/administracao/questionario/PrincipalQuestionario.jsp"/>
+  <nodes xsi:type="pageflow:PFPage" name="administracao/pergunta/PrincipalPergunta" x="554" y="1714" id="pf125011293570011" referenceLink="//@navigationRule.2/@navigationCase.4/@toViewId|" inlinks="pf12501129356973" path="/administracao/pergunta/PrincipalPergunta.jsp"/>
+  <nodes xsi:type="pageflow:PFPage" name="administracao/jogo/editarJogo" x="770" y="562" id="pf125011293570012" referenceLink="//@navigationRule.4/@navigationCase.0/@toViewId|" inlinks="pf12501129356998" path="/administracao/jogo/editarJogo.jsp"/>
   <links id="pf12485313590751" target="pf124753866313110" source="pf12485311765550" outcome="administracao"/>
   <links id="pf12489164440270" target="pf12489164440271" source="pf12486263808823" outcome="acompanhamento"/>
   <links id="pf12498562267670" target="pf12486263808823" source="pf124753866313110" outcome="listagem_sessao"/>
-  <links id="pf12499992701160" target="pf12499992701171" source="pf12486263808823" outcome="teste"/>
-  <links id="pf12500439642660" target="pf12486263808823" source="pf12489164440271" outcome="listagem_sessao"/>
+  <links id="pf12501129356975" target="pf124753866313110" source="pf12501129356996" outcome="inicialADM"/>
+  <links id="pf12501129356970" target="pf12501129356997" source="pf124753866313110" outcome="jogo"/>
+  <links id="pf12501129356971" target="pf12501129356999" source="pf124753866313110" outcome="enxoval"/>
+  <links id="pf12501129356972" target="pf125011293569910" source="pf124753866313110" outcome="questionario"/>
+  <links id="pf12501129356973" target="pf125011293570011" source="pf124753866313110" outcome="pergunta"/>
+  <links id="pf12501129356998" target="pf125011293570012" source="pf12501129356997" outcome="editar"/>
+  <links id="pf12501129356974" target="pf124753866313110" source="pf124753866313110" outcome="inicialadm">
+    <bendPoints d1Height="-36" d2Height="-36"/>
+    <bendPoints d1Width="-64" d1Height="-36" d2Width="-64" d2Height="-36"/>
+    <bendPoints d1Width="-64" d2Width="-64"/>
+  </links>
+  <links id="pf125011300382913" target="pf12486263808823" source="pf12489164440271" outcome="listagem_sessao"/>
 </pageflow:Pageflow>
