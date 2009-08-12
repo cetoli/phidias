@@ -72,7 +72,7 @@
 					</h:panelGrid>
 				</f:facet>
 
-				<rich:menuItem submitMode="ajax" value="Buscar sessões"
+				<rich:menuItem value="Buscar sessões"
 					action="#{sessaoBean.listarSessoes}" />
 
 			</rich:dropDownMenu>
