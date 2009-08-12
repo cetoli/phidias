@@ -74,19 +74,19 @@
 	<h:panelGrid border="0" columns="1" style="tabelaac" cellpadding="0"
 		cellspacing="0" bgcolor="#99CCCC" width="1000">
 		
-		<rich:dataTable value="#{aplicadorBean.fase1.questoes}" var="questao" width="1000" rowClasses="odd-row,even-row" >
+		<rich:dataTable  value="#{aplicadorBean.fase1.questoesUI}" var="questao" width="1000" rowClasses="odd-row,even-row" >
 		<rich:column>
 			<h:outputText style="texto" value="#{questao.question}"></h:outputText>
 		</rich:column>
 		<rich:column>
-			<h:selectOneRadio required="true">
+			<h:selectOneRadio required="true" value="#{aplicadorBean.fase1.respostasQuestionario}">
 					<f:selectItems value="#{questao.answersSelectItems}"/>
 			</h:selectOneRadio>
 		</rich:column>
 		</rich:dataTable>		
 	</h:panelGrid>
 	<br></br>
-	<h:commandButton value="Registrar"></h:commandButton>
+	<h:commandButton value="Registrar" actionListener="#{aplicadorBean.salvarQuestionarioFase1}"></h:commandButton>
 	
 </rich:panel>
 </a4j:form>
