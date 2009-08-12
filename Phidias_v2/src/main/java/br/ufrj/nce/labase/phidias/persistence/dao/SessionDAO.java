@@ -8,6 +8,8 @@ import javax.persistence.Query;
 
 import br.ufrj.nce.labase.phidias.persistence.model.Attendant;
 import br.ufrj.nce.labase.phidias.persistence.model.Session;
+import br.ufrj.nce.labase.phidias.persistence.model.SessionGamePhase;
+import br.ufrj.nce.labase.phidias.persistence.model.SessionGamePhaseId;
 
 public class SessionDAO extends GenericDAO<Session> {
 	@SuppressWarnings("unchecked")
@@ -27,7 +29,7 @@ public class SessionDAO extends GenericDAO<Session> {
 	@SuppressWarnings("unchecked")
 	public List<Session> findAll() {
 		try {
-			Query query = this.getSession().createQuery("select s from Session s inner join fetch s.gamePhase order by s.id asc");
+			Query query = this.getSession().createQuery("select distinct s from Session s inner join fetch s.gamePhase order by s.id asc");
 
 			List<Session> list = (List<Session>) query.getResultList();
 
@@ -52,6 +54,23 @@ public class SessionDAO extends GenericDAO<Session> {
 		}
 	}
 
+	public void updateSessionPhase(int sessionId, int phaseId) {
+		EntityManager em = this.getSession();
+		try {
+			em.getTransaction().begin();
+			
+			SessionGamePhase sgm = new SessionGamePhase();
+			sgm.setId(new SessionGamePhaseId(phaseId, sessionId));
+			
+			em.persist(sgm);
+			
+			em.getTransaction().commit();
+		} catch (NoResultException e) {
+			em.getTransaction().rollback();
+		}
+	}
+
+	
 	public void removeDeadSessions(String patient) {
 		Query query = this.getSession().createQuery("Delete from Session s where s.sessionEndDate is null and s.patient.id = :patient");
 
