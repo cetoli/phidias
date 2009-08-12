@@ -15,7 +15,7 @@
 <rich:panel header="Iteração com a criança">
 	<h:panelGrid border="0" columns="1" style="tabelaac" cellpadding="0" width="1000" columnClasses="coluna1">
 		<a4j:form ajaxSubmit="true">
-				<h:commandButton value="Mudar de Fase"></h:commandButton>
+				<h:commandButton value="Mudar de Fase" onclick="goTab('#{rich:clientId('tab_fase1')}', '#{rich:clientId('tab_fase2')}', 'Fase 2');"></h:commandButton>
 		</a4j:form>
 	</h:panelGrid>
 	<h:panelGrid border="0" columns="1" style="tabelaac" cellpadding="0"
@@ -64,25 +64,26 @@
 	                <rich:componentControl for="panel" attachTo="hidelink" operation="hide" event="onclick"/>
 	            </h:panelGroup>
 	        </f:facet>
-	        <h:outputText value="#{aplicadorBean.mensagem}"></h:outputText>
+	        <h:outputText value="Comando efetuado com sucesso!"></h:outputText>
 	    </rich:modalPanel>
 	</h:panelGrid>
 </rich:panel>
 <br></br>
 <a4j:form ajaxSubmit="true">
 <rich:panel header="Crivo" style="background-color: white">
-	<h:panelGrid border="0" columns="2" style="tabelaac" cellpadding="0"
-		cellspacing="0" bgcolor="#99CCCC" width="1000"
-		rowClasses="odd-row,even-row">
+	<h:panelGrid border="0" columns="1" style="tabelaac" cellpadding="0"
+		cellspacing="0" bgcolor="#99CCCC" width="1000">
 		
-		<c:forEach var="questao" items="${aplicadorBean.fase1.questoes}">
-			<h:outputText style="texto">${questao.question}</h:outputText>
-			
-			<h:selectOneRadio required="">
-				<f:selectItem itemLabel="Sim" itemValue="S" />
-				<f:selectItem itemLabel="Não" itemValue="N" />
-			</h:selectOneRadio>			
-		</c:forEach>
+		<rich:dataTable value="#{aplicadorBean.fase1.questoes}" var="questao" width="1000" rowClasses="odd-row,even-row" >
+		<rich:column>
+			<h:outputText style="texto" value="#{questao.question}"></h:outputText>
+		</rich:column>
+		<rich:column>
+			<h:selectOneRadio required="true">
+					<f:selectItems value="#{questao.answersSelectItems}"/>
+			</h:selectOneRadio>
+		</rich:column>
+		</rich:dataTable>		
 	</h:panelGrid>
 	<br></br>
 	<h:commandButton value="Registrar"></h:commandButton>

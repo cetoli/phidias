@@ -34,7 +34,7 @@
 
 	<h:form>
 		<center>
-		<rich:dataTable value="#{sessaoBean.sessoes}" var="sessao" width="750" rowClasses="odd-row,even-row">
+		<rich:dataTable value="#{sessoes}" var="sessao" width="750" rowClasses="odd-row,even-row" >
 
 			<f:facet name="header">
 				<h:outputText value="Sessões Disponíveis"></h:outputText>
@@ -90,9 +90,11 @@
 				</f:facet>
 					<h:commandLink value="Iniciar Aplicador" action="#{aplicadorBean.aderirSessaoJogo}" rendered="#{sessao.waitingAttendant}"> 
 						<f:param name="paramsessaoid" value="#{sessao.id}"></f:param>
+						<f:param name="paramjogoid" value="#{sessao.game.id}"></f:param>
 					</h:commandLink><br></br>
 					<h:commandLink value="Iniciar Especialista" action="#{aplicadorBean.aderirSessaoJogo}" rendered="#{sessao.waitingAttendant}"> 
 						<f:param name="paramsessaoid" value="#{sessao.id}"></f:param>
+						<f:param name="paramjogoid" value="#{sessao.game.id}"></f:param>
 					</h:commandLink>
 			</rich:column>
 		</rich:dataTable>

@@ -7,6 +7,15 @@
 <%@ taglib uri="http://richfaces.org/rich" prefix="rich"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+<script type="text/javascript">
+function goTab(tabOrigem, tabDestino, labelFaseDestino) {
+	alert("Entrou2");
+	alert(document.getElementById('tab_fase2_shifted'));
+	document.getElementById('tab_fase2_shifted').onclick();
+	RichFaces.switchTab(tabOrigem, tabDestino, labelFaseDestino); 
+}
+
+</script>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
@@ -60,7 +69,9 @@
 					<h:outputText style="texto" value="#{sessaoBean.sessaoAtiva.attendant.name}"></h:outputText>
 
 					<h:outputText style="font: bold" value="Início Sessão:"></h:outputText>
-					<h:outputText style="texto" value="#{sessaoBean.sessaoAtiva.sessionStartDate}"></h:outputText>
+					<h:outputText style="texto" value="#{sessaoBean.sessaoAtiva.sessionStartDate}">
+						<f:convertDateTime type="date" pattern="dd/MM/yyyy hh:mm"/>
+					</h:outputText>
 				</h:panelGrid>
 			</rich:panel></td>
 			<td bgcolor="#99CCCC" valign="top"><rich:panel header="Jogador">
@@ -70,42 +81,60 @@
 					<h:outputText style="texto" value="#{sessaoBean.sessaoAtiva.patient.name}"></h:outputText>
 
 					<h:outputText style="font: bold" value="Data de Nascimento:"></h:outputText>
-					<h:outputText style="texto" value="#{sessaoBean.sessaoAtiva.patient.birthdayDate}"></h:outputText>
+					<h:outputText style="texto" value="#{sessaoBean.sessaoAtiva.patient.birthdayDate}">
+						<f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+					</h:outputText>
 
 					<h:outputText style="font: bold" value="Sexo:"></h:outputText>
 					<h:outputText style="texto" value="#{sessaoBean.sessaoAtiva.patient.gender}"></h:outputText>
 				</h:panelGrid>
 			</rich:panel></td>
 			<td bgcolor="#99CCCC" valign="top"><rich:panel header="Eventos">
-				<h:inputTextarea style="texto" value="7" cols="80" rows="10"></h:inputTextarea>
+			<h:panelGrid columns="1" id="grid" width="300">
+						
+				<rich:scrollableDataTable rowKeyVar="rkv" frozenColCount="0"  height="200px" 
+	                width="150px" rows="5"	value="#{sessaoBean.eventosJogo}" var="evento" sortMode="single">
+	
+	                <rich:column id="evento">
+	                    <h:outputText value="#{evento.actionType.description}" />
+	                </rich:column>
+	            </rich:scrollableDataTable>
+			</h:panelGrid>				
 			</rich:panel></td>
 		</tr>
 	</table>
 
+	<a4j:region>
+        <h:form>
+            <a4j:poll id="poll" interval="2000" enabled="true"
+                reRender="poll,grid" />
+        </h:form>
+    </a4j:region>
+	
 	<br></br>
 
-	<rich:tabPanel width="40%" headerAlignment="left" switchType="ajax">
-		<rich:tab label="Fase 1" switchType="ajax">
+	<rich:tabPanel width="40%" headerAlignment="left" switchType="client">
+		<rich:tab label="Fase 1" id="tab_fase1">
 			<f:subview id="fase1">
 				<%@ include file="fase1.jsp"%>
 			</f:subview>
 		</rich:tab>
-		<rich:tab label="Fase 2" disabled="true">
+		<rich:tab label="Fase 2" id="tab_fase2">
 			<f:subview id="fase2">
 				<%@ include file="fase1.jsp"%>
 			</f:subview>
 		</rich:tab>
-		<rich:tab label="Fase 3" disabled="true">
+		<rich:tab label="Fase 3" id="tab_fase3" disabled="true">
 			<f:subview id="fase3">
 				<%@ include file="fase1.jsp"%>
 			</f:subview>
 		</rich:tab>
-		<rich:tab label="Fase 4" disabled="true">
+		<rich:tab label="Fase 4" id="tab_fase4" disabled="true">
 			<f:subview id="fase4">
 				<%@ include file="fase1.jsp"%>
 			</f:subview>
 		</rich:tab>
-		<rich:tab label="Fase 5" disabled="true">
+		<rich:tab label="Fase 5" id="tab_fase5" disabled="true">
 			<f:subview id="fase5">
 				<%@ include file="fase1.jsp"%>
 			</f:subview>
