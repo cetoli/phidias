@@ -1,11 +1,8 @@
 package br.ufrj.nce.labase.phidias.persistence.model;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import javax.faces.model.SelectItem;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -25,9 +22,9 @@ import javax.persistence.Table;
 @Table(name = "perguntas")
 public class Question implements java.io.Serializable {
 	public boolean add(Answer arg0) {
-		if(answerList == null)
+		if (answerList == null)
 			answerList = new HashSet<Answer>();
-		
+
 		return answerList.add(arg0);
 	}
 
@@ -38,26 +35,22 @@ public class Question implements java.io.Serializable {
 
 	@Column(name = "PEF_TX_PERGUNTA", length = 200)
 	private String question;
-	
+
 	@Column(name = "PEF_TP_PERGUNTA")
 	private String questionType;
-	
+
 	@Column(name = "PEF_TP_CRIVO")
 	private String evalType;
-	
+
 	@Column(name = "PEF_COMENTARIO", length = 200)
 	private String comments;
-	
+
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumns({
-    @JoinColumn(name="QUE_ID_QUESTIONARIO", referencedColumnName="QUE_ID_QUESTIONARIO"),
-    @JoinColumn(name="PEF_ID_PERGUNTA", referencedColumnName="PEF_ID_PERGUNTA")})
+	@JoinColumns( { @JoinColumn(name = "QUE_ID_QUESTIONARIO", referencedColumnName = "QUE_ID_QUESTIONARIO"), @JoinColumn(name = "PEF_ID_PERGUNTA", referencedColumnName = "PEF_ID_PERGUNTA") })
 	private Set<Answer> answerList;
-	
+
 	@ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "trabalha",
-        joinColumns = {@JoinColumn(name = "HAB_ID_HABILIDADE"), @JoinColumn(name = "TPH_ID_TIPO_HABILIDADE")},  
-        inverseJoinColumns = {@JoinColumn(name = "QUE_ID_QUESTIONARIO"), @JoinColumn(name = "PEF_ID_PERGUNTA")})
+	@JoinTable(name = "trabalha", joinColumns = { @JoinColumn(name = "HAB_ID_HABILIDADE"), @JoinColumn(name = "TPH_ID_TIPO_HABILIDADE") }, inverseJoinColumns = { @JoinColumn(name = "QUE_ID_QUESTIONARIO"), @JoinColumn(name = "PEF_ID_PERGUNTA") })
 	private Set<Skill> skillList;
 
 	public QuestionPK getPk() {
@@ -114,17 +107,5 @@ public class Question implements java.io.Serializable {
 
 	public void setSkillList(Set<Skill> skillList) {
 		this.skillList = skillList;
-	}
-	
-	public List<SelectItem> getAnswersSelectItems(){
-		List<SelectItem> listAnswer = new ArrayList<SelectItem>();
-		for(Answer answer: this.getAnswerList()){
-			SelectItem si = new SelectItem();
-			si.setLabel(answer.getAnswerDesc());
-			si.setValue(String.valueOf(answer.getPk().getAnswerId()));
-			listAnswer.add(si);
-		}
-		
-		return listAnswer;
 	}
 }
