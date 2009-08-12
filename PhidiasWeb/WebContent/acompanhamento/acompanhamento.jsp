@@ -93,6 +93,21 @@ function goTab() {
 	                width="150px" rows="5"	value="#{sessaoBean.eventosJogo}" var="evento" sortMode="single">
 	
 	                <rich:column id="evento">
+	                	<f:facet name="header">
+	                		<h:outputText value="Evento"></h:outputText>
+	                	</f:facet>
+	                    <h:outputText value="#{evento.actionType.description}" />
+	                </rich:column>
+	                <rich:column id="evento">
+	                	<f:facet name="header">
+	                		<h:outputText value="Evento"></h:outputText>
+	                	</f:facet>
+	                    <h:outputText value="#{evento.actionType.description}" />
+	                </rich:column>
+	                <rich:column id="evento">
+	                	<f:facet name="header">
+	                		<h:outputText value="Peça"></h:outputText>
+	                	</f:facet>
 	                    <h:outputText value="#{evento.actionType.description}" />
 	                </rich:column>
 	            </rich:scrollableDataTable>

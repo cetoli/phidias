@@ -6,10 +6,12 @@ import javax.faces.event.ActionEvent;
 
 import br.ufrj.nce.labase.phidias.common.ManagedBean;
 import br.ufrj.nce.labase.phidias.login.UsuarioLogin;
+import br.ufrj.nce.labase.phidias.persistence.dao.GameDAO;
 import br.ufrj.nce.labase.phidias.persistence.dao.QuestionnaireDAO;
 import br.ufrj.nce.labase.phidias.persistence.dao.SessionDAO;
 import br.ufrj.nce.labase.phidias.persistence.dao.SessionGamePhaseDAO;
 import br.ufrj.nce.labase.phidias.persistence.dao.SessionGamePhaseStimulusTypeDAO;
+import br.ufrj.nce.labase.phidias.persistence.model.GamePhase;
 import br.ufrj.nce.labase.phidias.persistence.model.Question;
 import br.ufrj.nce.labase.phidias.persistence.model.SessionGamePhase;
 import br.ufrj.nce.labase.phidias.persistence.model.SessionGamePhaseId;
@@ -99,4 +101,11 @@ public class AplicadorBean extends ManagedBean {
 
 		return "acompanhamento";
 	}
+	
+	public void mudarFase2Jogo(ActionEvent event) {
+		int sessaoId = ((SessaoBean) getSessionAttribute("sessaoBean")).getSessaoAtiva().getId();
+		SessionDAO dao = new SessionDAO();		
+		dao.updateSessionPhase(sessaoId, 2);
+	}
+
 }
