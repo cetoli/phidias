@@ -34,7 +34,7 @@
 
 	<h:form>
 		<center>
-		<rich:dataTable value="#{sessoes}" var="sessao" width="750" rowClasses="odd-row,even-row" >
+		<rich:dataTable value="#{sessoes}" var="sessao" width="900" rowClasses="odd-row,even-row" >
 
 			<f:facet name="header">
 				<h:outputText value="Sessões Disponíveis"></h:outputText>
@@ -60,6 +60,15 @@
 				<h:outputText value="#{sessao.sessionEndDate}">
 					<f:convertDateTime pattern="dd/MM/yyyy hh:mm" />
 				</h:outputText>
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="Fase do Jogo" />	
+				</f:facet>
+				<center>
+				<h:outputText rendered="#{sessao.lastGamePhase != null}" value="#{sessao.lastGamePhase.id.phaseId}">
+				</h:outputText>
+				</center>
 			</rich:column>
 			<rich:column>
 				<f:facet name="header">
