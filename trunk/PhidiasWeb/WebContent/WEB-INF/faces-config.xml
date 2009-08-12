@@ -24,7 +24,7 @@
 	<managed-bean>
 		<managed-bean-name>usuarioLogin</managed-bean-name>
 		<managed-bean-class>br.ufrj.nce.labase.phidias.login.UsuarioLogin</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
+		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>sessaoBean</managed-bean-name>
@@ -36,6 +36,31 @@
 		<managed-bean-class>br.ufrj.nce.labase.phidias.aplicador.AplicadorBean</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>jogoBean</managed-bean-name>
+		<managed-bean-class>br.ufrj.nce.labase.phidias.jogo.JogoBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>enxovalBean</managed-bean-name>
+		<managed-bean-class>br.ufrj.nce.labase.phidias.enxoval.EnxovalBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>perguntaBean</managed-bean-name>
+		<managed-bean-class>br.ufrj.nce.labase.phidias.pergunta.PerguntaBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	
+	
+	<navigation-rule>		
+		<navigation-case>
+			<from-outcome>inicialADM</from-outcome>
+			<to-view-id>/administracao/administracao.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+	<!-- Menu entrada.jsp -->
 	<navigation-rule>
 		<display-name>entrada</display-name>
 		<from-view-id>/entrada.jsp</from-view-id>
@@ -51,6 +76,26 @@
 			<from-outcome>listagem_sessao</from-outcome>
 			<to-view-id>/acompanhamento/listagem_sessao.jsp</to-view-id>
 		</navigation-case>
+		<navigation-case>
+			<from-outcome>jogo</from-outcome>
+			<to-view-id>/administracao/jogo/PrincipalJogo.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>enxoval</from-outcome>
+			<to-view-id>/administracao/enxoval/PrincipalEnxoval.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>questionario</from-outcome>
+			<to-view-id>/administracao/questionario/PrincipalQuestionario.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>pergunta</from-outcome>
+			<to-view-id>/administracao/pergunta/PrincipalPergunta.jsp</to-view-id>
+		</navigation-case>
+ 		<navigation-case>
+			<from-outcome>inicialadm</from-outcome>
+			<to-view-id>/administracao/administracao.jsp</to-view-id>
+		</navigation-case>
 	</navigation-rule>
 	<navigation-rule>
 		<display-name>acompanhamento/listagem_sessao</display-name>
@@ -60,12 +105,16 @@
 			<to-view-id>/acompanhamento/acompanhamento.jsp</to-view-id>
 		</navigation-case>
 	</navigation-rule>
+	
+	
 	<navigation-rule>
-		<display-name>acompanhamento/listagem_sessao</display-name>
-		<from-view-id>/acompanhamento/listagem_sessao.jsp</from-view-id>
+		<display-name>/administracao/jogo/PrincipalJogo</display-name>
+		<from-view-id>/administracao/jogo/PrincipalJogo.jsp</from-view-id>
 		<navigation-case>
-			<from-outcome>teste</from-outcome>
-			<to-view-id>/acompanhamento/teste.jsp</to-view-id>
+			<from-outcome>editar</from-outcome>
+			<to-view-id>/administracao/jogo/editarJogo.jsp</to-view-id>
 		</navigation-case>
 	</navigation-rule>
+	
+		
 </faces-config>
