@@ -47,6 +47,22 @@
 			</rich:column>
 			<rich:column>
 				<f:facet name="header">
+					<h:outputText value="Data Início Sessão" />
+				</f:facet>
+				<h:outputText value="#{sessao.sessionStartDate}">
+					<f:convertDateTime pattern="dd/MM/yyyy hh:mm"/>
+				</h:outputText>
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="Data Fim Sessão" />	
+				</f:facet>
+				<h:outputText value="#{sessao.sessionEndDate}">
+					<f:convertDateTime pattern="dd/MM/yyyy hh:mm" />
+				</h:outputText>
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
 					<h:outputText value="Status da Sessão" />
 				</f:facet>
 				

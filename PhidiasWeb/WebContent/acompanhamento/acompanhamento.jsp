@@ -9,8 +9,6 @@
 <html>
 <script type="text/javascript">
 function goTab(tabOrigem, tabDestino, labelFaseDestino) {
-	alert("Entrou2");
-	alert(document.getElementById('tab_fase2_shifted'));
 	document.getElementById('tab_fase2_shifted').onclick();
 	RichFaces.switchTab(tabOrigem, tabDestino, labelFaseDestino); 
 }
