@@ -9,7 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link href="css/rodalinguagem.css" rel="stylesheet" type="text/css">
 </head>
-<body bgcolor="#FFFFCC">
+<body bgcolor="">
 <f:view>
 
 <h:form>
@@ -18,35 +18,35 @@
 		<td height="117"><img src="imagens/img_roda_ling.gif" width="200"
 			height="100"></td>
 	</tr>
-	<tr bgcolor="#FFCC99">
-		<td height="22" bgcolor="#FFCC99">
+	<tr bgcolor="#99CCCC">
+		<td height="22" bgcolor="#99CCCC">
 		<div align="center">
 		<p align="center"><b><font color="#000033" size="3"
 			face="Geneva, Arial, Helvetica, sans-serif">Tela de Entrada</font></b></p>
 		</div>
 		</td>
 	</tr>
-	<tr bgcolor="#FFFFCC">
-		<td height="173" align="center" bgcolor="#FFFFCC">
+	<tr>
+		<td height="173" align="center" bgcolor="#99CCCC">
 		<div align="center">
 		<p>&nbsp;</p>
 		<table  border=0 align="center"
 			cellpadding="0" cellspacing="0">
 			<tr>
-				<td bgcolor="#FFCC99">
+				<td bgcolor="#99CCCC">
 				<p align="right"><font color="#000033" size="2"
 					face="Geneva, Arial, Helvetica, sans-serif"> Usuário </font></p>
 				</td>
-				<td bgcolor="#FFCC99">
+				<td bgcolor="#99CCCC">
 				<p><h:inputText maxlength="10" size="10" value="#{usuarioLogin.usuario}"></h:inputText></p>
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#FFCC99">
+				<td bgcolor="#99CCCC">
 				<div align="right"><font color="#000033" size="2"
 					face="Geneva, Arial, Helvetica, sans-serif">Senha</font></div>
 				</td>
-				<td bgcolor="#FFCC99"><h:inputSecret maxlength="10" size="10" value="#{usuarioLogin.senha}"></h:inputSecret></td>
+				<td bgcolor="#99CCCC"><h:inputSecret maxlength="10" size="10" value="#{usuarioLogin.senha}"></h:inputSecret></td>
 			</tr>
 			<tr>
 				<td colspan="2">
