@@ -1,9 +1,12 @@
 package br.ufrj.nce.labase.phidias.persistence.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 
 /**
  * @generated
@@ -31,8 +34,8 @@ public class Session implements java.io.Serializable {
 	/**
 	 * @generated
 	 */
-	@javax.persistence.OneToMany
-	@Column(name = "ses_id_sessao")
+	@javax.persistence.OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "ses_id_sessao")
 	private java.util.Set<SessionGamePhase> gamePhase = new java.util.HashSet<SessionGamePhase>();
 	/**
 	 * @generated
@@ -187,5 +190,22 @@ public class Session implements java.io.Serializable {
 
 	public boolean isGameOver() {
 		return this.getStatus() == STATUS_GAME_OVER;
+	}
+	
+	public SessionGamePhase getLastGamePhase(){
+		int ultimSessao=0;
+		SessionGamePhase lastGamePhase = null;
+		if(this.getGamePhase() != null && this.getGamePhase() .size() > 0){
+			for(SessionGamePhase gamephase: this.getGamePhase())
+			{
+				if(gamephase.getId().getPhaseId() > ultimSessao)
+				{
+					ultimSessao = gamephase.getId().getPhaseId();
+					lastGamePhase = gamephase; 
+				}
+			}	
+		}
+		
+		return lastGamePhase;
 	}
 }
