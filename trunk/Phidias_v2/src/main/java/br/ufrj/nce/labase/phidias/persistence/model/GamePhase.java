@@ -38,7 +38,7 @@ public class GamePhase implements java.io.Serializable {
 	@ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "fase_jogo_perguntas",
         joinColumns = @JoinColumn(name = "faj_id_fasejogo"),  
-        inverseJoinColumns = {@JoinColumn(name = "QUE_ID_QUESTIONARIO"), @JoinColumn(name = "PEF_ID_PERGUNTA")})
+        inverseJoinColumns = {@JoinColumn(name = "QUE_ID_QUESTIONARIO", referencedColumnName="QUE_ID_QUESTIONARIO"), @JoinColumn(name = "PEF_ID_PERGUNTA", referencedColumnName="PEF_ID_PERGUNTA")})
 	private Set<Question> questionList;
 	
 	/**

@@ -2,15 +2,20 @@ package br.ufrj.nce.labase.phidias.persistence.model;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import javax.faces.model.SelectItem;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -43,13 +48,10 @@ public class Question implements java.io.Serializable {
 	@Column(name = "PEF_COMENTARIO", length = 200)
 	private String comments;
 	
-	@ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "respostas_perguntas",
-        joinColumns = {@JoinColumn(name = "RES_QUE_ID_QUESTIONARIO", referencedColumnName = "QUE_ID_QUESTIONARIO"), 
-    		@JoinColumn(name = "RES_PEF_ID_PERGUNTA", referencedColumnName = "PEF_ID_PERGUNTA")},  
-        inverseJoinColumns = {@JoinColumn(name = "RES_ID_RESPOSTA", referencedColumnName = "RES_ID_RESPOSTA"), 
-    		@JoinColumn(name = "QUE_ID_QUESTIONARIO", referencedColumnName = "QUE_ID_QUESTIONARIO"),
-    		@JoinColumn(name = "PEF_ID_PERGUNTA", referencedColumnName = "PEF_ID_PERGUNTA")})
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumns({
+    @JoinColumn(name="QUE_ID_QUESTIONARIO", referencedColumnName="QUE_ID_QUESTIONARIO"),
+    @JoinColumn(name="PEF_ID_PERGUNTA", referencedColumnName="PEF_ID_PERGUNTA")})
 	private Set<Answer> answerList;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
@@ -112,5 +114,17 @@ public class Question implements java.io.Serializable {
 
 	public void setSkillList(Set<Skill> skillList) {
 		this.skillList = skillList;
+	}
+	
+	public List<SelectItem> getAnswersSelectItems(){
+		List<SelectItem> listAnswer = new ArrayList<SelectItem>();
+		for(Answer answer: this.getAnswerList()){
+			SelectItem si = new SelectItem();
+			si.setLabel(answer.getAnswerDesc());
+			si.setValue(String.valueOf(answer.getPk().getAnswerId()));
+			listAnswer.add(si);
+		}
+		
+		return listAnswer;
 	}
 }
