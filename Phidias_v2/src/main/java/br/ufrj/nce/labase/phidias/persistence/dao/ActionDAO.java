@@ -14,7 +14,7 @@ public class ActionDAO extends GenericDAO<Action> {
 			Query query = this
 					.getSession()
 					.createQuery(
-							"select f from Action f where f.sessionGamePhase.id.sessionId = :idSessao and f.sessionGamePhase.id.phaseId = :idFaseJogo and (f.sentToAttendant is null or f.sentToAttendant = false) order by f.id");
+							"select f from Action f inner join fetch f.sessionGamePhase sessionGamePhase where sessionGamePhase.id.sessionId = :idSessao and sessionGamePhase.id.phaseId = :idFaseJogo and (f.sentToAttendant is null or f.sentToAttendant = false) order by f.id");
 			query.setParameter("idSessao", sessionId);
 			query.setParameter("idFaseJogo", phaseId);
 
