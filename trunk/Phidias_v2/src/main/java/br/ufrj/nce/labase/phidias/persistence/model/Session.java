@@ -6,7 +6,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 
 /**
  * @generated
@@ -40,7 +39,7 @@ public class Session implements java.io.Serializable {
 	/**
 	 * @generated
 	 */
-	@javax.persistence.ManyToOne(optional = true)
+	@javax.persistence.ManyToOne(optional = true, cascade = CascadeType.ALL)
 	@javax.persistence.JoinColumn(name = "pac_id_login", nullable = true)
 	private Patient patient;
 	/**
