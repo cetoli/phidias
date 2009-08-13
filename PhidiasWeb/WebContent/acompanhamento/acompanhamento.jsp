@@ -39,7 +39,7 @@ function goTab() {
 }
 
 .table_column {
-	width: 30%;
+	width: 40%;
 }
 </style>
 </head>
@@ -57,7 +57,7 @@ function goTab() {
 			<td bgcolor="#99CCCC" valign="top"><rich:panel
 				header="Aplicação">
 				<h:panelGrid border="0" columns="2" style="tabelaac" cellpadding="0"
-					cellspacing="0" width="350" rules="cols"
+					cellspacing="0" width="300" rules="cols"
 					columnClasses="table_column">
 					<h:outputText style="font: bold" value="Jogo:"></h:outputText>
 					<h:outputText style="texto" value="#{sessaoBean.sessaoAtiva.jogo.name}"></h:outputText>
@@ -73,7 +73,7 @@ function goTab() {
 			</rich:panel></td>
 			<td bgcolor="#99CCCC" valign="top"><rich:panel header="Jogador">
 				<h:panelGrid border="0" columns="2" rules="cols" style="tabelaac"
-					cellpadding="0" width="350" columnClasses="table_column">
+					cellpadding="0" width="300" columnClasses="table_column">
 					<h:outputText style="font: bold" value="Nome:"></h:outputText>
 					<h:outputText style="texto" value="#{sessaoBean.sessaoAtiva.patient.name}"></h:outputText>
 
@@ -87,28 +87,28 @@ function goTab() {
 				</h:panelGrid>
 			</rich:panel></td>
 			<td bgcolor="#99CCCC" valign="top"><rich:panel header="Eventos">
-			<h:panelGrid columns="1" id="grid" width="300">
+			<h:panelGrid columns="1" id="grid" width="500">
 						
 				<rich:scrollableDataTable rowKeyVar="rkv" frozenColCount="0"  height="200px" 
-	                width="300px" value="#{sessaoBean.eventosJogo}" var="evento" sortMode="single">
+	                width="500px" value="#{sessaoBean.eventosJogo}" var="evento" sortMode="single">
 	
-	                <rich:column id="evento">
+	                <rich:column id="evento" width="100">
 	                	<f:facet name="header">
 	                		<h:outputText value="Evento"></h:outputText>
 	                	</f:facet>
-	                    <h:outputText value="#{evento.actionType.description}" />
+	                    <h:outputText value="#{evento.action.actionType.description}" />
 	                </rich:column>
-	                <rich:column id="jogada">
+	                <rich:column id="jogada" width="150">
 	                	<f:facet name="header">
 	                		<h:outputText value="Jogada"></h:outputText>
 	                	</f:facet>
-	                    <h:outputText value="#{evento.actionType.description}" />
+	                    <h:outputText value="#{evento.movement.movementDesc}" />
 	                </rich:column>
-	                <rich:column id="peca">
+	                <rich:column id="peca" width="250">
 	                	<f:facet name="header">
 	                		<h:outputText value="Peça"></h:outputText>
 	                	</f:facet>
-	                    <h:outputText value="#{evento.actionType.description}" />
+	                    <h:outputText value="#{evento.piece.pieceDesc}" />
 	                </rich:column>
 	            </rich:scrollableDataTable>
 			</h:panelGrid>				

@@ -1,14 +1,14 @@
 package br.ufrj.nce.labase.phidias.sessao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.ufrj.nce.labase.phidias.common.ManagedBean;
 import br.ufrj.nce.labase.phidias.persistence.dao.ActionDAO;
 import br.ufrj.nce.labase.phidias.persistence.dao.SessionDAO;
-import br.ufrj.nce.labase.phidias.persistence.dao.SessionGamePhaseStimulusTypeDAO;
 import br.ufrj.nce.labase.phidias.persistence.model.Action;
+import br.ufrj.nce.labase.phidias.persistence.model.ActionMovement;
 import br.ufrj.nce.labase.phidias.persistence.model.Session;
-import br.ufrj.nce.labase.phidias.persistence.model.SessionGamePhaseStimulusType;
 
 public class SessaoBean extends ManagedBean {
 
@@ -34,10 +34,16 @@ public class SessaoBean extends ManagedBean {
 		return "listagem_sessao";
 	}
 	
-	public List<Action> getEventosJogo(){
+	public List<ActionMovement> getEventosJogo(){
 		int sessaoId = ((SessaoBean) getSessionAttribute("sessaoBean")).getSessaoAtiva().getId();
 		
 		ActionDAO dao = new ActionDAO();
-		return dao.listActions(sessaoId, 1);
+		List<Action> actionList = dao.listActions(sessaoId, 1);
+		
+		List<ActionMovement> resultList = new ArrayList<ActionMovement>();
+		for (Action action : actionList) {
+			resultList.addAll(action.getActionMovements());
+		}
+		return resultList;
 	}
 }
