@@ -24,9 +24,11 @@ import br.ufrj.nce.labase.phidias.persistence.EntityManagerHelper;
 import br.ufrj.nce.labase.phidias.persistence.dao.GameDAO;
 import br.ufrj.nce.labase.phidias.persistence.dao.PatientDAO;
 import br.ufrj.nce.labase.phidias.persistence.dao.SessionDAO;
+import br.ufrj.nce.labase.phidias.persistence.dao.SessionGamePhaseDAO;
 import br.ufrj.nce.labase.phidias.persistence.model.Game;
 import br.ufrj.nce.labase.phidias.persistence.model.Patient;
 import br.ufrj.nce.labase.phidias.persistence.model.Session;
+import br.ufrj.nce.labase.phidias.persistence.model.SessionGamePhase;
 
 
 @Path("/sessao")
@@ -76,6 +78,9 @@ public class SessionResource extends BaseResource {
 
 			//create a new session
 			sesDao.create(session);
+			
+			SessionGamePhaseDAO sgpDAO = new SessionGamePhaseDAO();
+			sgpDAO.create(new SessionGamePhase(1, session.getId()));
 			
 			EntityManagerHelper.getInstance().commitTransaction();
 

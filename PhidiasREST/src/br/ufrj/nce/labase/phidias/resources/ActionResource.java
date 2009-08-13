@@ -110,7 +110,10 @@ public class ActionResource extends BaseResource {
 			PieceDAO pDAO = new PieceDAO();
 			
 			actionMovement.setGameId(gameId);
-			actionMovement.setPieceId(pDAO.getPieceId(pieceName));
+			Integer pieceId = pDAO.getPieceId(pieceName);
+			if (pieceId != null) {
+				actionMovement.setPieceId(pieceId);
+			}
 			actionMovementPK.setActionId(action.getId());
 			actionMovementPK.setMovementId(movementId);
 			
@@ -177,7 +180,11 @@ public class ActionResource extends BaseResource {
 					for (ActionMovement actionMovement : action.getActionMovements()) {
 						out.println("<jogada>");
 						out.println("<nome>" + actionMovement.getMovement().getMovementDesc() + "</nome>");
-						out.println("<peca>" + actionMovement.getPiece().getPieceName() + "</peca>");
+						if (actionMovement.getPiece() != null) {
+							out.println("<peca>" + actionMovement.getPiece().getPieceName() + "</peca>");							
+						} else {
+							out.println("<peca></peca>");
+						}
 						out.println("</jogada>");
 					}
 					
