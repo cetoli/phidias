@@ -52,7 +52,7 @@ function goTab() {
 
 	<h2>Módulo de Acompanhamento</h2>
 
-	<table width="100%" border=0>
+	<table width="75%" border=0>
 		<tr bgcolor="#99CCCC">
 			<td bgcolor="#99CCCC" valign="top"><rich:panel
 				header="Aplicação">
@@ -70,8 +70,9 @@ function goTab() {
 						<f:convertDateTime type="date" pattern="dd/MM/yyyy hh:mm"/>
 					</h:outputText>
 				</h:panelGrid>
-			</rich:panel></td>
-			<td bgcolor="#99CCCC" valign="top"><rich:panel header="Jogador">
+			</rich:panel>
+			<br></br>
+			<rich:panel header="Jogador">
 				<h:panelGrid border="0" columns="2" rules="cols" style="tabelaac"
 					cellpadding="0" width="300" columnClasses="table_column">
 					<h:outputText style="font: bold" value="Nome:"></h:outputText>
@@ -83,9 +84,10 @@ function goTab() {
 					</h:outputText>
 
 					<h:outputText style="font: bold" value="Sexo:"></h:outputText>
-					<h:outputText style="texto" value="#{sessaoBean.sessaoAtiva.patient.gender}"></h:outputText>
+					<h:outputText style="texto" value="#{sessaoBean.sessaoAtiva.patient.genderStr}"></h:outputText>
 				</h:panelGrid>
-			</rich:panel></td>
+			</rich:panel>
+			</td>			
 			<td bgcolor="#99CCCC" valign="top"><rich:panel header="Eventos">
 			<h:panelGrid columns="1" id="grid" width="500">
 						
@@ -122,8 +124,6 @@ function goTab() {
                 reRender="poll,grid" />
         </h:form>
     </a4j:region>
-	
-	<br></br>
 
 	<rich:tabPanel width="40%" headerAlignment="left" switchType="client">
 		<rich:tab label="Fase 1" id="tab_fase1">
@@ -136,17 +136,17 @@ function goTab() {
 				<%@ include file="fase1.jsp"%>
 			</f:subview>
 		</rich:tab>
-		<rich:tab label="Fase 3" id="tab_fase3" disabled="true">
+		<rich:tab label="Fase 3" id="tab_fase3">
 			<f:subview id="fase3">
 				<%@ include file="fase1.jsp"%>
 			</f:subview>
 		</rich:tab>
-		<rich:tab label="Fase 4" id="tab_fase4" disabled="true">
+		<rich:tab label="Fase 4" id="tab_fase4">
 			<f:subview id="fase4">
 				<%@ include file="fase1.jsp"%>
 			</f:subview>
 		</rich:tab>
-		<rich:tab label="Fase 5" id="tab_fase5" disabled="true">
+		<rich:tab label="Fase 5" id="tab_fase5">
 			<f:subview id="fase5">
 				<%@ include file="fase1.jsp"%>
 			</f:subview>

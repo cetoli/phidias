@@ -69,16 +69,19 @@ public class Patient implements java.io.Serializable {
 	}
 
 	public Date getBirthdayDate() {
-		return (birthday != null?birthday.getTime(): null);
+		return (birthday != null ? birthday.getTime() : null);
 	}
 
-	
 	public void setBirthday(GregorianCalendar birthday) {
 		this.birthday = birthday;
 	}
 
 	public Character getGender() {
 		return gender;
+	}
+
+	public String getGenderStr() {
+		return gender != null ? (gender.equals('M') ? "Masculino" : "Feminino") : null;
 	}
 
 	public void setGender(Character gender) {
