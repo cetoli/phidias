@@ -41,9 +41,9 @@
                    <rich:menuItem value="Categoria de Habilidade" />
                 
                    <rich:menuItem value="Habilidade" />
-                           
+                             
                    <rich:menuGroup value="Formulários" direction="rigth">
-                     	<rich:menuItem value="Questionário" />
+                     	<rich:menuItem value="Questionário" submitMode="server" action="#{questionarioBean.goToQuestionario}" />
                         <rich:menuItem value="Pergunta" submitMode="server" action="#{perguntaBean.goToPergunta}" />
                         <rich:menuItem value="Resposta" />
                         <rich:menuItem value="Associar Resposta a Pergunta" />

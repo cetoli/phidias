@@ -33,32 +33,24 @@
 							  <f:selectItems value="#{perguntaBean.questionarios}" />
 							</h:selectOneMenu>							
 						</rich:column>
-					
-						<!-- atributo question -->
 						<rich:column>
 							<h:outputText value="Pergunta" />	
 						</rich:column>
 						<rich:column>
 							<h:inputText value="#{perguntaBean.question.question}" />
 						</rich:column>
-						
-						<!-- atributo questionType -->
 						<rich:column>
 							<h:outputText value="Tipo de Pergunta" />	
 						</rich:column>
 						<rich:column>
 							<h:inputText value="#{perguntaBean.question.questionType}" />
 						</rich:column>
-						
-						<!-- atributo evalType -->
 						<rich:column>
 							<h:outputText value="Tipo Eval" />	
 						</rich:column>
 						<rich:column>
 							<h:inputText value="#{perguntaBean.question.evalType}" />
 						</rich:column>
-						
-						<!-- atributo comments -->
 						<rich:column>
 							<h:outputText value="Comentários" />	
 						</rich:column>
@@ -78,12 +70,24 @@
 		
 			<rich:tab label="Consultar">								 
 				 <h:form>
-					 <rich:dataTable var="question" value="#{perguntaBean.consultarTodos}" width="750" binding="#{perguntaBean.tabela}" >
+					 <rich:dataTable var="question" value="#{perguntaBean.consultarTodos}" width="750" binding="#{perguntaBean.tabela}"  >
+	                    <rich:column>
+	                        <f:facet name="header">
+	                            <h:outputText value="Código Questionário"/>
+	                        </f:facet>
+	                        <h:outputText value="#{question.pk.questionnaireId}"/>
+	                    </rich:column>
 					 	<rich:column>
 	                        <f:facet name="header">
-	                            <h:outputText value="Código"/>
+	                            <h:outputText value="Código Pergunta"/>
 	                        </f:facet>
 	                        <h:outputText value="#{question.pk.questionID}"/>
+	                    </rich:column>
+	                     <rich:column>
+	                        <f:facet name="header">
+	                            <h:outputText value="Nome"/>
+	                        </f:facet>
+	                        <h:outputText value="#{question.question}"/>
 	                    </rich:column>
 	                    <rich:column>
 	                        <f:facet name="header">
@@ -102,7 +106,10 @@
 	                            <h:outputText value="Comentários"/>
 	                        </f:facet>
 	                        <h:outputText value="#{question.comments}"/>
-	                    </rich:column>        
+	                    </rich:column> 
+	                    <rich:column>	                        
+	                      	<h:commandButton value="Editar" action="#{perguntaBean.consultaedicao}" />  
+	                    </rich:column>       
 	                     <rich:column>	                        
 	                      	<h:commandButton value="Excluir" action="#{perguntaBean.excluir}" />  
 	                    </rich:column>
@@ -110,21 +117,10 @@
 				 </h:form>
 				 	
 			</rich:tab>
-			<rich:tab label="Editar">								 
-				 <h:form>
-				 	<h:outputText value="Código" /><h:inputText value="#{jogoBean.game.id}" /> <h:commandButton value="buscar" action="#{jogoBean.consultar}" />
-				 	<br />
-				 	<br />
-				 	<rich:panel style="width:350px;">
-				 		<h:outputText value="Nome do Jogo" /><h:inputText value="#{jogoBean.game.name}" /> <br/>
-						<h:commandButton value="editar" action="#{jogoBean.editar}" />				 		
-				 	</rich:panel> 				 			
-				 </h:form>
-				 	
-			</rich:tab>                           
-		
+					
 		</rich:tabPanel>
-
+		<br/>
+		<h:commandButton value="Inicial" action="inicialADM" />
 	</h:form>
 </f:view>
 </body>

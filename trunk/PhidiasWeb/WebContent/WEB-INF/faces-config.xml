@@ -24,7 +24,7 @@
 	<managed-bean>
 		<managed-bean-name>usuarioLogin</managed-bean-name>
 		<managed-bean-class>br.ufrj.nce.labase.phidias.login.UsuarioLogin</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
+		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>sessaoBean</managed-bean-name>
@@ -44,6 +44,11 @@
 	<managed-bean>
 		<managed-bean-name>enxovalBean</managed-bean-name>
 		<managed-bean-class>br.ufrj.nce.labase.phidias.enxoval.EnxovalBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>questionarioBean</managed-bean-name>
+		<managed-bean-class>br.ufrj.nce.labase.phidias.questionario.QuestionarioBean</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 	<managed-bean>
@@ -106,7 +111,6 @@
 		</navigation-case>
 	</navigation-rule>
 	
-	
 	<navigation-rule>
 		<display-name>/administracao/jogo/PrincipalJogo</display-name>
 		<from-view-id>/administracao/jogo/PrincipalJogo.jsp</from-view-id>
@@ -115,12 +119,31 @@
 			<to-view-id>/administracao/jogo/editarJogo.jsp</to-view-id>
 		</navigation-case>
 	</navigation-rule>
+	
 	<navigation-rule>
-		<display-name>acompanhamento/acompanhamento</display-name>
-		<from-view-id>/acompanhamento/acompanhamento.jsp</from-view-id>
+		<display-name>/administracao/enxoval/PrincipalEnxoval</display-name>
+		<from-view-id>/administracao/enxoval/PrincipalEnxoval.jsp</from-view-id>
 		<navigation-case>
-			<from-outcome>listagem_sessao</from-outcome>
-			<to-view-id>/acompanhamento/listagem_sessao.jsp</to-view-id>
+			<from-outcome>editar</from-outcome>
+			<to-view-id>/administracao/enxoval/editarEnxoval.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<display-name>/administracao/questionario/PrincipalQuestionario</display-name>
+		<from-view-id>/administracao/questionario/PrincipalQuestionario.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>editar</from-outcome>
+			<to-view-id>/administracao/questionario/editarQuestionario.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<display-name>/administracao/pergunta/PrincipalPergunta</display-name>
+		<from-view-id>/administracao/pergunta/PrincipalPergunta.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>editar</from-outcome>
+			<to-view-id>/administracao/pergunta/editarPergunta.jsp</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 	

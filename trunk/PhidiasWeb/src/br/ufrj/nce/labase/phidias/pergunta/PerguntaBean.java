@@ -50,7 +50,7 @@ public class PerguntaBean {
 		ArrayList<Questionnaire> resultList = Util.convertListForArrayList( EntityManagerHelper.getInstance().getEntityManager().createNativeQuery(sql,Questionnaire.class).getResultList() );
 				
 		for (Questionnaire q : resultList){
-			lista.add(new SelectItem("1",q.getQuestionnaireName()));
+			lista.add(new SelectItem(q.getQuestionnaireId(),q.getQuestionnaireName()));
 		}
 			
 		/*
@@ -59,7 +59,7 @@ public class PerguntaBean {
 		lista.add(new SelectItem("3","C"));*/
 		
 		return lista;
-	}
+	}	
 	/*
 	public Integer getQuestionarioAtual() {
 		return questionarioAtual;
@@ -103,14 +103,30 @@ public class PerguntaBean {
 	}
 	public String excluir(){
 		
-		/*game = (Game)tabela.getRowData();
+		this.question = (Question)tabela.getRowData();
 				
 		EntityManagerHelper.getInstance().startTransaction();
 
-		GameDAO dao = new GameDAO();
-		dao.delete(game);		
+		QuestionDAO dao = new QuestionDAO();
+		dao.delete(this.question);		
 				
-		EntityManagerHelper.getInstance().commitTransaction();*/
+		EntityManagerHelper.getInstance().commitTransaction();
+		
+		return "sucesso";
+	}
+	
+	public String consultaedicao(){		
+		this.question = (Question)tabela.getRowData();		
+		return "editar";
+	}
+	
+	public String alterar(){
+		EntityManagerHelper.getInstance().startTransaction();
+
+		QuestionDAO dao = new QuestionDAO();
+		dao.update(this.question);		
+				
+		EntityManagerHelper.getInstance().commitTransaction();	
 		
 		return "sucesso";
 	}
