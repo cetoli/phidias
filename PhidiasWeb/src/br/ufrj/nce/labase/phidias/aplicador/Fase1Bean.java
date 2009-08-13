@@ -16,7 +16,7 @@ public class Fase1Bean {
 
 	private List<QuestionUI> questoesUI;
 
-	private String[] respostasQuestionario;
+	private Object respostasQuestionario;
 	
 	private String respostaJogador;
 
@@ -24,11 +24,11 @@ public class Fase1Bean {
 
 	private String comentario;
 
-	public String[] getRespostasQuestionario() {
+	public Object getRespostasQuestionario() {
 		return respostasQuestionario;
 	}
 
-	public void setRespostasQuestionario(String[] respostasQuestionario) {
+	public void setRespostasQuestionario(Object respostasQuestionario) {
 		this.respostasQuestionario = respostasQuestionario;
 	}
 

@@ -105,7 +105,7 @@ public class AplicadorBean extends ManagedBean {
 	}
 
 	public void salvarQuestionarioFase1(ActionEvent event){
-		String[] respostas = this.getFase1().getRespostasQuestionario();
+		Object o = this.getFase1().getRespostasQuestionario();
 		System.out.println("");
 	}
 }

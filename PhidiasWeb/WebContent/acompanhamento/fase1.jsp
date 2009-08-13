@@ -86,7 +86,7 @@
 		</rich:dataTable>		
 	</h:panelGrid>
 	<br></br>
-	<h:commandButton value="Registrar" actionListener="#{aplicadorBean.salvarQuestionarioFase1}"></h:commandButton>
-	
+	<h:commandButton value="Registrar" actionListener="#{aplicadorBean.salvarQuestionarioFase1}" id="registrar_questionario"></h:commandButton>
+	<rich:componentControl for="panel" attachTo="registrar_questionario" operation="show" event="onclick" />
 </rich:panel>
 </a4j:form>
