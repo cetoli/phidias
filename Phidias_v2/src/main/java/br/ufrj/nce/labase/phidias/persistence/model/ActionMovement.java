@@ -32,6 +32,10 @@ public class ActionMovement implements Serializable {
 	@JoinColumns(value = {@JoinColumn(name = "JOG_ID_JOGO", insertable=false, updatable=false), 
 			@JoinColumn(name = "PEC_ID_PECA", insertable=false, updatable=false)})
 	private Piece piece;
+	
+	@ManyToOne()
+	@JoinColumn(name = "ACJ_ID_ACAO", insertable=false, updatable=false)
+	private Action action;
 
 	public ActionMovementPK getPk() {
 		return pk;
@@ -69,5 +73,12 @@ public class ActionMovement implements Serializable {
 	 */
 	public Piece getPiece() {
 		return piece;
+	}
+
+	/**
+	 * @return the action
+	 */
+	public Action getAction() {
+		return action;
 	}
 }
