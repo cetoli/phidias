@@ -24,7 +24,7 @@
 	<managed-bean>
 		<managed-bean-name>usuarioLogin</managed-bean-name>
 		<managed-bean-class>br.ufrj.nce.labase.phidias.login.UsuarioLogin</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
+		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>sessaoBean</managed-bean-name>
