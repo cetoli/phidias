@@ -41,6 +41,11 @@ function goTab() {
 .table_column {
 	width: 40%;
 }
+
+.messagePanel { 
+	font-size: 90%;  
+    align: center;   
+}
 </style>
 </head>
 <body bgcolor="">
@@ -124,34 +129,37 @@ function goTab() {
                 reRender="poll,grid" />
         </h:form>
     </a4j:region>
-
+	<h:panelGrid border="0" columns="1" style="tabelaac" cellpadding="0" width="1000" columnClasses="messagePanel">
+		<a4j:outputPanel ajaxRendered="true">
+			<h:messages id="messageTab" styleClass="messagePanel" errorStyle="color: red" infoStyle="color: green" layout="table" globalOnly="true"/>
+		</a4j:outputPanel> 
+	</h:panelGrid>
 	<rich:tabPanel width="40%" headerAlignment="left" switchType="ajax">
-		<rich:tab label="Fase 1" id="tab_fase1" actionListener="#{aplicadorBean.mudarFase1Jogo}" oncomplete="alert('Mudança de fase realizada com sucesso!');">
+		<rich:tab label="Fase 1" id="tab_fase1" actionListener="#{aplicadorBean.mudarFase1Jogo}">
 			<f:subview id="fase1">
 				<%@ include file="fase1.jsp"%>
 			</f:subview>
 		</rich:tab>
-		<rich:tab label="Fase 2" id="tab_fase2" actionListener="#{aplicadorBean.mudarFase2Jogo}" oncomplete="alert('Mudança de fase realizada com sucesso!');">
+		<rich:tab label="Fase 2" id="tab_fase2" actionListener="#{aplicadorBean.mudarFase2Jogo}">
 			<f:subview id="fase2">
 				<%@ include file="fase2.jsp"%>
 			</f:subview>
 		</rich:tab>
-		<rich:tab label="Fase 3" id="tab_fase3" actionListener="#{aplicadorBean.mudarFase3Jogo}" oncomplete="alert('Mudança de fase realizada com sucesso!');">
+		<rich:tab label="Fase 3" id="tab_fase3" actionListener="#{aplicadorBean.mudarFase3Jogo}">
 			<f:subview id="fase3">
 				<%@ include file="fase3.jsp"%>
 			</f:subview>
 		</rich:tab>
-		<rich:tab label="Fase 4" id="tab_fase4" actionListener="#{aplicadorBean.mudarFase4Jogo}" oncomplete="alert('Mudança de fase realizada com sucesso!');">
+		<rich:tab label="Fase 4" id="tab_fase4" actionListener="#{aplicadorBean.mudarFase4Jogo}">
 			<f:subview id="fase4">
 				<%@ include file="fase4.jsp"%>
 			</f:subview>
 		</rich:tab>
-		<rich:tab label="Fase 5" id="tab_fase5" actionListener="#{aplicadorBean.mudarFase5Jogo}" oncomplete="alert('Mudança de fase realizada com sucesso!');">
+		<rich:tab label="Fase 5" id="tab_fase5" actionListener="#{aplicadorBean.mudarFase5Jogo}">
 			<f:subview id="fase5">
 				<%@ include file="fase5.jsp"%>
 			</f:subview>
 		</rich:tab>
-
 	</rich:tabPanel>
 </f:view>
 </body>

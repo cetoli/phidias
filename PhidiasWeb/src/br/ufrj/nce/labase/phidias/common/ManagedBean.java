@@ -2,6 +2,7 @@ package br.ufrj.nce.labase.phidias.common;
 
 import java.util.Map;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
@@ -17,6 +18,7 @@ public abstract class ManagedBean {
 		this.mensagem = mensagem;
 	}
 
+	@SuppressWarnings("unchecked")
 	public static Object getSessionAttribute(String attributeName) {
 		try {
 			ExternalContext ec = getExternalContext();
@@ -52,6 +54,7 @@ public abstract class ManagedBean {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public static Object getRequestAttribute(String attributeName) {
 		try {
 			ExternalContext ec = getExternalContext();
@@ -101,9 +104,18 @@ public abstract class ManagedBean {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public static String getParameter(String nameParameter) {
 		Map requestMap = FacesContext.getCurrentInstance().getExternalContext()
 				.getRequestParameterMap();
 		return (String) requestMap.get(nameParameter);
+	}
+	
+	protected void addInfoMessage(String message) {
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, message, null));
+	}
+	
+	protected void addErrorMessage(String message) {
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
 	}
 }

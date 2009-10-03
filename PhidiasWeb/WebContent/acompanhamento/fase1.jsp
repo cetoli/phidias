@@ -23,7 +23,6 @@
 					<h:outputText style="texto" value="Pergunta estímulo:"></h:outputText>
 					<h:inputTextarea cols="40" rows="5" value="#{aplicadorBean.fase1.estimuloNPC}" id="estimulo"></h:inputTextarea>
 					<h:commandButton value="Enviar estímulo" actionListener="#{aplicadorBean.registrarEstimulo}" id="registrar_estimulo">
-						<rich:componentControl for="panel" attachTo="registrar_estimulo" operation="show" event="onclick"/>
 					</h:commandButton>
 				</h:panelGrid>
 			</a4j:form>

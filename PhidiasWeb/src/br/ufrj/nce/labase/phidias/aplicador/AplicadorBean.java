@@ -18,28 +18,11 @@ import br.ufrj.nce.labase.phidias.sessao.SessaoBean;
 public class AplicadorBean extends ManagedBean {
 
 	private Fase1Bean fase1;
-
-	public Fase1Bean getFase1() {
-		return fase1;
-	}
-
-	public void setFase1(Fase1Bean fase1) {
-		this.fase1 = fase1;
-	}
-
 	private String paramsessaoid;
-
-	public String getParamsessaoid() {
-		return paramsessaoid;
-	}
-
-	public void setParamsessaoid(String paramsessaoid) {
-		this.paramsessaoid = paramsessaoid;
-	}
+	private int phaseId;
 
 	public AplicadorBean() {
 		this.fase1 = new Fase1Bean();
-
 	}
 
 	public void registrarEstimulo(ActionEvent event) {
@@ -48,16 +31,14 @@ public class AplicadorBean extends ManagedBean {
 
 		SessionGamePhaseStimulusType stimulus = new SessionGamePhaseStimulusType();
 		stimulus.setSessionId(sessaoId);
-		// Fase1
-		stimulus.setPhaseId(1);
-		// Tipo de estimulo NPC
-		stimulus.setStimulusTypeId(1);
+		stimulus.setPhaseId(phaseId);
+		stimulus.setStimulusTypeId(1); // Tipo de estimulo NPC
 		stimulus.setStimulusText(estimulo);
 
 		SessionGamePhaseStimulusTypeDAO sgpstDAO = new SessionGamePhaseStimulusTypeDAO();
 		sgpstDAO.create(stimulus);
 
-		this.setMensagem("Estimulo enviado com sucesso!");
+		addInfoMessage("Estímulo enviado com sucesso!");
 	}
 
 	public void registrarRespostaJogador() {
@@ -84,10 +65,12 @@ public class AplicadorBean extends ManagedBean {
 		int paramjogoid = Integer.valueOf(getParameter("paramjogoid"));
 		
 		// Iniciar na fase 1
-		return aderirSessaoJogo(1, sessaoId, paramjogoid);
+		setPhaseId(1);
+		
+		return aderirSessaoJogo(sessaoId, paramjogoid);
 	}
 	
-	public String aderirSessaoJogo(int phaseId, int sessionId, int gameId) {
+	public String aderirSessaoJogo(int sessionId, int gameId) {
 		int aplicadorId = ((UsuarioLogin) getSessionAttribute("usuarioLogin")).getAtendente().getId();
 
 		SessionDAO dao = new SessionDAO();
@@ -105,58 +88,78 @@ public class AplicadorBean extends ManagedBean {
 	}
 	
 	public void mudarFase1Jogo(ActionEvent event) {
-		mudarFaseJogo(1);
+		setPhaseId(1);
+		mudarFaseJogo();
 		
-		Session session = ((SessaoBean) getSessionAttribute("sessaoBean")).getSessaoAtiva();
-		int sessaoId = session.getId();
-		int gameId = session.getGame().getId();
-		aderirSessaoJogo(1, sessaoId, gameId);
+		addInfoMessage("Mudança de fase realizada com sucesso!");
 	}
 	
 	public void mudarFase2Jogo(ActionEvent event) {
-		mudarFaseJogo(2);
+		setPhaseId(2);
+		mudarFaseJogo();
 		
-		Session session = ((SessaoBean) getSessionAttribute("sessaoBean")).getSessaoAtiva();
-		int sessaoId = session.getId();
-		int gameId = session.getGame().getId();
-		aderirSessaoJogo(2, sessaoId, gameId);
+		addInfoMessage("Mudança de fase realizada com sucesso!");
 	}
 	
 	public void mudarFase3Jogo(ActionEvent event) {
-		mudarFaseJogo(3);
+		setPhaseId(3);
+		mudarFaseJogo();
 		
-		Session session = ((SessaoBean) getSessionAttribute("sessaoBean")).getSessaoAtiva();
-		int sessaoId = session.getId();
-		int gameId = session.getGame().getId();
-		aderirSessaoJogo(3, sessaoId, gameId);
+		addInfoMessage("Mudança de fase realizada com sucesso!");
 	}
 	
 	public void mudarFase4Jogo(ActionEvent event) {
-		mudarFaseJogo(4);
+		setPhaseId(4);
+		mudarFaseJogo();
 		
-		Session session = ((SessaoBean) getSessionAttribute("sessaoBean")).getSessaoAtiva();
-		int sessaoId = session.getId();
-		int gameId = session.getGame().getId();
-		aderirSessaoJogo(4, sessaoId, gameId);
+		addInfoMessage("Mudança de fase realizada com sucesso!");
 	}
 	
 	public void mudarFase5Jogo(ActionEvent event) {
-		mudarFaseJogo(5);
+		setPhaseId(5);
+		mudarFaseJogo();
 		
+		addInfoMessage("Mudança de fase realizada com sucesso!");
+	}
+
+	public void mudarFaseJogo() {
 		Session session = ((SessaoBean) getSessionAttribute("sessaoBean")).getSessaoAtiva();
 		int sessaoId = session.getId();
 		int gameId = session.getGame().getId();
-		aderirSessaoJogo(5, sessaoId, gameId);
-	}
-
-	public void mudarFaseJogo(int phaseId) {
-		int sessaoId = ((SessaoBean) getSessionAttribute("sessaoBean")).getSessaoAtiva().getId();
+		
 		SessionDAO dao = new SessionDAO();
 		dao.updateSessionPhase(sessaoId, phaseId);
+		
+		aderirSessaoJogo(sessaoId, gameId);
 	}
 
 	public void salvarQuestionarioFase1(ActionEvent event){
 		Object o = this.getFase1().getRespostasQuestionario();
 		System.out.println("");
 	}
+	
+	public Fase1Bean getFase1() {
+		return fase1;
+	}
+
+	public void setFase1(Fase1Bean fase1) {
+		this.fase1 = fase1;
+	}
+	
+	public String getParamsessaoid() {
+		return paramsessaoid;
+	}
+
+	public void setParamsessaoid(String paramsessaoid) {
+		this.paramsessaoid = paramsessaoid;
+	}
+
+	public int getPhaseId() {
+		return phaseId;
+	}
+
+	public void setPhaseId(int phaseId) {
+		this.phaseId = phaseId;
+	}
+
 }
