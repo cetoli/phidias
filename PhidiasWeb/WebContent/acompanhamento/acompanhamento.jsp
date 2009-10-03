@@ -15,7 +15,7 @@ function goTab() {
 </script>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Roda da Linguagem - Tela do Aplicador</title>
 
 <style type="text/css">
 .rich-tabpanel {
@@ -125,30 +125,30 @@ function goTab() {
         </h:form>
     </a4j:region>
 
-	<rich:tabPanel width="40%" headerAlignment="left" switchType="client">
-		<rich:tab label="Fase 1" id="tab_fase1">
+	<rich:tabPanel width="40%" headerAlignment="left" switchType="ajax">
+		<rich:tab label="Fase 1" id="tab_fase1" actionListener="#{aplicadorBean.mudarFase1Jogo}" oncomplete="alert('Mudança de fase realizada com sucesso!');">
 			<f:subview id="fase1">
 				<%@ include file="fase1.jsp"%>
 			</f:subview>
 		</rich:tab>
-		<rich:tab label="Fase 2" id="tab_fase2">
+		<rich:tab label="Fase 2" id="tab_fase2" actionListener="#{aplicadorBean.mudarFase2Jogo}" oncomplete="alert('Mudança de fase realizada com sucesso!');">
 			<f:subview id="fase2">
-				<%@ include file="fase1.jsp"%>
+				<%@ include file="fase2.jsp"%>
 			</f:subview>
 		</rich:tab>
-		<rich:tab label="Fase 3" id="tab_fase3">
+		<rich:tab label="Fase 3" id="tab_fase3" actionListener="#{aplicadorBean.mudarFase3Jogo}" oncomplete="alert('Mudança de fase realizada com sucesso!');">
 			<f:subview id="fase3">
-				<%@ include file="fase1.jsp"%>
+				<%@ include file="fase3.jsp"%>
 			</f:subview>
 		</rich:tab>
-		<rich:tab label="Fase 4" id="tab_fase4">
+		<rich:tab label="Fase 4" id="tab_fase4" actionListener="#{aplicadorBean.mudarFase4Jogo}" oncomplete="alert('Mudança de fase realizada com sucesso!');">
 			<f:subview id="fase4">
-				<%@ include file="fase1.jsp"%>
+				<%@ include file="fase4.jsp"%>
 			</f:subview>
 		</rich:tab>
-		<rich:tab label="Fase 5" id="tab_fase5">
+		<rich:tab label="Fase 5" id="tab_fase5" actionListener="#{aplicadorBean.mudarFase5Jogo}" oncomplete="alert('Mudança de fase realizada com sucesso!');">
 			<f:subview id="fase5">
-				<%@ include file="fase1.jsp"%>
+				<%@ include file="fase5.jsp"%>
 			</f:subview>
 		</rich:tab>
 

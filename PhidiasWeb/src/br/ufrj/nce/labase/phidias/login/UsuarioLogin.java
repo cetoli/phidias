@@ -41,12 +41,8 @@ public class UsuarioLogin {
 	}
 	
 	public String autenticarUsuario(){
-		try {
-			AttendantDAO dao = new AttendantDAO();
-			this.atendente = dao.findByName(this.getUsuario());
-		} catch (Exception e) {
-			return null;
-		}
+		AttendantDAO dao = new AttendantDAO();
+		this.atendente = dao.findByName(this.getUsuario());
 		
 		return "administracao";
 	}
