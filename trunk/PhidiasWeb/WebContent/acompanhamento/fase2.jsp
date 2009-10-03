@@ -26,23 +26,11 @@
 					</h:commandButton>
 				</h:panelGrid>
 			</a4j:form>
-			<a4j:form ajaxSubmit="true" id="form_resposta_estimulo" oncomplete="document.getElementById('fase1:form_resposta_estimulo:resposta').value='';">
-				<h:panelGrid border="0" columns="1" style="tabelaac" cellpadding="0">
-					<h:outputText style="texto" value="Resposta de Estímulo:"></h:outputText>
-					<h:inputTextarea cols="40" rows="5"
-						value="#{aplicadorBean.fase1.estimuloNPC}" id="resposta"></h:inputTextarea>
-					<h:commandButton value="Registrar resposta"
-						actionListener="#{aplicadorBean.registrarEstimulo}" id="registrar_resposta">
-						<rich:componentControl for="panel" attachTo="registrar_resposta" operation="show" event="onclick"/>	
-					</h:commandButton>
-				</h:panelGrid>
-			</a4j:form>
 			<a4j:form ajaxSubmit="true" id="form_comentario" oncomplete="document.getElementById('fase1:form_comentario:comentario').value='';">
 				<h:panelGrid border="0" columns="1" style="tabelaac" cellpadding="0">
 					<h:outputText value="Comentário:"></h:outputText>
-					<h:inputTextarea cols="40" rows="5" value="#{aplicadorBean.fase1.comentario}" id="comentario"></h:inputTextarea>
+					<h:inputTextarea cols="100" rows="5" value="#{aplicadorBean.fase1.comentario}" id="comentario"></h:inputTextarea>
 					<h:commandButton value="Registrar" actionListener="#{aplicadorBean.registrarComentario}" id="registrar_comentario">	
-					<rich:componentControl for="panel" attachTo="registrar_comentario" operation="show" event="onclick" />	
 					</h:commandButton>
 				</h:panelGrid>
 			</a4j:form>

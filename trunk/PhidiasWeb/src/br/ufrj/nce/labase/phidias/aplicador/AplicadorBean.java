@@ -51,9 +51,12 @@ public class AplicadorBean extends ManagedBean {
 		String comentario = getFase1().getComentario();
 
 		SessionGamePhaseDAO gpsDAO = new SessionGamePhaseDAO();
-		gpsDAO.atualizaComentarioSessaofase(sessaoId, 1, comentario);
+		gpsDAO.atualizaComentarioSessaofase(sessaoId, phaseId, comentario);
+		
+		// Limpa campo
+		getFase1().setComentario("");
 
-		this.setMensagem("Comentário enviado com sucesso!");
+		addInfoMessage("Comentário enviado com sucesso!");
 	}
 
 	public String goTeste() {
