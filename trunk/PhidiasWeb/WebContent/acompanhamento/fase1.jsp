@@ -14,9 +14,6 @@
 
 <rich:panel header="Iteração com a criança">
 	<h:panelGrid border="0" columns="1" style="tabelaac" cellpadding="0" width="1000" columnClasses="coluna1">
-		<a4j:form ajaxSubmit="true" oncomplete="alert('Mudança de fase realizada com sucesso!');">
-				<h:commandButton value="Mudar de Fase" onclick="goTab();" actionListener="#{aplicadorBean.mudarFase2Jogo}"></h:commandButton>
-		</a4j:form>
 	</h:panelGrid>
 	<h:panelGrid border="0" columns="1" style="tabelaac" cellpadding="0"
 		cellspacing="10" bgcolor="#99CCCC" width="1000">

@@ -59,10 +59,16 @@ public class SessionDAO extends GenericDAO<Session> {
 		try {
 			em.getTransaction().begin();
 			
-			SessionGamePhase sgm = new SessionGamePhase();
-			sgm.setId(new SessionGamePhaseId(phaseId, sessionId));
+			SessionGamePhaseId pk = new SessionGamePhaseId(phaseId, sessionId);
 			
-			em.persist(sgm);
+			SessionGamePhase sgm = em.find(SessionGamePhase.class, pk);
+			
+			if (sgm == null) {
+				sgm = new SessionGamePhase();
+				sgm.setId(pk);
+				
+				em.persist(sgm);
+			}
 			
 			em.getTransaction().commit();
 		} catch (NoResultException e) {
