@@ -1,15 +1,8 @@
 package br.ufrj.nce.labase.phidias.aplicador;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import javax.faces.model.SelectItem;
-
-import org.apache.commons.beanutils.BeanUtils;
-
-import br.ufrj.nce.labase.phidias.persistence.model.Answer;
 import br.ufrj.nce.labase.phidias.persistence.model.Question;
 
 public class Fase1Bean {
@@ -40,11 +33,11 @@ public class Fase1Bean {
 		this.questoesUI = questoesUI;
 	}
 
-	public void setQuestoes(List<Question> questoes) {
+	public void setQuestoes(int sessionId, List<Question> questoes) {
 		if (questoes != null) {
 			this.questoesUI = new ArrayList<QuestionUI>();
 			for (Question questao : questoes) {
-				this.questoesUI.add(new QuestionUI(questao));
+				this.questoesUI.add(new QuestionUI(sessionId, questao));
 			}
 		}
 	}

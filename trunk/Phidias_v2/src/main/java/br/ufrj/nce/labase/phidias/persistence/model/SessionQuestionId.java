@@ -13,10 +13,10 @@ public class SessionQuestionId implements java.io.Serializable {
 	private Integer sessionId;
 	
 	@Column(name = "QUE_ID_QUESTIONARIO")
-	private Integer questionnaireId;
+	private Long questionnaireId;
 	
 	@Column(name = "PEF_ID_PERGUNTA")
-	private Integer questionId;
+	private Long questionId;
 	
 	@Column(name = "RES_ID_RESPOSTA")
 	private Long answerId;
@@ -29,14 +29,14 @@ public class SessionQuestionId implements java.io.Serializable {
 	/**
 	 * @generated
 	 */
-	public SessionQuestionId(Integer questionId, Integer sessionId, Integer questionnaireId, Long answerId) {
+	public SessionQuestionId(Long questionId, Integer sessionId, Long questionnaireId, Long answerId) {
 		this.questionId = questionId;
 		this.sessionId = sessionId;
 		this.questionnaireId = questionnaireId;
 		this.answerId = answerId;
 	}
 
-	public Integer getIdPerguntasFormularios() {
+	public Long getIdPerguntasFormularios() {
 		return questionId;
 	}
 
@@ -44,7 +44,7 @@ public class SessionQuestionId implements java.io.Serializable {
 		return sessionId;
 	}
 
-	public Integer getQuestionnaireId() {
+	public Long getQuestionnaireId() {
 		return questionnaireId;
 	}
 

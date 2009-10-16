@@ -3,6 +3,7 @@ package br.ufrj.nce.labase.phidias.common;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unchecked")
 public class Util {
 	private static ArrayList arrayList = null;
 	public static ArrayList convertListForArrayList(List list){
