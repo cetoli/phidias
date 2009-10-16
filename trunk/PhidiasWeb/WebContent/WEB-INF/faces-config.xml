@@ -111,6 +111,18 @@
 		</navigation-case>
 	</navigation-rule>
 	
+	
+	<navigation-rule>
+		<display-name>acompanhamento/acompanhamento</display-name>
+		<from-view-id>/acompanhamento/acompanhamento.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>listagem_sessao</from-outcome>
+			<to-view-id>/acompanhamento/listagem_sessao.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+	
+	
 	<navigation-rule>
 		<display-name>/administracao/jogo/PrincipalJogo</display-name>
 		<from-view-id>/administracao/jogo/PrincipalJogo.jsp</from-view-id>

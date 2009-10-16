@@ -118,17 +118,18 @@ function goTab() {
 	                    <h:outputText value="#{evento.piece.pieceDesc}" />
 	                </rich:column>
 	            </rich:scrollableDataTable>
+	            
+	            <a4j:region>
+			        <h:form>
+			            <a4j:poll id="poll" interval="5000" enabled="true"
+			                reRender="poll,grid" />
+			        </h:form>
+			    </a4j:region>
 			</h:panelGrid>				
 			</rich:panel></td>
 		</tr>
 	</table>
 
-	<a4j:region>
-        <h:form>
-            <a4j:poll id="poll" interval="5000" enabled="true"
-                reRender="poll,grid" />
-        </h:form>
-    </a4j:region>
 	<h:panelGrid border="0" columns="1" style="tabelaac" cellpadding="0" width="1000" columnClasses="messagePanel">
 		<a4j:outputPanel ajaxRendered="true">
 			<h:messages id="messageTab" styleClass="messagePanel" errorStyle="color: red" infoStyle="color: green" layout="table" globalOnly="true"/>

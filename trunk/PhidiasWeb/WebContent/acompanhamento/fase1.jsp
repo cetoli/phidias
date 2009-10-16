@@ -53,24 +53,21 @@
 	</h:panelGrid>
 </rich:panel>
 <br></br>
-<a4j:form ajaxSubmit="true">
 <rich:panel header="Crivo" style="background-color: white">
-	<h:panelGrid border="0" columns="1" style="tabelaac" cellpadding="0"
-		cellspacing="0" bgcolor="#99CCCC" width="1000">
-		
-		<rich:dataTable  value="#{aplicadorBean.fase1.questoesUI}" var="questao" width="1000" rowClasses="odd-row,even-row" >
+	<a4j:form ajaxSubmit="true" id="form_questionario">
+	<h:panelGrid border="0" columns="1" style="tabelaac" cellpadding="0" cellspacing="0" bgcolor="#99CCCC" width="1000">
+		<rich:dataTable value="#{aplicadorBean.fase1.questoesUI}" var="questao" width="1000" rowClasses="odd-row,even-row" >
 		<rich:column>
 			<h:outputText style="texto" value="#{questao.question}"></h:outputText>
 		</rich:column>
 		<rich:column>
-			<h:selectOneRadio required="true" value="#{aplicadorBean.fase1.respostasQuestionario}">
+			<h:selectOneRadio value="#{questao.selectedValue}">
 					<f:selectItems value="#{questao.answersSelectItems}"/>
 			</h:selectOneRadio>
 		</rich:column>
 		</rich:dataTable>		
 	</h:panelGrid>
 	<br></br>
-	<h:commandButton value="Registrar" actionListener="#{aplicadorBean.salvarQuestionarioFase1}" id="registrar_questionario"></h:commandButton>
-	<rich:componentControl for="panel" attachTo="registrar_questionario" operation="show" event="onclick" />
+	<h:commandButton value="Registrar" actionListener="#{aplicadorBean.salvarQuestionarioFase}" id="registrar_questionario"></h:commandButton>
+	</a4j:form>
 </rich:panel>
-</a4j:form>
