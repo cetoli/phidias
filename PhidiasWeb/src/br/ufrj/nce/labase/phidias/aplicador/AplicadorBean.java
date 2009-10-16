@@ -10,6 +10,7 @@ import br.ufrj.nce.labase.phidias.persistence.dao.QuestionnaireDAO;
 import br.ufrj.nce.labase.phidias.persistence.dao.SessionDAO;
 import br.ufrj.nce.labase.phidias.persistence.dao.SessionGamePhaseDAO;
 import br.ufrj.nce.labase.phidias.persistence.dao.SessionGamePhaseStimulusTypeDAO;
+import br.ufrj.nce.labase.phidias.persistence.dao.SessionQuestionDAO;
 import br.ufrj.nce.labase.phidias.persistence.model.Question;
 import br.ufrj.nce.labase.phidias.persistence.model.Session;
 import br.ufrj.nce.labase.phidias.persistence.model.SessionGamePhaseStimulusType;
@@ -41,11 +42,6 @@ public class AplicadorBean extends ManagedBean {
 		addInfoMessage("Estímulo enviado com sucesso!");
 	}
 
-	public void registrarRespostaJogador() {
-		System.out.println(this.getFase1().getRespostaJogador());
-		this.setMensagem("Resposta do jogador enviada com sucesso!");
-	}
-
 	public void registrarComentario(ActionEvent event) {
 		int sessaoId = ((SessaoBean) getSessionAttribute("sessaoBean")).getSessaoAtiva().getId();
 		String comentario = getFase1().getComentario();
@@ -57,10 +53,6 @@ public class AplicadorBean extends ManagedBean {
 		getFase1().setComentario("");
 
 		addInfoMessage("Comentário enviado com sucesso!");
-	}
-
-	public String goTeste() {
-		return "teste";
 	}
 
 	public String aderirSessaoJogo() {
@@ -85,7 +77,7 @@ public class AplicadorBean extends ManagedBean {
 
 		List<Question> questoes = daoQ.findQuestionarieByGameFaseId(gameId, phaseId);
 
-		this.getFase1().setQuestoes(questoes);
+		this.getFase1().setQuestoes(sessionId, questoes);
 
 		return "acompanhamento";
 	}
@@ -136,9 +128,25 @@ public class AplicadorBean extends ManagedBean {
 		aderirSessaoJogo(sessaoId, gameId);
 	}
 
-	public void salvarQuestionarioFase1(ActionEvent event){
-		Object o = this.getFase1().getRespostasQuestionario();
-		System.out.println("");
+	public void salvarQuestionarioFase(ActionEvent event){
+		Session session = ((SessaoBean) getSessionAttribute("sessaoBean")).getSessaoAtiva();
+		
+		SessionQuestionDAO dao = new SessionQuestionDAO();
+		
+		List<QuestionUI> questions = this.getFase1().getQuestoesUI();
+		for (QuestionUI questionUI : questions) {
+			dao.deleteSessionQuestion(session.getId(), questionUI.getPk().getQuestionnaireId(), questionUI.getPk()
+					.getQuestionID());
+		}
+
+		for (QuestionUI questionUI : questions) {
+			if (questionUI.getSelectedValue() != null && questionUI.getSelectedValue() != "") {
+				dao.updateSessionQuestion(session.getId(), questionUI.getPk().getQuestionnaireId(), questionUI.getPk()
+						.getQuestionID(), Long.valueOf(questionUI.getSelectedValue()));
+			}
+		}
+		
+		addInfoMessage("Resposta atualizada com sucesso!");
 	}
 	
 	public Fase1Bean getFase1() {

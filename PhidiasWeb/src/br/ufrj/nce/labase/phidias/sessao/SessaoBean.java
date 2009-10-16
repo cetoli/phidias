@@ -27,9 +27,8 @@ public class SessaoBean extends ManagedBean {
 	}
 
 	public String listarSessoes() {
-		// TODO Auto-generated constructor stub
 		SessionDAO sessaoDAO = new SessionDAO();
-		this.setSessionAttribute("sessoes", sessaoDAO.findAll());
+		ManagedBean.setSessionAttribute("sessoes", sessaoDAO.findAll());
 
 		return "listagem_sessao";
 	}

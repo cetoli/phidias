@@ -12,7 +12,7 @@ public class SessionGamePhaseDAO extends GenericDAO<SessionGamePhase> {
 		EntityManager em = this.getSession();
 		em.getTransaction().begin();
 		
-		SessionGamePhase gamePhase = em.find(SessionGamePhase.class, new SessionGamePhaseId(1, sessaoId));
+		SessionGamePhase gamePhase = em.find(SessionGamePhase.class, new SessionGamePhaseId(faseId, sessaoId));
 		gamePhase.setComments(gamePhase.getComments() + comentario);
 		
 		em.merge(gamePhase);
