@@ -121,4 +121,18 @@ public class SessionDAO extends GenericDAO<Session> {
 		em.getTransaction().commit();
 		return session;
 	}
+	
+	public Integer getPhaseId(Integer sessionId){
+		try {
+			Query query = this.getSession().createQuery("select s from SessionGamePhase s where s.id.sessionId = :idSessao order by s.id.phaseId desc");
+			query.setParameter("idSessao", sessionId);
+			query.setMaxResults(1);
+			
+			SessionGamePhase sessionGamePhase = (SessionGamePhase) query.getSingleResult();
+			
+			return (Integer) sessionGamePhase.getId().getPhaseId();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
 }

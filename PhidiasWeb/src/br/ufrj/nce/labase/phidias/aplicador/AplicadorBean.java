@@ -29,7 +29,7 @@ public class AplicadorBean extends ManagedBean {
 	public void registrarEstimulo(ActionEvent event) {
 		int sessaoId = ((SessaoBean) getSessionAttribute("sessaoBean")).getSessaoAtiva().getId();
 		String estimulo = this.getFase1().getEstimuloNPC();
-
+		
 		SessionGamePhaseStimulusType stimulus = new SessionGamePhaseStimulusType();
 		stimulus.setSessionId(sessaoId);
 		stimulus.setPhaseId(phaseId);
@@ -37,7 +37,7 @@ public class AplicadorBean extends ManagedBean {
 		stimulus.setStimulusText(estimulo);
 
 		SessionGamePhaseStimulusTypeDAO sgpstDAO = new SessionGamePhaseStimulusTypeDAO();
-		sgpstDAO.create(stimulus);
+		sgpstDAO.createStimulus(stimulus);
 
 		addInfoMessage("Estímulo enviado com sucesso!");
 	}
