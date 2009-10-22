@@ -1,17 +1,22 @@
 package br.ufrj.nce.labase.phidias.resources;
 
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
 import javax.ws.rs.core.UriInfo;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -91,5 +96,26 @@ public class SessionResource extends BaseResource {
 			throw new WebApplicationException(e,
 					Response.Status.INTERNAL_SERVER_ERROR);
 		}
+	}
+	
+	@GET
+	@Path("{patient}")
+	@Produces("text/xml")
+	public StreamingOutput getPhase(@PathParam ("patient") String patient) {
+		SessionDAO sDAO = new SessionDAO();
+		int sessionId = sDAO.findCurrentPatientSessionId(patient);
+		
+		final int phaseId = sDAO.getPhaseId(sessionId);
+		
+		return new StreamingOutput() {
+			public void write(OutputStream outputStream) {
+				PrintWriter out = new PrintWriter(outputStream);
+				out.println("<?xml version=\"1.0\"?>");
+				out.println("<fase>");
+				out.println("<valor>" + phaseId + "</valor>");
+				out.println("</fase>");
+				out.close();
+			}
+		};
 	}
 }

@@ -1,5 +1,6 @@
 package br.ufrj.nce.labase.phidias.persistence.dao;
 
+import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
@@ -20,5 +21,21 @@ public class SessionGamePhaseStimulusTypeDAO extends GenericDAO<SessionGamePhase
 		} catch (NoResultException e) {
 			return null;
 		}
+	}
+	
+	public void createStimulus(SessionGamePhaseStimulusType stimulus) {
+		EntityManager em = this.getSession();
+		
+		em.getTransaction().begin();
+		create(stimulus);
+		em.getTransaction().commit();
+	}
+	
+	public void updateStimulus(SessionGamePhaseStimulusType stimulus) {
+		EntityManager em = this.getSession();
+		
+		em.getTransaction().begin();
+		update(stimulus);
+		em.getTransaction().commit();
 	}
 }
